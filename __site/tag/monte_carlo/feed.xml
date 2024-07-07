@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Azazaya  ]]>
+    </title>
+    <link> https://aburousan.github.io/azazaya/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://aburousan.github.io/azazaya/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  Introduction to Monte Carlo Integration  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </guid>
+  <description>
+    <![CDATA[  A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it&#39;s theory.  ]]>
+  </description>  
+    
+  <pubDate>Thu, 07 Mar 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>

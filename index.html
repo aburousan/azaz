@@ -1,0 +1,99 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Azazaya</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+    </script>
+    <!-- For all browsers -->
+    <link rel="stylesheet" href="/css/minimal-mistakes.css">
+    <!--[if IE ]>
+      <style>
+        /* old IE unsupported flexbox fixes */
+        .greedy-nav .site-title {
+          padding-right: 4em;
+        }
+        .greedy-nav button {
+          position: absolute;
+          top: 0;
+          right: 0;
+          height: 100%;
+        }
+      </style>
+    <![endif]-->
+    <!-- start custom head snippets -->
+    <!-- insert favicons. use https://realfavicongenerator.net/ -->
+    <!-- end custom head snippets -->
+  </head>
+<body class="layout--splash">
+{{ insert masthead.html }}
+
+<div class="initial-content">
+  <div class="page__hero--overlay"
+    style="background-color: #3b3b3b; background-image: url('/assets/minimal-mistakes/cos.jpg');">
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">Azazaya</h1>
+      <p class="page__lead">Personal Website for <br> writting blogs.</p>
+    </div>
+  </div>
+
+  <div id="main" role="main">
+    <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+      <meta itemprop="description" content="A flexible two-column Jekyll theme. Perfect for building personal sites, blogs, and portfolios. Latest release v4.16.4">
+      <section class="page__content" itemprop="text">
+        <div class="feature__wrapper">
+          <div class="feature__item">
+            <div class="archive__item">
+              <div class="archive__item-teaser">
+                <img src="/assets/minimal-mistakes/board_art.jpeg" alt="customizable" />
+              </div>
+              <div class="archive__item-body">
+                <h2 class="archive__item-title">About the Website</h2>
+                <div class="archive__item-excerpt">
+                  <p>Goal of the website</p>
+                </div>
+                <p><a href="/home_page/" class="btn btn--primary">Learn more</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="feature__item">
+            <div class="archive__item">
+              <div class="archive__item-teaser">
+                <img src="/assets/minimal-mistakes/lect_f.png" alt="fully responsive" />
+              </div>
+              <div class="archive__item-body">
+                <h2 class="archive__item-title">Articles</h2>
+                <div class="archive__item-excerpt">
+                  <p>Recreating different scientific articles and analysing them.</p>
+                </div>
+                <p><a href="/minimal-mistakes/docs/layouts/" class="btn btn--primary">Learn more(Empty for now)</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="feature__item">
+            <div class="archive__item">
+              <div class="archive__item-teaser">
+                <img src="/assets/minimal-mistakes/about_me_icon.jpeg" alt="100% free" />
+              </div>
+              <div class="archive__item-body">
+                <h2 class="archive__item-title">About Me</h2>
+                <div class="archive__item-excerpt">
+                  <p>I am Kazi Abu Rousan (Austin)</p>
+                </div>
+                <p><a href="/Pages/about_me/" class="btn btn--primary">Learn more (Blushes)</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    {{ insert foot.html }}

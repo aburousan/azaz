@@ -1,0 +1,411 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="icon" href="/assets/favicon.jpg">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Playing with Tupper's Formula in Julia</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Azazaya</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" >Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" >Maths Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" >Physics Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page">Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/minimal-mistakes/Rousan.jpeg" alt="Septimia Zenobia" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+
+
+  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#introduction">Introduction</a></li><li><a href="#some_insight_and_finding_k_value">Some insight and Finding \(k\) value</a></li><li><a href="#julia_implementation">Julia Implementation</a></li><li><a href="#few_more_plots">Few more plots</a></li></ol></div>
+<h1 id="playing_with_tuppers_formula_in_julia"><a href="#playing_with_tuppers_formula_in_julia" class="header-anchor">Playing with Tupper&#39;s Formula in Julia</a></h1>
+<p>Yo&#33;&#33; Welcome....<br/> To recently, i was going through some of the old videos of <strong>Numberphile</strong> and came across the video <strong>The &#39;Everything&#39; Formula</strong> &#40;Before reading this blog just watch the video&#41; 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_s5RFgd59ao?si=KZ4qunUXnbGpRL3b" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+ Watching this video, i thought about writing a <code>julia</code> code to make some plots using the formula. So, here we are....</p>
+<p>Before going into the code directly, let&#39;s first know a bit about the formula.</p>
+<h2 id="introduction"><a href="#introduction" class="header-anchor">Introduction</a></h2>
+<p>According to wiki </p>
+<blockquote>
+<p>Tupper&#39;s self-referential formula is a formula that visually represents itself when graphed at a specific location in the &#40;x, y&#41; plane.</p>
+</blockquote>
+<p>The formula is,</p>
+\[
+\frac{1}{2}< \Big\lfloor mod\Big(\Big\lfloor \frac{y}{17} \Big\rfloor 2^{-17\lfloor x \rfloor - \mod(\lfloor y \rfloor, 17)},2\Big)\Big\rfloor
+\]
+<p>As we can see this is an <strong><span style="color: red">inequality</span></strong>. If we plot this for \(0 < x < 106\) and \(k < y < k + 17\), then we get the plot,</p>
+
+<div id="fdpjjw" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpjjw");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp1.json');
+</script>
+
+<p>As we can see <strong><span style="color: purple">the plot is exactly the formula itself</span></strong> for a \(k\) value of</p>
+<pre><code class="language-julia">k&#61;4858450636189713423582095962494202044581400587983244549483093085061934704708809928450644769865524364849997247024915119110411605739177407856919754326571855442057210445735883681829823754139634338225199452191651284348332905131193199953502413758765239264874613394906870130562295813219481113685339535565290850023875092856892694555974281546386510730049106723058933586052544096664351265349363643957125565695936815184334857605266940161251266951421550539554519153785457525756590740540157929001765967965480064427829131488548259914721248506352686630476300</code></pre>
+<p>This is really fascinating. But i don&#39;t agree with the fact that it&#39;s called <strong><span style="color: red">self-referential</span></strong> as it does more than that. It actually plots any and every possible thing in a grid of \(17\times 106\). We just have to find appropiate \(k\)-value.</p>
+<p>As an example for \(k\)-value of </p>
+<pre><code class="language-julia">k &#61;1271483917409047962504190716480820125972278621369534229771189155117893513117560028103293542766164054366623611185886118600739414120455650913109912110581287743239969847780541636461645780364303397660529613100638803746819131463964363046325228418810374936998088829255027447274810308302244558096667122081824157031726139625219810246859835932683694862411835356166461473745281741462375240388909870117619294905778805095592609024873542546088290387587421750247353346676976414510740261093361230273514384628199351519546799586984946538836015942052347904</code></pre>
+<p>we will get, </p>
+
+<div id="fdprzs" style=""></div>
+<script>
+graphDiv = document.getElementById("fdprzs");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp2.json');
+</script>
+
+<p><a href="https://cosmic-charade.netlify.app/">This is the name of a group i am part of</a>.</p>
+<p>This is really incredible. This fascinating formula was discovered by <strong>Jeff Tupper</strong>. It first appeared as an example in Tupper&#39;s 2001 <strong>SIGGRAPH</strong> paper on <a href="https://www.dgp.toronto.edu/~mooncake/papers/SIGGRAPH2001_Tupper.pdf"><em>reliable two-dimensional computer graphing algorithms</em></a>. If you are curious about why or how this works, go through the paper linked.</p>
+<p>Here I will only discuss how to implement this in julia code. Maybe in some later blog, I will discuss the why.</p>
+<h2 id="some_insight_and_finding_k_value"><a href="#some_insight_and_finding_k_value" class="header-anchor">Some insight and Finding \(k\) value</a></h2>
+<p>The formula is a general-purpose method of decoding a bitmap stored in the constant \(k\) and it could be used to draw any other image. When applied to the unbounded positive range \(0\leq y\), the formula <span style="color: blue">tiles a vertical swath of the plane with a pattern that contains all possible 17-pixel-tall bitmaps</span>. Among all the horizontal slice, one depicts the formula itself, but this is not really special, since other slices depict all other possible formulae that might fit in a 17-pixel-tall bitmap.</p>
+<p>This maybe seems too incrediable but is really not.<br/> Notice the size of \(k\). As the formula itself is small and innocuous &#40;just a few exponents, remainders and floors, no “unnatural” functions&#41;, and \(k\) is so disconcertingly huge, it is reasonable to guess that <strong><span style="color: red">all the actual information that produces the graph is contained in \(k\) itself</span></strong>. This would mean that the formula is like a bare-bones “program”, and \(k\) is the “input” that somehow encodes the image that is the graph.</p>
+<p>But how the hell \(k\) encode the information? Let&#39;s try to undertsand that using an example.</p>
+<p>This has 3 steps:</p>
+<ol>
+<li><p>First make a grid of \(106 \times 17\). Then, draw the shape for which we want to find \(k\) value. As an example, let&#39;s say we want to draw &quot;a&quot;.</p>
+</li>
+</ol>
+
+<div class="row">
+  <div class="container">
+    <img class="center" src="/assets/Maths/blogs/tupper_img/graph_ran.png"  width="400">
+    <p>
+    This is the grid. Now, we can just draw "a" at one corner.
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+
+<ol start="2">
+<li><p>After drawing this, write \(1\) on each black coloured pixel&#40;box&#41; and \(0\) for the others. This should give something like this&#40;just focus on &quot;a&quot;&#41;:</p>
+</li>
+</ol>
+
+<div class="row">
+  <div class="container">
+    <img class="center" src="/assets/Maths/blogs/tupper_img/a_pix_c.png"  width="300">
+    <p>
+    
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+
+<ol start="3">
+<li><p>Now, we start from the lower left and write the numbers from <strong>bottom to top</strong>. This gives us \(11101, 10101, 11111\). i.e., \((111011010111111)_2\). </p>
+</li>
+<li><p>Finally convert this number into <strong>base-10</strong>. Then, multiply by \(17\). This gives us the final \(k\) value.</p>
+</li>
+</ol>
+<p>Well, although the method is easy to understand but it&#39;s really lengthy. So, if you want to find \(k\), use the following <a href="https://tuppers-formula.ovh/"><strong>website</strong></a>.</p>
+<p>I myself have used this to find the previous \(k\) values.</p>
+<h2 id="julia_implementation"><a href="#julia_implementation" class="header-anchor">Julia Implementation</a></h2>
+<p>Once we have the \(k\) value, it&#39;s very simple. We just check if for particular \((x,y)\), the inequality is satisfied or not. Depending upon that, we just colour the pixel. Here is the code for that:</p>
+<pre><code class="language-julia">using Plots
+plotlyjs&#40;&#41;
+
+function tupper_formula&#40;y, x&#41;
+    return 1 ÷ 2 &lt; floor&#40;rem&#40;floor&#40;y ÷ 17&#41; ÷ 2^&#40;&#40;17 * x&#41; &#43; rem&#40;y, 17&#41;&#41;, 2&#41;&#41;
+end
+
+function plot_tupper&#40;k&#41;
+    width &#61; 106
+    height &#61; 17
+    img &#61; zeros&#40;Bool, height, width&#41;
+
+    for y in 0:&#40;height-1&#41;
+        for x in 0:&#40;width-1&#41;
+            img&#91;y&#43;1, x&#43;1&#93; &#61; tupper_formula&#40;k &#43; y, x&#41;
+        end
+    end
+
+    return heatmap&#40;img, aspect_ratio&#61;1,c&#61;cgrad&#40;:grays, rev&#61;true&#41;, flip&#61;false&#41;
+end</code></pre>
+<p>Now, we just need to call the function <code>plot_tupper</code>. As an example,</p>
+<pre><code class="language-julia">k&#61;4858450636189713423582095962494202044581400587983244549483093085061934704708809928450644769865524364849997247024915119110411605739177407856919754326571855442057210445735883681829823754139634338225199452191651284348332905131193199953502413758765239264874613394906870130562295813219481113685339535565290850023875092856892694555974281546386510730049106723058933586052544096664351265349363643957125565695936815184334857605266940161251266951421550539554519153785457525756590740540157929001765967965480064427829131488548259914721248506352686630476300
+
+p &#61; plot_tupper&#40;k&#41;</code></pre>
+<p>This generate the first plot&#40;self-referential one&#41;.</p>
+<h2 id="few_more_plots"><a href="#few_more_plots" class="header-anchor">Few more plots</a></h2>
+<p>Here are few more plots.</p>
+<pre><code class="language-julia">k_pac &#61; 144520248970897582847942537337194567481277782215150702479718813968549088735682987348888251320905766438178883231976923440016667764749242125128995265907053708020473915320841631792025549005418004768657201699730466383394901601374319715520996181145249781945019068359500510657804325640801197867556863142280259694206254096081665642417367403946384170774537427319606443899923010379398938675025786929455234476319291860957618345432248004921728033349419816206749854472038193939738513848960476759782673313437697051994580681869819330446336774047268864</code></pre>
+
+<div id="fdprxi" style=""></div>
+<script>
+graphDiv = document.getElementById("fdprxi");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp3.json');
+</script>
+
+<pre><code class="language-julia">k_euler &#61;2352035939949658122140829649197960929306974813625028263292934781954073595495544614140648457342461564887325223455620804204796011434955111022376601635853210476633318991990462192687999109308209472315419713652238185967518731354596984676698288025582563654632501009155760415054499960</code></pre>
+
+<p><div id="fdpupw" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpupw");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp4.json');
+</script>
+ Why not try making \(E=mc^2\) ?</p>
+<pre><code class="language-julia">k_spand &#61;270887593047695068902177512637039315790870805545237574209083294224566348164515629454108026611013012827103306726993631111616993188494955886640992666873946363041693530171313017819263864013685045445247668181602663772762348140363360641126220335131367302996818140888926115019048960218133602241808439634450714519167159218935381199001214374043071404065825421114593354638235539762000889521529816363996094790128255258340071055083759359335933136601088</code></pre>
+
+<div id="fdpynw" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpynw");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp5.json');
+</script>
+
+<p>Not going to give you k value for this one</p>
+
+<div id="fdpxkl" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpxkl");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp6.json');
+</script>
+
+
+<p><div id="fdpnyp" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpnyp");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp7.json');
+</script>
+ Calculate \(\sigma\) for \(e^- + e^+ \to \mu^- + \mu^+\) &#40;use feynman&#39;s diagram drawn above&#41;</p>
+<pre><code class="language-julia">k_cheenta &#61; 15806189098778893000052913054993993567015366941292274179534053586295503647737517933409233769405785763940088519276398488552677297965783134336600594346427856575753581916591574206800450783605935534858246029155800031822984955455385598121139153589540046302557674614212697588833953815011872377415466312636343196950183648558632777828536170792550924288</code></pre>
+
+<p><div id="fdppbc" style=""></div>
+<script>
+graphDiv = document.getElementById("fdppbc");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp8.json');
+</script>
+ <a href="https://www.cheenta.com/">CHEENTA</a></p>
+<hr />
+<p>As you can see, it&#39;s really nice and feels a bit like blackmagic. Hope you enjoyed this.</p>
+<p>If you have some queries, do let me know in the comments &#40;you need github account&#41; or contact me using my using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
+
+<script src="https://utteranc.es/client.js"
+        repo="aburousan/blog_comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: July 07, 2024.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+  </body>
+</html>
+
+
+<script>
+  (function(){
+  
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  })();
+  </script>

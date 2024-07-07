@@ -1,0 +1,339 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="icon" href="/assets/favicon.jpg">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>About Me</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Azazaya</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" >Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" >Maths Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" >Physics Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page">Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/minimal-mistakes/Rousan.jpeg" alt="Septimia Zenobia" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+
+
+  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
+<h1 id="about_me"><a href="#about_me" class="header-anchor">About me</a></h1>
+<p>Hello&#33;... I am <strong>Kazi Abu Rousan</strong>, a student of <a href="https://en.wikipedia.org/wiki/Indian_Association_for_the_Cultivation_of_Science">Indian Association for The Cultivation of Science</a>, doing my master&#39;s degree in Physics with specilization in Cosmology. I also teach Maths and Physics for olympiad in <a href="https://www.cheenta.com/">Cheenta Ganit Kendra</a>. 
+<img src="/assets/me.jpeg" alt="It's a me! Rousan" width="500">
+<div class="caption"></div>
+</p>
+<p>Ohh and here is my catto&#33; Mr. <strong>Gino</strong>&#33; 
+<img src="/assets/gino.png" alt="It's Gino" width="500">
+</p>
+<p>For more visit my Social Accounts</p>
+<ul>
+<li><p>
+<a href="https://twitter.com/AustinRousan?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @AustinRousan</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+</li>
+<li><p><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/">LinkedIn</a></p>
+</li>
+<li><p><a href="https://www.instagram.com/azavzya/">Instragram</a></p>
+</li>
+<li><p><a href="https://www.facebook.com/K.A.Rousan/">Facebook</a></p>
+</li>
+</ul>
+<p>Feel free to contact me. I am hyperactive.</p>
+<h1 id="some_of_my_works"><a href="#some_of_my_works" class="header-anchor">Some of my Works</a></h1>
+<p>Some of the things written by me,</p>
+<ul>
+<li><p><a href="https://www.researchgate.net/publication/372221313_Time_Crystal_as_a_consequence_of_NonCommutative_Quantum_Mechanics_for_2D_Harmonic_Oscillator">Time Crystal as a consequence of NonCommutative Quantum Mechanics for 2D Harmonic Oscillator</a> <img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/372221313/figure/fig1/AS:11431281173427597@1688888680920/Physical-Realisation-of-Time-Crystal_W640.jpg" alt="" /></p>
+</li>
+</ul>
+<p>This was done in the 2023 summer research project under the guidence of Prof. Archan S Majumdar under S. N. Bose National Centre for Basic Sciences.</p>
+<ul>
+<li><p><a href="https://www.researchgate.net/publication/376889659_Basic_Recombination_and_Formation_of_Neutral_Hydrogen_in_Early_Universe">Basic Recombination and Formation of Neutral Hydrogen in Early Universe</a> <img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/376889659/figure/fig7/AS:11431281214834585@1703796954888/Comparison-of-Saha-Boltzmann-and-Peeble-Equation-Here-Boltzmann-Equation-means-the_W640.jpg" alt="" /></p>
+</li>
+</ul>
+<p>In this article I have discussed the mechanism of <strong>Recombination in the early universe</strong> and have discribed <strong>Peeble&#39;s Equation</strong>.</p>
+<ul>
+<li><p><a href="https://www.researchgate.net/publication/370161335_Extension_of_Gauss_circle_problem_Lattices_for_a_Triangular_grid">Extension of Gauss circle problem: Lattices for a Triangular grid and discovery of a new formula of \(\pi\)</a></p>
+</li>
+</ul>
+<p><img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/370161335/figure/fig3/AS:11431281152663383@1682100177142/A-circle-of-Radius-7-has-18-lattice-points-on-it_Q320.jpg" alt="" /></p>
+<p>Here I have tried to extend the <strong>Gauss&#39;s Circle Problem</strong> for a triangular grid and also found a new infinite series for \(\pi\).</p>
+<ul>
+<li><p><a href="https://www.researchgate.net/publication/356142815_Diffraction_patterns_by_different_orientation_of_rectangular_Apertures_Intuitive_understanding_of_Optical_Transformations">Diffraction patterns by different orientation of rectangular Apertures: Intuitive understanding of Optical Transformations</a></p>
+</li>
+</ul>
+<p><img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/356142815/figure/fig2/AS:1098551824265217@1638926573534/Diffraction-pattern-of-the-aperture-in-Fig-2.ppm" alt="" /></p>
+<p>This article is based on a problem which came in tifr exam. Here, I have discussed how diffraction patterns can change depending upon different configuration of apertures and simulated the things using python.</p>
+<ul>
+<li><p><a href="https://link.springer.com/article/10.1007/s12045-022-1398-y">Method of Images and It&#39;s Relation to Optical Images</a><img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/361545877/figure/fig7/AS:1171982066429952@1656433707070/Here-you-see-the-fields-from-qred-to-qblue-The-field-is-symmetry-about-the-grounded_W640.jpg" alt="" /></p>
+</li>
+</ul>
+<p>Here I have tried to show how <strong>Optical Lense</strong> formulas are similar to that of <strong>electrostatic method of images</strong>.</p>
+<ul>
+<li><p><a href="https://www.researchgate.net/publication/352641643_Introduction_to_Anyons_and_generalized_distribution_function">Introduction to Anyons and Generalized Distribution Function</a></p>
+</li>
+</ul>
+<p><img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/352641643/figure/fig3/AS:1040709511565313@1625135891075/The-reflection-operation-with-respect-to-one-axis-This-shows-ph-p-and-ph-p-are.ppm" alt="" /></p>
+<p>This is my BSc. project, here I have tried to find a <strong>generalized distribution function</strong> which <strong>anyons</strong> follow. We can get <strong>Bosonic</strong> and <strong>Fermionic</strong> distribution function from that function as a special case.</p>
+<ul>
+<li><p><a href="https://github.com/aburousan/cosmic.jl">Cosmic.jl: A simple package for study of Cosmology</a></p>
+</li>
+</ul>
+<p>This is a <strong>julia</strong> package I am developing in my free time for calculating some basic things of Cosmology. The goal of this package is to compute Cosmological Perturbations. Although for now, it can only do very basic things and is far from it&#39;s real goal.</p>
+<ul>
+<li><p>I also loves to make animation using <strong>manim</strong>– a python library build by Grant &#40;3blue1brown&#41; to make animation videos on different topics of maths and physics. Here is the <a href="https://youtube.com/playlist?list&#61;PLTDTcDkWcXuzwI6M1bGzNh6dDPCB9qZiu&amp;si&#61;I8vaX6GaIaK5jVei">playlist</a>.</p>
+</li>
+</ul>
+
+<iframe width="300" height="150" src="https://www.youtube.com/embed/videoseries?si=PXwPtqGFReU-ZJct&amp;list=PLTDTcDkWcXuzwI6M1bGzNh6dDPCB9qZiu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<p>Some of my blogs on medium are,</p>
+<ul>
+<li><p><a href="https://medium.com/swlh/what-is-fourier-series-and-its-beauty-ce2410012329">What is Fourier Series? and It&#39;s Beauty</a>. You can also watch a <a href="https://youtu.be/0y8UsIFcvPs">video</a> on this.</p>
+</li>
+</ul>
+<p><img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*YkraGeZW9la2P7sDetBpFQ.png" alt="Joaquin Phoenix Joker using 6000 epicycles" /></p>
+<ul>
+<li><p><a href="https://www.cantorsparadise.com/trapezoidal-rule-a-method-of-numerical-integration-5772838657b3">Trapezoidal Rule: A Method of Numerical Integration</a></p>
+</li>
+</ul>
+<p><img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*2jcjgSAw_qoimpVm_2JNrg.png" alt="" /></p>
+<h1 id="some_extra_mentorship"><a href="#some_extra_mentorship" class="header-anchor">Some extra Mentorship</a></h1>
+<ul>
+<li><p>I have been a mentor for a Summer School of Astrophysics in 2023. For more visit their website <a href="https://sites.google.com/view/intro-2-astro/2023-course">here</a>. To access notes and assignment visit <a href="https://github.com/howardisaacson/Intro-to-Astro2023/tree/main/Week2_packages_plotting">here</a> &#40;The ones on matplotlib and numpy, Scipy and Astropy are made by me&#41;.</p>
+</li>
+</ul>
+
+<iframe width="300" height="150" src="https://www.youtube.com/embed/0wXsGut5kYY" title="Intro2Astro: Numpy, Scipy &amp; Astropy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<ul>
+<li><p>I am teaching the python part of a course <strong>Approaching Computational Thinking with R &#43; Python</strong> organised by <a href="https://cosmic-charade.netlify.app/">Cosmic Charade</a>.</p>
+</li>
+<li><p>I am writing a book on <a href="https://www.researchgate.net/project/Number-Theory-with-Python">Number Theory</a>. You can check the draft.</p>
+</li>
+</ul>
+
+<img src="/assets/book.jpg" alt="My Book" width="400">
+
+<p><a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url&#61;https&#37;3A&#37;2F&#37;2Faburousan.github.io&#37;2Fazazaya&#37;2FPages&#37;2Fabout_me&#37;2F&amp;count_bg&#61;&#37;2315987B&amp;title_bg&#61;&#37;23530727&amp;icon&#61;atom.svg&amp;icon_color&#61;&#37;23E7E7E7&amp;title&#61;visits&amp;edge_flat&#61;false" alt="Hits" /></a></p>
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: July 05, 2024.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+  </body>
+</html>
+
+
+<script>
+  (function(){
+  
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  })();
+  </script>

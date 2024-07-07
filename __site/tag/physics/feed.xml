@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Azazaya  ]]>
+    </title>
+    <link> https://aburousan.github.io/azazaya/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://aburousan.github.io/azazaya/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  Physics Blogs  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Physics/blogs/phy_blog/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Physics/blogs/phy_blog/index.html </guid>
+  <description>
+    <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
+  </description>  
+    
+  <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Physics Courses  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Physics/courses/phy_co/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Physics/courses/phy_co/index.html </guid>
+  <description>
+    <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
+  </description>  
+    
+  <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Physics Papers  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Physics/papers/phy_papers/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Physics/papers/phy_papers/index.html </guid>
+  <description>
+    <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
+  </description>  
+    
+  <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  What exactly is Light Momentum?  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Physics/blogs/Light_Momentum/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Physics/blogs/Light_Momentum/index.html </guid>
+  <description>
+    <![CDATA[  IN this blog, we will understand What exactly is Light Momentum? and from where exactly it is coming?  ]]>
+  </description>  
+    
+  <pubDate>Sun, 10 Mar 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Time Dilation as Coordinate Transformation  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Physics/blogs/TD_as_CT/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Physics/blogs/TD_as_CT/index.html </guid>
+  <description>
+    <![CDATA[  A visual understanding on how we can visualize Time Dilation as a simple result of coordinate transformation.  ]]>
+  </description>  
+    
+  <pubDate>Sun, 02 Jul 2023 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  More goodies  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Physics/Physics_Home/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Physics/Physics_Home/index.html </guid>
+  <description>
+    <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
+  </description>  
+    
+  <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  More goodies  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/about_me/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/about_me/index.html </guid>
+  <description>
+    <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
+  </description>  
+    
+  <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>

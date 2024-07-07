@@ -1,0 +1,478 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="icon" href="/assets/favicon.jpg">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Reciprocals of Primes</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Azazaya</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" >Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" >Maths Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" >Physics Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page">Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/minimal-mistakes/Rousan.jpeg" alt="Septimia Zenobia" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+
+
+  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
+
+<div class="franklin-toc"><ol><li><a href="#introduction_to_the_problem">Introduction to the problem</a></li><li><a href="#prove">Prove</a></li><li><a href="#our_take_in_finding_the_period">Our take in finding The period</a></li></ol></div>
+<h1 id="the_period_of_reciprocals_of_primes_work_of_william_shanks"><a href="#the_period_of_reciprocals_of_primes_work_of_william_shanks" class="header-anchor">The Period of Reciprocals of Primes &#40;work of William Shanks&#41;</a></h1>
+<p>You are reading this blog?, This is &#40;even if it&#39;s little&#41; you love maths.<br/> But <strong>how much?</strong>, Can you invest 3 years just to calculate <strong>Reciprocal of Prime numbers</strong>?...<br/> Yes or No?<br/> I don&#39;t know about you but there was certainly a guy called <strong>William Shanks</strong>, who have done this. 
+<div class="row">
+  <div class="container">
+    <img class="left" src="/assets/Maths/blogs/Rec_of_prime/shank_work_time.jpeg">
+    <p>
+    The working period of <b>William Shanks</b> on this topic.
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ Many of my friends ask me why many poeple &#40;specially childrens&#41; love to play around with numbers?, I don&#39;t know what is the real reason. But I think...</p>
+<blockquote>
+<p>Because, Numbers were the first step in mapping our physical world into abstract one.</p>
+</blockquote>
+<h2 id="introduction_to_the_problem"><a href="#introduction_to_the_problem" class="header-anchor">Introduction to the problem</a></h2>
+<p>Let&#39;s first try to undersand what <strong>Shanks</strong> was doing. Suppose, we have a <strong>prime number</strong> \(p\). Now, let&#39;s calculate the value of \(\frac{1}{p}\).</p>
+<p>For an example let&#39;s take \(p=7\). 
+<div class="row">
+  <div class="container">
+    <img class="center" src="/assets/Maths/blogs/Rec_of_prime/seven_div.jpg"  width="400">
+    <p>
+    Division of 1 by 7. We all have done this in our childhood. See in the end, we are again getting 1 as we have before.
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ This means <strong>the quotient will repeat after 7</strong> ,i.e., we will get something like 0.142857142857142857......<br/> Hence, <strong>The reciprocal of 7 repeats after 6 digits</strong>, i.e., It&#39;s <strong>period</strong> is <strong>6</strong>.<br/> Why not try the same thing for \(p = 23\)?, What is the period you getting?..<br/> The answer should be <strong>22</strong>. <strong>Don&#39;t skip try this for your own understanding</strong>.</p>
+<h2 id="prove"><a href="#prove" class="header-anchor">Prove</a></h2>
+<p>The proof is pretty easy and can be done using <a href="https://brilliant.org/wiki/fermats-little-theorem/"><strong>Fermat&#39;s Little Theorem</strong></a>. For the proof visit this sources.</p>
+<ul>
+<li><p><a href="https://www.jstor.org/stable/pdf/112821.pdf"><strong>Source 1</strong></a></p>
+</li>
+<li><p><a href="https://qr.ae/py5osl"><strong>Source 2</strong></a></p>
+</li>
+<li><p><a href="https://www.johndcook.com/blog/2016/10/18/periods-of-fractions/"><strong>Source 3</strong></a></p>
+</li>
+<li><p><a href="https://apps.dtic.mil/dtic/tr/fulltext/u2/a233979.pdf"><strong>Source 4</strong></a></p>
+</li>
+</ul>
+<p>For more watch this video by <strong>Matt Parker</strong> 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/DmfxIhmGPP4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+ Note: <strong>p must be a prime greater than 5</strong>.</p>
+<h2 id="our_take_in_finding_the_period"><a href="#our_take_in_finding_the_period" class="header-anchor">Our take in finding The period</a></h2>
+<p><strong>Shanks</strong> invested 3 years of his life for this job but in modern time we can just write a few lines of code to achive that in matter of seconds.<br/> I just write it while eating snacks and enjoying a beautiful rainy day... we truly are blessed.. Just think about it&#33;...<br/> If you try finding the code, you are going to find some of them &#40;eg:<a href="https://github.com/punitarani/ShanksBot">code-1</a>, <a href="https://github.com/bmantoni/shanks-bot">code-2</a>&#41;. But as per I have seen they have some error or the code looks a bit complicated.<br/> So, I will try to write a code in julia, which will be elegant and simple and also very fast. Let&#39;s start will the algorithm.<br/> <strong>Algorithm</strong><br/></p>
+<ul>
+<li><p>We want to find the smallest n &#40;\(n=\) no. of digits after which repeatation happens&#41;. This simply means that we want to find smallest \(n\) for which </p>
+</li>
+</ul>
+\[ 10^n = 1 (\text{mod }p) \]
+<p>.</p>
+<ul>
+<li><p>For primes \(p\), \(n\) is just some divisor of \(p-1\).</p>
+</li>
+</ul>
+<p>&#40;TRY to THINK WHY&#41;<br/> This means, for any number \(p\), we have to,</p>
+<ul>
+<li><p>Find divisors of \(p-1\).</p>
+</li>
+<li><p>Then, arrange them in a list of ascending order.</p>
+</li>
+<li><p>See for which &#40;smallest&#41; n, equation-1 is satisfied.</p>
+</li>
+</ul>
+<p>Let&#39;s see an example. Let&#39;s take \(p = 23\).<br/> The divisors of \(23-1 = 22\) are \([1,2,11,22]\). For bigger numbers, we will be using a simple code to find the divisors.</p>
+<pre><code class="language-julia">using Primes # will be using this library
+function divisor&#40;n&#41;
+	d &#61; Int64&#91;1&#93;
+	for &#40;p,e&#41; in factor&#40;n&#41;
+		t &#61; Int64&#91;&#93;
+		r &#61; 1
+		for i in 1:e
+			r *&#61; p
+			for u in d
+				push&#33;&#40;t, u*r&#41;
+			end
+		end
+		append&#33;&#40;d,t&#41;
+	end
+	return sort&#40;d&#41;
+end
+println&#40;&quot;The divisors of 22 is &#61; &quot;,divisor&#40;22&#41;&#41;</code></pre>
+<p>The output is: <pre><code class="plaintext code-output">The divisors of 22 is = [1, 2, 11, 22]
+</code></pre> Now, let&#39;s calculate \(10^{n}\) for \(n = 1, 2, 11, 22\). If you do so, you will see only \(10^{22} = 1\) under mod&#40;\(23\)&#41;. Hence, the result.<br/> The full code for implementing this in julia with an example is,</p>
+<pre><code class="language-julia">using Primes # will be using this library
+function divisor&#40;n&#41;
+	d &#61; Int64&#91;1&#93;
+	for &#40;p,e&#41; in factor&#40;n&#41;
+		t &#61; Int64&#91;&#93;
+		r &#61; 1
+		for i in 1:e
+			r *&#61; p
+			for u in d
+				push&#33;&#40;t, u*r&#41;
+			end
+		end
+		append&#33;&#40;d,t&#41;
+	end
+	return sort&#40;d&#41;
+end
+
+function period_of_rec_of_prime&#40;p&#41;
+	divisors &#61; divisor&#40;p-1&#41;
+	res &#61; 0
+	for i in divisors
+		if big&#40;10&#41;^i &#37; big&#40;p&#41; &#61;&#61; big&#40;1&#41;
+			res &#61; i
+			break
+		end
+	end
+	return res
+end
+p &#61; 61253
+println&#40;&quot;The period of &#36;p is &#61; &quot;,period_of_rec_of_prime&#40;p&#41;&#41;</code></pre>
+<p>The output is: <pre><code class="plaintext code-output">The period of 61253 is = 30626
+</code></pre> This is great as it always give correct answer and is very fast. Here is a image from shank&#39;s notebook: 
+<div class="row">
+  <div class="container">
+    <img class="left" src="/assets/Maths/blogs/Rec_of_prime/shank_2.jpg">
+    <p>
+    Few values found by shank. The left ones are prime number and right ones are the periods. As you can see, he had corrected one of the values. Most codes actually give the wrong value but ours will not.
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ We can also plot the data. So, the code in it&#39;s full glory &#40;along with table like shank&#41; is,</p>
+<pre><code class="language-julia">using Primes
+using DataFrames
+function divisor&#40;n&#41;
+	d &#61; Int64&#91;1&#93;
+	for &#40;p,e&#41; in factor&#40;n&#41;
+		t &#61; Int64&#91;&#93;
+		r &#61; 1
+		for i in 1:e
+			r *&#61; p
+			for u in d
+				push&#33;&#40;t, u*r&#41;
+			end
+		end
+		append&#33;&#40;d,t&#41;
+	end
+	return sort&#40;d&#41;
+end
+
+function period_of_rec_of_prime&#40;p&#41;
+	divisors &#61; divisor&#40;p-1&#41;
+	res &#61; 0
+	for i in divisors
+		if big&#40;10&#41;^i &#37; big&#40;p&#41; &#61;&#61; big&#40;1&#41;
+			res &#61; i
+			break
+		end
+	end
+	return res
+end
+all_primes &#61; primes&#40;7, 110000&#41;#retrun all primes in range 5 to 1,10,000
+periods &#61; period_of_rec_of_prime.&#40;all_primes&#41;
+df &#61; DataFrame&#40;Primes &#61; all_primes, Reciprocal_Periods &#61; periods&#41;
+print&#40;last&#40;df,50&#41;&#41;# give table like shank, just showing last 50</code></pre>
+<p>The output is: <pre><code class="plaintext code-output">50×2 DataFrame
+ Row │ Primes  Reciprocal_Periods
+     │ Int64   Int64
+─────┼────────────────────────────
+   1 │ 109441                9120
+   2 │ 109451              109450
+   3 │ 109453                9121
+   4 │ 109469              109468
+   5 │ 109471               10947
+   6 │ 109481                7820
+   7 │ 109507               54753
+   8 │ 109517                 131
+   9 │ 109519               54759
+  10 │ 109537               15648
+  11 │ 109541               21908
+  12 │ 109547               54773
+  13 │ 109567                4058
+  14 │ 109579               15654
+  15 │ 109583              109582
+  16 │ 109589              109588
+  17 │ 109597               54798
+  18 │ 109609               54804
+  19 │ 109619              109618
+  20 │ 109621              109620
+  21 │ 109639               54819
+  22 │ 109661              109660
+  23 │ 109663               36554
+  24 │ 109673              109672
+  25 │ 109717               54858
+  26 │ 109721               54860
+  27 │ 109741               36580
+  28 │ 109751               10975
+  29 │ 109789              109788
+  30 │ 109793              109792
+  31 │ 109807               36602
+  32 │ 109819              109818
+  33 │ 109829              109828
+  34 │ 109831                2615
+  35 │ 109841                6865
+  36 │ 109843               18307
+  37 │ 109847              109846
+  38 │ 109849               27462
+  39 │ 109859              109858
+  40 │ 109873               15696
+  41 │ 109883               54941
+  42 │ 109891               21978
+  43 │ 109897              109896
+  44 │ 109903              109902
+  45 │ 109913                9992
+  46 │ 109919               54959
+  47 │ 109937              109936
+  48 │ 109943              109942
+  49 │ 109961               10996
+  50 │ 109987               54993</code></pre> To make a plot use,</p>
+<pre><code class="language-julia">using Plots
+plot&#40;all_primes, periods, title&#61;&quot;Plot of Reciprocal of Primes vs Period&quot;,seriestype&#61;:scatter,linewidth&#61;3&#41;
+xlabel&#33;&#40;&quot;Primes&quot;&#41;
+ylabel&#33;&#40;&quot;Period of Reciprocals&quot;&#41;</code></pre>
+<p>This is create a plot like, 
+<div class="row">
+  <div class="container">
+    <img class="left" src="/assets/Maths/blogs/Rec_of_prime/shank.png">
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ I hope you all like this interesting piece of knowlege. Just think how much blessed we are. We should use all our resources&#40;blessings&#41; to do awesome things.</p>
+<p>If you have some question, do let me know in the comments &#40;you need github account&#41; or contact me using my using the informations are given in the page <a href="/Pages/about_me/">About Me</a>.</p>
+
+<script src="https://utteranc.es/client.js"
+        repo="aburousan/blog_comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: July 07, 2024.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+  </body>
+</html>
+
+
+<script>
+  (function(){
+  
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  })();
+  </script>

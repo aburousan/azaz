@@ -1,0 +1,413 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="icon" href="/assets/favicon.jpg">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>What exactly is Light Momentum?</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Azazaya</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" >Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" >Maths Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" >Physics Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page">Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/minimal-mistakes/Rousan.jpeg" alt="Septimia Zenobia" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+
+
+  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#introduction">Introduction</a></li><li><a href="#what_is_momentum">What is Momentum?</a></li><li><a href="#evidence_of_lights_momentum">Evidence of Light&#39;s Momentum</a></li><li><a href="#origin_of_momentum_of_light">Origin of Momentum of Light</a></li></ol></div>
+<h1 id="what_exactly_is_light_momentum"><a href="#what_exactly_is_light_momentum" class="header-anchor">What exactly is Light Momentum?</a></h1>
+<p>We all of heard many times <strong>Light has Momentum</strong>&#33;<br/> But the thing is most of us really don&#39;t understand why is so or how is responsible for this momentum?</p>
+<p>Today in this blog, we will exactly try to understand it from the basic physics. So, just take a cup of tea and get ready.</p>
+<blockquote>
+<p>The ultimate test of your knowledge is your capacity to convey it to another. – Richard Feynmann</p>
+</blockquote>
+<h2 id="introduction"><a href="#introduction" class="header-anchor">Introduction</a></h2>
+<p>While studying many topics we have used that fact that, the momentum of light is given by,</p>
+<a id="light_mom" class="anchor"></a>\[
+p = \frac{E}{c}
+
+\]
+<p>In this eqn-<span class="eqref">(<a href="#light_mom">1</a>)</span>, \(E\) represent the <strong>energy of light</strong> and \(c\) is the <strong>speed of light</strong>.</p>
+<p>Normally, the proof is given by using <strong>Einstein Mass-Energy Equivalence</strong> formula. The proof is as follows:</p>
+<div class="colbox-blue"><p>Proof:</p>
+<a id="mass-ener_f" class="anchor"></a>\[
+E^2 = (mc^2)^2 + (pc)^2
+
+\]
+<p>Now, as <strong>light doesn&#39;t have any mass</strong>, we put \(m=0\), which gives us our expression for the momentum \(p\).</p>
+<p>After posting this many people are saying using the \(4-vector\) method , i.e., \(p^{\mu}p_{\mu}\) we can easily find momentum of photon. I guess they have not read the blog. As that method is equivalent to what i just discussed here in this box because </p>
+\[
+p^{\mu}p_{\mu} = m^2c^2 = \Big(\frac{E}{c}\Big)^2 - \vec{p}\cdot \vec{p}
+\]</div>
+<p>The problem with this proof is that fact <strong><span style="color: green">It doesn&#39;t teach us what is physically happening</span></strong> nor it tells us how the hell <strong><span style="color: green">something which doesn&#39;t have any mass can have momentum?</span></strong></p>
+<div class="im-50"><img src="/assets/Physics/blogs/Light_Momentum/em_field_light.jpg" alt="" /></div>
+<p><strong>Spolier: Magnetic-Field Component is responsible for Light Momentum</strong></p>
+<p>Before exactly learning where is momentum is coming, let&#39;s first see if this momentum even exist. In science, we always need <strong>experimental evidence</strong> to be sure if something really is there.</p>
+<blockquote>
+<p>No matter how beautiful or elegant your theory is if there is no evidence then it&#39;s wrong.</p>
+</blockquote>
+<p>So, let&#39;s first see the observations. But again before that we have to know what is <strong>Momentum</strong>?, is it \(mass \times velocity\) or something else?</p>
+<h2 id="what_is_momentum"><a href="#what_is_momentum" class="header-anchor">What is Momentum?</a></h2>
+<p>Normally, we say <strong>Momentum</strong> is a measurement of mass in motion: how much mass is in how much motion. It is usually given the symbol \(\vec{p}\) and it is given by \(\vec{p} = m\vec{v}\). But this is not correct in general. </p>
+<p>In many streams of physics, like <strong>Analytical Mechanics</strong> or <strong>Special Theory of Relativity</strong>, we have some different expression for momentum. Those expressions boils down to this one in some special case, i.e., \(\vec{p} = m\vec{v}\) is not true in general. Then, what exactly is <strong>momentum</strong>?</p>
+<p><strong><span style="color: red">Momentum is a property of any object which tells us it&#39;s ability to push or apply force to some other object.</span></strong></p>
+<p>This means <em>even if some object don&#39;t have any mass, but if it can push something we can conclude that it has some momentum</em> &#40;just remember \(\vec{F} = \frac{d \vec{p}}{dt}\)&#41;. Maybe we will explore this point in much more detail in some future blog.</p>
+<h2 id="evidence_of_lights_momentum"><a href="#evidence_of_lights_momentum" class="header-anchor">Evidence of Light&#39;s Momentum</a></h2>
+<p>Keeping the point of the previous section in our mind, let&#39;s see few evidences for light momentum.<br/> Normally when we are sitting in your room while the light is on or maybe sitting outside, you don&#39;t feel any push. Then can we say <strong>light don&#39;t have any mometum?</strong>, well no&#33;</p>
+<div class="colbox-red"><p><strong>Misinformation Alert&#33;&#33;</strong><br/></p>
+<p>After posting this, Many people specially <a href="linkedin.com/in/dr-chetan-waghela-6682384a">Dr. Chentan Waghela</a>, <a href="https://www.linkedin.com/in/terry-bollinger-8a976">Terry Bollinger</a> pointed out this is clearly a misinformation as the plastic can just fall due to the thermal effect of air and heating, which is 100&#37; correct. </p>
+<p>I had added that as it looks visually great. I shouldn&#39;t have done that.... Sorry about that. I decided not to remove this part so people can see and understand the mistake.</p>
+<p>Maybe it is very small. We have to perform some experiment which can even detect very small momentum. You can actually perform one such experiment in your home with a very strong flash light or a laser&#40;see the video below&#41;.</p>
+<div class="im-50"><img src="/assets/Physics/blogs/Light_Momentum/pressure_of_light.gif" alt="Wrong Video" /></div>
+<p>As shown in the video if we took a very light plastic and hit it with a laser, the plasic falls due to the <strong>pressure</strong>, i.e., <strong>force of the light</strong>, which implies <em>light can push</em> and hence it has <em>momentum</em>.</p></div>
+<p>An actual visuals to see the pressure of light can be seen in the video below.</p>
+
+<iframe width="460" height="280" src="https://www.youtube.com/embed/Sq7GaO8iqu8?si=4GbyLG1kWGv-WRPv&amp;start=87" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<p>Compton effect is actually a very nice proof of <em>light having momentum</em> but we will not discuss that here.</p>
+<p>Another nice observation is the tail of <strong>Hale Bopp</strong> comet. Normally, when a comes goes around it&#39;s orbit we expect that it&#39;s tail should be tangent to the orbit. But observation showed us it is not the case &#40;see the figure below&#41;. 
+<div class="row">
+  <div class="container">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/Hale_Bopp.jpeg" height="400">
+    <p>
+    
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ There, The tail is pushed due to the pressure/force of radiation coming from the sun.<br/> There are many more experiments to notice that <strong>light has momentum</strong>. If you guys are curious about some experiment to calculate it just go through this <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/andp.201800111">paper</a>.</p>
+<h2 id="origin_of_momentum_of_light"><a href="#origin_of_momentum_of_light" class="header-anchor">Origin of Momentum of Light</a></h2>
+<p>We know <strong><span style="color: violet">Light is a Electro-Magnetic wave.</span></strong> The electric and magnetic field oscillate perpendicular to each other and propagate in the perpendicular direction as shown below. 
+<div class="row">
+  <div class="container">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/EM_Wave_prop.gif" height="300">
+    <p>
+    The blue one is electric field and red one is magnetic field.
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ Now, let&#39;s consider an electron lying on the y-axis. As the <strong>E</strong> field is oscillating in the <strong>z-direction</strong>, the electron will also oscilate also in the z-direction.</p>
+<p>As shown in the figure, when the <strong>E-field</strong> points downwards, the electron being an negative charged particle will get pushed upward. 
+<div class="row">
+  <div class="container">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/E_wave_pushe.png" height="300">
+    <p>
+    
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ In the next moment when the wave goes up at the same location, the electron feels a force downward as shown below. 
+<div class="row">
+  <div class="container">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/E_wave_pushe1.png" height="300">
+    <p>
+    
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ Hence, the net push is \(0\). Hence, the <strong><span style="color: red">average momentum</span></strong> transfered by the <strong>Electric Field</strong> of <strong>Light</strong> on the <strong>electron</strong> is \(0\).</p>
+<p>What happens for the case of <strong>Magnetic Field</strong>?<br/> In this case again let&#39;s take an electron at some point. The magnetic field is pointing in the \(-\hat{x}\) direction and due to the electric field the electron will have a velocity in the \(+\hat{z}\) direction.</p>
+<p>Using the <strong>Lorentz Force equation</strong>,</p>
+\[
+\vec{F}_m = q(\vec{v}\times \vec{B})
+\]
+<p>where \(q\) is the charge of the particle, \(\vec{v}\) is the velocity and \(\vec{B}\) is the magnetic field, we see that the magnetic field will push the electron in the <span style="color: red">\(+\hat{y}\) direction</span> with a value of \(evB\) &#40;Note: electron has negative charge&#41;. 
+<div class="row">
+  <div class="container">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/B_wave_push1.png" height="300">
+    <p>
+    
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ After a while when the magnetic field is now pointing in the \(+\hat{x}\) direction, the velocity of the electron will be along the \(-\hat{z}\) direction. Here applying the <strong>Lorentz Force</strong> formula again, will show us that the electron will be pushed in the <span style="color: red">\(+\hat{y}\) direction</span> once again. 
+<div class="row">
+  <div class="container">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/B_wave_push2.png" height="300">
+    <p>
+    
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ Hence, there is a <span style="color: green">Net non-zero push</span>, i.e., <strong><span style="color: green">There is a net momentum transfer</span></strong>.</p>
+<p>This shows us that <strong><span style="color: red">Light&#39;s momentum is actually provided by the Magnetic Field.</span></strong> So, It is the magnetic field who gives <strong>light it&#39;s momentum</strong>. But if it&#39;s true we should be able to derive the eqn-<span class="eqref">(<a href="#light_mom">1</a>)</span>. Let&#39;s try to derive that.</p>
+<div class="colbox-blue"><p><strong>Proof:</strong> The magnetic force on the electron on both case is,</p>
+<a id="f_m_exp" class="anchor"></a>\[
+\vec{F}_m = evB \hat{y} \to F_m = evB
+
+\]
+<p>Now, we know that \(B\) and \(E\) follow the relation,</p>
+<a id="e_b_rel" class="anchor"></a>\[
+\frac{E}{B} = c
+
+\]
+<p>Using eqn-<span class="eqref">(<a href="#e_b_rel">6</a>)</span> in eqn-<span class="eqref">(<a href="#f_m_exp">5</a>)</span> we get,</p>
+\[
+F_m = \frac{evE}{c} = \frac{vF_e}{c}
+\]
+<p>where \(F_e = eE\) is the electric force on the electron.</p>
+<p>Note: This tells us that as \(v< c\), <strong>Electric Force</strong> will always be <strong>greater</strong> than <strong>Magnetic force</strong>.</p>
+<p>Now, we know the <strong>Energy Tranfer per sec</strong>&#40;\(E_{enr}/ sec\)&#41; or <strong>Power</strong>&#40;\(P_{ow}\)&#41; is given by,</p>
+\[
+P_{ow} = \frac{E_{enr}}{sec} = Fv
+\]
+<p>where \(F\) is any force and \(v\) is the velocity of the object of interest.<br/> Using this, we have</p>
+\[
+F_m = \frac{E_{enr}}{c \ \ 1sec}
+\]
+<p>As we know <strong>Force</strong> is rate of change of momentum. Hence, for <strong>unit time</strong>, we have,</p>
+\[
+p = \frac{E_{enr}}{c}
+\]
+<p>where \(p\) is the momentum transfer done by magnetic field.</p></div>
+<p>Isn&#39;t it beautiful?, how we now understand the real physics behind the whole process.</p>
+<p>We know understand <strong>it is the magnetic field</strong> who is giving the momentum, well <strong>electric field</strong> is also somewhat responsible for this as it gives the initial push giving some velocity to the electrons.</p>
+<p>There are few points we should note:</p>
+<ol>
+<li><p>Although the magnetic field is applying the push, the energy stored due in the process is due to electric field. This is the case as magnetic field don&#39;t do any work.</p>
+</li>
+<li><p>The momentum is in the direction to light propagaration. If you consider a proton in place of electron even then it is the case.</p>
+</li>
+</ol>
+<hr />
+<p>I tried my best to explain this, although I am not sure how much you guys have understood but I hope, atleast you have found of insight on this topic.</p>
+<p>If you have some queries, do let me know in the comments &#40;you need github account&#41; or contact me using my using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
+
+<script src="https://utteranc.es/client.js"
+        repo="aburousan/blog_comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: July 07, 2024.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+  </body>
+</html>
+
+
+<script>
+  (function(){
+  
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  })();
+  </script>

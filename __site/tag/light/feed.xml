@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Azazaya  ]]>
+    </title>
+    <link> https://aburousan.github.io/azazaya/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://aburousan.github.io/azazaya/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  What exactly is Light Momentum?  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Physics/blogs/Light_Momentum/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Physics/blogs/Light_Momentum/index.html </guid>
+  <description>
+    <![CDATA[  IN this blog, we will understand What exactly is Light Momentum? and from where exactly it is coming?  ]]>
+  </description>  
+    
+  <pubDate>Sun, 10 Mar 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>

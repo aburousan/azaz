@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Azazaya  ]]>
+    </title>
+    <link> https://aburousan.github.io/azazaya/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://aburousan.github.io/azazaya/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  Time Dilation as Coordinate Transformation  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Physics/blogs/TD_as_CT/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Physics/blogs/TD_as_CT/index.html </guid>
+  <description>
+    <![CDATA[  A visual understanding on how we can visualize Time Dilation as a simple result of coordinate transformation.  ]]>
+  </description>  
+    
+  <pubDate>Sun, 02 Jul 2023 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>
