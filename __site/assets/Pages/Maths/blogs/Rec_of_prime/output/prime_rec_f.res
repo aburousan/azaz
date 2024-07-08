@@ -1,1 +1,1 @@
-nothing
+"/home/rousan/Website/azaz-main/azaz/__site/assets/Pages/Maths/blogs/Rec_of_prime/output/prime_rec.json"

@@ -191,15 +191,20 @@ plot(all_primes, periods, title="Plot of Reciprocal of Primes vs Period",seriest
 xlabel!("Primes")
 ylabel!("Period of Reciprocals")
 ```
+
+```julia:./prime_rec_f.jl
+#hideall
+using Plots
+plotlyjs()
+p = plot(all_primes, periods, title="Plot of Reciprocal of Primes vs Period",seriestype=:scatter,linewidth=3, label="")
+xlabel!("Primes")
+ylabel!("Period of Reciprocals")
+savefig(p, joinpath(@OUTPUT, "prime_rec.json"))
+```
+
 This is create a plot like,
-~~~
-<div class="row">
-  <div class="container">
-    <img class="left" src="/assets/Maths/blogs/Rec_of_prime/shank.png">
-    <div style="clear: both"></div>      
-  </div>
-</div>
-~~~
+\fig{./prime_rec}
+
 I hope you all like this interesting piece of knowlege. Just think how much blessed we are. We should use all our resources(blessings) to do awesome things.
 
 If you have some question, do let me know in the comments (you need github account) or contact me using my using the informations are given in the page [About Me](/Pages/about_me/).

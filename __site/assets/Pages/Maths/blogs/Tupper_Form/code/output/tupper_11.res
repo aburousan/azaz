@@ -1,1 +1,1 @@
-"/home/rousan/Website/azazaya/__site/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp8.json"
+"/home/rousan/Website/azaz-main/azaz/__site/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp8.json"
