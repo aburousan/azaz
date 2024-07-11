@@ -6,7 +6,7 @@ rss = "A short description of the page which would serve as **blurb** in a `RSS`
 
 tags = ["syntax", "code"]
 +++
-
+@def hasjsx = false
 
 
 # Working with code blocks
@@ -153,53 +153,105 @@ And all other stuff processed by Franklin!}
 
 
 ~~~
-<div id="main" role="main">
-    <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="description" content="A flexible two-column Jekyll theme. Perfect for building personal sites, blogs, and portfolios. Latest release v4.16.4">
-      <section class="page__content" itemprop="text">
-        <div class="feature__wrapper">
-          <div class="feature__item">
-            <div class="archive__item">
-              <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/board_art.jpeg" alt="customizable" />
-              </div>
-              <div class="archive__item-body">
-                <h2 class="archive__item-title">About the Website</h2>
-                <div class="archive__item-excerpt">
-                  <p>Goal of the website</p>
-                </div>
-                <p><a href="/home_page/" class="btn btn--primary">Learn more</a></p>
-              </div>
-            </div>
-          </div>
-          <div class="feature__item">
-            <div class="archive__item">
-              <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/lect_f.png" alt="fully responsive" />
-              </div>
-              <div class="archive__item-body">
-                <h2 class="archive__item-title">Articles</h2>
-                <div class="archive__item-excerpt">
-                  <p>Recreating different scientific articles and analysing them.</p>
-                </div>
-                <p><a href="/minimal-mistakes/docs/layouts/" class="btn btn--primary">Learn more(Empty for now)</a></p>
-              </div>
-            </div>
-          </div>
-          <div class="feature__item">
-            <div class="archive__item">
-              <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/about_me_icon.jpeg" alt="100% free" />
-              </div>
-              <div class="archive__item-body">
-                <h2 class="archive__item-title">About Me</h2>
-                <div class="archive__item-excerpt">
-                  <p>I am Kazi Abu Rousan (Austin)</p>
-                </div>
-                <p><a href="/Pages/about_me/" class="btn btn--primary">Learn more (Blushes)</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
+<script type="text/javascript" charset="UTF-8"
+ src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+<link rel="stylesheet"
+ type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<div id="board" class="jxgbox" style="width:400px; height:400px;"></div>
+<script>
+    JXG.Options.text.useMathJax = true;
+    var board = JXG.JSXGraph.initBoard(
+        "board",
+        {
+            boundingbox: [-8, 2.5, 8, -2.5],
+            axis: true
+        }
+    );
+    /* The slider neesd the following input parameters:
+    [[x1, y1], [x2, y2], [min, start, max]]
+    [x1, y1]: first point of the ruler
+    [x2, y2]: last point of the ruler
+    min: minimum value of the slider
+    start: initial value of the slider
+    max: maximum value of the slider
+    */
+    var a = board.create("slider", [[1, 2], [5, 2], [-10, -3, 0]], { name: "start" });
+    var b = board.create("slider", [[1, 1.2], [5, 1.2], [0, 2*Math.PI, 10]], { name: "end" });
+    var s = board.create("slider", [[1, -2], [5, -2], [1, 10, 100]], { name: "n" ,snapWidth:1});
+    var f = function(x){ return Math.sin(x); };
+    var plot = board.create('functiongraph',[f,function(){return a.Value();}, function(){return b.Value();}]);
+    var os = board.create('riemannsum',[f,
+    function(){ return s.Value();}, function(){ return "left";},
+    function(){return a.Value();},
+    function(){return b.Value();}],
+    {fillColor:'#ffff00', fillOpacity:0.8});
+    board.create('text',[-6,-1.5,function(){ return 'Sum='+(JXG.Math.Numerics.riemannsum(f,s.Value(),'left',a.Value(),b.Value())).toFixed(4); }]);
+</script>
 ~~~
 
+jknvfjfnj
+<!-- ~~~
+<script type="text/javascript" charset="UTF-8"
+ src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+<link rel="stylesheet"
+ type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<div id="board" class="jxgbox" style="width:400px; height:400px;"></div>
+<script>
+    JXG.Options.text.useMathJax = true;
+    var board = JXG.JSXGraph.initBoard(
+        "board",
+        {
+            boundingbox: [-8, 2.5, 8, -2.5],
+            axis: true
+        }
+    );
+    const maxIterations = 100;
+    const escapeRadius = 2;
+    function iterate(c) {
+    let z = {x: 0, y: 0};
+    let iterations = 0;
+    while (z.x * z.x + z.y * z.y < escapeRadius * escapeRadius && iterations < maxIterations) {
+        let temp = z.x * z.x - z.y * z.y + c.x;
+        z.y = 2 * z.x * z.y + c.y;
+        z.x = temp;
+        iterations++;
+    }
+    return iterations;
+    }
+
+    function plotMandelbrot() {
+    const points = [];
+    for (let i = -2; i <= 2; i += 0.01) {
+        for (let j = -2; j <= 2; j += 0.01) {
+        const c = {x: i, y: j};
+        const iterations = iterate(c);
+        if (iterations === maxIterations) {
+            points.push([i, j]);
+        }
+        }
+    }
+    return points;
+    }
+
+    const mandelbrotPoints = plotMandelbrot();
+    mandelbrotPoints.forEach(point => {
+        board.create('point', point, {size: 1, color: 'black'});
+    });
+</script>
+~~~ -->
+
+
+
+<!-- <script>
+    JXG.Options.text.useMathJax = true;
+    var board = JXG.JSXGraph.initBoard(
+        "board",
+        {
+            boundingbox: [-15, 15, 15, -15],
+            axis: true
+        }
+    );
+  var p = board.create('point',[-3,1]);
+</script> -->
