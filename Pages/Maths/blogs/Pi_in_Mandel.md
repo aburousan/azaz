@@ -248,11 +248,11 @@ for $\epsilon$ small and $x$ very close to $1/2$.
 Let us define $T(\epsilon)$ which represent **the time, it takes for $x(t)$ to reach 2**. Here we are curious about reaching $2$ as this is the value which tells us if $x(t)$ is inside mandelbrot set or not.
 
 Using mathematica,
-```
+```mathematica
 DSolve[{y'[x] - (y[x] - 1/2)^2 == \[Epsilon], y[0] == 0}, y, x]
 ```
 The output is,
-```
+```mathematica
 {{y -> Function[{x}, 
     1/2 (1 + 
        2 Sqrt[\[Epsilon]]

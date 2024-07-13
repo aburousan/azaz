@@ -361,7 +361,7 @@ g&#40;x&#41; &#61; sqrt&#40;1 - x^2&#41;
 N &#61; 1000; a &#61; -1; b &#61; 1;
 vv &#61; Inte_monte1D&#40;g,N,a,b&#41;
 println&#40;&quot;The area of semi-circle for N &#61; &#36;N , a &#61; &#36;a and b &#61; &#36;b is &quot;,vv&#41;</code></pre>
-<p>The output is: <pre><code class="plaintext code-output">The area of semi-circle for N = 1000 , a = -1 and b = 1 is 1.5809373246135685
+<p>The output is: <pre><code class="plaintext code-output">The area of semi-circle for N = 1000 , a = -1 and b = 1 is 1.5825304516260343
 </code></pre></p>
 <p>Now, let&#39;s calculate the integration for different \(N\) values and calculate the error in each case.</p>
 <pre><code class="language-julia">using Distributions, DataFrames
@@ -390,14 +390,14 @@ print&#40;df&#41;</code></pre>
  Row │ N          Integration_Result  Error
      │ Int64      Float64             Float64
 ─────┼────────────────────────────────────────────
-   1 │        10             1.38134  0.189458
-   2 │       100             1.57915  0.008358
-   3 │      1000             1.5504   0.0203963
-   4 │     10000             1.57543  0.00463421
-   5 │    100000             1.56882  0.00197175
-   6 │   1000000             1.571    0.000201945
-   7 │  10000000             1.57072  7.61491e-5
-   8 │ 100000000             1.57086  6.12662e-5</code></pre> So, as we can see clearly that the error drops as the \(N\) value increases. But compared to other numerical methods, this one seems a bit inefficient. Well, this weakness just is there in case of single or some times double varible functions , i.e., 2D functions.</p>
+   1 │        10             1.44198  0.128812
+   2 │       100             1.58822  0.0174253
+   3 │      1000             1.57703  0.00622948
+   4 │     10000             1.56652  0.00427527
+   5 │    100000             1.57094  0.000144778
+   6 │   1000000             1.57045  0.000341822
+   7 │  10000000             1.5708   8.43085e-6
+   8 │ 100000000             1.57081  1.03685e-5</code></pre> So, as we can see clearly that the error drops as the \(N\) value increases. But compared to other numerical methods, this one seems a bit inefficient. Well, this weakness just is there in case of single or some times double varible functions , i.e., 2D functions.</p>
 <p>We can make the code much faster &#40;although it is already very fast&#41; using parallel computing and many more modern blackmagic of different algorithms &amp; technology. But we will not discuss those here but a little example doesn&#39;t hurt.</p>
 <pre><code class="language-julia">using Distributions
 

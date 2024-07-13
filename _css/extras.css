@@ -23,4 +23,94 @@
     overflow: hidden;
     background-color: #b6daab;
   }
-  
+
+
+
+  /*
+≂̸ CommonMark
+ */
+ .cm-diff {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  background-color: #ffe1a4;
+  border: 0px;
+  border-radius: 7px;
+  font-size: 0.95em;
+}
+.cm-diff-legend{
+  color: white;
+  background-color: #ad273c;
+  padding-left:  .5em;
+  padding-right: .5em;
+  padding-bottom: .1em;
+  border-radius: 5px;
+
+  font-variant: small-caps;
+  font-size: 0.95em;
+}
+
+/*
+TIP
+*/
+.tip {
+  margin-top: 1.25em;
+  margin-bottom: 2em;
+  background-color: #c3efda;
+  border: 0px;
+  border-radius: 7px;
+  font-size: 0.95em;
+}
+.tip-legend {
+  color: white;
+  background-color: #00683a;
+  padding-left: .5em;
+  padding-right: .5em;
+  padding-bottom: .1em;
+  border-radius: 5px;
+  font-variant: small-caps;
+  font-size: 0.95em;
+}
+
+/*
+TO DO
+*/
+.todo {
+  margin-top: 1.25em;
+  margin-bottom: 2em;
+  background-color: #ffcbcb;
+  border: 0px;
+  border-radius: 7px;
+  font-size: 0.95em;
+}
+.todo-legend {
+  color: white;
+  background-color: #730014;
+  padding-left: .5em;
+  padding-right: .5em;
+  padding-bottom: .1em;
+  border-radius: 5px;
+  font-variant: small-caps;
+  font-size: 0.95em;
+}
+
+/*
+NOTE
+*/
+.note {
+  margin-top: 1.25em;
+  margin-bottom: 2em;
+  background-color: #ffebc2;
+  border: 0px;
+  border-radius: 7px;
+  font-size: 0.95em;
+}
+.note-legend {
+  color: rgb(129, 110, 110);
+  background-color: #3e1d00;
+  padding-left: .5em;
+  padding-right: .5em;
+  padding-bottom: .1em;
+  border-radius: 5px;
+  font-variant: small-caps;
+  font-size: 0.95em;
+}

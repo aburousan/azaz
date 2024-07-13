@@ -283,9 +283,9 @@ x_{k+1} - x_k = \Big( x_k - \frac{1}{2} \Big)^2 + \epsilon \text{ with } x_0 = 0
 <p>for \(\epsilon\) small and \(x\) very close to \(1/2\).</p>
 <p>Let us define \(T(\epsilon)\) which represent <strong>the time, it takes for \(x(t)\) to reach 2</strong>. Here we are curious about reaching \(2\) as this is the value which tells us if \(x(t)\) is inside mandelbrot set or not.</p>
 <p>Using mathematica,</p>
-<pre><code class="language-julia">DSolve&#91;&#123;y&#39;&#91;x&#93; - &#40;y&#91;x&#93; - 1/2&#41;^2 &#61;&#61; \&#91;Epsilon&#93;, y&#91;0&#93; &#61;&#61; 0&#125;, y, x&#93;</code></pre>
+<pre><code class="language-mathematica">DSolve&#91;&#123;y&#39;&#91;x&#93; - &#40;y&#91;x&#93; - 1/2&#41;^2 &#61;&#61; \&#91;Epsilon&#93;, y&#91;0&#93; &#61;&#61; 0&#125;, y, x&#93;</code></pre>
 <p>The output is,</p>
-<pre><code class="language-julia">&#123;&#123;y -&gt; Function&#91;&#123;x&#125;, 
+<pre><code class="language-mathematica">&#123;&#123;y -&gt; Function&#91;&#123;x&#125;, 
     1/2 &#40;1 &#43; 
        2 Sqrt&#91;\&#91;Epsilon&#93;&#93;
          Tan&#91;x Sqrt&#91;\&#91;Epsilon&#93;&#93; - ArcTan&#91;1/&#40;2 Sqrt&#91;\&#91;Epsilon&#93;&#93;&#41;&#93;&#93;&#41;&#93;&#125;&#125;</code></pre>
@@ -319,7 +319,7 @@ t\sqrt{\epsilon} = \arctan \Big( \frac{x(t) - 1/2}{\sqrt{\epsilon}}\Big) + \arct
 </script>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: July 11, 2024.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: July 13, 2024.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

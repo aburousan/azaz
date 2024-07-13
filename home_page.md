@@ -2,7 +2,7 @@
 @def tags = ["syntax", "code"]
 
 # Idea behind this website
-**Mathematics** and **Physics**... This two are really something I enjoy. Each time I read something of maths or physics, It really force me to think how beautiful and elegant things are. How can something born from our mind can describe this world!!...
+**Mathematics** and **Physics**... This two are really something I enjoy. Each time I read something of maths or physics, it really force me to think how beautiful and elegant things are. How can something born from our mind can describe this world!!...
 
 ~~~
 <img src="/assets/subham_pic.jpeg" alt="" width="600">
