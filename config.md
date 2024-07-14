@@ -67,3 +67,52 @@ println(py"res")
 }{
   \html{</div>}
 }
+
+
+\newcommand{\emdash}{&#8212;}
+
+\newcommand{\fieldset}[3]{
+  ~~~
+  <fieldset class="#1"><legend class="#1-legend">#2</legend>
+  ~~~
+  #3
+  ~~~
+  </fieldset>
+  ~~~
+}
+
+\newcommand{\cmdiff}[1]{
+  \fieldset{cm-diff}{&ne; CommonMark}{
+    #1
+  }
+}
+
+<!--
+  Tip
+-->
+\newcommand{\tip}[1]{
+  \fieldset{tip}{🚀 Tip}{
+    #1
+  }
+}
+
+<!--
+ Todo
+-->
+\newcommand{\todo}[1]{
+  \fieldset{todo}{🚧 To Do}{
+    #1
+  }
+}
+
+<!--
+ Note
+-->
+\newcommand{\note}[1]{
+  \fieldset{note}{📝 Note}{
+    #1
+  }
+}
+
+\newcommand{\showmd}[1]{~~~<div class="trim">~~~\fieldset{md-input}{markdown}{`````plaintext#1`````}~~~</div>~~~
+  ~~~<div class="trim">~~~\fieldset{md-result}{result}{~~~~~~#1~~~~~~}~~~</div>~~~}

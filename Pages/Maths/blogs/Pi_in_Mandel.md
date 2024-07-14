@@ -225,10 +225,8 @@ The answer is simple. Let's understand it in following steps.
 3. The new input is then the **x-axis** of the intersection of that green line and $y=x$. To represent that we draw a line **parallel to the y-axis** until it hits the parabola.
 4. Then we repeat the process.
 This visually shows us the iteration and hence we need $y=x$ line.
-@@colbox-blue
-**Remark:**\\
-We know $c=1/4$ is inside mandelbrot set. This can be seen from the above graph. For $\epsilon = 0$, the $y=x$ line is tangent to the parabola, hence, our iteration visual, which can be thought as some ball bouncing inside the gap will not go to infinity, rather it will converge to the intersection of the parabola and the line. This shows $c=1/4$ is inside the mandelbrot set.
-@@
+\note{We know $c=1/4$ is inside mandelbrot set. This can be seen from the above graph. For $\epsilon = 0$, the $y=x$ line is tangent to the parabola, hence, our iteration visual, which can be thought as some ball bouncing inside the gap will not go to infinity, rather it will converge to the intersection of the parabola and the line. This shows $c=1/4$ is inside the mandelbrot set.}
+
 Play with the slider and change the value. You will see how the iteration goes to infinity (although to save computation power, the iteration number can only go upto 20).
 
 Now, we can write,

@@ -265,8 +265,11 @@ f(x) = x^2 + \frac{1}{4} + \epsilon
 <li><p>Then we repeat the process.</p>
 </li>
 </ol>
-<p>This visually shows us the iteration and hence we need \(y=x\) line.</p>
-<div class="colbox-blue"><strong>Remark:</strong><br/> We know \(c=1/4\) is inside mandelbrot set. This can be seen from the above graph. For \(\epsilon = 0\), the \(y=x\) line is tangent to the parabola, hence, our iteration visual, which can be thought as some ball bouncing inside the gap will not go to infinity, rather it will converge to the intersection of the parabola and the line. This shows \(c=1/4\) is inside the mandelbrot set.</div>
+<p>This visually shows us the iteration and hence we need \(y=x\) line. 
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      We know \(c=1/4\) is inside mandelbrot set. This can be seen from the above graph. For \(\epsilon = 0\), the \(y=x\) line is tangent to the parabola, hence, our iteration visual, which can be thought as some ball bouncing inside the gap will not go to infinity, rather it will converge to the intersection of the parabola and the line. This shows \(c=1/4\) is inside the mandelbrot set. 
+  </fieldset>
+  </p>
 <p>Play with the slider and change the value. You will see how the iteration goes to infinity &#40;although to save computation power, the iteration number can only go upto 20&#41;.</p>
 <p>Now, we can write,</p>
 \[
@@ -319,7 +322,7 @@ t\sqrt{\epsilon} = \arctan \Big( \frac{x(t) - 1/2}{\sqrt{\epsilon}}\Big) + \arct
 </script>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: July 13, 2024.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: July 14, 2024.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
