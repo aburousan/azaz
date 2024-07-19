@@ -76,7 +76,7 @@ To define  **\col{blue}{Riemann Curvature Tensor}**, we need to define two vecto
 ~~~
 \note{$[\vec{U}, \vec{V}]=0$ represent the fact that the two vectors can be used to form closed loops. If $[\vec{U},\vec{V}]\neq 0$, then we can't form closed parallelogram.
 }
-Each point of the parallelogram are represented by $(0,0), (r,0), {r,s}$ and $(0,s)$. Then, we take another vector $\vec{W}$ at one of the corners and parallel transport it along the parallelogram. 
+Let's consider a general case where each point of the parallelogram are represented by $(0,0), (r,0), (r,s)$ and $(0,s)$. Then, we take another vector $\vec{W}$ at one of the corners and parallel transport it along the parallelogram. 
 ~~~
 <div class="row">
   <div class="container">
