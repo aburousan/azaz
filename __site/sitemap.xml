@@ -38,6 +38,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>https://aburousan.github.io/azazaya/Pages/Physics/blogs/Menmonic_ten/index.html</loc>
+    <lastmod>2024-07-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/phy_co/index.html</loc>
     <lastmod>2024-07-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -111,7 +117,7 @@
 </url>
 <url>
     <loc>https://aburousan.github.io/azazaya/Pages/Physics/blogs/phy_blog/index.html</loc>
-    <lastmod>2024-07-06</lastmod>
+    <lastmod>2024-07-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>

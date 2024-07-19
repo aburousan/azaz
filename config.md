@@ -116,3 +116,5 @@ println(py"res")
 
 \newcommand{\showmd}[1]{~~~<div class="trim">~~~\fieldset{md-input}{markdown}{`````plaintext#1`````}~~~</div>~~~
   ~~~<div class="trim">~~~\fieldset{md-result}{result}{~~~~~~#1~~~~~~}~~~</div>~~~}
+
+\newcommand{\col}[2]{~~~<span style="color:~~~#1~~~">~~~!#2~~~</span>~~~}

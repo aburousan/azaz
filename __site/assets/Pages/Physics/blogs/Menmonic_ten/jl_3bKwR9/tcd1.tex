@@ -1,0 +1,24 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz-cd}
+\begin{document}
+\begin{tikzcd}[]
+\draw[->, thick, purple] (0,0) -- (2,1) node[midway, below] {$\vec{u}$};
+    \draw[->, thick, purple] (0,0) -- (-2,-1) node[midway, below] {$\vec{w}$};
+    \draw[->, thick, purple] (0,0) -- (1.5,2.5) node[midway, left] {$\vec{v}$};
+
+    % Parallelogram
+    \draw[thick] (2,1) -- (3.5,3.5);
+    \draw[thick] (-2,-1) -- (-0.5,1.5);
+    \draw[thick] (2,1) -- (-0.5,1.5);
+    \draw[thick] (-2,-1) -- (3.5,3.5);
+
+    % Resultant Vectors
+    \foreach \i in {-3,-2,-1,0,1,2,3} {
+        \draw[->, thick, green] (2,1) -- ++(0.5*\i, 1*\i);
+        \draw[->, thick, green] (1.5,2.5) -- ++(0.5*\i, 1*\i);
+        \draw[->, thick, green] (-2,-1) -- ++(0.5*\i, 1*\i);
+        \draw[->, thick, green] (-0.5,1.5) -- ++(0.5*\i, 1*\i);
+    }
+\end{tikzcd}
+
+\end{document}
