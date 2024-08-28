@@ -207,15 +207,26 @@ This is create a plot like,
 
 I hope you all like this interesting piece of knowlege. Just think how much blessed we are. We should use all our resources(blessings) to do awesome things.
 
-If you have some question, do let me know in the comments (you need github account) or contact me using my using the informations are given in the page [About Me](/Pages/about_me/).
+If you have some question, do let me know in the comments or contact me using my using the informations are given in the page [About Me](/Pages/about_me/).
 
 ~~~
-<script src="https://utteranc.es/client.js"
-        repo="aburousan/blog_comments"
-        issue-term="pathname"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
+<div id="disqus_thread"></div>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    /*
+    var disqus_config = function () {
+    this.page.url = https://rousan.netlify.app/pages/maths/blogs/rec_of_prime/;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-rousan-netlify-app.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
 </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 ~~~
-
