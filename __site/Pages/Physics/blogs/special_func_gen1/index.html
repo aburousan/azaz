@@ -116,8 +116,9 @@
   <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
 <div class="franklin-toc"><ol><li><a href="#introduction_to_gram-schmidt_orthogonalization">Introduction to Gram-Schmidt Orthogonalization</a></li><li><a href="#orthogonal_polynomials">Orthogonal Polynomials</a><ol><li><a href="#procedure_to_generate">Procedure to generate</a></li></ol></li><li><a href="#generating_special_functions">Generating Special Functions</a><ol><li><a href="#legendre_polynomials">Legendre Polynomials</a></li><li><a href="#hermite_polynomials">Hermite Polynomials</a></li></ol></li><li><a href="#differential_equations_for_the_polynomials">Differential Equations for the polynomials</a><ol><li><a href="#method">Method</a></li><li><a href="#example">Example</a></li></ol></li></ol></div>
 <h1 id="formation_of_orthogonal_polynomials_special_functions_using_tools_of_linear_algebra"><a href="#formation_of_orthogonal_polynomials_special_functions_using_tools_of_linear_algebra" class="header-anchor">Formation of Orthogonal Polynomials &#40;Special Functions&#41; using tools of Linear Algebra</a></h1>
-<p><strong>Special Functions</strong> refer to a set of mathematical functions that arise frequently in various physical contexts, particularly in solving differential equations that describe physical phenomena.</p>
-<p>These functions are distributed through-out the whole physics world. To analyze most of the problems people need to know them. Well this is hard specially for students. So, is there any work around?<br/> Well, the answer is yes&#33; But how? <br/> <strong><span style="color: purple">In this blog we are going to learn the how&#33;</span>.</strong> 
+<p><strong><span style="color: purple">Special Functions</span></strong> refer to a set of mathematical functions that arise frequently in various physical contexts, particularly in solving differential equations that describe physical phenomena.</p>
+<p>But do we really need to solve the differential equations to get those functions/polynomials? or <strong><span style="color: blue">is there something more fundamental related to the functional sapce itself?</span></strong></p>
+<p>As we know, these functions are distributed through-out the whole physics world. To analyze most of the problems people need to know them. Well this is hard specially for students. So, is there any work around?<br/> Well, the answer is yes&#33; But how? <br/> <strong><span style="color: purple">In this blog we are going to learn the answers of the previous questions</span>.</strong> 
   <fieldset class=" poem"><legend class=" poem-legend"> 🪶 Poem</legend>
       <strong>In the realm where numbers flow,<br/> Special functions start to grow.<br/> <span style="color: red">Bessel</span> hums with gentle grace,<br/> In vibrating strings, finds its place.<br/> <br/> <span style="color: red">Legendre</span> climbs the heights so tall,<br/> Solving spheres, answering the call.<br/> <span style="color: red">Hermite</span>’s waves, in quantum fields,<br/> Guide the paths that nature yields.<br/> <br/> <span style="color: red">Laguerre</span> whispers in the night,<br/> Where hydrogen’s glow burns bright.<br/> Hypergeometric, vast and grand,<br/> Unifying the cosmic strand.<br/> <br/> In this dance of math and light,<br/> Physics soars to unknown heights.<br/> Each function, a key so fine,<br/> Unlocking secrets, divine.</strong> 
   </fieldset>
@@ -283,7 +284,7 @@
 \]
 <p>where \(w(x)\) is called the <strong><span style="color: blue">weight function</span></strong> and \(f^*(x)\) represent complex conjugate of \(f(x)\). 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-   \(w(x)\geq 0\) must be assumed as without it any function can&#39;t have positive norm. 
+   \(w(x)\geq 0\) must be assumed as without it any function can&#39;t have positive norm. This is sort of metric of the functional space. 
   </fieldset>
   </p>
 <p>With this we are now ready to see how to generate special functions.</p>
@@ -578,7 +579,7 @@ P_n(x) = \sum_{r=0}^{n}A_{nr}x^r
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
     /*
     var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/maths/blogs/pi_in_mandel/;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.url = https://rousan.netlify.app/pages/physics/blogs/special_func_gen1/;  // Replace PAGE_URL with your page's canonical URL variable
     this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
     */

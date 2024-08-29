@@ -11,11 +11,13 @@ tags = ["code", "Linear_Algebra", "Special_Function", "Gram-Schmidt_Orthogonaliz
 # Formation of Orthogonal Polynomials (Special Functions) using tools of Linear Algebra
 \newcommand{\col}[2]{~~~<span style="color:~~~#1~~~">~~~!#2~~~</span>~~~}
 
-**Special Functions** refer to a set of mathematical functions that arise frequently in various physical contexts, particularly in solving differential equations that describe physical phenomena.
+**\col{purple}{Special Functions}** refer to a set of mathematical functions that arise frequently in various physical contexts, particularly in solving differential equations that describe physical phenomena.
 
-These functions are distributed through-out the whole physics world. To analyze most of the problems people need to know them. Well this is hard specially for students. So, is there any work around?\\
+But do we really need to solve the differential equations to get those functions/polynomials? or **\col{blue}{is there something more fundamental related to the functional sapce itself?}**
+
+As we know, these functions are distributed through-out the whole physics world. To analyze most of the problems people need to know them. Well this is hard specially for students. So, is there any work around?\\
 Well, the answer is yes! But how? \\
-**\col{purple}{In this blog we are going to learn the how!}.**
+**\col{purple}{In this blog we are going to learn the answers of the previous questions}.**
 \poem{
 **In the realm where numbers flow,\\
 Special functions start to grow.\\
@@ -209,7 +211,7 @@ $$
 \langle f|g \rangle = \int_{x_1}^{x_2}dx w(x)f^*(x)g(x)
 $$
 where $w(x)$ is called the **\col{blue}{weight function}** and $f^*(x)$ represent complex conjugate of $f(x)$.
-\note{$w(x)\geq 0$ must be assumed as without it any function can't have positive norm.}
+\note{$w(x)\geq 0$ must be assumed as without it any function can't have positive norm. This is sort of metric of the functional space.}
 
 With this we are now ready to see how to generate special functions.
 
@@ -416,15 +418,6 @@ I hope you learn something new and enjoyed this article.
 If you have some queries, do let me know in the comments (you need github account) or contact me using my using the informations that are given on the page [About Me](/Pages/about_me/).
 
 
-<!-- ~~~
-<script src="https://utteranc.es/client.js"
-        repo="aburousan/blog_comments"
-        issue-term="pathname"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-</script>
-~~~ -->
 ~~~
 <div id="disqus_thread"></div>
 <script>
@@ -433,7 +426,7 @@ If you have some queries, do let me know in the comments (you need github accoun
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
     /*
     var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/maths/blogs/pi_in_mandel/;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.url = https://rousan.netlify.app/pages/physics/blogs/special_func_gen1/;  // Replace PAGE_URL with your page's canonical URL variable
     this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
     */
