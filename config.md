@@ -105,11 +105,28 @@ println(py"res")
   }
 }
 
+\newcommand{\exam}[1]{
+  \fieldset{todo}{🚧 Example}{
+    #1
+  }
+}
+
+\newcommand{\prob}[1]{
+  \fieldset{todo}{🤔 Problem}{
+    #1
+  }
+}
 <!--
  Note
 -->
 \newcommand{\note}[1]{
   \fieldset{note}{📝 Note}{
+    #1
+  }
+}
+
+\newcommand{\poem}[1]{
+  \fieldset{poem}{🪶 Poem}{
     #1
   }
 }

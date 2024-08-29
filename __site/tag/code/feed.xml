@@ -23,6 +23,25 @@
 
 <item>
   <title>
+    <![CDATA[  Special Function and it&#39;s generation  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Physics/blogs/special_func_gen1/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Physics/blogs/special_func_gen1/index.html </guid>
+  <description>
+    <![CDATA[  A brief discussion on Introduction on how to generate special functions using the tools of linear algebra.  ]]>
+  </description>  
+    
+  <pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  Introduction to Monte Carlo Integration  ]]>
   </title>
   <link> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Pi_in_Mandel/index.html </link>

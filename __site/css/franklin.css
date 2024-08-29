@@ -556,3 +556,24 @@ NOTE
 
 .md-result ul ul {padding-left: 1.5em;}
 .md-result ol ul {padding-left: 1.5em;}
+
+
+
+.poem {
+  margin-top: 1.25em;
+  margin-bottom: 2em;
+  background-color: #ccd5da;
+  border: 0px;
+  border-radius: 7px;
+  font-size: 0.95em;
+}
+.poem-legend {
+  color: rgb(249, 0, 0);
+  background-color: #000000;
+  padding-left: .5em;
+  padding-right: .5em;
+  padding-bottom: .1em;
+  border-radius: 5px;
+  font-variant: small-caps;
+  font-size: 0.95em;
+}

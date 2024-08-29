@@ -15,3 +15,4 @@ This contains some interesting things related to physics:\\
 1. [Time Dilation as Coordinate Transformation](/Pages/Physics/blogs/TD_as_CT/) --> Yeah!!... First blog
 2. [What exactly is Light's Momentum?](/Pages/Physics/blogs/Light_Momentum/) --> Second Blog!
 3. [Mnemonic for Riemann Tensor](/Pages/Physics/blogs/Menmonic_ten/) --> Memorising not good! 🥲
+4. [Formation of Orthogonal Polynomials using Linear Algebra](/Pages/Physics/blogs/special_func_gen1/) --> Creating any Special Function?!

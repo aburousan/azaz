@@ -1,0 +1,718 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="icon" href="/assets/favicon.jpg">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Special Function and it's generation</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Azazaya</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" >Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" >Maths Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" >Physics Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page">Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/minimal-mistakes/Rousan.jpeg" alt="Septimia Zenobia" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+
+
+  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#introduction_to_gram-schmidt_orthogonalization">Introduction to Gram-Schmidt Orthogonalization</a></li><li><a href="#orthogonal_polynomials">Orthogonal Polynomials</a><ol><li><a href="#procedure_to_generate">Procedure to generate</a></li></ol></li><li><a href="#generating_special_functions">Generating Special Functions</a><ol><li><a href="#legendre_polynomials">Legendre Polynomials</a></li><li><a href="#hermite_polynomials">Hermite Polynomials</a></li></ol></li><li><a href="#differential_equations_for_the_polynomials">Differential Equations for the polynomials</a><ol><li><a href="#method">Method</a></li><li><a href="#example">Example</a></li></ol></li></ol></div>
+<h1 id="formation_of_orthogonal_polynomials_special_functions_using_tools_of_linear_algebra"><a href="#formation_of_orthogonal_polynomials_special_functions_using_tools_of_linear_algebra" class="header-anchor">Formation of Orthogonal Polynomials &#40;Special Functions&#41; using tools of Linear Algebra</a></h1>
+<p><strong>Special Functions</strong> refer to a set of mathematical functions that arise frequently in various physical contexts, particularly in solving differential equations that describe physical phenomena.</p>
+<p>These functions are distributed through-out the whole physics world. To analyze most of the problems people need to know them. Well this is hard specially for students. So, is there any work around?<br/> Well, the answer is yes&#33; But how? <br/> <strong><span style="color: purple">In this blog we are going to learn the how&#33;</span>.</strong> 
+  <fieldset class=" poem"><legend class=" poem-legend"> 🪶 Poem</legend>
+      <strong>In the realm where numbers flow,<br/> Special functions start to grow.<br/> <span style="color: red">Bessel</span> hums with gentle grace,<br/> In vibrating strings, finds its place.<br/> <br/> <span style="color: red">Legendre</span> climbs the heights so tall,<br/> Solving spheres, answering the call.<br/> <span style="color: red">Hermite</span>’s waves, in quantum fields,<br/> Guide the paths that nature yields.<br/> <br/> <span style="color: red">Laguerre</span> whispers in the night,<br/> Where hydrogen’s glow burns bright.<br/> Hypergeometric, vast and grand,<br/> Unifying the cosmic strand.<br/> <br/> In this dance of math and light,<br/> Physics soars to unknown heights.<br/> Each function, a key so fine,<br/> Unlocking secrets, divine.</strong> 
+  </fieldset>
+  </p>
+<h2 id="introduction_to_gram-schmidt_orthogonalization"><a href="#introduction_to_gram-schmidt_orthogonalization" class="header-anchor">Introduction to Gram-Schmidt Orthogonalization</a></h2>
+<p>In most of the physics problems, we use an <span style="color: red">inner product space</span> and in most cases we choose a basis in which the basis vectors are orthonormal to one another. Further, we also choose the norm of each vector to be unity.<br/> So, if we have basis vectors \(|e_i \rangle \) then,</p>
+\[
+\langle e_i | e_j \rangle = \delta_{ij}
+\]
+<p>where </p>
+\[
+\delta_{ij} = 
+     \begin{cases}
+       1 &\quad\text{if } i=j\\
+       0 &\quad\text{if } i\neq j \\
+     \end{cases}
+\]
+<p>Here \(|e_i \rangle \) are called <strong>Orthonormal Basis</strong>.</p>
+<p>Now, let&#39;s say we have some arbitrary linearly independent vectors \(| u_i \rangle\) which are not necessarily orthogonal to each other. It is required to obtain a set of orthogonal vectors \(| v_i \rangle\) starting from the original set of vectors.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      An important thing to notice is that we really don&#39;t need \(|u_i\rangle\) and \(|v_i \rangle\) to be normalized. 
+  </fieldset>
+  
+<p><strong><span style="color: purple">Method to generate \(| v_i \rangle\)</span>:</strong> We proceed as following:</p>
+<ol>
+<li><p>Take \(|v_1 \rangle = |u_1 \rangle\), i.e., choose the anyone of the vectors as the new vector.</p>
+</li>
+<li><p>Let \(|v_2 \rangle = |u_2 \rangle + a_{21} |v_1 \rangle\) with the unknown constant \(a_{21}\).</p>
+</li>
+<li><p>This \(a_{21}\) is found by forcing the condition \(\langle v_1,v_2 \rangle=0\). This gives us </p>
+</li>
+</ol>
+\[ a_{21} = -\frac{\langle v_1|u_2 \rangle}{\langle v_1|v_1 \rangle}\]
+<p>Thus, we have two orthogonal vectors \(|v_1 \rangle\) and \(|v_2 \rangle\).</p>
+<ol start="4">
+<li><p>Again, we define \(|v_3 \rangle = |u_3 \rangle + a_{31}|v_1 \rangle + a_{32}|v_2 \rangle\) where \(a_{31}\) and \(a_{32}\) are constants.</p>
+</li>
+<li><p>Again, using \(\langle v_1 | v_3 \rangle = 0\) and \(\langle v_2 | v_3 \rangle = 0\). This implies </p>
+</li>
+</ol>
+\[ a_{31} = -\frac{\langle v_1|u_3 \rangle}{\langle v_1|v_1 \rangle}\]
+\[ a_{32} = -\frac{\langle v_2|u_3 \rangle}{\langle v_2|v_2 \rangle}\]
+<ol start="6">
+<li><p>Proceed with the same method. In the \(i^{th}\) step, we will have,</p>
+</li>
+</ol>
+\[ |v_i \rangle = |u_i \rangle + a_{i1} |v_1 \rangle + a_{i2} |v_2 \rangle +\cdots a_{i,i-1}|v_{i-1}\rangle \]
+<p>Finally give the condition that all the previous vectors are orthogonal to the new one.</p>
+<p>Let&#39;s see an example. 
+  <fieldset class=" todo"><legend class=" todo-legend"> 🚧 Example</legend>
+      Let&#39;s take two vectors \(|u_1\rangle = 1\hat{i} + 3\hat{j}\) and \(|u_2\rangle = 4\hat{i} + 2\hat{j}\). Then using the previous formulas,</p>
+\[
+    |v_1 \rangle = |u_1\rangle = 1\hat{i} + 3\hat{j}
+    \]
+<p>Then,</p>
+\[ a_{21} = -\frac{\langle v_1|u_2 \rangle}{\langle v_1|v_1 \rangle} = -\frac{1\times 4 + 3 \times 2}{1 \times 1 + 3\times 3} = -1\]
+<p>Finally, we have</p>
+\[|v_2 \rangle = |u_2\rangle -1\times |v_1 \rangle = 3\hat{i} - \hat{j}\]
+<p>See the interactive example below. The initial points represent the example here.</p>
+<p>
+  </fieldset>
+   
+<script type="text/javascript" charset="UTF-8"
+ src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+<link rel="stylesheet"
+ type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<div id="board" class="jxgbox" style="width:400px; height:400px;"></div>
+<script>
+    JXG.Options.text.useMathJax = true;
+    var board = JXG.JSXGraph.initBoard(
+        "board",
+        {
+            boundingbox: [-5, 5, 5, -5],
+            axis: true
+        }
+    );
+    // Define two movable points
+    const A = board.create('point', [1, 3], {name: 'A', size: 2});
+    const B = board.create('point', [4, 2], {name: 'B', size: 2});
+    
+    // Initial lines for the vectors
+    const v1 = board.create('line', [[0, 0], A], {straightFirst: false, straightLast: false, strokeColor: 'blue'});
+    const v2 = board.create('line', [[0, 0], B], {straightFirst: false, straightLast: false, strokeColor: 'green'});
+
+    // Orthogonalized vectors (arrows)
+    const U1 = board.create('arrow', [[0, 0], [0, 0]], {strokeColor: 'red'});
+    const U2 = board.create('arrow', [[0, 0], [0, 0]], {strokeColor: 'purple'});
+
+    // Function to compute the dot product
+    function dotProduct(u, v) {
+      return u[0] * v[0] + u[1] * v[1];
+    }
+
+    // Function to compute the vector magnitude
+    function magnitude(v) {
+      return Math.sqrt(v[0] * v[0] + v[1] * v[1]);
+    }
+
+    // Function to subtract vectors
+    function subtract(u, v) {
+      return [u[0] - v[0], u[1] - v[1]];
+    }
+
+    // Function to multiply vector by a scalar
+    function scalarMultiply(scalar, v) {
+      return [scalar * v[0], scalar * v[1]];
+    }
+
+    // Function to format vectors for display
+    function formatVector(v) {
+      return `(${v[0].toFixed(2)}, ${v[1].toFixed(2)})`;
+    }
+
+    // Add text elements for the formulas
+    const formulaU1 = board.create('text', [-4.7, 4, function() {
+      return `\\(\\mathbf{u}_1 = \\mathbf{v}_1 = ${formatVector([A.X(), A.Y()])}\\)`;
+    }], {fontSize: 18});
+
+    const formulaU2 = board.create('text', [-4.8, -4, function() {
+      const proj = scalarMultiply(dotProduct([B.X(), B.Y()], [A.X(), A.Y()]) / dotProduct([A.X(), A.Y()], [A.X(), A.Y()]), [A.X(), A.Y()]);
+      const u2 = subtract([B.X(), B.Y()], proj);
+      return `\\(\\mathbf{v}_2 = \\mathbf{u}_2 - \\text{proj}_{\\mathbf{v}_1}\\mathbf{u}_2 = ${formatVector(u2)}\\)`;
+    }], {fontSize: 18});
+
+    // Add text element for the angle between the vectors
+    const angleText = board.create('text', [2, 3, function() {
+      const dot = dotProduct([A.X(), A.Y()], [B.X(), B.Y()]);
+      const magA = magnitude([A.X(), A.Y()]);
+      const magB = magnitude([B.X(), B.Y()]);
+      const angleRad = Math.acos(dot / (magA * magB));
+      const angleDeg = (angleRad * 180 / Math.PI).toFixed(2);
+      return `\\(\\theta = ${angleDeg}^\\circ\\)`;
+    }], {fontSize: 18});
+
+    // Update function to recalculate and redraw the orthogonalized vectors
+    function updateOrthogonalVectors() {
+      const u1 = [A.X(), A.Y()];
+      const proj = scalarMultiply(dotProduct([B.X(), B.Y()], u1) / dotProduct(u1, u1), u1);
+      const u2 = subtract([B.X(), B.Y()], proj);
+
+      U1.point2.setPosition(JXG.COORDS_BY_USER, u1);
+      U2.point2.setPosition(JXG.COORDS_BY_USER, u2);
+      
+      board.update();
+    }
+
+    // Add event listeners to update the orthogonal vectors when points A or B are moved
+    A.on('drag', updateOrthogonalVectors);
+    B.on('drag', updateOrthogonalVectors);
+
+    // Initial update
+    updateOrthogonalVectors();
+</script>
+ So, we have created <strong><span style="color: red">two orthogonal vectors</span></strong> from two non-orthogonal vectors. If we can also take the vectors to be normalized. But like mentioned before, it really doesn&#39;t matter.</p>
+<h2 id="orthogonal_polynomials"><a href="#orthogonal_polynomials" class="header-anchor">Orthogonal Polynomials</a></h2>
+<p>Before discussing the <strong><span style="color: purple">Orthogonal Polynomials</span></strong> we have to define the inner product once again&#40;wft again&#33;... yes but for infinite dimensional vector spaces&#41;.</p>
+<p>An inner product on a vector space as we know is a map \(I:V \times V \to \mathbb{C}\) that has certain properties. Here I will not discuss the properties&#40;will assume you know if not then maybe read Afken&#39;s book or maybe Balakrishnan&#39;s book&#41;. So, let&#39;s define the inner product:</p>
+<p>Suppose we are considering functions in the interval \(x_1 \leq x \leq x_2\). An <span style="color: purple">inner product</span> of two such functions \(f(x)\) and \(g(x)\) can be defined as,</p>
+\[
+\langle f|g \rangle = \int_{x_1}^{x_2}dx w(x)f^*(x)g(x)
+\]
+<p>where \(w(x)\) is called the <strong><span style="color: blue">weight function</span></strong> and \(f^*(x)\) represent complex conjugate of \(f(x)\). 
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+   \(w(x)\geq 0\) must be assumed as without it any function can&#39;t have positive norm. 
+  </fieldset>
+  </p>
+<p>With this we are now ready to see how to generate special functions.</p>
+<hr />
+<p>As we know polynomials form a function space. If we restrict our attention to functions of \(1\) real variables, we can ask **<span style="color: red">what could be a convenient basis in these function space</span>. Maybe you can say it is </p>
+\[
+1,x,x^2,x^3,\cdots, x^n,\cdots
+\]
+<p>However, this is not necessarily an orthogonal basis as it depends upon \(w(x)\). Then how do we find it?, well well.. just use <strong><span style="color: purple">Gram-Schmidt orthogonalization</span></strong>. Let&#39;s see it in detail.</p>
+<h3 id="procedure_to_generate"><a href="#procedure_to_generate" class="header-anchor">Procedure to generate</a></h3>
+<p>Given any weight function \(w(x)\) and interval \(x_1\leq x \leq x_2\), we start with,</p>
+<ol>
+<li><p>\(f_0(x) =1\) –&gt; We don&#39;t really care about the normalization in any arbitrary stage of iteration.</p>
+</li>
+<li><p>For the next function choose \(f_1(x) = A_1(a_{10}+x)\) where just like before we have two unknown constants which we have to find. Also note \(A_1\neq 0\).</p>
+</li>
+<li><p>Now, we do </p>
+</li>
+</ol>
+\[\int_{x_1}^{x_2}dx w(x) (a_{10}+x) = 0\]
+<p>This gives us </p>
+<a id="first1" class="anchor"></a>\[a_{10}I_0 + I_1 = 0 \]
+<p>. Here we have defined the notation,</p>
+\[
+I_n = \int_{x_1}^{x_2}dx w(x) x^n
+\]
+<ol start="4">
+<li><p>Apart from \(A_1\) we find \(a_{10}\) from eqn-<span class="eqref">(<a href="#first1">13</a>)</span>.</p>
+</li>
+<li><p>For the next one, \(f_2(x) = A_2(a_{20}+a_{21}x+x^2)\) with \(A_2\neq 0\).</p>
+</li>
+<li><p>Then we have two condition,</p>
+</li>
+</ol>
+\[\int_{x_1}^{x_2}dx w(x)(a_{20} + a_{21}x+x^2)=0\]
+<p>and </p>
+\[\int_{x_1}^{x_2}dx w(x)(a_{20} + a_{21}x+x^2)(a_{10}+x)=0\]
+<ol start="7">
+<li><p>This two gives us, </p>
+</li>
+</ol>
+\[ a_{20}I_0 + a_{21}I_1 +I_0 = 0 \]
+<p>and </p>
+\[a_{20}a_{10}I_0 + (a_{20}+a_{21}a_{10})I_1 + (a_{21}+a_{10})I_2 + I_3 = 0\]
+<ol start="8">
+<li><p>Use this two to find \(a_{20}\) and \(a_{21}\). Repeat this process depending on how many terms you need.</p>
+</li>
+</ol>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      If the weight function as well as the limits are symmetric, i.e., if </p>
+\[w(x) = w(-x) \text{ \ and \ } x_1 = -x_2\]
+<p>then each polynomial will contains **<span style="color: red">either only the even powers or only the odd powers</span> of \(x\). This means </p>
+\[f_n(-x) = (-1)^nf_n(x)\]
+<p>Another interesting thing is, the condtions are same as the discrete version. To see this just write the inner product in bra-ket notation or see the julia code below. 
+  </fieldset>
+  
+<p>Let&#39;s see the application of this theory.</p>
+<h2 id="generating_special_functions"><a href="#generating_special_functions" class="header-anchor">Generating Special Functions</a></h2>
+<p>Let&#39;s see few of the well-known ones.</p>
+<h3 id="legendre_polynomials"><a href="#legendre_polynomials" class="header-anchor">Legendre Polynomials</a></h3>
+<p>We know Legendre Polynomials are defined in the range \(-1\leq x \leq 1\). Also, take \(w(x) = 1\).</p>
+<ol>
+<li><p>Start with \(P_0(x) = 1\). Then using eqn-<span class="eqref">(<a href="#first1">13</a>)</span> we have </p>
+</li>
+</ol>
+\[a_{10} = -\frac{I_1}{I_0} = 0\]
+<p>.</p>
+<ol start="2">
+<li><p>Then, \(P_1(x) = A_1x\). We set the normalization \(A_1 = 1\), this gives us \(P_1(x) = x\).</p>
+</li>
+<li><p>For the next one we get \(a_{21}=0\) and \(a_{20} = -1/3\). Again taking \(A_2 = 1\) gives \(P_2(x) = -1/3 + x^2\).</p>
+</li>
+</ol>
+<p>We can go as long as we want. This are exactly <span style="color: red">Legendre Polynomials</span>.<br/>  It should be noted that we have not taken proper normalization. We can certainly do that. To do that just choose the coefficients such that the sum of them is \(1\).</p>
+<p>As an example, coefficients of \(P_2(x)\) are \(1\) and \(-1/3\). Multiply by a factor of \(\alpha\) and solve such that the sum of all the coefficient is \(1\). This is \(\alpha + (-\frac{\alpha}{3}) = 1\) which gives \(\alpha = 3/2\). This gives \(P_2(x) = \frac{1}{2}(3x^2-1)\).</p>
+<p>Let&#39;s write a code in julia for this.</p>
+<pre><code class="language-julia">function inner_product&#40;f, g, a ,b, w&#41;
+    return integrate&#40;f * g * w, &#40;x, a, b&#41;&#41;
+end
+
+function gram_schmidt&#40;funcs,a,b;w&#61;1&#41;
+    orthogonal_polynomials &#61; &#91;&#93;
+
+    for i in 1:length&#40;funcs&#41;
+        f_i &#61; funcs&#91;i&#93;
+        for j in 1:&#40;i-1&#41;
+            proj &#61; inner_product&#40;orthogonal_polynomials&#91;j&#93;, f_i, a,b,w&#41; /
+                   inner_product&#40;orthogonal_polynomials&#91;j&#93;, orthogonal_polynomials&#91;j&#93;, a,b,w&#41;
+            f_i -&#61; simplify&#40;proj * orthogonal_polynomials&#91;j&#93;&#41;
+        end
+        push&#33;&#40;orthogonal_polynomials, simplify&#40;f_i&#41;&#41;
+    end
+    return orthogonal_polynomials
+end
+
+function normalized&#40;p&#41;
+    k &#61; sympy.poly&#40;p,x&#41;
+    pp &#61; k.coeffs&#40;&#41;
+    return p/sum&#40;pp&#41;
+end</code></pre>
+<p>These are the functions we are going to use. Let&#39;s use this for recreating the result.</p>
+<pre><code class="language-julia">using SymPy
+x &#61; Sym&#40;&quot;x&quot;&#41;
+monomials &#61; &#91;x^i for i in 0:5&#93;
+legendre_polynomials &#61; gram_schmidt&#40;monomials,-1,1;w&#61;x^0&#41;
+leg_f &#61; normalized.&#40;legendre_polynomials&#41;
+println&#40;&quot;Without normalization:&quot;&#41;
+for &#40;i, poly&#41; in enumerate&#40;legendre_polynomials&#41;
+    println&#40;&quot;P_&#36;&#40;i-1&#41;&#40;x&#41; &#61; &#36;poly&quot;&#41;
+end
+println&#40;&quot;With Normalization:&quot;&#41;
+for &#40;i, poly&#41; in enumerate&#40;leg_f&#41;
+    println&#40;&quot;P&#39;_&#36;&#40;i-1&#41;&#40;x&#41; &#61; &#36;poly&quot;&#41;
+end</code></pre>
+<p>which gives, <pre><code class="plaintext code-output">Without normalization:
+P_0(x) = 1
+P_1(x) = x
+P_2(x) = x^2 - 1/3
+P_3(x) = x*(x^2 - 3/5)
+P_4(x) = x^4 - 6*x^2/7 + 3/35
+P_5(x) = x*(63*x^4 - 70*x^2 + 15)/63
+With Normalization:
+P'_0(x) = 1
+P'_1(x) = x
+P'_2(x) = 3*x^2/2 - 1/2
+P'_3(x) = 5*x*(x^2 - 3/5)/2
+P'_4(x) = 35*x^4/8 - 15*x^2/4 + 3/8
+P'_5(x) = x*(63*x^4 - 70*x^2 + 15)/8
+</code></pre></p>
+<p>Let&#39;s see one more example:</p>
+<h3 id="hermite_polynomials"><a href="#hermite_polynomials" class="header-anchor">Hermite Polynomials</a></h3>
+<p>We know Legendre Polynomials are defined in the range \(-\infty < x <\infty \). Also, take \(w(x) = \exp(-x^2)\).</p>
+<ol>
+<li><p>Start with \(H_0(x) = 1\). Then using eqn-<span class="eqref">(<a href="#first1">13</a>)</span> we have </p>
+</li>
+</ol>
+\[a_{10} = -\frac{I_1}{I_0} = 0\]
+<p>.</p>
+<ol start="2">
+<li><p>Then, \(H_1(x) = A_1x\). We set the normalization \(A_1 = 1\), this gives us \(H_1(x) = x\).</p>
+</li>
+<li><p>For the next one we get \(a_{21}=0\) and \(a_{20} = -\frac{1}{2}\). Again taking \(A_2 = 1\) gives \(H_2(x) = x^2 - \frac{1}{2}\).</p>
+</li>
+<li><p>Again we can normalize it in the similar way as before which gives us \(H_2(x) = 2x^2-1\).</p>
+</li>
+</ol>
+<p>We can go as long as we want. This are exactly <span style="color: red">Legendre Polynomials</span>.<br/>  It should be noted that we have not taken proper normalization. We can certainly do that. To do that just choose the coefficients such that the sum of them is \(1\).</p>
+<p>Our code gives us,</p>
+<pre><code class="language-julia">monomials &#61; &#91;x^i for i in 0:5&#93;
+hermite_polynomials &#61; gram_schmidt&#40;monomials,-oo,oo;w&#61;exp&#40;-x^2&#41;&#41;
+her_f &#61; normalized.&#40;hermite_polynomials&#41;
+println&#40;&quot;Without normalization:&quot;&#41;
+for &#40;i, poly&#41; in enumerate&#40;hermite_polynomials&#41;
+    println&#40;&quot;H_&#36;&#40;i-1&#41;&#40;x&#41; &#61; &#36;poly&quot;&#41;
+end
+println&#40;&quot;With Normalization:&quot;&#41;
+for &#40;i, poly&#41; in enumerate&#40;her_f&#41;
+    println&#40;&quot;H&#39;_&#36;&#40;i-1&#41;&#40;x&#41; &#61; &#36;poly&quot;&#41;
+end</code></pre>
+<p>which gives, <pre><code class="plaintext code-output">Without normalization:
+H_0(x) = 1
+H_1(x) = x
+H_2(x) = x^2 - 1/2
+H_3(x) = x*(x^2 - 3/2)
+H_4(x) = x^4 - 3*x^2 + 3/4
+H_5(x) = x*(x^4 - 5*x^2 + 15/4)
+With Normalization:
+H'_0(x) = 1
+H'_1(x) = x
+H'_2(x) = 2*x^2 - 1
+H'_3(x) = -2*x*(x^2 - 3/2)
+H'_4(x) = -4*x^4/5 + 12*x^2/5 - 3/5
+H'_5(x) = -4*x*(x^4 - 5*x^2 + 15/4)
+</code></pre></p>
+
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      Consider </p>
+\[w(x) = \frac{1}{\sqrt{1-x^2}}\]
+<p>along with \(-1\leq x \leq 1\). Find the first three values using the method. Don&#39;t use the code in the beginning. Also guess what special function it is?</p>
+<p>Do the same for the same range of \(x\) but with </p>
+\[w(x) = (1-x^2)^{\beta -1/2}\]
+<p>This generates <strong><span style="color: purple">Gegenbauer Polynomial</span></strong>. 
+  </fieldset>
+  
+<h2 id="differential_equations_for_the_polynomials"><a href="#differential_equations_for_the_polynomials" class="header-anchor">Differential Equations for the polynomials</a></h2>
+<p>So, those <strong>Special Functions</strong> are really something born from the structure of <strong>metric</strong> and <strong>hibert-space</strong>. But this implies that <strong><span style="color: blue">differential equtions corresponding to the special functions should be derivable from the \(w(x)\) itself</span></strong>. Let&#39;s see how to do that&#33;</p>
+<h3 id="method"><a href="#method" class="header-anchor">Method</a></h3>
+<p>Let&#39;s say we have an <strong>eigenvalue equation</strong> as,</p>
+<a id="diff_get_1" class="anchor"></a>\[
+a(x)\frac{d^2y}{dx^2}+b(x)\frac{dy}{dx} + cy = 0
+
+\]
+<p>A bit of analysis tells us,</p>
+<a id="diff_get_2" class="anchor"></a>\[
+\frac{d}{dx}[w(x)a(x)]=w(x)b(x)
+
+\]
+<p>Also the <strong>solutions pertaining to different allowed values of \(c\) are orthogonal</strong>.</p>
+<p>So, given a set of <strong>orthogonal polynomials</strong>, we find the differential equation using the following ways:</p>
+<ol>
+<li><p>A constant function is always an eigenfunction, with the eigenvalue \(c_0=0\).</p>
+</li>
+<li><p>An overall factor in the coefficients \(a\), \(b\) and \(c\) is arbitrary, since eigenvalue equation is homogeneous. We can fix this arbitrariness by choosing \(c_1\) to anything we like.</p>
+</li>
+<li><p>Once \(c_1\) is fixed, \(a\) and \(b\) are fixed without any freedom. For \(n=1\), we have from eqn-<span class="eqref">(<a href="#diff_get_2">26</a>)</span> is </p>
+</li>
+</ol>
+\[b(x)\frac{df_1}{dx} = -c_1f_1\]
+<ol start="4">
+<li><p>Using the form of \(f_1(x)=A_1(a_{10}+x)\), we get </p>
+</li>
+</ol>
+<a id="b_val_1" class="anchor"></a>\[b(x)=-c_1(a_{10}+x) \]
+<p>which determines \(b(x)\). 
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      If the polynomials are alternately even and odd, i.e., when the limits as well as the weight function are symmetric about \(x=0\), then \(a_{10}=0\) and so </p>
+\[b(x)=-c_1x\]
+<p>
+  </fieldset>
+  </p>
+<ol start="5">
+<li><p>Now, eqn-<span class="eqref">(<a href="#diff_get_2">26</a>)</span> can be used to find \(a(x)\). Any integration constant can aslo be obtained by </p>
+</li>
+</ol>
+<a id="a_val_pro" class="anchor"></a>\[w(x_1)a(x_1)=w(x_2)a(x_2)=0\]
+<ol start="6">
+<li><p>Finally we can find \(c_n\) for arbitrary \(n\) by putting the value of the <strong>orthogonal polynomial</strong>.</p>
+</li>
+</ol>
+<h3 id="example"><a href="#example" class="header-anchor">Example</a></h3>
+<p>Let&#39;s see an example for this.</p>
+<p>For \(w(x)=1\) and \(x_1=-1\) &amp; \(x_2=1\), we have,</p>
+\[
+\frac{d}{dx}[1\times a(x)] = 1\times b(x) \implies \frac{da}{dx}=b
+\]
+<p>Previously we showed that \(a_{10}=0\) so \(b\) is given by eqn-<span class="eqref">(<a href="#b_val_1">28</a>)</span> as \(b_1 = -c_1 x\).</p>
+<p>This implies \(a = -c_1 x^2/2 + k\) where \(k\) is some unknown constant of integration. Choosing \(c_1 = 2\), we have</p>
+\[
+b = -2x \text{\ \ and \ \ } a = -x^2 + k
+\]
+<p>Finally using eqn-<span class="eqref">(<a href="#a_val_pro">30</a>)</span>, we get,</p>
+\[
+1\times (k-x_1^2) = 1\times (k-x_2^2)=0 \implies k=1
+\]
+<p>This gives,</p>
+\[
+a = 1-x^2
+\]
+<p>So, we have the equation:</p>
+\[
+(1-x^2)\frac{d^2 P_n}{dx^2} - 2x\frac{dP_n}{dx}+c_n P_n = 0
+\]
+<p>Now, we can plug \(P_n\) value of get the \(c_n\) with \(n>1\). But there is a nicer way, Use</p>
+\[
+P_n(x) = \sum_{r=0}^{n}A_{nr}x^r
+\]
+<p>Plugging this into the equation and equating the power of \(x^n\) gives us,</p>
+\[c_n = n(n+1)\]
+
+  <fieldset class=" todo"><legend class=" todo-legend"> 🚧 Example</legend>
+      Briefly let&#39;s see one more. Take \(w(x) = e^{-x^2}\) with \(-\infty < x < +\infty\). Here we will have, </p>
+\[\frac{da}{dx}-2xa = b \implies \frac{da}{dx}=2x(a-1)\]
+<p>Here similar to previous case we have \(a_{10} = 0\), which gives \(b = -c_1x\) and again we have chosen \(c_1 = 2\).    For \(a\) we get,</p>
+\[
+  a-1 = ke^{-x^2} \text{\ \ }k \text{ is integration constant}
+  \]
+<p>using eqn-<span class="eqref">(<a href="#a_val_pro">30</a>)</span>, we have \(k=0\), giving us \(a=1\).   This gives us,</p>
+\[
+  \frac{d^2 H_n}{dx^2} - 2x\frac{dH_n}{dx} +c_nH_n=0
+  \]
+<p>Now for the final touch, just put a power series expansion and compare the coefficients of \(x^n\), which will gives us \(c_n=2n\). 
+  </fieldset>
+  
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      Consider </p>
+\[w(x) = \frac{1}{\sqrt{1-x^2}}\]
+<p>along with \(-1\leq x \leq 1\). Find it&#39;s differential equation.</p>
+<p>Why not try the same for the same range of \(x\) but with </p>
+\[w(x) = (1-x^2)^{\beta -1/2}\]
+<p>
+  </fieldset>
+   Isn&#39;t it nice? _________________________________________________</p>
+<p>I hope you learn something new and enjoyed this article.</p>
+<p>If you have some queries, do let me know in the comments &#40;you need github account&#41; or contact me using my using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    /*
+    var disqus_config = function () {
+    this.page.url = https://rousan.netlify.app/pages/maths/blogs/pi_in_mandel/;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-rousan-netlify-app.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 29, 2024.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+  </body>
+</html>
+
+
+<script>
+  (function(){
+  
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  })();
+  </script>
