@@ -9,7 +9,7 @@ tags = ["physics", "code", "Kazi Abu Rousan"]
 +++
 
 # About me
-Hello!... I am **Kazi Abu Rousan**, a student of [Indian Association for The Cultivation of Science](https://en.wikipedia.org/wiki/Indian_Association_for_the_Cultivation_of_Science), doing my master's degree in Physics with specilization in Cosmology. I also teach Maths and Physics for olympiad in [Cheenta Ganit Kendra](https://www.cheenta.com/).
+Hello! I’m **Kazi Abu Rousan**, a recent graduate from the [Indian Association for The Cultivation of Science](https://en.wikipedia.org/wiki/Indian_Association_for_the_Cultivation_of_Science), where I earned my master's degree in Physics with a specialization in Cosmology. In addition to my academic background, I have a passion for teaching and currently instruct students in Mathematics and Physics for Olympiad preparation at [Cheenta Ganit Kendra](https://www.cheenta.com/).
 ~~~
 <img src="/assets/me.jpeg" alt="It's a me! Rousan" width="500">
 <div class="caption"></div>
