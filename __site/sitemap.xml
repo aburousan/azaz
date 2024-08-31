@@ -27,7 +27,7 @@
 </url>
 <url>
     <loc>https://aburousan.github.io/azazaya/Pages/Physics/blogs/special_func_gen1/index.html</loc>
-    <lastmod>2024-08-29</lastmod>
+    <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -50,8 +50,20 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html</loc>
+    <lastmod>2024-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html</loc>
+    <lastmod>2024-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/phy_co/index.html</loc>
-    <lastmod>2024-07-06</lastmod>
+    <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -63,7 +75,7 @@
 </url>
 <url>
     <loc>https://aburousan.github.io/azazaya/Pages/Tags_page/index.html</loc>
-    <lastmod>2024-07-05</lastmod>
+    <lastmod>2024-08-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -117,7 +129,7 @@
 </url>
 <url>
     <loc>https://aburousan.github.io/azazaya/Pages/about_me/index.html</loc>
-    <lastmod>2024-07-05</lastmod>
+    <lastmod>2024-08-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>

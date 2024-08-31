@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Azazaya  ]]>
+    </title>
+    <link> https://aburousan.github.io/azazaya/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://aburousan.github.io/azazaya/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  Intro<em>2</em>QFT_1  ]]>
+  </title>
+  <link> https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html </link>
+  <guid> https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html </guid>
+  <description>
+    <![CDATA[  A Introductory course on Quantum Field Theory  ]]>
+  </description>  
+    
+  <pubDate>Sat, 31 Aug 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>

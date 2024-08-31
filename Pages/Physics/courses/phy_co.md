@@ -12,4 +12,4 @@ tags = ["physics", "courses"]
 
 This contains the list of courses & books in the website:\\
 (*This part will be updated as new courses & books are added*)
-1. 
+1. [Introduction to Quantum Field Theory with Canonical Quanlization](/Pages/Physics/courses/Intro_to_QFT/Course_Page/).
