@@ -78,6 +78,11 @@ _______
 **Lecture Notes and Books**: [Books & Notes](/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/)\\
 **Assignments**: [Coming Soon]\\
 
+
+~~~
+<button onclick="window.history.back()">Go Back</button>
+~~~
+
 ~~~
 <div id="disqus_thread"></div>
 <script>

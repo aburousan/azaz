@@ -39,23 +39,4 @@
   </atom:author>
         
 </item>
-
-<item>
-  <title>
-    <![CDATA[  Time Dilation as Coordinate Transformation  ]]>
-  </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Physics/blogs/TD_as_CT/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Physics/blogs/TD_as_CT/index.html </guid>
-  <description>
-    <![CDATA[  A visual understanding on how we can visualize Time Dilation as a simple result of coordinate transformation.  ]]>
-  </description>  
-    
-  <pubDate>Sun, 02 Jul 2023 00:00:00 +0000</pubDate>  
-  
-  
-  <atom:author>
-    <atom:name>Kazi Abu Rousan</atom:name>
-  </atom:author>
-        
-</item>
 </channel></rss>

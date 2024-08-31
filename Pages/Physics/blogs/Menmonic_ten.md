@@ -160,7 +160,12 @@ Reproducing our result.
 
 Hope this helps you in some way. If you like it then share with others if possible.
 
-If you have some queries, do let me know in the comments (you need github account) or contact me using my using the informations that are given on the page [About Me](/Pages/about_me/).
+If you have some queries, do let me know in the comments or contact me using my using the informations that are given on the page [About Me](/Pages/about_me/).
+
+~~~
+<button onclick="window.history.back()">Go Back</button>
+~~~
+
 
 ~~~
 <div id="disqus_thread"></div>

@@ -101,7 +101,14 @@ This will be filled as we go on.
   </tr>
 </table>
 ~~~
+Go back to [Course Page](/Pages/Physics/courses/Intro_to_QFT/Course_Page/).
 
+~~~
+<!-- Hyperlinked Button -->
+<a href="/Pages/Physics/courses/Intro_to_QFT/Course_Page/">
+    <button>Course Page</button>
+</a>
+~~~
 
 
 ~~~

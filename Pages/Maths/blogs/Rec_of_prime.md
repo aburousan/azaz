@@ -210,6 +210,10 @@ I hope you all like this interesting piece of knowlege. Just think how much bles
 If you have some question, do let me know in the comments or contact me using my using the informations are given in the page [About Me](/Pages/about_me/).
 
 ~~~
+<button onclick="window.history.back()">Go Back</button>
+~~~
+
+~~~
 <div id="disqus_thread"></div>
 <script>
     /**

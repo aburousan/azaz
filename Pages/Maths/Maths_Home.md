@@ -98,3 +98,7 @@ The output is:
   </div>
 </div>
 ~~~
+
+~~~
+<button onclick="window.history.back()">Go Back</button>
+~~~

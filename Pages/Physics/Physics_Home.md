@@ -80,3 +80,7 @@ Now for the first one its fine. But for the second one, I can't do anything. So,
   </div>
 </div>
 ~~~
+
+~~~
+<button onclick="window.history.back()">Go Back</button>
+~~~

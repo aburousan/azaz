@@ -16,3 +16,7 @@ This contains some interesting things related to Mathematics :\\
 2. [Introduction to Monte Carlo Integration](/Pages/Maths/blogs/Monte_Carlo_Inte/) --> Hell Yeah!... Second Blog
 3. [Playing with Tupper's Formula in Julia](/Pages/Maths/blogs/Tupper_Form/) --> Just for fun.
 4. [Hidden Pi inside Mandelbrot Set](/Pages/Maths/blogs/Pi_in_Mandel/) --> Just for fun.
+
+~~~
+<button onclick="window.history.back()">Go Back</button>
+~~~

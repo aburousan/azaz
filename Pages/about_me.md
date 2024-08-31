@@ -79,4 +79,8 @@ Some of my blogs on medium are,
 <img src="/assets/book.jpg" alt="My Book" width="400">
 ~~~
 
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Faburousan.github.io%2Fazazaya%2FPages%2Fabout_me%2F&count_bg=%2315987B&title_bg=%23530727&icon=atom.svg&icon_color=%23E7E7E7&title=visits&edge_flat=false)](https://hits.seeyoufarm.com)
+
+
+~~~
+<button onclick="window.history.back()">Go Back</button>
+~~~

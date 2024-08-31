@@ -237,7 +237,11 @@ There are few points we should note:
 
 I tried my best to explain this, although I am not sure how much you guys have understood but I hope, atleast you have found of insight on this topic.
 
-If you have some queries, do let me know in the comments (you need github account) or contact me using my using the informations that are given on the page [About Me](/Pages/about_me/).
+If you have some queries, do let me know in the comments or contact me using my using the informations that are given on the page [About Me](/Pages/about_me/).
+
+~~~
+<button onclick="window.history.back()">Go Back</button>
+~~~
 
 ~~~
 <script src="https://utteranc.es/client.js"

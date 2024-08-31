@@ -234,6 +234,9 @@ ______________________________
 As you can see, it's really nice and feels a bit like blackmagic. Hope you enjoyed this.
 
 If you have some queries, do let me know in the comments or contact me using my using the informations that are given on the page [About Me](/Pages/about_me/).
+~~~
+<button onclick="window.history.back()">Go Back</button>
+~~~
 
 
 ~~~

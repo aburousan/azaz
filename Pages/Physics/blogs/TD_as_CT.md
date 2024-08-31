@@ -179,7 +179,10 @@ I tried my best to explain this, although I am not sure how much you guys have u
 ### A question for you the Reader
 Try explaining the Time Dilation using this method for the case of Mueon particle.
 
-If you have some question, do let me know in the comments (you need github account) or contact me using my using the informations are given in the page [About Me](/Pages/about_me/).
+If you have some question, do let me know in the comments or contact me using my using the informations are given in the page [About Me](/Pages/about_me/).
+~~~
+<button onclick="window.history.back()">Go Back</button>
+~~~
 
 ~~~
 <div id="disqus_thread"></div>
