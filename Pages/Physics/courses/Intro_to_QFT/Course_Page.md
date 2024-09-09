@@ -75,8 +75,8 @@ _______
 
 
 **List of Participents**: [Coming Soon]\\
-**Lecture Notes and Books**: [Books & Notes](/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/)\\
-**Assignments**: [Coming Soon]\\
+**Books for Course**: [Recommended Books](/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/)\\
+**Assignments and Notes**: [Notes and Assignment](/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/)\\
 
 
 ~~~

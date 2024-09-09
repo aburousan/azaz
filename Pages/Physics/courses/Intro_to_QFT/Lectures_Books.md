@@ -85,22 +85,7 @@ Group Theory --> GT, Qauntum Field Theory --> QFT
   </tr>
 </table>
 ~~~
-### Lecture Notes:
-This will be filled as we go on.
-~~~
-<table>
-  <tr>
-    <th style="background-color:#006cff; color:white;">Lecture No.</th>
-    <th style="background-color:#006cff; color:white;">Date</th>
-    <th style="background-color:#006cff; color:white;">Link</th>
-  </tr>
-  <tr>
-    <th style="background-color:#a8f8ff;">Lecture-1</th>
-    <th style="background-color:#a8f8ff;">08/09/2024</th>
-    <th style="background-color:#a8f8ff;">Link----1</th>
-  </tr>
-</table>
-~~~
+
 Go back to [Course Page](/Pages/Physics/courses/Intro_to_QFT/Course_Page/).
 
 ~~~
