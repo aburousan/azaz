@@ -86,7 +86,6 @@ Group Theory --> GT, Qauntum Field Theory --> QFT
 </table>
 ~~~
 
-Go back to [Course Page](/Pages/Physics/courses/Intro_to_QFT/Course_Page/).
 
 ~~~
 <!-- Hyperlinked Button -->

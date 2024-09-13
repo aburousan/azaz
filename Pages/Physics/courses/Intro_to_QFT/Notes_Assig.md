@@ -26,13 +26,19 @@ This will be filled as we go on.
   <tr>
     <th style="background-color:#a8f8ff;">Lecture-0</th>
     <th style="background-color:#a8f8ff;">08/09/2024</th>
-    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1L8fCLF2YJA21tUISjGmxdoTWq9JLusCM/view?usp=drive_link">Lec-0</a></th>
+    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1g23cLnIZIFHkZfx7fMDXXrnfyiA4J_GV/view?usp=sharing">Lec-0</a></th>
     <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1AHGOwAbyFmemlCFNalZj6DmW-0PtTRU7/view?usp=drive_link">Lec-0</a></th>
     <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1msgv0pNA9oB_tXg0mAx56uahyPnTs5mi/view?usp=drive_link">Assign-0</a></th>
   </tr>
+  <tr>
+    <th style="background-color:#a8f8ff;">Lecture-1</th>
+    <th style="background-color:#a8f8ff;">15/09/2024</th>
+    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1O7bOcQJyVe4uxU1BOIA9DSEbVYbtM002/view?usp=sharing">Lec-1</a></th>
+    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1AHGOwAbyFmemlCFNalZj6DmW-0PtTRU7/view?usp=drive_link">Lec-1(Not added yet)</a></th>
+    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1msgv0pNA9oB_tXg0mAx56uahyPnTs5mi/view?usp=drive_link">Assign-1 (Not yet added)</a></th>
+  </tr>
 </table>
 ~~~
-Go back to [Course Page](/Pages/Physics/courses/Intro_to_QFT/Course_Page/).
 
 ~~~
 <!-- Hyperlinked Button -->

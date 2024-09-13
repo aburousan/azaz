@@ -51,13 +51,13 @@
 </url>
 <url>
     <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2024-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html</loc>
-    <lastmod>2024-08-31</lastmod>
+    <lastmod>2024-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -100,6 +100,12 @@
 <url>
     <loc>https://aburousan.github.io/azazaya/Pages/Physics/Physics_Home/index.html</loc>
     <lastmod>2024-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html</loc>
+    <lastmod>2024-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
