@@ -34,8 +34,8 @@ This will be filled as we go on.
     <th style="background-color:#a8f8ff;">Lecture-1</th>
     <th style="background-color:#a8f8ff;">15/09/2024</th>
     <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1O7bOcQJyVe4uxU1BOIA9DSEbVYbtM002/view?usp=sharing">Lec-1</a></th>
-    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1AHGOwAbyFmemlCFNalZj6DmW-0PtTRU7/view?usp=drive_link">Lec-1(Not added yet)</a></th>
-    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1msgv0pNA9oB_tXg0mAx56uahyPnTs5mi/view?usp=drive_link">Assign-1 (Not yet added)</a></th>
+    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1Asb3r1gihBYMRcd6Zz7Qlx9hJ-NdSmDj/view?usp=sharing">Lec-1</a></th>
+    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1kp-fr-QupnuK7NotyBCLt9dkmTj9DsP7/view?usp=sharing">Assign-1</a></th>
   </tr>
 </table>
 ~~~
