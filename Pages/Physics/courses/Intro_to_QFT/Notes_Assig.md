@@ -33,9 +33,16 @@ This will be filled as we go on.
   <tr>
     <th style="background-color:#a8f8ff;">Lecture-1</th>
     <th style="background-color:#a8f8ff;">15/09/2024</th>
-    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1O7bOcQJyVe4uxU1BOIA9DSEbVYbtM002/view?usp=sharing">Lec-1</a></th>
-    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1Asb3r1gihBYMRcd6Zz7Qlx9hJ-NdSmDj/view?usp=sharing">Lec-1</a></th>
+    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1CgFin5IMJEytWZNHJXAsxsR3RrRzhqlP/view?usp=sharing">Lec-1</a></th>
+    <th style="background-color:#a8f8ff;"><a href="https://cloud.notewise.dev/note/7jieVpWljsFFVvU51JlJ4T02">Lec-1</a></th>
     <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1kp-fr-QupnuK7NotyBCLt9dkmTj9DsP7/view?usp=sharing">Assign-1</a></th>
+  </tr>
+    <tr>
+    <th style="background-color:#a8f8ff;">Lecture-2</th>
+    <th style="background-color:#a8f8ff;">22/09/2024</th>
+    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1Cf-ykzBs0FfewySmWl1tkbMbEEKbgALd/view?usp=sharing">Lec-2</a></th>
+    <th style="background-color:#a8f8ff;"><a href="https://cloud.notewise.dev/note/nocorVzeFFoLyov3pPflG0AC">Lec-2</a></th>
+    <th style="background-color:#a8f8ff;"><a href="https://drive.google.com/file/d/1kp-fr-QupnuK7NotyBCLt9dkmTj9DsP7/view?usp=sharing">Assign-(Not added yet)</a></th>
   </tr>
 </table>
 ~~~
