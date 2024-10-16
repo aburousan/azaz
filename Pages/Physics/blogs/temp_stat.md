@@ -229,7 +229,10 @@ But as expected in their equilibrium, their temperatures are same.
     Try modifying the code so that we can also plot their microstate number as a function of temperature.
 }
 
-Before ending let's see one more example. Suppose, we have a box of coins and number of heads represent the energy of the system (This is wrong as energy is not constant). Then, let's write the code:
+Before ending let's see one more example. Suppose, we have a box of coins and number of heads represent the energy of the system (This is wrong as energy is not constant, but still it will give you some idea for the problem below).
+
+
+ Then, let's write the code:
 <!-- 1. The model is associated with many harmonic oscillators. The energy of each oscillator is $\epsilon = h \nu$. Now, if the total energy of the system is $E$, then $E = q \epsilon$ where $q$ is the number of energy quanta.
 2. For an Einstein solid with $N$ oscillator and total energy $E$, the number of microstate $\Omega$ is given by,
 $$
@@ -281,6 +284,7 @@ With this
 }
 [ref]: http://dx.doi.org/10.1119/1.18490
 
+We can actually use a more fundamental idea called **\col{purple}{Partition Function}** and **\col{purple}{Grand Partition Function}** but let's just end here for today. If you are cursious why not see few formulas to see the power of partition function?, for that visit this [nebo notebook](https://www.nebo.app/page/e25d3c3d-ff37-499a-b7a0-f1673d2f4a81).
 
 ---
 

@@ -271,14 +271,14 @@ savefig&#40;p1, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat01.json&quot;&#41;&#4
 plot&#40;temperatures_1, lw&#61;2, label&#61;&quot;Temperature of Body 1 &#40;T1&#41;&quot;, xlabel&#61;&quot;Steps&quot;, ylabel&#61;&quot;Temperature&quot;, title&#61;&quot;Temperature Equilibration between Bodies&quot;&#41;
 p2 &#61; plot&#33;&#40;temperatures_2,lw&#61;2, label&#61;&quot;Temperature of Body 2 &#40;T2&#41;&quot;&#41;
 savefig&#40;p2, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat02.json&quot;&#41;&#41;</code></pre>
-<p>Let&#39;s see the plots: For the energy we can clearly see both bodies&#39;s energy are not equal in equilibrium as their specific heats are different &#40;verify that their specific heats are different&#41;. <div id="fdpszb" style=""></div>
+<p>Let&#39;s see the plots: For the energy we can clearly see both bodies&#39;s energy are not equal in equilibrium as their specific heats are different &#40;verify that their specific heats are different&#41;. <div id="fdpsug" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpszb");
+graphDiv = document.getElementById("fdpsug");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat01.json');
 </script>
- But as expected in their equilibrium, their temperatures are same. <div id="fdpnvu" style=""></div>
+ But as expected in their equilibrium, their temperatures are same. <div id="fdpbmh" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpnvu");
+graphDiv = document.getElementById("fdpbmh");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat02.json');
 </script>
  
@@ -286,7 +286,8 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/c
       Try modifying the code so that we can also plot their microstate number as a function of temperature. 
   </fieldset>
   </p>
-<p>Before ending let&#39;s see one more example. Suppose, we have a box of coins and number of heads represent the energy of the system &#40;This is wrong as energy is not constant&#41;. Then, let&#39;s write the code:</p>
+<p>Before ending let&#39;s see one more example. Suppose, we have a box of coins and number of heads represent the energy of the system &#40;This is wrong as energy is not constant, but still it will give you some idea for the problem below&#41;.</p>
+<p>Then, let&#39;s write the code:</p>
 <pre><code class="language-julia">using Plots;plotlyjs&#40;&#41;
 function omega&#40;N::Int, k::Int&#41;
     return binomial&#40;BigInt&#40;N&#41;, BigInt&#40;k&#41;&#41;
@@ -321,16 +322,16 @@ end</code></pre>
 <p>Now, let&#39;s plot this:</p>
 <pre><code class="language-julia">p &#61; plot_results&#40;50&#41;
 savefig&#40;p, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat1.json&quot;&#41;&#41;</code></pre>
-<p><div id="fdpfyd" style=""></div>
+<p><div id="fdpgdf" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpfyd");
+graphDiv = document.getElementById("fdpgdf");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat1.json');
 </script>
  With this 
   <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
       Try doing the same for Einstein Model of solid. If needed read this paper: <a href="http://dx.doi.org/10.1119/1.18490">http://dx.doi.org/10.1119/1.18490</a>. 
   </fieldset>
-   </p>
+    We can actually use a more fundamental idea called <strong><span style="color: purple">Partition Function</span></strong> and <strong><span style="color: purple">Grand Partition Function</span></strong> but let&#39;s just end here for today. If you are cursious why not see few formulas to see the power of partition function?, for that visit this <a href="https://www.nebo.app/page/e25d3c3d-ff37-499a-b7a0-f1673d2f4a81">nebo notebook</a>.</p>
 <hr />
 <p>Hope this helps you in some way. If you like it then share with others if possible.</p>
 <p>If you have some queries, do let me know in the comments or contact me using my using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
