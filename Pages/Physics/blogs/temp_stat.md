@@ -263,9 +263,9 @@ end
 function plot_results(N)
     energies, microstates, temperatures, entropies = simulate_coin_toss(N)
     p = plot(layout = (3, 1), size = (1200, 1800))
-    p = plot!(energies, microstates, lw=2, xlabel="Energy (Number of Heads)", ylabel="Microstates (Ω)", title="Microstates (Ω)", subplot=1)
-    p = plot!(energies, temperatures, lw=2, color=:red, xlabel="Energy (Number of Heads)", ylabel="Temperature (T)", title="Temperature (T)", subplot=2)
-    p = plot!(energies, entropies, lw=2, color=:green, xlabel="Energy (Number of Heads)", ylabel="Entropy (S)", title="Entropy (S)", subplot=3)
+    p = plot!(energies, microstates, lw=2,label="", xlabel="Energy (Number of Heads)", ylabel="Microstates (Ω)", title="Microstates (Ω)", subplot=1)
+    p = plot!(energies, temperatures, lw=2,label="", color=:red, xlabel="Energy (Number of Heads)", ylabel="Temperature (T)", title="Temperature (T)", subplot=2)
+    p = plot!(energies, entropies, lw=2, color=:green,label="", xlabel="Energy (Number of Heads)", ylabel="Entropy (S)", title="Entropy (S)", subplot=3)
     return p
 end
 ```
@@ -301,7 +301,7 @@ If you have some queries, do let me know in the comments or contact me using my 
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
     /*
     var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/physics/blogs/menmonic_ten/;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.url = https://rousan.netlify.app/pages/physics/blogs/temp_stat/;  // Replace PAGE_URL with your page's canonical URL variable
     this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
     */

@@ -271,7 +271,17 @@ savefig&#40;p1, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat01.json&quot;&#41;&#4
 plot&#40;temperatures_1, lw&#61;2, label&#61;&quot;Temperature of Body 1 &#40;T1&#41;&quot;, xlabel&#61;&quot;Steps&quot;, ylabel&#61;&quot;Temperature&quot;, title&#61;&quot;Temperature Equilibration between Bodies&quot;&#41;
 p2 &#61; plot&#33;&#40;temperatures_2,lw&#61;2, label&#61;&quot;Temperature of Body 2 &#40;T2&#41;&quot;&#41;
 savefig&#40;p2, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat02.json&quot;&#41;&#41;</code></pre>
-<p>Let&#39;s see the plots: For the energy we can clearly see both bodies&#39;s energy are not equal in equilibrium as their specific heats are different &#40;verify that their specific heats are different&#41;. <p><span style="color:red;">// Image matching '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat01' not found. //</span></p> But as expected in their equilibrium, their temperatures are same. <p><span style="color:red;">// Image matching '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat02' not found. //</span></p> 
+<p>Let&#39;s see the plots: For the energy we can clearly see both bodies&#39;s energy are not equal in equilibrium as their specific heats are different &#40;verify that their specific heats are different&#41;. <div id="fdpszb" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpszb");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat01.json');
+</script>
+ But as expected in their equilibrium, their temperatures are same. <div id="fdpnvu" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpnvu");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat02.json');
+</script>
+ 
   <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
       Try modifying the code so that we can also plot their microstate number as a function of temperature. 
   </fieldset>
@@ -303,15 +313,20 @@ end
 function plot_results&#40;N&#41;
     energies, microstates, temperatures, entropies &#61; simulate_coin_toss&#40;N&#41;
     p &#61; plot&#40;layout &#61; &#40;3, 1&#41;, size &#61; &#40;1200, 1800&#41;&#41;
-    p &#61; plot&#33;&#40;energies, microstates, lw&#61;2, xlabel&#61;&quot;Energy &#40;Number of Heads&#41;&quot;, ylabel&#61;&quot;Microstates &#40;Ω&#41;&quot;, title&#61;&quot;Microstates &#40;Ω&#41;&quot;, subplot&#61;1&#41;
-    p &#61; plot&#33;&#40;energies, temperatures, lw&#61;2, color&#61;:red, xlabel&#61;&quot;Energy &#40;Number of Heads&#41;&quot;, ylabel&#61;&quot;Temperature &#40;T&#41;&quot;, title&#61;&quot;Temperature &#40;T&#41;&quot;, subplot&#61;2&#41;
-    p &#61; plot&#33;&#40;energies, entropies, lw&#61;2, color&#61;:green, xlabel&#61;&quot;Energy &#40;Number of Heads&#41;&quot;, ylabel&#61;&quot;Entropy &#40;S&#41;&quot;, title&#61;&quot;Entropy &#40;S&#41;&quot;, subplot&#61;3&#41;
+    p &#61; plot&#33;&#40;energies, microstates, lw&#61;2,label&#61;&quot;&quot;, xlabel&#61;&quot;Energy &#40;Number of Heads&#41;&quot;, ylabel&#61;&quot;Microstates &#40;Ω&#41;&quot;, title&#61;&quot;Microstates &#40;Ω&#41;&quot;, subplot&#61;1&#41;
+    p &#61; plot&#33;&#40;energies, temperatures, lw&#61;2,label&#61;&quot;&quot;, color&#61;:red, xlabel&#61;&quot;Energy &#40;Number of Heads&#41;&quot;, ylabel&#61;&quot;Temperature &#40;T&#41;&quot;, title&#61;&quot;Temperature &#40;T&#41;&quot;, subplot&#61;2&#41;
+    p &#61; plot&#33;&#40;energies, entropies, lw&#61;2, color&#61;:green,label&#61;&quot;&quot;, xlabel&#61;&quot;Energy &#40;Number of Heads&#41;&quot;, ylabel&#61;&quot;Entropy &#40;S&#41;&quot;, title&#61;&quot;Entropy &#40;S&#41;&quot;, subplot&#61;3&#41;
     return p
 end</code></pre>
 <p>Now, let&#39;s plot this:</p>
 <pre><code class="language-julia">p &#61; plot_results&#40;50&#41;
 savefig&#40;p, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat1.json&quot;&#41;&#41;</code></pre>
-<p><p><span style="color:red;">// Image matching '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat1' not found. //</span></p> With this 
+<p><div id="fdpfyd" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpfyd");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat1.json');
+</script>
+ With this 
   <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
       Try doing the same for Einstein Model of solid. If needed read this paper: <a href="http://dx.doi.org/10.1119/1.18490">http://dx.doi.org/10.1119/1.18490</a>. 
   </fieldset>
@@ -330,7 +345,7 @@ savefig&#40;p, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat1.json&quot;&#41;&#41;
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
     /*
     var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/physics/blogs/menmonic_ten/;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.url = https://rousan.netlify.app/pages/physics/blogs/temp_stat/;  // Replace PAGE_URL with your page's canonical URL variable
     this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
     */
