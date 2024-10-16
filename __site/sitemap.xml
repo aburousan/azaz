@@ -2,157 +2,163 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-    <loc>https://aburousan.github.io/azazaya/index.html</loc>
+    <loc>https://rousan.netlify.app/index.html</loc>
     <lastmod>2024-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Maths/blogs/Monte_Carlo_Inte/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Maths/blogs/Monte_Carlo_Inte/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/blogs/TD_as_CT/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Physics/blogs/temp_stat/index.html</loc>
+    <lastmod>2024-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://rousan.netlify.app/Pages/Physics/blogs/TD_as_CT/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/franklin/index.html</loc>
+    <loc>https://rousan.netlify.app/franklin/index.html</loc>
     <lastmod>2024-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/blogs/special_func_gen1/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/papers/phy_papers/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Physics/papers/phy_papers/index.html</loc>
     <lastmod>2024-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/blogs/Light_Momentum/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Physics/blogs/Light_Momentum/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/blogs/Menmonic_ten/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Physics/blogs/Menmonic_ten/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html</loc>
     <lastmod>2024-09-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html</loc>
-    <lastmod>2024-09-19</lastmod>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html</loc>
+    <lastmod>2024-09-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/art/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/art/index.html</loc>
     <lastmod>2024-09-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/phy_co/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/phy_co/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Maths/blogs/Pi_in_Mandel/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Tags_page/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Tags_page/index.html</loc>
     <lastmod>2024-08-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Maths/blogs/Rec_of_prime/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Maths/blogs/Rec_of_prime/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Maths/Maths_Home/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Maths/Maths_Home/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Maths/courses/math_co/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Maths/courses/math_co/index.html</loc>
     <lastmod>2024-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/Physics_Home/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html</loc>
-    <lastmod>2024-09-15</lastmod>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html</loc>
+    <lastmod>2024-09-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Maths/blogs/Tupper_Form/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Maths/blogs/Tupper_Form/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Maths/blogs/math_blog/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Maths/blogs/math_blog/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Maths/papers/math_papers/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/Maths/papers/math_papers/index.html</loc>
     <lastmod>2024-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/home_page/index.html</loc>
+    <loc>https://rousan.netlify.app/home_page/index.html</loc>
     <lastmod>2024-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/about_me/index.html</loc>
+    <loc>https://rousan.netlify.app/Pages/about_me/index.html</loc>
     <lastmod>2024-09-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/Pages/Physics/blogs/phy_blog/index.html</loc>
-    <lastmod>2024-08-31</lastmod>
+    <loc>https://rousan.netlify.app/Pages/Physics/blogs/phy_blog/index.html</loc>
+    <lastmod>2024-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>https://aburousan.github.io/azazaya/index/</loc>
+    <loc>https://rousan.netlify.app/index/</loc>
     <lastmod>2024-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

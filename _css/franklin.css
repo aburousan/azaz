@@ -577,3 +577,25 @@ NOTE
   font-variant: small-caps;
   font-size: 0.95em;
 }
+
+
+.defn {
+  margin-top: 1.25em;
+  margin-bottom: 2em;
+  background-color: #f8e1f4;
+  border: 0px;
+  border-radius: 7px;
+  font-size: 0.95em;
+  color: #333;
+}
+.defn-legend {
+  color: #fff;
+  background-color: #e91e63;
+  padding-left: .5em;
+  padding-right: .5em;
+  padding-bottom: .1em;
+  border-radius: 5px;
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.95em;
+}

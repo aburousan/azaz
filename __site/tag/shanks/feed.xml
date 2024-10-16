@@ -11,12 +11,12 @@
     <title>
       <![CDATA[  Azazaya  ]]>
     </title>
-    <link> https://aburousan.github.io/azazaya/ </link>
+    <link> https://rousan.netlify.app/ </link>
     <description>
       <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
     </description>
     <atom:link
-      href="https://aburousan.github.io/azazaya/feed.xml"
+      href="https://rousan.netlify.app/feed.xml"
       rel="self"
       type="application/rss+xml" />
 
@@ -25,8 +25,8 @@
   <title>
     <![CDATA[  Reciprocals of Primes  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Rec_of_prime/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Rec_of_prime/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Rec_of_prime/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Rec_of_prime/index.html </guid>
   <description>
     <![CDATA[  A brief discussion on the fact that taking the reciprocals of primes will generate numbers which repeat after certain digits. Here we will understand why this happens and will write a code to find out the period.  ]]>
   </description>  

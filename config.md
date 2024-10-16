@@ -19,7 +19,7 @@ ignore = ["node_modules/"]
 generate_rss = true
 website_title = "Azazaya"
 website_descr = "Personal Website of Kazi Abu Rousan"
-website_url   = "https://aburousan.github.io/azazaya/"
+website_url   = "https://rousan.netlify.app/"
 +++
 
 @def prepath = "azazaya"
@@ -127,6 +127,12 @@ println(py"res")
 
 \newcommand{\poem}[1]{
   \fieldset{poem}{🪶 Poem}{
+    #1
+  }
+}
+
+\newcommand{\defn}[1]{
+  \fieldset{defn}{🧠 Defn}{
     #1
   }
 }

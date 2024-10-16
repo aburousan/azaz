@@ -11,12 +11,12 @@
     <title>
       <![CDATA[  Azazaya  ]]>
     </title>
-    <link> https://aburousan.github.io/azazaya/ </link>
+    <link> https://rousan.netlify.app/ </link>
     <description>
       <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
     </description>
     <atom:link
-      href="https://aburousan.github.io/azazaya/feed.xml"
+      href="https://rousan.netlify.app/feed.xml"
       rel="self"
       type="application/rss+xml" />
 
@@ -25,8 +25,8 @@
   <title>
     <![CDATA[  Introduction to Monte Carlo Integration  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Pi_in_Mandel/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Pi_in_Mandel/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </guid>
   <description>
     <![CDATA[  A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it&#39;s theory.  ]]>
   </description>  

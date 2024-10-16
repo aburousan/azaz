@@ -11,12 +11,12 @@
     <title>
       <![CDATA[  Azazaya  ]]>
     </title>
-    <link> https://aburousan.github.io/azazaya/ </link>
+    <link> https://rousan.netlify.app/ </link>
     <description>
       <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
     </description>
     <atom:link
-      href="https://aburousan.github.io/azazaya/feed.xml"
+      href="https://rousan.netlify.app/feed.xml"
       rel="self"
       type="application/rss+xml" />
 
@@ -25,8 +25,8 @@
   <title>
     <![CDATA[  Special Function and it&#39;s generation  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Physics/blogs/special_func_gen1/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Physics/blogs/special_func_gen1/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html </guid>
   <description>
     <![CDATA[  A brief discussion on Introduction on how to generate special functions using the tools of linear algebra.  ]]>
   </description>  
@@ -44,8 +44,8 @@
   <title>
     <![CDATA[  Introduction to Monte Carlo Integration  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Pi_in_Mandel/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Pi_in_Mandel/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </guid>
   <description>
     <![CDATA[  A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it&#39;s theory.  ]]>
   </description>  
@@ -63,8 +63,8 @@
   <title>
     <![CDATA[  Introduction to Monte Carlo Integration  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </guid>
   <description>
     <![CDATA[  A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it&#39;s theory.  ]]>
   </description>  
@@ -82,8 +82,8 @@
   <title>
     <![CDATA[  Playing with Tupper&#39;s Formula in Julia  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Tupper_Form/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Tupper_Form/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Tupper_Form/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Tupper_Form/index.html </guid>
   <description>
     <![CDATA[  A brief intro to Tupper&#39;s Formula with Julia. Here we will see how to perform this in julia language.  ]]>
   </description>  
@@ -101,8 +101,8 @@
   <title>
     <![CDATA[  Reciprocals of Primes  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Rec_of_prime/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Maths/blogs/Rec_of_prime/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Rec_of_prime/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Rec_of_prime/index.html </guid>
   <description>
     <![CDATA[  A brief discussion on the fact that taking the reciprocals of primes will generate numbers which repeat after certain digits. Here we will understand why this happens and will write a code to find out the period.  ]]>
   </description>  
@@ -120,8 +120,8 @@
   <title>
     <![CDATA[  More goodies  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Physics/Physics_Home/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Physics/Physics_Home/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html </guid>
   <description>
     <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
   </description>  
@@ -139,8 +139,8 @@
   <title>
     <![CDATA[  More goodies  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/about_me/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/about_me/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/about_me/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/about_me/index.html </guid>
   <description>
     <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
   </description>  
@@ -158,8 +158,8 @@
   <title>
     <![CDATA[  Mathematics Blog  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Maths/Maths_Home/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Maths/Maths_Home/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/Maths_Home/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/Maths_Home/index.html </guid>
   <description>
     <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/3/32/Rick_and_Morty_opening_credits.jpeg" alt="" />  ]]>
   </description>  

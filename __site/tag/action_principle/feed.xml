@@ -11,12 +11,12 @@
     <title>
       <![CDATA[  Azazaya  ]]>
     </title>
-    <link> https://aburousan.github.io/azazaya/ </link>
+    <link> https://rousan.netlify.app/ </link>
     <description>
       <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
     </description>
     <atom:link
-      href="https://aburousan.github.io/azazaya/feed.xml"
+      href="https://rousan.netlify.app/feed.xml"
       rel="self"
       type="application/rss+xml" />
 
@@ -25,8 +25,8 @@
   <title>
     <![CDATA[  Books<em>Lecture</em>QFT1  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html </guid>
   <description>
     <![CDATA[  List of Books and Lecture Notes for the QFT1 course taken by Kazi Abu Rousan  ]]>
   </description>  
@@ -44,8 +44,8 @@
   <title>
     <![CDATA[  Lecture<em>Notes</em>and<em>Assignment</em>QFT1  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </guid>
   <description>
     <![CDATA[  Lecture Notes and Assignment for the QFT1 course taken by Kazi Abu Rousan  ]]>
   </description>  

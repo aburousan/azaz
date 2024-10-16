@@ -1,4 +1,4 @@
-Sitemap: https://aburousan.github.io/azazaya/sitemap.xml
+Sitemap: https://rousan.netlify.app/sitemap.xml
 
 User-agent: *
 Disallow:

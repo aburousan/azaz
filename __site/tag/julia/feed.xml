@@ -11,22 +11,41 @@
     <title>
       <![CDATA[  Azazaya  ]]>
     </title>
-    <link> https://aburousan.github.io/azazaya/ </link>
+    <link> https://rousan.netlify.app/ </link>
     <description>
       <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
     </description>
     <atom:link
-      href="https://aburousan.github.io/azazaya/feed.xml"
+      href="https://rousan.netlify.app/feed.xml"
       rel="self"
       type="application/rss+xml" />
 
 
 <item>
   <title>
+    <![CDATA[  What exactly is Temperature  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/temp_stat/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/temp_stat/index.html </guid>
+  <description>
+    <![CDATA[  A visual understanding on how we can visualize Time Dilation as a simple result of coordinate transformation.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 15 Oct 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  Time Dilation as Coordinate Transformation  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Physics/blogs/TD_as_CT/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Physics/blogs/TD_as_CT/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/TD_as_CT/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/TD_as_CT/index.html </guid>
   <description>
     <![CDATA[  A visual understanding on how we can visualize Time Dilation as a simple result of coordinate transformation.  ]]>
   </description>  

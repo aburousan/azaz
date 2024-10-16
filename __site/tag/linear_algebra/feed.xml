@@ -11,12 +11,12 @@
     <title>
       <![CDATA[  Azazaya  ]]>
     </title>
-    <link> https://aburousan.github.io/azazaya/ </link>
+    <link> https://rousan.netlify.app/ </link>
     <description>
       <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
     </description>
     <atom:link
-      href="https://aburousan.github.io/azazaya/feed.xml"
+      href="https://rousan.netlify.app/feed.xml"
       rel="self"
       type="application/rss+xml" />
 
@@ -25,8 +25,8 @@
   <title>
     <![CDATA[  Special Function and it&#39;s generation  ]]>
   </title>
-  <link> https://aburousan.github.io/azazaya/Pages/Physics/blogs/special_func_gen1/index.html </link>
-  <guid> https://aburousan.github.io/azazaya/Pages/Physics/blogs/special_func_gen1/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html </guid>
   <description>
     <![CDATA[  A brief discussion on Introduction on how to generate special functions using the tools of linear algebra.  ]]>
   </description>  
