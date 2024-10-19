@@ -277,8 +277,8 @@ julia> x_v = rand(Uniform(a,b),N)
 julia> Inte = (b-a)/N * sum(f.(x_v))
 ```
 I hope, you have understood this idea. Now, let's write a function to do the whole job and get some result.
-
-```julia:./monte_inte1D1.jl
+#:./monte_inte1D1.jl
+```julia
 using Distributions
 
 function Inte_monte1D(f,N,a,b)
@@ -294,8 +294,8 @@ The output is:
 \output{./monte_inte1D1.jl}
 
 Now, let's calculate the integration for different $N$ values and calculate the error in each case.
-
-```julia:./monte_inte1D1_Nvary.jl
+#:./monte_inte1D1_Nvary.jl
+```julia
 using Distributions, DataFrames
 
 function Inte_monte1D(f,N,a,b)

@@ -1,0 +1,582 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="icon" href="/assets/favicon.jpg">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Fast and Curious</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Azazaya</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" >Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" >Maths Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" >Physics Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page">Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/minimal-mistakes/Rousan.jpeg" alt="Septimia Zenobia" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+
+
+  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#setting_up_our_test_problem">Setting up our test problem</a></li><li><a href="#why_choosing_this">Why choosing this?</a></li><li><a href="#writing_the_codes">Writing the codes</a><ol><li><a href="#julia">Julia</a></li><li><a href="#python">Python</a></li><li><a href="#c">C&#43;&#43;</a></li><li><a href="#fortran">Fortran</a></li><li><a href="#r">R</a></li></ol></li><li><a href="#running_and_result">Running and Result</a><ol><li><a href="#running_the_code">Running the code</a></li><li><a href="#results">Results</a></li></ol></li></ol></div>
+<h1 id="fast_and_curious_a_speed_comparison_of_different_languages"><a href="#fast_and_curious_a_speed_comparison_of_different_languages" class="header-anchor">Fast and Curious: A speed comparison of different languages</a></h1>
+<p>In today&#39;s data-driven world, the choice of <strong>programming language</strong> can significantly impact performance and efficiency. As developers and researchers strive to solve increasingly complex problems, the need for speed becomes paramount. But how do different programming languages stack up against each other in terms of execution speed? 
+<div class="row">
+  <div class="container">
+    <img class="left" src="/assets/Maths/blogs/fast_and_curious/fast_cou.png">
+    <p>
+    <i></i>.
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+ In this blog post, we dive deep into a comparative analysis of five popular programming languages: Python, R, C&#43;&#43;, Fortran, and Julia. Each of these languages brings unique strengths to the table, from <strong><span style="color: green">Python&#39;s ease of use and vast ecosystem</span></strong> to <strong><span style="color: red">C&#43;&#43;&#39;s performance and control over system resources</span></strong>. Meanwhile, <strong><span style="color: blue">R shines in statistical computing</span></strong>, <strong><span style="color: brown">Fortran boasts its legacy in numerical analysis</span></strong>, and <strong><span style="color: purple">Julia has emerged as a powerful contender designed for high-performance computing</span></strong>.</p>
+<p>Wwe will evaluate how each language performs when tasked with a computationally intensive operation—summing prime numbers. By examining the results, we aim to uncover which language emerges as the fastest. 
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      As, I am not an expert, I urge people to maybe help me by sending me more nice examples. I am open to suggestions. 
+  </fieldset>
+  </p>
+<h2 id="setting_up_our_test_problem"><a href="#setting_up_our_test_problem" class="header-anchor">Setting up our test problem</a></h2>
+<p><strong>Prime Numbers</strong> <em>are natural numbers greater than 1 that have no divisors other than 1 and themselves</em>. First few prime numbers are \(2\), \(3\), \(5\), \(7\), \(11\), and so on.<br/> The problem of finding prime numbers and summing them within a given range is computationally interesting because, although <strong><span style="color: purple">prime numbers themselves are simple to define, their distribution and calculation &#40;especially for large numbers&#41; become increasingly complex as the range expands</span></strong>.</p>
+<p>What our code does can be just written in 2 points:</p>
+<ol>
+<li><p>Find all prime numbers in a given range &#40;e.g. from \(2\) to \(N\)&#41;.</p>
+</li>
+<li><p>Sum these numbers to get the sum of all primes in that range.</p>
+</li>
+</ol>
+<h2 id="why_choosing_this"><a href="#why_choosing_this" class="header-anchor">Why choosing this?</a></h2>
+<p>Initially, I was think about matrix multiplication or maybe solving some ODE/PDE. But the <strong>sum of primes</strong> is really simple and also it has some properties.</p>
+<ol>
+<li><p>The problem requires checking each number in the range to determine whether it is prime, and this involves computational steps like trial division or more advanced algorithms. This makes the task computationally expensive for large ranges, ideal for testing the efficiency of different languages.</p>
+</li>
+<li><p>The problem allows you to scale the computational load by increasing the size of \(N\), the upper bound of the range. Larger ranges require more processing, giving you the flexibility to test performance under different levels of stress.</p>
+</li>
+<li><p>Unlike complex scientific problems that require specialized libraries, prime number summation is algorithmically simple. This makes the comparison fair, as it primarily tests the core performance of the language, not its library ecosystem.</p>
+</li>
+</ol>
+<h2 id="writing_the_codes"><a href="#writing_the_codes" class="header-anchor">Writing the codes</a></h2>
+<p>Let&#39;s see the codes in all \(5\) languages.</p>
+<h3 id="julia"><a href="#julia" class="header-anchor">Julia</a></h3>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      This website is made using Franklin.jl so have to use put julia before any one of others. Sorry ;&#41; 
+  </fieldset>
+  
+<pre><code class="language-julia">function sieve_of_eratosthenes&#40;N&#41;
+    primes &#61; trues&#40;N&#41;
+    for p in 2:floor&#40;Int, sqrt&#40;N&#41;&#41;
+        if primes&#91;p&#93;
+            for i in p^2:p:N
+                primes&#91;i&#93; &#61; false
+            end
+        end
+    end
+    return sum&#40;p for p in 2:N if primes&#91;p&#93;&#41;
+end
+N &#61; 10^8
+@time result &#61; sieve_of_eratosthenes&#40;N&#41;
+println&#40;&quot;Sum of primes: &#36;result&quot;&#41;</code></pre>
+<p>I have saved this file as <code>primes.jl</code>.</p>
+<h3 id="python"><a href="#python" class="header-anchor">Python</a></h3>
+<p>Let&#39;s see now the python code.</p>
+<pre><code class="language-python">import time
+def sieve_of_eratosthenes&#40;N&#41;:
+    primes &#61; &#91;True&#93; * &#40;N &#43; 1&#41;
+    p &#61; 2
+    while p * p &lt;&#61; N:
+        if primes&#91;p&#93;:
+            for i in range&#40;p * p, N &#43; 1, p&#41;:
+                primes&#91;i&#93; &#61; False
+        p &#43;&#61; 1
+    return sum&#40;p for p in range&#40;2, N&#43;1&#41; if primes&#91;p&#93;&#41;
+N &#61; 10**8
+start_time &#61; time.time&#40;&#41;
+result &#61; sieve_of_eratosthenes&#40;N&#41;
+end_time &#61; time.time&#40;&#41;
+print&#40;f&quot;Sum of primes: &#123;result&#125;&quot;&#41;
+print&#40;f&quot;Time taken: &#123;end_time - start_time&#125; seconds&quot;&#41;</code></pre>
+<p>Save this one as <code>primes.py</code>.</p>
+<h3 id="c"><a href="#c" class="header-anchor">C&#43;&#43;</a></h3>
+<p>For c&#43;&#43;, ;&#41;,</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cmath&gt;
+#include &lt;chrono&gt;
+long long sieve_of_eratosthenes&#40;int N&#41; &#123;
+    std::vector&lt;bool&gt; primes&#40;N &#43; 1, true&#41;;
+    long long sum &#61; 0;
+    for &#40;int p &#61; 2; p * p &lt;&#61; N; &#43;&#43;p&#41; &#123;
+        if &#40;primes&#91;p&#93;&#41; &#123;
+            for &#40;int i &#61; p * p; i &lt;&#61; N; i &#43;&#61; p&#41;
+                primes&#91;i&#93; &#61; false;
+        &#125;
+    &#125;
+    for &#40;int p &#61; 2; p &lt;&#61; N; &#43;&#43;p&#41; &#123;
+        if &#40;primes&#91;p&#93;&#41; &#123;
+            sum &#43;&#61; p;
+        &#125;
+    &#125;
+    return sum;
+&#125;
+int main&#40;&#41; &#123;
+    int N &#61; 100000000;
+    auto start &#61; std::chrono::high_resolution_clock::now&#40;&#41;;
+    long long result &#61; sieve_of_eratosthenes&#40;N&#41;;
+    auto end &#61; std::chrono::high_resolution_clock::now&#40;&#41;;
+    std::chrono::duration&lt;double&gt; duration &#61; end - start;
+    std::cout &lt;&lt; &quot;Sum of primes: &quot; &lt;&lt; result &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;Time taken: &quot; &lt;&lt; duration.count&#40;&#41; &lt;&lt; &quot; seconds&quot; &lt;&lt; std::endl;
+    return 0;
+&#125;</code></pre>
+<p>Saving this as <code>primes.cpp</code>.</p>
+<h3 id="fortran"><a href="#fortran" class="header-anchor">Fortran</a></h3>
+<p>For this one,</p>
+<pre><code class="language-fortran">program sum_of_primes
+    implicit none
+    integer :: N, p, i
+    integer&#40;8&#41; :: sum
+    logical, allocatable :: primes&#40;:&#41;
+    integer :: start, finish, count_rate
+    N &#61; 100000000
+    allocate&#40;primes&#40;N&#43;1&#41;&#41;
+    primes &#61; .true.
+    sum &#61; 0
+    call system_clock&#40;start, count_rate&#41;
+
+    do p &#61; 2, int&#40;sqrt&#40;real&#40;N&#41;&#41;&#41;
+        if &#40;primes&#40;p&#41;&#41; then
+            do i &#61; p*p, N, p
+                primes&#40;i&#41; &#61; .false.
+            end do
+        end if
+    end do
+
+    do p &#61; 2, N
+        if &#40;primes&#40;p&#41;&#41; sum &#61; sum &#43; p
+    end do
+    call system_clock&#40;finish, count_rate&#41;
+    print *, &quot;Sum of primes: &quot;, sum
+    print *, &quot;Time taken: &quot;, real&#40;finish - start&#41; / real&#40;count_rate&#41;, &quot; seconds&quot;
+end program sum_of_primes</code></pre>
+<p>Save this one as <code>primes.f90</code></p>
+<h3 id="r"><a href="#r" class="header-anchor">R</a></h3>
+<p>For R, the code is,</p>
+<pre><code class="language-R">sieve_of_eratosthenes &lt;- function&#40;N&#41; &#123;
+  primes &lt;- rep&#40;TRUE, N&#41;
+  p &lt;- 2
+  while &#40;p^2 &lt;&#61; N&#41; &#123;
+    if &#40;primes&#91;p&#93;&#41; &#123;
+      for &#40;i in seq&#40;p^2, N, p&#41;&#41; &#123;
+        primes&#91;i&#93; &lt;- FALSE
+      &#125;
+    &#125;
+    p &lt;- p &#43; 1
+  &#125;
+  return&#40;sum&#40;which&#40;primes &#61;&#61; TRUE&#41;&#91;2:N&#93;&#41;&#41;
+&#125;
+N &lt;- 10^8
+system.time&#40;&#123;
+  result &lt;- sieve_of_eratosthenes&#40;N&#41;
+&#125;&#41;
+print&#40;result&#41;</code></pre>
+<p>Save this final one as <code>primes.R</code>.</p>
+<h2 id="running_and_result"><a href="#running_and_result" class="header-anchor">Running and Result</a></h2>
+<p>Let&#39;s see the running commands and results.</p>
+<h3 id="running_the_code"><a href="#running_the_code" class="header-anchor">Running the code</a></h3>
+<p>To run the codes, I will use a <code>bash</code> script. Here it is:</p>
+<pre><code class="language-shell">#&#33;/bin/bash
+rm -f primes_cpp primes_fortran
+g&#43;&#43; primes.cpp -o primes_cpp
+if &#91; &#36;? -ne 0 &#93;; then
+    echo &quot;C&#43;&#43; compilation failed&quot;
+    exit 1
+fi
+gfortran primes.f90 -o primes_fortran
+if &#91; &#36;? -ne 0 &#93;; then
+    echo &quot;Fortran compilation failed&quot;
+    exit 1
+fi
+for i in &#123;1..11&#125;
+do
+    echo &quot;Running Python iteration &#36;i&quot;
+    python3 primes.py &gt;&gt; output_python.txt
+    echo &quot;Iteration &#36;i completed&quot; &gt;&gt; output_python.txt
+    echo &quot;-----------------------------------&quot; &gt;&gt; output_python.txt
+    
+    echo &quot;Running Julia iteration &#36;i&quot;
+    julia primes.jl &gt;&gt; output_julia.txt
+    echo &quot;Iteration &#36;i completed&quot; &gt;&gt; output_julia.txt
+    echo &quot;-----------------------------------&quot; &gt;&gt; output_julia.txt
+
+    echo &quot;Running C&#43;&#43; iteration &#36;i&quot;
+    ./primes_cpp &gt;&gt; output_cpp.txt
+    echo &quot;Iteration &#36;i completed&quot; &gt;&gt; output_cpp.txt
+    echo &quot;-----------------------------------&quot; &gt;&gt; output_cpp.txt
+    
+    echo &quot;Running Fortran iteration &#36;i&quot;
+    ./primes_fortran &gt;&gt; output_fortran.txt
+    echo &quot;Iteration &#36;i completed&quot; &gt;&gt; output_fortran.txt
+    echo &quot;-----------------------------------&quot; &gt;&gt; output_fortran.txt
+    
+    echo &quot;Running R iteration &#36;i&quot;
+    Rscript primes.R &gt;&gt; output_r.txt
+    echo &quot;Iteration &#36;i completed&quot; &gt;&gt; output_r.txt
+    echo &quot;-----------------------------------&quot; &gt;&gt; output_r.txt
+done
+echo &quot;All iterations completed.&quot;</code></pre>
+<p>Save this as <code>run_tests.sh</code> in the same folder as all the previous code.<br/> To run this, use the two commands:</p>
+<pre><code class="language-julia">chmod &#43;x run_tests.sh
+./run_tests.sh</code></pre>
+<p>This will run all the codes \(11\) times and save each iteration output in the respective output txt files. Once done, we have the results&#40;this is due to what happens when we run julia for first time. We will use last \(10\)&#41;.</p>
+<h3 id="results"><a href="#results" class="header-anchor">Results</a></h3>
+<p>Let&#39;s see results of each one:</p>
+<ol>
+<li><p>For <code>Fortran</code>:</p>
+</li>
+</ol>
+<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.070785\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.068295\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.089001\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.070244\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.081850\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.065128\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.072845\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.061545\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.102363\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.090591\)</td></tr></table>
+<p>Clearly, we can see who is the winner.</p>
+<ol start="2">
+<li><p>For <code>julia</code>:</p>
+</li>
+</ol>
+<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.63499994\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.47800002\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.61299999\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.49499998\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.49699996\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.63900001\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.62799997\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.61999996\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.49999998\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.61700006\)</td></tr></table>
+<ol start="3">
+<li><p>For <code>c&#43;&#43;</code>:</p>
+</li>
+</ol>
+<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(10.8402\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.0474\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(12.0759\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.1812\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.1218\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.1408\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.1379\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(10.9725\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.0904\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.0407\)</td></tr></table>
+<p>Unexpected&#33;... I don&#39;t know it is this slow due to my machine or not. Can someone verify this?</p>
+<ol start="4">
+<li><p>For <code>R</code>:</p>
+</li>
+</ol>
+<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(18.054\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.135\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.216\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(15.998\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.240\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(15.995\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.319\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.181\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.078\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.028\)</td></tr></table>
+<ol start="5">
+<li><p>For <code>python</code>:</p>
+</li>
+</ol>
+<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.6143\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.8444\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.6110\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(22.8873\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.4012\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.5705\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.4197\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.7123\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.4700\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.6882\)</td></tr></table>
+<p>Let&#39;s see a plot which shows all of these:</p>
+<pre><code class="language-julia">using Plots; plotlyjs&#40;&#41;
+fortran_times &#61; &#91;1.070785, 1.068295, 1.089001, 1.070244, 1.081850, 1.065128, 1.072845, 1.061545, 1.102363, 1.090591&#93;
+julia_times &#61; &#91;1.63499994, 1.47800002, 1.61299999, 1.49499998, 1.49699996, 1.63900001, 1.62799997, 1.61999996, 1.49999998, 1.61700006&#93;
+cpp_times &#61; &#91;10.8402, 11.0474, 12.0759, 11.1812, 11.1218, 11.1408, 11.1379, 10.9725, 11.0904, 11.0407&#93;
+r_times &#61; &#91;18.054, 16.135, 16.216, 15.998, 16.240, 15.995, 16.319, 16.181, 16.078, 16.028&#93;
+python_times &#61; &#91;20.6143, 20.8444, 20.6110, 22.8873, 20.4012, 20.5705, 20.4197, 20.7123, 20.4700, 20.6882&#93;
+iterations &#61; 1:10
+p &#61; plot&#40;iterations, fortran_times, label&#61;&quot;Fortran&quot;, lw&#61;2, marker&#61;:o, markersize&#61;6&#41;
+plot&#33;&#40;iterations, julia_times, label&#61;&quot;Julia&quot;, lw&#61;2, marker&#61;:o, markersize&#61;6&#41;
+plot&#33;&#40;iterations, cpp_times, label&#61;&quot;C&#43;&#43;&quot;, lw&#61;2, marker&#61;:o, markersize&#61;6&#41;
+plot&#33;&#40;iterations, r_times, label&#61;&quot;R&quot;, lw&#61;2, marker&#61;:o, markersize&#61;6&#41;
+plot&#33;&#40;iterations, python_times, label&#61;&quot;Python&quot;, lw&#61;2, marker&#61;:o, markersize&#61;6&#41;
+xlabel&#33;&#40;&quot;Iterations&quot;&#41;
+ylabel&#33;&#40;&quot;Time Taken &#40;seconds&#41;&quot;&#41;
+title&#33;&#40;&quot;Time Comparison of Sum of Primes Across Different Languages&quot;&#41;
+plot&#33;&#40;legend&#61;:topright&#41;</code></pre>
+<p><div id="fdpkiy" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpkiy");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/fast_and_curious/code/output/fast_cou1.json');
+</script>
+ It very clearly shows which one is superior and which is not for this particular code. Now, we can modify the codes for more efficiency and optimization &#40;like using Numpy/Numba, StaticArray, Eigen, OpenMP , etc&#41;, but here for this blog I think it&#39;s enough. We will continue for discussion in some other blog.</p>
+<p><hr /> Wihout the system information it&#39;s really not a speed test. So, Here is my information:<br/> <strong><span style="color: red">System Information:</span></strong><br/> &#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;<br/> Operating System: GNU/Linux<br/> Kernel Version: 6.8.0-45-generic<br/> CPU: Model name: Intel&#40;R&#41; Core&#40;TM&#41; i5-8250U CPU @ 1.60GHz<br/> Architecture: x86_64<br/> Number of Cores: 8<br/> Shell: /usr/bin/zsh<br/> <strong><span style="color: red">Language Versions:</span></strong><br/> &#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;<br/> Fortran Version: GNU Fortran &#40;conda-forge gcc 12.4.0-0&#41; 12.4.0<br/> C&#43;&#43; Version: g&#43;&#43; &#40;conda-forge gcc 12.4.0-0&#41; 12.4.0<br/> R Version: R version 4.4.1 &#40;2024-06-14&#41; – &quot;Race for Your Life&quot;<br/> Python Version: Python 3.12.2<br/> Julia Version: julia version 1.11.1<br/></p>
+<p><hr /> To generate this use the following script:</p>
+<pre><code class="language-shell">#&#33;/bin/bash
+output_file&#61;&quot;system_info.txt&quot;
+&#123;
+    echo &quot;System Information:&quot;
+    echo &quot;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&quot;
+    echo &quot;Operating System: &#36;&#40;uname -o&#41;&quot;
+    echo &quot;Kernel Version: &#36;&#40;uname -r&#41;&quot;
+    echo &quot;CPU: &#36;&#40;lscpu | grep &#39;Model name&#39;&#41;&quot;
+    echo &quot;Architecture: &#36;&#40;uname -m&#41;&quot;
+    echo &quot;Number of Cores: &#36;&#40;nproc&#41;&quot;
+    echo &quot;Shell: &#36;SHELL&quot;
+    echo &quot;Home Directory: &#36;HOME&quot;
+    echo &quot;&quot;
+    echo &quot;Language Versions:&quot;
+    echo &quot;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&quot;
+    if command -v gfortran &amp;&gt; /dev/null; then
+        echo -n &quot;Fortran Version: &quot;
+        gfortran --version | head -n 1
+    else
+        echo &quot;Fortran: Not installed&quot;
+    fi
+    if command -v g&#43;&#43; &amp;&gt; /dev/null; then
+        echo -n &quot;C&#43;&#43; Version: &quot;
+        g&#43;&#43; --version | head -n 1
+    else
+        echo &quot;C&#43;&#43;: Not installed&quot;
+    fi
+    if command -v R &amp;&gt; /dev/null; then
+        echo -n &quot;R Version: &quot;
+        R --version | head -n 1
+    else
+        echo &quot;R: Not installed&quot;
+    fi
+    if command -v python &amp;&gt; /dev/null; then
+        echo -n &quot;Python Version: &quot;
+        python --version
+    else
+        echo &quot;Python: Not installed&quot;
+    fi
+    if command -v julia &amp;&gt; /dev/null; then
+        echo -n &quot;Julia Version: &quot;
+        julia --version
+    else
+        echo &quot;Julia: Not installed&quot;
+    fi
+&#125; &gt; &quot;&#36;output_file&quot;
+echo &quot;System information and language versions have been saved to &#36;output_file&quot;</code></pre>
+<p>I have you have learnt something new and enjoyed it. 
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      Just a request. If possible please run the codes and let me know what you get&#33; 
+  </fieldset>
+   If you have some queries, do let me know in the comments or contact me using my using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
+
+<button onclick="window.history.back()">Go Back</button>
+
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    /*
+    var disqus_config = function () {
+    this.page.url = https://rousan.netlify.app/pages/math/blogs/fast_and_curious/;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-rousan-netlify-app.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 19, 2024.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+  </body>
+</html>
+
+
+<script>
+  (function(){
+  
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  })();
+  </script>
