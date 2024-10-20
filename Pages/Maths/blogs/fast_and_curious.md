@@ -224,12 +224,12 @@ To run the codes, I will use a `bash` script. Here it is:
 ```shell
 #!/bin/bash
 rm -f primes_cpp primes_fortran
-g++ primes.cpp -o primes_cpp
+g++ -O3 -march=native -std=c++11 primes.cpp -o primes_cpp
 if [ $? -ne 0 ]; then
     echo "C++ compilation failed"
     exit 1
 fi
-gfortran primes.f90 -o primes_fortran
+gfortran -O3 -march=native primes.f90 -o primes_fortran
 if [ $? -ne 0 ]; then
     echo "Fortran compilation failed"
     exit 1
@@ -238,28 +238,46 @@ for i in {1..11}
 do
     echo "Running Python iteration $i"
     python3 primes.py >> output_python.txt
-    echo "Iteration $i completed" >> output_python.txt
-    echo "-----------------------------------" >> output_python.txt
-    
+    if [ $? -eq 0 ]; then
+        echo "Iteration $i completed" >> output_python.txt
+        echo "-----------------------------------" >> output_python.txt
+    else
+        echo "Python iteration $i failed" >> output_python.txt
+    fi
+
     echo "Running Julia iteration $i"
     julia primes.jl >> output_julia.txt
-    echo "Iteration $i completed" >> output_julia.txt
-    echo "-----------------------------------" >> output_julia.txt
+    if [ $? -eq 0 ]; then
+        echo "Iteration $i completed" >> output_julia.txt
+        echo "-----------------------------------" >> output_julia.txt
+    else
+        echo "Julia iteration $i failed" >> output_julia.txt
+    fi
 
     echo "Running C++ iteration $i"
     ./primes_cpp >> output_cpp.txt
-    echo "Iteration $i completed" >> output_cpp.txt
-    echo "-----------------------------------" >> output_cpp.txt
-    
+    if [ $? -eq 0 ]; then
+        echo "Iteration $i completed" >> output_cpp.txt
+        echo "-----------------------------------" >> output_cpp.txt
+    else
+        echo "C++ iteration $i failed" >> output_cpp.txt
+    fi
     echo "Running Fortran iteration $i"
     ./primes_fortran >> output_fortran.txt
-    echo "Iteration $i completed" >> output_fortran.txt
-    echo "-----------------------------------" >> output_fortran.txt
-    
+    if [ $? -eq 0 ]; then
+        echo "Iteration $i completed" >> output_fortran.txt
+        echo "-----------------------------------" >> output_fortran.txt
+    else
+        echo "Fortran iteration $i failed" >> output_fortran.txt
+    fi
     echo "Running R iteration $i"
     Rscript primes.R >> output_r.txt
-    echo "Iteration $i completed" >> output_r.txt
-    echo "-----------------------------------" >> output_r.txt
+    if [ $? -eq 0 ]; then
+        echo "Iteration $i completed" >> output_r.txt
+        echo "-----------------------------------" >> output_r.txt
+    else
+        echo "R iteration $i failed" >> output_r.txt
+    fi
 done
 echo "All iterations completed."
 ```
@@ -271,38 +289,26 @@ chmod +x run_tests.sh
 ```
 This will run all the codes $11$ times and save each iteration output in the respective output txt files.
 Once done, we have the results(this is due to what happens when we run julia for first time. We will use last $10$).
+\note{
+    Thanks to Mose Giordano from julia community for pointing out few facts about running `c++` and `fortran` code. For detail see: [Link](https://julialang.slack.com/archives/C67910KEH/p1729373335723409?thread_ts=1729371119.007759&cid=C67910KEH) 
+}
 
 ### Results
 Let's see results of each one:
-1. For `Julia`:
-
-| Iteration | Sum of Primes          | Time Taken (seconds)        | Allocations                      | Compilation Time (%) |
-|-----------|------------------------|-----------------------------|----------------------------------|----------------------|
-| $1$       | $279209790387276$       | $0.914137$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.80$               |
-| $2$       | $279209790387276$       | $0.916980$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.79$               |
-| $3$       | $279209790387276$       | $0.917002$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.80$               |
-| $4$       | $279209790387276$       | $0.915913$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.86$               |
-| $5$       | $279209790387276$       | $0.929013$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.83$               |
-| $6$       | $279209790387276$       | $0.920761$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.85$               |
-| $7$       | $279209790387276$       | $0.924105$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.81$               |
-| $8$       | $279209790387276$       | $0.919019$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.79$               |
-| $9$       | $279209790387276$       | $0.917901$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.73$               |
-| $10$      | $279209790387276$       | $0.919431$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.78$               |
-Clearly, we can see who is the winner.
-
-2. For `C++`:
+1. For `C++`:
 | Iteration | Sum of Primes          | Time Taken (seconds)        |
 |-----------|------------------------|-----------------------------|
-| $1$       | $279209790387276$       | $1.29177$                   |
-| $2$       | $279209790387276$       | $1.23304$                   |
-| $3$       | $279209790387276$       | $1.23141$                   |
-| $4$       | $279209790387276$       | $1.23800$                   |
-| $5$       | $279209790387276$       | $1.23524$                   |
-| $6$       | $279209790387276$       | $1.23862$                   |
-| $7$       | $279209790387276$       | $1.23189$                   |
-| $8$       | $279209790387276$       | $1.23681$                   |
-| $9$       | $279209790387276$       | $1.23351$                   |
-| $10$      | $279209790387276$       | $1.23072$                   |
+| $1$       | $279209790387276$       | $0.887531$                  |
+| $2$       | $279209790387276$       | $0.896439$                  |
+| $3$       | $279209790387276$       | $0.889580$                  |
+| $4$       | $279209790387276$       | $0.890078$                  |
+| $5$       | $279209790387276$       | $1.133180$                  |
+| $6$       | $279209790387276$       | $0.894600$                  |
+| $7$       | $279209790387276$       | $0.919426$                  |
+| $8$       | $279209790387276$       | $0.938797$                  |
+| $9$       | $279209790387276$       | $0.915501$                  |
+| $10$      | $279209790387276$       | $0.892737$                  |
+Clearly, we can see who is the winner.
 \note{
 
 | Iteration | Sum of Primes          | Time Taken (seconds)         |\\
@@ -321,20 +327,35 @@ Unexpected!... I don't know it is this slow due to my machine or not. Can someon
 
 This is previously here. I was not able to understand why C++ is slow!. But a nice person in the comment point that out.(See the comment of Yolhan).
 }
+2. For `Julia`:
+
+| Iteration | Sum of Primes          | Time Taken (seconds)        | Allocations                      | Compilation Time (%) |
+|-----------|------------------------|-----------------------------|----------------------------------|----------------------|
+| $1$       | $279209790387276$       | $0.914137$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.80$               |
+| $2$       | $279209790387276$       | $0.916980$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.79$               |
+| $3$       | $279209790387276$       | $0.917002$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.80$               |
+| $4$       | $279209790387276$       | $0.915913$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.86$               |
+| $5$       | $279209790387276$       | $0.929013$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.83$               |
+| $6$       | $279209790387276$       | $0.920761$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.85$               |
+| $7$       | $279209790387276$       | $0.924105$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.81$               |
+| $8$       | $279209790387276$       | $0.919019$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.79$               |
+| $9$       | $279209790387276$       | $0.917901$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.73$               |
+| $10$      | $279209790387276$       | $0.919431$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.78$               |
+
 3. For `Fortran`:
 
-| Iteration | Sum of Primes          | Time Taken (seconds) |
-|-----------|------------------------|----------------------|
-| $1$       | $279209790387276$       | $1.53100002$         |
-| $2$       | $279209790387276$       | $1.54400003$         |
-| $3$       | $279209790387276$       | $1.53999996$         |
-| $4$       | $279209790387276$       | $1.53499997$         |
-| $5$       | $279209790387276$       | $1.53799999$         |
-| $6$       | $279209790387276$       | $1.53100002$         |
-| $7$       | $279209790387276$       | $1.53600001$         |
-| $8$       | $279209790387276$       | $1.54299998$         |
-| $9$       | $279209790387276$       | $1.54600000$         |
-| $10$      | $279209790387276$       | $1.53999996$         |
+| Iteration | Sum of Primes          | Time Taken (seconds)        |
+|-----------|------------------------|-----------------------------|
+| $1$       | $279209790387276$       | $1.26400006$                |
+| $2$       | $279209790387276$       | $1.28699994$                |
+| $3$       | $279209790387276$       | $1.28999996$                |
+| $4$       | $279209790387276$       | $1.27499998$                |
+| $5$       | $279209790387276$       | $1.51300001$                |
+| $6$       | $279209790387276$       | $1.54900002$                |
+| $7$       | $279209790387276$       | $1.55400002$                |
+| $8$       | $279209790387276$       | $1.33500004$                |
+| $9$       | $279209790387276$       | $1.38000000$                |
+| $10$      | $279209790387276$       | $1.36699998$                |
 
 4. For `R`:
 Here Elapsed Time is the Time Taken.
@@ -369,9 +390,9 @@ Here Elapsed Time is the Time Taken.
 Let's see a plot which shows all of these:
 ```julia:./fast_curious.jl
 using Plots; plotlyjs()
-fortran_times = [1.53100002, 1.54400003, 1.53999996, 1.53499997, 1.53799999, 1.53100002, 1.53600001, 1.54299998, 1.54600000, 1.53999996]
+fortran_times = [1.26400006, 1.28699994, 1.28999996, 1.27499998, 1.51300001, 1.54900002, 1.55400002, 1.33500004, 1.38000000, 1.36699998]
 julia_times = [0.914137, 0.916980, 0.917002, 0.915913, 0.929013, 0.920761, 0.924105, 0.919019, 0.917901, 0.919431]
-cpp_times = [1.29177, 1.23304, 1.23141, 1.23800, 1.23524, 1.23862, 1.23189, 1.23681, 1.23351, 1.23072]
+cpp_times = [0.887531, 0.896439, 0.889580, 0.890078, 1.133180, 0.894600, 0.919426, 0.938797, 0.915501, 0.892737]
 r_times = [14.953, 14.750, 14.780, 14.753, 14.952, 15.129, 14.956, 14.788, 14.970, 15.529]
 python_times = [19.59793257713318, 19.903280019760132, 19.65820622444153, 19.870051622390747, 19.976346492767334, 19.489915370941162, 19.572935581207275, 19.436674118041992, 19.50352454185486, 19.746686935424805]
 iterations = 1:10
@@ -384,9 +405,9 @@ xlabel!("Iterations")
 ylabel!("Time Taken (seconds)")
 title!("Time Comparison of Sum of Primes Across Different Languages")
 plot!(legend=:topright)
-#savefig(p, joinpath(@OUTPUT, "fast_cou11.json"))
+savefig(p, joinpath(@OUTPUT, "fast_cou10.json"))
 ```
-\fig{output/fast_cou11}
+\fig{output/fast_cou10}
 It very clearly shows which one is superior and which is not for this particular code. Now, we can modify the codes for more efficiency and optimization (like using Numpy/Numba, StaticArray, Eigen, OpenMP , etc), but here for this blog I think it's enough. We will continue for discussion in some other blog.
 
 ---
