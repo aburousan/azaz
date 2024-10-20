@@ -114,7 +114,7 @@
 
 
   <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#setting_up_our_test_problem">Setting up our test problem</a></li><li><a href="#why_choosing_this">Why choosing this?</a></li><li><a href="#writing_the_codes">Writing the codes</a><ol><li><a href="#julia">Julia</a></li><li><a href="#python">Python</a></li><li><a href="#c">C&#43;&#43;</a></li><li><a href="#fortran">Fortran</a></li><li><a href="#r">R</a></li></ol></li><li><a href="#running_and_result">Running and Result</a><ol><li><a href="#running_the_code">Running the code</a></li><li><a href="#results">Results</a></li></ol></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#setting_up_our_test_problem">Setting up our test problem</a></li><li><a href="#why_choosing_this">Why choosing this?</a></li><li><a href="#writing_the_codes">Writing the codes</a><ol><li><a href="#julia">Julia</a></li><li><a href="#python">Python</a></li><li><a href="#c">C&#43;&#43;</a></li><li><a href="#fortran">Fortran</a></li><li><a href="#r">R</a></li></ol></li><li><a href="#running_and_result">Running and Result</a><ol><li><a href="#running_the_code">Running the code</a></li><li><a href="#results">Results</a></li><li><a href="#extra_remark">Extra Remark</a></li></ol></li></ol></div>
 <h1 id="fast_and_curious_a_speed_comparison_of_different_languages"><a href="#fast_and_curious_a_speed_comparison_of_different_languages" class="header-anchor">Fast and Curious: A speed comparison of different languages</a></h1>
 <p>In today&#39;s data-driven world, the choice of <strong>programming language</strong> can significantly impact performance and efficiency. As developers and researchers strive to solve increasingly complex problems, the need for speed becomes paramount. But how do different programming languages stack up against each other in terms of execution speed? 
 <div class="row">
@@ -194,12 +194,47 @@ print&#40;f&quot;Sum of primes: &#123;result&#125;&quot;&#41;
 print&#40;f&quot;Time taken: &#123;end_time - start_time&#125; seconds&quot;&#41;</code></pre>
 <p>Save this one as <code>primes.py</code>.</p>
 <h3 id="c"><a href="#c" class="header-anchor">C&#43;&#43;</a></h3>
-<p>For c&#43;&#43;, ;&#41;,</p>
+<p>For C&#43;&#43;, ;&#41;,</p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
-#include &lt;vector&gt;
-#include &lt;cmath&gt;
 #include &lt;chrono&gt;
+#include &lt;cstring&gt;
+
 long long sieve_of_eratosthenes&#40;int N&#41; &#123;
+    unsigned char* primes &#61; new unsigned char&#91;N &#43; 1&#93;;
+    memset&#40;primes, 1, N &#43; 1&#41;;
+    long long sum &#61; 0;
+    for &#40;int p &#61; 2; p * p &lt;&#61; N; &#43;&#43;p&#41; &#123;
+        if &#40;primes&#91;p&#93;&#41; &#123;
+            for &#40;int i &#61; p * p; i &lt;&#61; N; i &#43;&#61; p&#41;
+                primes&#91;i&#93; &#61; 0;
+        &#125;
+    &#125;
+    for &#40;int p &#61; 2; p &lt;&#61; N; &#43;&#43;p&#41; &#123;
+        if &#40;primes&#91;p&#93;&#41; &#123;
+            sum &#43;&#61; p;
+        &#125;
+    &#125;
+    delete&#91;&#93; primes;
+    return sum;
+&#125;
+int main&#40;&#41; &#123;
+    int N &#61; 100000000;
+    auto start &#61; std::chrono::high_resolution_clock::now&#40;&#41;;
+    long long result &#61; sieve_of_eratosthenes&#40;N&#41;;
+    auto end &#61; std::chrono::high_resolution_clock::now&#40;&#41;;
+    std::chrono::duration&lt;double&gt; duration &#61; end - start;
+    std::cout &lt;&lt; &quot;Sum of primes: &quot; &lt;&lt; result &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;Time taken: &quot; &lt;&lt; duration.count&#40;&#41; &lt;&lt; &quot; seconds&quot; &lt;&lt; std::endl;
+    return 0;
+&#125;</code></pre>
+<p>
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+  </p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+    #include &lt;vector&gt;
+    #include &lt;cmath&gt;
+    #include &lt;chrono&gt;
+    long long sieve_of_eratosthenes&#40;int N&#41; &#123;
     std::vector&lt;bool&gt; primes&#40;N &#43; 1, true&#41;;
     long long sum &#61; 0;
     for &#40;int p &#61; 2; p * p &lt;&#61; N; &#43;&#43;p&#41; &#123;
@@ -214,8 +249,8 @@ long long sieve_of_eratosthenes&#40;int N&#41; &#123;
         &#125;
     &#125;
     return sum;
-&#125;
-int main&#40;&#41; &#123;
+    &#125;
+    int main&#40;&#41; &#123;
     int N &#61; 100000000;
     auto start &#61; std::chrono::high_resolution_clock::now&#40;&#41;;
     long long result &#61; sieve_of_eratosthenes&#40;N&#41;;
@@ -224,8 +259,11 @@ int main&#40;&#41; &#123;
     std::cout &lt;&lt; &quot;Sum of primes: &quot; &lt;&lt; result &lt;&lt; std::endl;
     std::cout &lt;&lt; &quot;Time taken: &quot; &lt;&lt; duration.count&#40;&#41; &lt;&lt; &quot; seconds&quot; &lt;&lt; std::endl;
     return 0;
-&#125;</code></pre>
-<p>Saving this as <code>primes.cpp</code>.</p>
+    &#125;</code></pre>
+<p>This was the previous code.</p>
+<p>
+  </fieldset>
+   Saving this as <code>primes.cpp</code>.</p>
 <h3 id="fortran"><a href="#fortran" class="header-anchor">Fortran</a></h3>
 <p>For this one,</p>
 <pre><code class="language-fortran">program sum_of_primes
@@ -328,39 +366,45 @@ echo &quot;All iterations completed.&quot;</code></pre>
 <h3 id="results"><a href="#results" class="header-anchor">Results</a></h3>
 <p>Let&#39;s see results of each one:</p>
 <ol>
+<li><p>For <code>Julia</code>:</p>
+</li>
+</ol>
+<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th><th align="right">Allocations</th><th align="right">Compilation Time &#40;&#37;&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(0.914137\)</td><td align="right">\(230.34 \, \text{k}\), \(23.432 \, \text{MiB}\)</td><td align="right">\(6.80\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(0.916980\)</td><td align="right">\(230.34 \, \text{k}\), \(23.432 \, \text{MiB}\)</td><td align="right">\(6.79\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(0.917002\)</td><td align="right">\(230.34 \, \text{k}\), \(23.432 \, \text{MiB}\)</td><td align="right">\(6.80\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(0.915913\)</td><td align="right">\(230.34 \, \text{k}\), \(23.432 \, \text{MiB}\)</td><td align="right">\(6.86\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(0.929013\)</td><td align="right">\(230.34 \, \text{k}\), \(23.432 \, \text{MiB}\)</td><td align="right">\(6.83\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(0.920761\)</td><td align="right">\(230.34 \, \text{k}\), \(23.432 \, \text{MiB}\)</td><td align="right">\(6.85\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(0.924105\)</td><td align="right">\(230.34 \, \text{k}\), \(23.432 \, \text{MiB}\)</td><td align="right">\(6.81\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(0.919019\)</td><td align="right">\(230.34 \, \text{k}\), \(23.432 \, \text{MiB}\)</td><td align="right">\(6.79\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(0.917901\)</td><td align="right">\(230.34 \, \text{k}\), \(23.432 \, \text{MiB}\)</td><td align="right">\(6.73\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(0.919431\)</td><td align="right">\(230.34 \, \text{k}\), \(23.432 \, \text{MiB}\)</td><td align="right">\(6.78\)</td></tr></table>
+<p>Clearly, we can see who is the winner.</p>
+<ol start="2">
+<li><p>For <code>C&#43;&#43;</code>:</p>
+</li>
+</ol>
+<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.29177\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.23304\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.23141\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.23800\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.23524\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.23862\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.23189\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.23681\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.23351\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.23072\)</td></tr></table>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      | Iteration | Sum of Primes          | Time Taken &#40;seconds&#41;         |<br/> |–––––-|––––––––––––|–––––––––––––––|<br/> | \(1\)       | \(279209790387276\)       | \(10.8402\)                   |<br/> | \(2\)       | \(279209790387276\)       | \(11.0474\)                   |<br/> | \(3\)       | \(279209790387276\)       | \(12.0759\)                   |<br/> | \(4\)       | \(279209790387276\)       | \(11.1812\)                   |<br/> | \(5\)       | \(279209790387276\)       | \(11.1218\)                   |<br/> | \(6\)       | \(279209790387276\)       | \(11.1408\)                   |<br/> | \(7\)       | \(279209790387276\)       | \(11.1379\)                   |<br/> | \(8\)       | \(279209790387276\)       | \(10.9725\)                   |<br/> | \(9\)       | \(279209790387276\)       | \(11.0904\)                   |<br/> | \(10\)      | \(279209790387276\)       | \(11.0407\)                   |<br/> Unexpected&#33;... I don&#39;t know it is this slow due to my machine or not. Can someone verify this?</p>
+<p>This is previously here. I was not able to understand why C&#43;&#43; is slow&#33;. But a nice person in the comment point that out.&#40;See the comment of Yolhan&#41;. 
+  </fieldset>
+  
+<ol start="3">
 <li><p>For <code>Fortran</code>:</p>
 </li>
 </ol>
-<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.070785\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.068295\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.089001\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.070244\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.081850\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.065128\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.072845\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.061545\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.102363\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.090591\)</td></tr></table>
-<p>Clearly, we can see who is the winner.</p>
-<ol start="2">
-<li><p>For <code>julia</code>:</p>
-</li>
-</ol>
-<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.63499994\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.47800002\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.61299999\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.49499998\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.49699996\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.63900001\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.62799997\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.61999996\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.49999998\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.61700006\)</td></tr></table>
-<ol start="3">
-<li><p>For <code>c&#43;&#43;</code>:</p>
-</li>
-</ol>
-<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(10.8402\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.0474\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(12.0759\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.1812\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.1218\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.1408\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.1379\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(10.9725\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.0904\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(11.0407\)</td></tr></table>
-<p>Unexpected&#33;... I don&#39;t know it is this slow due to my machine or not. Can someone verify this?</p>
+<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.53100002\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.54400003\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.53999996\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.53499997\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.53799999\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.53100002\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.53600001\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.54299998\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.54600000\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(1.53999996\)</td></tr></table>
 <ol start="4">
 <li><p>For <code>R</code>:</p>
 </li>
 </ol>
-<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(18.054\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.135\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.216\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(15.998\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.240\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(15.995\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.319\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.181\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.078\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(16.028\)</td></tr></table>
+<p>Here Elapsed Time is the Time Taken.</p>
+<table><tr><th align="right">Iteration</th><th align="right">Elapsed Time &#40;seconds&#41;</th><th align="right">User Time &#40;seconds&#41;</th><th align="right">System Time &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(14.953\)</td><td align="right">\(13.075\)</td><td align="right">\(1.866\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(14.750\)</td><td align="right">\(12.848\)</td><td align="right">\(1.903\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(14.780\)</td><td align="right">\(12.897\)</td><td align="right">\(1.885\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(14.753\)</td><td align="right">\(12.840\)</td><td align="right">\(1.913\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(14.952\)</td><td align="right">\(13.098\)</td><td align="right">\(1.856\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(15.129\)</td><td align="right">\(13.192\)</td><td align="right">\(1.938\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(14.956\)</td><td align="right">\(13.067\)</td><td align="right">\(1.890\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(14.788\)</td><td align="right">\(12.882\)</td><td align="right">\(1.908\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(14.970\)</td><td align="right">\(13.090\)</td><td align="right">\(1.880\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(15.529\)</td><td align="right">\(13.632\)</td><td align="right">\(1.898\)</td></tr></table>
 <ol start="5">
 <li><p>For <code>python</code>:</p>
 </li>
 </ol>
-<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.6143\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.8444\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.6110\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(22.8873\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.4012\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.5705\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.4197\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.7123\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.4700\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(20.6882\)</td></tr></table>
+<table><tr><th align="right">Iteration</th><th align="right">Sum of Primes</th><th align="right">Time Taken &#40;seconds&#41;</th></tr><tr><td align="right">\(1\)</td><td align="right">\(279209790387276\)</td><td align="right">\(19.59793257713318\)</td></tr><tr><td align="right">\(2\)</td><td align="right">\(279209790387276\)</td><td align="right">\(19.903280019760132\)</td></tr><tr><td align="right">\(3\)</td><td align="right">\(279209790387276\)</td><td align="right">\(19.65820622444153\)</td></tr><tr><td align="right">\(4\)</td><td align="right">\(279209790387276\)</td><td align="right">\(19.870051622390747\)</td></tr><tr><td align="right">\(5\)</td><td align="right">\(279209790387276\)</td><td align="right">\(19.976346492767334\)</td></tr><tr><td align="right">\(6\)</td><td align="right">\(279209790387276\)</td><td align="right">\(19.489915370941162\)</td></tr><tr><td align="right">\(7\)</td><td align="right">\(279209790387276\)</td><td align="right">\(19.572935581207275\)</td></tr><tr><td align="right">\(8\)</td><td align="right">\(279209790387276\)</td><td align="right">\(19.436674118041992\)</td></tr><tr><td align="right">\(9\)</td><td align="right">\(279209790387276\)</td><td align="right">\(19.50352454185486\)</td></tr><tr><td align="right">\(10\)</td><td align="right">\(279209790387276\)</td><td align="right">\(19.746686935424805\)</td></tr></table>
 <p>Let&#39;s see a plot which shows all of these:</p>
 <pre><code class="language-julia">using Plots; plotlyjs&#40;&#41;
-fortran_times &#61; &#91;1.070785, 1.068295, 1.089001, 1.070244, 1.081850, 1.065128, 1.072845, 1.061545, 1.102363, 1.090591&#93;
-julia_times &#61; &#91;1.63499994, 1.47800002, 1.61299999, 1.49499998, 1.49699996, 1.63900001, 1.62799997, 1.61999996, 1.49999998, 1.61700006&#93;
-cpp_times &#61; &#91;10.8402, 11.0474, 12.0759, 11.1812, 11.1218, 11.1408, 11.1379, 10.9725, 11.0904, 11.0407&#93;
-r_times &#61; &#91;18.054, 16.135, 16.216, 15.998, 16.240, 15.995, 16.319, 16.181, 16.078, 16.028&#93;
-python_times &#61; &#91;20.6143, 20.8444, 20.6110, 22.8873, 20.4012, 20.5705, 20.4197, 20.7123, 20.4700, 20.6882&#93;
+fortran_times &#61; &#91;1.53100002, 1.54400003, 1.53999996, 1.53499997, 1.53799999, 1.53100002, 1.53600001, 1.54299998, 1.54600000, 1.53999996&#93;
+julia_times &#61; &#91;0.914137, 0.916980, 0.917002, 0.915913, 0.929013, 0.920761, 0.924105, 0.919019, 0.917901, 0.919431&#93;
+cpp_times &#61; &#91;1.29177, 1.23304, 1.23141, 1.23800, 1.23524, 1.23862, 1.23189, 1.23681, 1.23351, 1.23072&#93;
+r_times &#61; &#91;14.953, 14.750, 14.780, 14.753, 14.952, 15.129, 14.956, 14.788, 14.970, 15.529&#93;
+python_times &#61; &#91;19.59793257713318, 19.903280019760132, 19.65820622444153, 19.870051622390747, 19.976346492767334, 19.489915370941162, 19.572935581207275, 19.436674118041992, 19.50352454185486, 19.746686935424805&#93;
 iterations &#61; 1:10
 p &#61; plot&#40;iterations, fortran_times, label&#61;&quot;Fortran&quot;, lw&#61;2, marker&#61;:o, markersize&#61;6&#41;
 plot&#33;&#40;iterations, julia_times, label&#61;&quot;Julia&quot;, lw&#61;2, marker&#61;:o, markersize&#61;6&#41;
@@ -370,11 +414,12 @@ plot&#33;&#40;iterations, python_times, label&#61;&quot;Python&quot;, lw&#61;2, 
 xlabel&#33;&#40;&quot;Iterations&quot;&#41;
 ylabel&#33;&#40;&quot;Time Taken &#40;seconds&#41;&quot;&#41;
 title&#33;&#40;&quot;Time Comparison of Sum of Primes Across Different Languages&quot;&#41;
-plot&#33;&#40;legend&#61;:topright&#41;</code></pre>
-<p><div id="fdpkiy" style=""></div>
+plot&#33;&#40;legend&#61;:topright&#41;
+#savefig&#40;p, joinpath&#40;@OUTPUT, &quot;fast_cou11.json&quot;&#41;&#41;</code></pre>
+<p><div id="fdpjmf" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpkiy");
-plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/fast_and_curious/code/output/fast_cou1.json');
+graphDiv = document.getElementById("fdpjmf");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/fast_and_curious/code/output/fast_cou11.json');
 </script>
  It very clearly shows which one is superior and which is not for this particular code. Now, we can modify the codes for more efficiency and optimization &#40;like using Numpy/Numba, StaticArray, Eigen, OpenMP , etc&#41;, but here for this blog I think it&#39;s enough. We will continue for discussion in some other blog.</p>
 <p><hr /> Wihout the system information it&#39;s really not a speed test. So, Here is my information:<br/> <strong><span style="color: red">System Information:</span></strong><br/> &#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;<br/> Operating System: GNU/Linux<br/> Kernel Version: 6.8.0-45-generic<br/> CPU: Model name: Intel&#40;R&#41; Core&#40;TM&#41; i5-8250U CPU @ 1.60GHz<br/> Architecture: x86_64<br/> Number of Cores: 8<br/> Shell: /usr/bin/zsh<br/> <strong><span style="color: red">Language Versions:</span></strong><br/> &#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;&#61;<br/> Fortran Version: GNU Fortran &#40;conda-forge gcc 12.4.0-0&#41; 12.4.0<br/> C&#43;&#43; Version: g&#43;&#43; &#40;conda-forge gcc 12.4.0-0&#41; 12.4.0<br/> R Version: R version 4.4.1 &#40;2024-06-14&#41; – &quot;Race for Your Life&quot;<br/> Python Version: Python 3.12.2<br/> Julia Version: julia version 1.11.1<br/></p>
@@ -426,7 +471,123 @@ output_file&#61;&quot;system_info.txt&quot;
     fi
 &#125; &gt; &quot;&#36;output_file&quot;
 echo &quot;System information and language versions have been saved to &#36;output_file&quot;</code></pre>
-<p>I have you have learnt something new and enjoyed it. 
+<h3 id="extra_remark"><a href="#extra_remark" class="header-anchor">Extra Remark</a></h3>
+<p>After positing this, many people get offended. I get your point, but many people has done same and also many languages show this as their strength. Also, I will keep this blog as I am learning new things from good peoples&#40;like the one in the comments&#41;.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      From a physics student or teacher&#39;s point of view, comparing the speed of different programming languages is not necessarily misleading but needs to be done with proper context.</p>
+<p>Different languages have different strengths and are suited to different tasks. For instance, in computational physics, the speed of a language can be crucial for simulations or large-scale numerical problems. Comparing languages based on speed can be useful for choosing the right tool for specific problems.</p>
+<p>However, it is important to keep in mind that speed isn&#39;t the only factor. Other considerations, like ease of development, the availability of scientific libraries, and the ability to handle complex algorithms, are also important in physics. Therefore, speed comparisons can be informative as long as they are done with a clear understanding of the problem being solved and the resources available. 
+  </fieldset>
+  
+<p>Also, let&#39;s write a code which uses libraries and uses the strength of each of the languages. I will just run \(1\) iteration &#40;I was planning to do this in some seperate blog but whatever&#41;.</p>
+<ol>
+<li><p><code>C&#43;&#43;</code><br/></p>
+</li>
+</ol>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;chrono&gt;
+#include &lt;vector&gt;
+#include &lt;primesieve.hpp&gt;
+int main&#40;&#41; &#123;
+    int N &#61; 100000000;
+    std::vector&lt;uint64_t&gt; primes;
+    auto start &#61; std::chrono::high_resolution_clock::now&#40;&#41;;
+    primesieve::generate_primes&#40;N, &amp;primes&#41;;
+    uint64_t sum &#61; 0;
+    for &#40;const auto&amp; prime : primes&#41; &#123;
+        sum &#43;&#61; prime;
+    &#125;
+    auto end &#61; std::chrono::high_resolution_clock::now&#40;&#41;;
+    std::chrono::duration&lt;double&gt; duration &#61; end - start;
+    std::cout &lt;&lt; &quot;Sum of primes: &quot; &lt;&lt; sum &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;Time taken: &quot; &lt;&lt; duration.count&#40;&#41; &lt;&lt; &quot; seconds&quot; &lt;&lt; std::endl;
+    return 0;
+&#125;</code></pre>
+<p>Output is : </p>
+<pre><code class="language-julia">Sum of primes: 279209790387276
+Time taken: 0.108293 seconds</code></pre>
+<ol start="2">
+<li><p><code>Julia</code><br/></p>
+</li>
+</ol>
+<pre><code class="language-julia">using Primes
+function sum_of_primes&#40;N::Int&#41;
+    return sum&#40;primes&#40;2,N&#41;&#41;
+end
+N &#61; 10^8
+@time result &#61; sum_of_primes&#40;N&#41;
+println&#40;&quot;Sum of primes: &#36;result&quot;&#41;</code></pre>
+<p>Output is : </p>
+<pre><code class="language-julia">0.307588 seconds &#40;9 allocations: 69.530 MiB, 11.76&#37; gc time&#41;
+Sum of primes: 279209790387276</code></pre>
+<ol start="3">
+<li><p><code>Fortran</code><br/></p>
+</li>
+</ol>
+<pre><code class="language-fortran">program sum_of_primes
+    implicit none
+    integer, parameter :: N &#61; 100000000
+    logical, allocatable :: primes&#40;:&#41;
+    integer :: sum, p
+    integer :: start_time, end_time, count_rate
+    allocate&#40;primes&#40;N &#43; 1&#41;&#41;
+    primes &#61; .true.  &#33; Assume all numbers are prime initially
+    primes&#40;1&#41; &#61; .false.  &#33; 1 is not a prime number
+    call system_clock&#40;start_time, count_rate&#41;
+    do p &#61; 2, int&#40;sqrt&#40;real&#40;N&#41;&#41;&#41;
+        if &#40;primes&#40;p&#41;&#41; then
+            primes&#40;p*p:N&#41; &#61; .false.
+        end if
+    end do
+    sum &#61; 0
+    do p &#61; 2, N
+        if &#40;primes&#40;p&#41;&#41; sum &#61; sum &#43; p
+    end do
+    call system_clock&#40;end_time, count_rate&#41;
+    print *, &quot;Sum of primes up to &quot;, N, &quot; is: &quot;, sum
+    print *, &quot;Time taken: &quot;, real&#40;end_time - start_time&#41; / real&#40;count_rate&#41;, &quot; seconds&quot;
+    deallocate&#40;primes&#41;
+end program sum_of_primes</code></pre>
+<p>Output is : </p>
+<pre><code class="language-julia">Sum of primes up to    100000000  is:            5
+ Time taken:   0.370000005      seconds</code></pre>
+<ol start="4">
+<li><p><code>R</code><br/></p>
+</li>
+</ol>
+<pre><code class="language-R">library&#40;primes&#41;
+sieve_of_eratosthenes &lt;- function&#40;N&#41; &#123;
+  prime_numbers &lt;- generate_primes&#40;2, N&#41;
+  return&#40;sum&#40;prime_numbers&#41;&#41;
+&#125;
+N &lt;- 10^8
+system.time&#40;&#123;
+  result &lt;- sieve_of_eratosthenes&#40;N&#41;
+&#125;&#41;
+print&#40;result&#41;</code></pre>
+<p>Output is :</p>
+<pre><code class="language-julia">user  system elapsed 
+0.493   0.028   0.520 
+&#91;1&#93; 2.792098e&#43;14</code></pre>
+<ol start="5">
+<li><p><code>Python</code><br/></p>
+</li>
+</ol>
+<pre><code class="language-python">import time
+from sympy import primerange
+def sum_of_primes&#40;N&#41;:
+    return sum&#40;primerange&#40;2, N &#43; 1&#41;&#41;
+N &#61; 10**8
+start_time &#61; time.time&#40;&#41;
+result &#61; sum_of_primes&#40;N&#41;
+end_time &#61; time.time&#40;&#41;
+print&#40;f&quot;Sum of primes: &#123;result&#125;&quot;&#41;
+print&#40;f&quot;Time taken: &#123;end_time - start_time&#125; seconds&quot;&#41;</code></pre>
+<p>Output is : </p>
+<pre><code class="language-julia">Sum of primes: 279209790387276
+Time taken: 68.92483925819397 seconds</code></pre>
+<p>Well...Now <code>C&#43;&#43;</code> is the boss now&#33;<br/> I have you have learnt something new and enjoyed it. 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       Just a request. If possible please run the codes and let me know what you get&#33; 
   </fieldset>
@@ -456,7 +617,7 @@ echo &quot;System information and language versions have been saved to &#36;outp
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 19, 2024.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 20, 2024.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

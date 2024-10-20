@@ -91,13 +91,48 @@ print(f"Time taken: {end_time - start_time} seconds")
 ```
 Save this one as `primes.py`.
 ### C++
-For c++, ;),
+For C++, ;),
 ```cpp
 #include <iostream>
-#include <vector>
-#include <cmath>
 #include <chrono>
+#include <cstring>
+
 long long sieve_of_eratosthenes(int N) {
+    unsigned char* primes = new unsigned char[N + 1];
+    memset(primes, 1, N + 1);
+    long long sum = 0;
+    for (int p = 2; p * p <= N; ++p) {
+        if (primes[p]) {
+            for (int i = p * p; i <= N; i += p)
+                primes[i] = 0;
+        }
+    }
+    for (int p = 2; p <= N; ++p) {
+        if (primes[p]) {
+            sum += p;
+        }
+    }
+    delete[] primes;
+    return sum;
+}
+int main() {
+    int N = 100000000;
+    auto start = std::chrono::high_resolution_clock::now();
+    long long result = sieve_of_eratosthenes(N);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Sum of primes: " << result << std::endl;
+    std::cout << "Time taken: " << duration.count() << " seconds" << std::endl;
+    return 0;
+}
+```
+\note{
+```cpp
+    #include <iostream>
+    #include <vector>
+    #include <cmath>
+    #include <chrono>
+    long long sieve_of_eratosthenes(int N) {
     std::vector<bool> primes(N + 1, true);
     long long sum = 0;
     for (int p = 2; p * p <= N; ++p) {
@@ -112,8 +147,8 @@ long long sieve_of_eratosthenes(int N) {
         }
     }
     return sum;
-}
-int main() {
+    }
+    int main() {
     int N = 100000000;
     auto start = std::chrono::high_resolution_clock::now();
     long long result = sieve_of_eratosthenes(N);
@@ -122,8 +157,9 @@ int main() {
     std::cout << "Sum of primes: " << result << std::endl;
     std::cout << "Time taken: " << duration.count() << " seconds" << std::endl;
     return 0;
-}
-```
+    }
+    ``` 
+    This was the previous code.}
 Saving this as `primes.cpp`.
 ### Fortran
 For this one,
@@ -238,82 +274,106 @@ Once done, we have the results(this is due to what happens when we run julia for
 
 ### Results
 Let's see results of each one:
-1. For `Fortran`:
-| Iteration | Sum of Primes          | Time Taken (seconds)        |
-|-----------|------------------------|-----------------------------|
-| $1$       | $279209790387276$       | $1.070785$                  |
-| $2$       | $279209790387276$       | $1.068295$                  |
-| $3$       | $279209790387276$       | $1.089001$                  |
-| $4$       | $279209790387276$       | $1.070244$                  |
-| $5$       | $279209790387276$       | $1.081850$                  |
-| $6$       | $279209790387276$       | $1.065128$                  |
-| $7$       | $279209790387276$       | $1.072845$                  |
-| $8$       | $279209790387276$       | $1.061545$                  |
-| $9$       | $279209790387276$       | $1.102363$                  |
-| $10$      | $279209790387276$       | $1.090591$                  |
+1. For `Julia`:
+
+| Iteration | Sum of Primes          | Time Taken (seconds)        | Allocations                      | Compilation Time (%) |
+|-----------|------------------------|-----------------------------|----------------------------------|----------------------|
+| $1$       | $279209790387276$       | $0.914137$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.80$               |
+| $2$       | $279209790387276$       | $0.916980$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.79$               |
+| $3$       | $279209790387276$       | $0.917002$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.80$               |
+| $4$       | $279209790387276$       | $0.915913$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.86$               |
+| $5$       | $279209790387276$       | $0.929013$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.83$               |
+| $6$       | $279209790387276$       | $0.920761$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.85$               |
+| $7$       | $279209790387276$       | $0.924105$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.81$               |
+| $8$       | $279209790387276$       | $0.919019$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.79$               |
+| $9$       | $279209790387276$       | $0.917901$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.73$               |
+| $10$      | $279209790387276$       | $0.919431$                  | $230.34 \, \text{k}$, $23.432 \, \text{MiB}$ | $6.78$               |
 Clearly, we can see who is the winner.
-2. For `julia`:
+
+2. For `C++`:
 | Iteration | Sum of Primes          | Time Taken (seconds)        |
 |-----------|------------------------|-----------------------------|
-| $1$       | $279209790387276$       | $1.63499994$                |
-| $2$       | $279209790387276$       | $1.47800002$                |
-| $3$       | $279209790387276$       | $1.61299999$                |
-| $4$       | $279209790387276$       | $1.49499998$                |
-| $5$       | $279209790387276$       | $1.49699996$                |
-| $6$       | $279209790387276$       | $1.63900001$                |
-| $7$       | $279209790387276$       | $1.62799997$                |
-| $8$       | $279209790387276$       | $1.61999996$                |
-| $9$       | $279209790387276$       | $1.49999998$                |
-| $10$      | $279209790387276$       | $1.61700006$                |
-3. For `c++`:
-| Iteration | Sum of Primes          | Time Taken (seconds)        |
-|-----------|------------------------|-----------------------------|
-| $1$       | $279209790387276$       | $10.8402$                   |
-| $2$       | $279209790387276$       | $11.0474$                   |
-| $3$       | $279209790387276$       | $12.0759$                   |
-| $4$       | $279209790387276$       | $11.1812$                   |
-| $5$       | $279209790387276$       | $11.1218$                   |
-| $6$       | $279209790387276$       | $11.1408$                   |
-| $7$       | $279209790387276$       | $11.1379$                   |
-| $8$       | $279209790387276$       | $10.9725$                   |
-| $9$       | $279209790387276$       | $11.0904$                   |
-| $10$      | $279209790387276$       | $11.0407$                   |
+| $1$       | $279209790387276$       | $1.29177$                   |
+| $2$       | $279209790387276$       | $1.23304$                   |
+| $3$       | $279209790387276$       | $1.23141$                   |
+| $4$       | $279209790387276$       | $1.23800$                   |
+| $5$       | $279209790387276$       | $1.23524$                   |
+| $6$       | $279209790387276$       | $1.23862$                   |
+| $7$       | $279209790387276$       | $1.23189$                   |
+| $8$       | $279209790387276$       | $1.23681$                   |
+| $9$       | $279209790387276$       | $1.23351$                   |
+| $10$      | $279209790387276$       | $1.23072$                   |
+\note{
+
+| Iteration | Sum of Primes          | Time Taken (seconds)         |\\
+|-----------|------------------------|------------------------------|\\
+| $1$       | $279209790387276$       | $10.8402$                   |\\
+| $2$       | $279209790387276$       | $11.0474$                   |\\
+| $3$       | $279209790387276$       | $12.0759$                   |\\
+| $4$       | $279209790387276$       | $11.1812$                   |\\
+| $5$       | $279209790387276$       | $11.1218$                   |\\
+| $6$       | $279209790387276$       | $11.1408$                   |\\
+| $7$       | $279209790387276$       | $11.1379$                   |\\
+| $8$       | $279209790387276$       | $10.9725$                   |\\
+| $9$       | $279209790387276$       | $11.0904$                   |\\
+| $10$      | $279209790387276$       | $11.0407$                   |\\
 Unexpected!... I don't know it is this slow due to my machine or not. Can someone verify this?
+
+This is previously here. I was not able to understand why C++ is slow!. But a nice person in the comment point that out.(See the comment of Yolhan).
+}
+3. For `Fortran`:
+
+| Iteration | Sum of Primes          | Time Taken (seconds) |
+|-----------|------------------------|----------------------|
+| $1$       | $279209790387276$       | $1.53100002$         |
+| $2$       | $279209790387276$       | $1.54400003$         |
+| $3$       | $279209790387276$       | $1.53999996$         |
+| $4$       | $279209790387276$       | $1.53499997$         |
+| $5$       | $279209790387276$       | $1.53799999$         |
+| $6$       | $279209790387276$       | $1.53100002$         |
+| $7$       | $279209790387276$       | $1.53600001$         |
+| $8$       | $279209790387276$       | $1.54299998$         |
+| $9$       | $279209790387276$       | $1.54600000$         |
+| $10$      | $279209790387276$       | $1.53999996$         |
+
 4. For `R`:
-| Iteration | Sum of Primes        | Time Taken (seconds) |
-|-----------|----------------------|----------------------|
-| $1$       | $279209790387276$     | $18.054$             |
-| $2$       | $279209790387276$     | $16.135$             |
-| $3$       | $279209790387276$     | $16.216$             |
-| $4$       | $279209790387276$     | $15.998$             |
-| $5$       | $279209790387276$     | $16.240$             |
-| $6$       | $279209790387276$     | $15.995$             |
-| $7$       | $279209790387276$     | $16.319$             |
-| $8$       | $279209790387276$     | $16.181$             |
-| $9$       | $279209790387276$     | $16.078$             |
-| $10$      | $279209790387276$     | $16.028$             |
+Here Elapsed Time is the Time Taken.
+
+| Iteration | Elapsed Time (seconds) | User Time (seconds) | System Time (seconds) |
+|-----------|------------------------|---------------------|-----------------------|
+| $1$       | $14.953$               | $13.075$            | $1.866$               |
+| $2$       | $14.750$               | $12.848$            | $1.903$               |
+| $3$       | $14.780$               | $12.897$            | $1.885$               |
+| $4$       | $14.753$               | $12.840$            | $1.913$               |
+| $5$       | $14.952$               | $13.098$            | $1.856$               |
+| $6$       | $15.129$               | $13.192$            | $1.938$               |
+| $7$       | $14.956$               | $13.067$            | $1.890$               |
+| $8$       | $14.788$               | $12.882$            | $1.908$               |
+| $9$       | $14.970$               | $13.090$            | $1.880$               |
+| $10$      | $15.529$               | $13.632$            | $1.898$               |
+
 5. For `python`:
-| Iteration | Sum of Primes          | Time Taken (seconds)        |
-|-----------|------------------------|-----------------------------|
-| $1$       | $279209790387276$       | $20.6143$                   |
-| $2$       | $279209790387276$       | $20.8444$                   |
-| $3$       | $279209790387276$       | $20.6110$                   |
-| $4$       | $279209790387276$       | $22.8873$                   |
-| $5$       | $279209790387276$       | $20.4012$                   |
-| $6$       | $279209790387276$       | $20.5705$                   |
-| $7$       | $279209790387276$       | $20.4197$                   |
-| $8$       | $279209790387276$       | $20.7123$                   |
-| $9$       | $279209790387276$       | $20.4700$                   |
-| $10$      | $279209790387276$       | $20.6882$                   |
+| Iteration | Sum of Primes           | Time Taken (seconds)   |
+|-----------|-------------------------|------------------------|
+| $1$       | $279209790387276$        | $19.59793257713318$    |
+| $2$       | $279209790387276$        | $19.903280019760132$   |
+| $3$       | $279209790387276$        | $19.65820622444153$    |
+| $4$       | $279209790387276$        | $19.870051622390747$   |
+| $5$       | $279209790387276$        | $19.976346492767334$   |
+| $6$       | $279209790387276$        | $19.489915370941162$   |
+| $7$       | $279209790387276$        | $19.572935581207275$   |
+| $8$       | $279209790387276$        | $19.436674118041992$   |
+| $9$       | $279209790387276$        | $19.50352454185486$    |
+| $10$      | $279209790387276$        | $19.746686935424805$   |
 
 Let's see a plot which shows all of these:
 ```julia:./fast_curious.jl
 using Plots; plotlyjs()
-fortran_times = [1.070785, 1.068295, 1.089001, 1.070244, 1.081850, 1.065128, 1.072845, 1.061545, 1.102363, 1.090591]
-julia_times = [1.63499994, 1.47800002, 1.61299999, 1.49499998, 1.49699996, 1.63900001, 1.62799997, 1.61999996, 1.49999998, 1.61700006]
-cpp_times = [10.8402, 11.0474, 12.0759, 11.1812, 11.1218, 11.1408, 11.1379, 10.9725, 11.0904, 11.0407]
-r_times = [18.054, 16.135, 16.216, 15.998, 16.240, 15.995, 16.319, 16.181, 16.078, 16.028]
-python_times = [20.6143, 20.8444, 20.6110, 22.8873, 20.4012, 20.5705, 20.4197, 20.7123, 20.4700, 20.6882]
+fortran_times = [1.53100002, 1.54400003, 1.53999996, 1.53499997, 1.53799999, 1.53100002, 1.53600001, 1.54299998, 1.54600000, 1.53999996]
+julia_times = [0.914137, 0.916980, 0.917002, 0.915913, 0.929013, 0.920761, 0.924105, 0.919019, 0.917901, 0.919431]
+cpp_times = [1.29177, 1.23304, 1.23141, 1.23800, 1.23524, 1.23862, 1.23189, 1.23681, 1.23351, 1.23072]
+r_times = [14.953, 14.750, 14.780, 14.753, 14.952, 15.129, 14.956, 14.788, 14.970, 15.529]
+python_times = [19.59793257713318, 19.903280019760132, 19.65820622444153, 19.870051622390747, 19.976346492767334, 19.489915370941162, 19.572935581207275, 19.436674118041992, 19.50352454185486, 19.746686935424805]
 iterations = 1:10
 p = plot(iterations, fortran_times, label="Fortran", lw=2, marker=:o, markersize=6)
 plot!(iterations, julia_times, label="Julia", lw=2, marker=:o, markersize=6)
@@ -324,8 +384,9 @@ xlabel!("Iterations")
 ylabel!("Time Taken (seconds)")
 title!("Time Comparison of Sum of Primes Across Different Languages")
 plot!(legend=:topright)
+#savefig(p, joinpath(@OUTPUT, "fast_cou11.json"))
 ```
-\fig{output/fast_cou1}
+\fig{output/fast_cou11}
 It very clearly shows which one is superior and which is not for this particular code. Now, we can modify the codes for more efficiency and optimization (like using Numpy/Numba, StaticArray, Eigen, OpenMP , etc), but here for this blog I think it's enough. We will continue for discussion in some other blog.
 
 ---
@@ -398,6 +459,131 @@ output_file="system_info.txt"
 echo "System information and language versions have been saved to $output_file"
 
 ```
+### Extra Remark
+After positing this, many people get offended. I get your point, but many people has done same and also many languages show this as their strength. Also, I will keep this blog as I am learning new things from good peoples(like the one in the comments).
+
+\note{
+From a physics student or teacher's point of view, comparing the speed of different programming languages is not necessarily misleading but needs to be done with proper context.
+
+Different languages have different strengths and are suited to different tasks. For instance, in computational physics, the speed of a language can be crucial for simulations or large-scale numerical problems. Comparing languages based on speed can be useful for choosing the right tool for specific problems.
+
+However, it is important to keep in mind that speed isn't the only factor. Other considerations, like ease of development, the availability of scientific libraries, and the ability to handle complex algorithms, are also important in physics. Therefore, speed comparisons can be informative as long as they are done with a clear understanding of the problem being solved and the resources available.
+}
+
+Also, let's write a code which uses libraries and uses the strength of each of the languages. I will just run $1$ iteration (I was planning to do this in some seperate blog but whatever).
+
+1. `C++`\\
+```cpp
+#include <iostream>
+#include <chrono>
+#include <vector>
+#include <primesieve.hpp>
+int main() {
+    int N = 100000000;
+    std::vector<uint64_t> primes;
+    auto start = std::chrono::high_resolution_clock::now();
+    primesieve::generate_primes(N, &primes);
+    uint64_t sum = 0;
+    for (const auto& prime : primes) {
+        sum += prime;
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Sum of primes: " << sum << std::endl;
+    std::cout << "Time taken: " << duration.count() << " seconds" << std::endl;
+    return 0;
+}
+```
+Output is : 
+```
+Sum of primes: 279209790387276
+Time taken: 0.108293 seconds
+```
+2. `Julia`\\
+```
+using Primes
+function sum_of_primes(N::Int)
+    return sum(primes(2,N))
+end
+N = 10^8
+@time result = sum_of_primes(N)
+println("Sum of primes: $result")
+```
+Output is : 
+```
+0.307588 seconds (9 allocations: 69.530 MiB, 11.76% gc time)
+Sum of primes: 279209790387276
+```
+3. `Fortran`\\
+```fortran
+program sum_of_primes
+    implicit none
+    integer, parameter :: N = 100000000
+    logical, allocatable :: primes(:)
+    integer :: sum, p
+    integer :: start_time, end_time, count_rate
+    allocate(primes(N + 1))
+    primes = .true.  ! Assume all numbers are prime initially
+    primes(1) = .false.  ! 1 is not a prime number
+    call system_clock(start_time, count_rate)
+    do p = 2, int(sqrt(real(N)))
+        if (primes(p)) then
+            primes(p*p:N) = .false.
+        end if
+    end do
+    sum = 0
+    do p = 2, N
+        if (primes(p)) sum = sum + p
+    end do
+    call system_clock(end_time, count_rate)
+    print *, "Sum of primes up to ", N, " is: ", sum
+    print *, "Time taken: ", real(end_time - start_time) / real(count_rate), " seconds"
+    deallocate(primes)
+end program sum_of_primes
+```
+Output is : 
+```
+ Sum of primes up to    100000000  is:            5
+ Time taken:   0.370000005      seconds
+```
+4. `R`\\
+```R
+library(primes)
+sieve_of_eratosthenes <- function(N) {
+  prime_numbers <- generate_primes(2, N)
+  return(sum(prime_numbers))
+}
+N <- 10^8
+system.time({
+  result <- sieve_of_eratosthenes(N)
+})
+print(result)
+```
+Output is :
+```
+user  system elapsed 
+0.493   0.028   0.520 
+[1] 2.792098e+14
+```
+5. `Python`\\
+```python
+import time
+from sympy import primerange
+def sum_of_primes(N):
+    return sum(primerange(2, N + 1))
+N = 10**8
+start_time = time.time()
+result = sum_of_primes(N)
+end_time = time.time()
+print(f"Sum of primes: {result}")
+print(f"Time taken: {end_time - start_time} seconds")
+```
+Output is : 
+```
+ Sum of primes: 279209790387276
+Time taken: 68.92483925819397 seconds
+```
+Well...Now `C++` is the boss now!\\
 I have you have learnt something new and enjoyed it.
 \note{
     Just a request. If possible please run the codes and let me know what you get!
