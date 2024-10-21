@@ -159,7 +159,7 @@
       This website is made using Franklin.jl so have to use put julia before any one of others. Sorry ;&#41; 
   </fieldset>
   
-<pre><code class="language-julia">function sieve_of_eratosthenes&#40;N&#41;
+<pre><code class="language-julia">function sum_of_primes&#40;N&#41;
     primes &#61; trues&#40;N&#41;
     for p in 2:floor&#40;Int, sqrt&#40;N&#41;&#41;
         if primes&#91;p&#93;
@@ -171,13 +171,14 @@
     return sum&#40;p for p in 2:N if primes&#91;p&#93;&#41;
 end
 N &#61; 10^8
-@time result &#61; sieve_of_eratosthenes&#40;N&#41;
+sum_of_primes&#40;1&#41;
+@time result &#61; sum_of_primes&#40;N&#41;
 println&#40;&quot;Sum of primes: &#36;result&quot;&#41;</code></pre>
 <p>I have saved this file as <code>primes.jl</code>.</p>
 <h3 id="python"><a href="#python" class="header-anchor">Python</a></h3>
 <p>Let&#39;s see now the python code.</p>
 <pre><code class="language-python">import time
-def sieve_of_eratosthenes&#40;N&#41;:
+def sum_of_primes&#40;N&#41;:
     primes &#61; &#91;True&#93; * &#40;N &#43; 1&#41;
     p &#61; 2
     while p * p &lt;&#61; N:
@@ -188,7 +189,7 @@ def sieve_of_eratosthenes&#40;N&#41;:
     return sum&#40;p for p in range&#40;2, N&#43;1&#41; if primes&#91;p&#93;&#41;
 N &#61; 10**8
 start_time &#61; time.time&#40;&#41;
-result &#61; sieve_of_eratosthenes&#40;N&#41;
+result &#61; sum_of_primes&#40;N&#41;
 end_time &#61; time.time&#40;&#41;
 print&#40;f&quot;Sum of primes: &#123;result&#125;&quot;&#41;
 print&#40;f&quot;Time taken: &#123;end_time - start_time&#125; seconds&quot;&#41;</code></pre>
@@ -199,7 +200,7 @@ print&#40;f&quot;Time taken: &#123;end_time - start_time&#125; seconds&quot;&#41
 #include &lt;chrono&gt;
 #include &lt;cstring&gt;
 
-long long sieve_of_eratosthenes&#40;int N&#41; &#123;
+long long sum_of_primes&#40;int N&#41; &#123;
     unsigned char* primes &#61; new unsigned char&#91;N &#43; 1&#93;;
     memset&#40;primes, 1, N &#43; 1&#41;;
     long long sum &#61; 0;
@@ -220,7 +221,7 @@ long long sieve_of_eratosthenes&#40;int N&#41; &#123;
 int main&#40;&#41; &#123;
     int N &#61; 100000000;
     auto start &#61; std::chrono::high_resolution_clock::now&#40;&#41;;
-    long long result &#61; sieve_of_eratosthenes&#40;N&#41;;
+    long long result &#61; sum_of_primes&#40;N&#41;;
     auto end &#61; std::chrono::high_resolution_clock::now&#40;&#41;;
     std::chrono::duration&lt;double&gt; duration &#61; end - start;
     std::cout &lt;&lt; &quot;Sum of primes: &quot; &lt;&lt; result &lt;&lt; std::endl;
@@ -296,7 +297,7 @@ end program sum_of_primes</code></pre>
 <p>Save this one as <code>primes.f90</code></p>
 <h3 id="r"><a href="#r" class="header-anchor">R</a></h3>
 <p>For R, the code is,</p>
-<pre><code class="language-R">sieve_of_eratosthenes &lt;- function&#40;N&#41; &#123;
+<pre><code class="language-R">sum_of_primes &lt;- function&#40;N&#41; &#123;
   primes &lt;- rep&#40;TRUE, N&#41;
   p &lt;- 2
   while &#40;p^2 &lt;&#61; N&#41; &#123;
@@ -311,7 +312,7 @@ end program sum_of_primes</code></pre>
 &#125;
 N &lt;- 10^8
 system.time&#40;&#123;
-  result &lt;- sieve_of_eratosthenes&#40;N&#41;
+  result &lt;- sum_of_primes&#40;N&#41;
 &#125;&#41;
 print&#40;result&#41;</code></pre>
 <p>Save this final one as <code>primes.R</code>.</p>
@@ -331,7 +332,7 @@ if &#91; &#36;? -ne 0 &#93;; then
     echo &quot;Fortran compilation failed&quot;
     exit 1
 fi
-for i in &#123;1..11&#125;
+for i in &#123;1..10&#125;
 do
     echo &quot;Running Python iteration &#36;i&quot;
     python3 primes.py &gt;&gt; output_python.txt
@@ -380,7 +381,7 @@ echo &quot;All iterations completed.&quot;</code></pre>
 <p>Save this as <code>run_tests.sh</code> in the same folder as all the previous code.<br/> To run this, use the two commands:</p>
 <pre><code class="language-julia">chmod &#43;x run_tests.sh
 ./run_tests.sh</code></pre>
-<p>This will run all the codes \(11\) times and save each iteration output in the respective output txt files. Once done, we have the results&#40;this is due to what happens when we run julia for first time. We will use last \(10\)&#41;. 
+<p>This will run all the codes \(11\) times and save each iteration output in the respective output txt files. Once done, we have the results. 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       Thanks to Mose Giordano from julia community for pointing out few facts about running <code>c&#43;&#43;</code> and <code>fortran</code> code. For detail see: <a href="https://julialang.slack.com/archives/C67910KEH/p1729373335723409?thread_ts&#61;1729371119.007759&amp;cid&#61;C67910KEH">Link</a> 
   </fieldset>
@@ -437,9 +438,9 @@ ylabel&#33;&#40;&quot;Time Taken &#40;seconds&#41;&quot;&#41;
 title&#33;&#40;&quot;Time Comparison of Sum of Primes Across Different Languages&quot;&#41;
 plot&#33;&#40;legend&#61;:topright&#41;
 savefig&#40;p, joinpath&#40;@OUTPUT, &quot;fast_cou10.json&quot;&#41;&#41;</code></pre>
-<p><div id="fdphxe" style=""></div>
+<p><div id="fdpxka" style=""></div>
 <script>
-graphDiv = document.getElementById("fdphxe");
+graphDiv = document.getElementById("fdpxka");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/fast_and_curious/code/output/fast_cou10.json');
 </script>
  It very clearly shows which one is superior and which is not for this particular code. Now, we can modify the codes for more efficiency and optimization &#40;like using Numpy/Numba, StaticArray, Eigen, OpenMP , etc&#41;, but here for this blog I think it&#39;s enough. We will continue for discussion in some other blog.</p>
@@ -537,6 +538,7 @@ function sum_of_primes&#40;N::Int&#41;
     return sum&#40;primes&#40;2,N&#41;&#41;
 end
 N &#61; 10^8
+sum_of_primes&#40;1&#41;
 @time result &#61; sum_of_primes&#40;N&#41;
 println&#40;&quot;Sum of primes: &#36;result&quot;&#41;</code></pre>
 <p>Output is : </p>
@@ -578,13 +580,13 @@ end program sum_of_primes</code></pre>
 </li>
 </ol>
 <pre><code class="language-R">library&#40;primes&#41;
-sieve_of_eratosthenes &lt;- function&#40;N&#41; &#123;
+sum_of_primes &lt;- function&#40;N&#41; &#123;
   prime_numbers &lt;- generate_primes&#40;2, N&#41;
   return&#40;sum&#40;prime_numbers&#41;&#41;
 &#125;
 N &lt;- 10^8
 system.time&#40;&#123;
-  result &lt;- sieve_of_eratosthenes&#40;N&#41;
+  result &lt;- sum_of_primes&#40;N&#41;
 &#125;&#41;
 print&#40;result&#41;</code></pre>
 <p>Output is :</p>
@@ -596,9 +598,22 @@ print&#40;result&#41;</code></pre>
 </li>
 </ol>
 <pre><code class="language-python">import time
-from sympy import primerange
-def sum_of_primes&#40;N&#41;:
-    return sum&#40;primerange&#40;2, N &#43; 1&#41;&#41;
+import numpy as np
+from numba import jit
+@jit&#40;nopython&#61;True&#41;
+def sum_of_primes&#40;n&#41;:
+    &quot;&quot;&quot;Returns an array of primes, 3 &lt;&#61; p &lt; n using bit array and loop unrolling&quot;&quot;&quot;
+    sieve_bound &#61; &#40;n // 2&#41;
+    sieve &#61; np.ones&#40;sieve_bound, dtype&#61;np.uint8&#41;
+    crosslimit &#61; int&#40;n**0.5&#41; // 2
+    for i in range&#40;1, crosslimit &#43; 1&#41;:
+        if sieve&#91;i&#93;:
+            start &#61; 2 * i * &#40;i &#43; 1&#41;
+            step &#61; 2 * i &#43; 1
+            for j in range&#40;start, sieve_bound, step&#41;:
+                sieve&#91;j&#93; &#61; 0
+    primes &#61; 2 * np.nonzero&#40;sieve&#41;&#91;0&#93;&#91;1:&#93; &#43; 1
+    return sum&#40;primes&#41;&#43;2
 N &#61; 10**8
 start_time &#61; time.time&#40;&#41;
 result &#61; sum_of_primes&#40;N&#41;
@@ -607,8 +622,12 @@ print&#40;f&quot;Sum of primes: &#123;result&#125;&quot;&#41;
 print&#40;f&quot;Time taken: &#123;end_time - start_time&#125; seconds&quot;&#41;</code></pre>
 <p>Output is : </p>
 <pre><code class="language-julia">Sum of primes: 279209790387276
-Time taken: 68.92483925819397 seconds</code></pre>
-<p>Well...Now <code>C&#43;&#43;</code> is the boss now&#33;<br/> I have you have learnt something new and enjoyed it. 
+Time taken: 1.6742537021636963 seconds</code></pre>
+<p>
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      For python, initially I had used <code>primePy</code> library but it was much slower than this code for some reason. 
+  </fieldset>
+   Well...Now <code>C&#43;&#43;</code> is the boss now&#33;<br/> I have you have learnt something new and enjoyed it. 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       Just a request. If possible please run the codes and let me know what you get&#33; 
   </fieldset>
@@ -638,7 +657,7 @@ Time taken: 68.92483925819397 seconds</code></pre>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 20, 2024.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 21, 2024.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

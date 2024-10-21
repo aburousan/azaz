@@ -53,7 +53,7 @@ Let's see the codes in all $5$ languages.
     This website is made using Franklin.jl so have to use put julia before any one of others. Sorry ;)
 }
 ```julia
-function sieve_of_eratosthenes(N)
+function sum_of_primes(N)
     primes = trues(N)
     for p in 2:floor(Int, sqrt(N))
         if primes[p]
@@ -65,7 +65,8 @@ function sieve_of_eratosthenes(N)
     return sum(p for p in 2:N if primes[p])
 end
 N = 10^8
-@time result = sieve_of_eratosthenes(N)
+sum_of_primes(1)
+@time result = sum_of_primes(N)
 println("Sum of primes: $result")
 ```
 I have saved this file as `primes.jl`.
@@ -73,7 +74,7 @@ I have saved this file as `primes.jl`.
 Let's see now the python code.
 ```python
 import time
-def sieve_of_eratosthenes(N):
+def sum_of_primes(N):
     primes = [True] * (N + 1)
     p = 2
     while p * p <= N:
@@ -84,7 +85,7 @@ def sieve_of_eratosthenes(N):
     return sum(p for p in range(2, N+1) if primes[p])
 N = 10**8
 start_time = time.time()
-result = sieve_of_eratosthenes(N)
+result = sum_of_primes(N)
 end_time = time.time()
 print(f"Sum of primes: {result}")
 print(f"Time taken: {end_time - start_time} seconds")
@@ -97,7 +98,7 @@ For C++, ;),
 #include <chrono>
 #include <cstring>
 
-long long sieve_of_eratosthenes(int N) {
+long long sum_of_primes(int N) {
     unsigned char* primes = new unsigned char[N + 1];
     memset(primes, 1, N + 1);
     long long sum = 0;
@@ -118,7 +119,7 @@ long long sieve_of_eratosthenes(int N) {
 int main() {
     int N = 100000000;
     auto start = std::chrono::high_resolution_clock::now();
-    long long result = sieve_of_eratosthenes(N);
+    long long result = sum_of_primes(N);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
     std::cout << "Sum of primes: " << result << std::endl;
@@ -196,7 +197,7 @@ Save this one as `primes.f90`
 ### R
 For R, the code is,
 ```R
-sieve_of_eratosthenes <- function(N) {
+sum_of_primes <- function(N) {
   primes <- rep(TRUE, N)
   p <- 2
   while (p^2 <= N) {
@@ -211,7 +212,7 @@ sieve_of_eratosthenes <- function(N) {
 }
 N <- 10^8
 system.time({
-  result <- sieve_of_eratosthenes(N)
+  result <- sum_of_primes(N)
 })
 print(result)
 ```
@@ -234,7 +235,7 @@ if [ $? -ne 0 ]; then
     echo "Fortran compilation failed"
     exit 1
 fi
-for i in {1..11}
+for i in {1..10}
 do
     echo "Running Python iteration $i"
     python3 primes.py >> output_python.txt
@@ -288,7 +289,7 @@ chmod +x run_tests.sh
 ./run_tests.sh
 ```
 This will run all the codes $11$ times and save each iteration output in the respective output txt files.
-Once done, we have the results(this is due to what happens when we run julia for first time. We will use last $10$).
+Once done, we have the results.
 \note{
     Thanks to Mose Giordano from julia community for pointing out few facts about running `c++` and `fortran` code. For detail see: [Link](https://julialang.slack.com/archives/C67910KEH/p1729373335723409?thread_ts=1729371119.007759&cid=C67910KEH) 
 }
@@ -527,6 +528,7 @@ function sum_of_primes(N::Int)
     return sum(primes(2,N))
 end
 N = 10^8
+sum_of_primes(1)
 @time result = sum_of_primes(N)
 println("Sum of primes: $result")
 ```
@@ -570,13 +572,13 @@ Output is :
 4. `R`\\
 ```R
 library(primes)
-sieve_of_eratosthenes <- function(N) {
+sum_of_primes <- function(N) {
   prime_numbers <- generate_primes(2, N)
   return(sum(prime_numbers))
 }
 N <- 10^8
 system.time({
-  result <- sieve_of_eratosthenes(N)
+  result <- sum_of_primes(N)
 })
 print(result)
 ```
@@ -589,9 +591,22 @@ user  system elapsed
 5. `Python`\\
 ```python
 import time
-from sympy import primerange
-def sum_of_primes(N):
-    return sum(primerange(2, N + 1))
+import numpy as np
+from numba import jit
+@jit(nopython=True)
+def sum_of_primes(n):
+    """Returns an array of primes, 3 <= p < n using bit array and loop unrolling"""
+    sieve_bound = (n // 2)
+    sieve = np.ones(sieve_bound, dtype=np.uint8)
+    crosslimit = int(n**0.5) // 2
+    for i in range(1, crosslimit + 1):
+        if sieve[i]:
+            start = 2 * i * (i + 1)
+            step = 2 * i + 1
+            for j in range(start, sieve_bound, step):
+                sieve[j] = 0
+    primes = 2 * np.nonzero(sieve)[0][1:] + 1
+    return sum(primes)+2
 N = 10**8
 start_time = time.time()
 result = sum_of_primes(N)
@@ -601,9 +616,12 @@ print(f"Time taken: {end_time - start_time} seconds")
 ```
 Output is : 
 ```
- Sum of primes: 279209790387276
-Time taken: 68.92483925819397 seconds
+Sum of primes: 279209790387276
+Time taken: 1.6742537021636963 seconds
 ```
+\note{
+    For python, initially I had used `primePy` library but it was much slower than this code for some reason.
+}
 Well...Now `C++` is the boss now!\\
 I have you have learnt something new and enjoyed it.
 \note{
