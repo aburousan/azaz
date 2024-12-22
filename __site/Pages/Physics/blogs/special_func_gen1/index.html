@@ -117,8 +117,8 @@
 <div class="franklin-toc"><ol><li><a href="#introduction_to_gram-schmidt_orthogonalization">Introduction to Gram-Schmidt Orthogonalization</a></li><li><a href="#orthogonal_polynomials">Orthogonal Polynomials</a><ol><li><a href="#procedure_to_generate">Procedure to generate</a></li></ol></li><li><a href="#generating_special_functions">Generating Special Functions</a><ol><li><a href="#legendre_polynomials">Legendre Polynomials</a></li><li><a href="#hermite_polynomials">Hermite Polynomials</a></li></ol></li><li><a href="#differential_equations_for_the_polynomials">Differential Equations for the polynomials</a><ol><li><a href="#method">Method</a></li><li><a href="#example">Example</a></li></ol></li></ol></div>
 <h1 id="formation_of_orthogonal_polynomials_special_functions_using_tools_of_linear_algebra"><a href="#formation_of_orthogonal_polynomials_special_functions_using_tools_of_linear_algebra" class="header-anchor">Formation of Orthogonal Polynomials &#40;Special Functions&#41; using tools of Linear Algebra</a></h1>
 <p><strong><span style="color: purple">Special Functions</span></strong> refer to a set of mathematical functions that arise frequently in various physical contexts, particularly in solving differential equations that describe physical phenomena.</p>
-<p>But do we really need to solve the differential equations to get those functions/polynomials? or <strong><span style="color: blue">is there something more fundamental related to the functional sapce itself?</span></strong></p>
-<p>As we know, these functions are distributed through-out the whole physics world. To analyze most of the problems people need to know them. Well this is hard specially for students. So, is there any work around?<br/> Well, the answer is yes&#33; But how? <br/> <strong><span style="color: purple">In this blog we are going to learn the answers of the previous questions</span>.</strong> 
+<p>But do we really need to solve the differential equations to get those functions/polynomials? or <strong><span style="color: blue">is there something more fundamental related to the functional space itself?</span></strong></p>
+<p>As we know, these functions are distributed through-out the whole physics world. To analyze most of the problems people need to know them. Well this is hard specially for students. So, is there any work around?<br/> Well, the answer is yes&#33; But how? <br/> <strong><span style="color: purple">In this blog we are going to see exactly that</span>.</strong> 
   <fieldset class=" poem"><legend class=" poem-legend"> 🪶 Poem</legend>
       <strong>In the realm where numbers flow,<br/> Special functions start to grow.<br/> <span style="color: red">Bessel</span> hums with gentle grace,<br/> In vibrating strings, finds its place.<br/> <br/> <span style="color: red">Legendre</span> climbs the heights so tall,<br/> Solving spheres, answering the call.<br/> <span style="color: red">Hermite</span>’s waves, in quantum fields,<br/> Guide the paths that nature yields.<br/> <br/> <span style="color: red">Laguerre</span> whispers in the night,<br/> Where hydrogen’s glow burns bright.<br/> Hypergeometric, vast and grand,<br/> Unifying the cosmic strand.<br/> <br/> In this dance of math and light,<br/> Physics soars to unknown heights.<br/> Each function, a key so fine,<br/> Unlocking secrets, divine.</strong> 
   </fieldset>
@@ -279,8 +279,8 @@
 <p>Before discussing the <strong><span style="color: purple">Orthogonal Polynomials</span></strong> we have to define the inner product once again&#40;wft again&#33;... yes but for infinite dimensional vector spaces&#41;.</p>
 <p>An inner product on a vector space as we know is a map \(I:V \times V \to \mathbb{C}\) that has certain properties. Here I will not discuss the properties&#40;will assume you know if not then maybe read Afken&#39;s book or maybe Balakrishnan&#39;s book&#41;. So, let&#39;s define the inner product:</p>
 <p>Suppose we are considering functions in the interval \(x_1 \leq x \leq x_2\). An <span style="color: purple">inner product</span> of two such functions \(f(x)\) and \(g(x)\) can be defined as,</p>
-\[
-\langle f|g \rangle = \int_{x_1}^{x_2}dx w(x)f^*(x)g(x)
+<a id="inn_eq_con" class="anchor"></a>\[
+\langle f|g \rangle = \int_{x_1}^{x_2}dx w(x)f^*(x)g(x) 
 \]
 <p>where \(w(x)\) is called the <strong><span style="color: blue">weight function</span></strong> and \(f^*(x)\) represent complex conjugate of \(f(x)\). 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
@@ -289,7 +289,7 @@
   </p>
 <p>With this we are now ready to see how to generate special functions.</p>
 <hr />
-<p>As we know polynomials form a function space. If we restrict our attention to functions of \(1\) real variables, we can ask **<span style="color: red">what could be a convenient basis in these function space</span>. Maybe you can say it is </p>
+<p>As we know polynomials form a function space. If we restrict our attention to functions of \(1\) real variables, we can ask <strong><span style="color: red">what could be a convenient basis in these function space</span></strong>. Maybe you can say it is </p>
 \[
 1,x,x^2,x^3,\cdots, x^n,\cdots
 \]
@@ -337,7 +337,7 @@ I_n = \int_{x_1}^{x_2}dx w(x) x^n
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       If the weight function as well as the limits are symmetric, i.e., if </p>
 \[w(x) = w(-x) \text{ \ and \ } x_1 = -x_2\]
-<p>then each polynomial will contains **<span style="color: red">either only the even powers or only the odd powers</span> of \(x\). This means </p>
+<p>then each polynomial will contains <strong><span style="color: red">either only the even powers or only the odd powers</span></strong> of \(x\). This means </p>
 \[f_n(-x) = (-1)^nf_n(x)\]
 <p>Another interesting thing is, the condtions are same as the discrete version. To see this just write the inner product in bra-ket notation or see the julia code below. 
   </fieldset>
@@ -359,7 +359,7 @@ I_n = \int_{x_1}^{x_2}dx w(x) x^n
 <li><p>For the next one we get \(a_{21}=0\) and \(a_{20} = -1/3\). Again taking \(A_2 = 1\) gives \(P_2(x) = -1/3 + x^2\).</p>
 </li>
 </ol>
-<p>We can go as long as we want. This are exactly <span style="color: red">Legendre Polynomials</span>.<br/>  It should be noted that we have not taken proper normalization. We can certainly do that. To do that just choose the coefficients such that the sum of them is \(1\).</p>
+<p>We can go as long as we want. This are exactly <strong><span style="color: red">Legendre Polynomials</span></strong>.<br/>  It should be noted that we have not taken proper normalization. Here roughly we will find them by choosing the coefficients such that the sum of them is \(1\)&#40;This doesn&#39;t always works. Here I am just being lazy. To get the proper ones just take the inner product eqn-<span class="eqref">(<a href="#inn_eq_con">10</a>)</span> &amp; set it to \(1\)&#41;.</p>
 <p>As an example, coefficients of \(P_2(x)\) are \(1\) and \(-1/3\). Multiply by a factor of \(\alpha\) and solve such that the sum of all the coefficient is \(1\). This is \(\alpha + (-\frac{\alpha}{3}) = 1\) which gives \(\alpha = 3/2\). This gives \(P_2(x) = \frac{1}{2}(3x^2-1)\).</p>
 <p>Let&#39;s write a code in julia for this.</p>
 <pre><code class="language-julia">function inner_product&#40;f, g, a ,b, w&#41;
@@ -596,7 +596,7 @@ P_n(x) = \sum_{r=0}^{n}A_{nr}x^r
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 31, 2024.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: December 22, 2024.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

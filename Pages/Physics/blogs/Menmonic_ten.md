@@ -131,10 +131,21 @@ $$
 R^{\alpha}_{\beta \mu \nu} = + \partial_{\fbox{}}\Gamma^{\alpha}_{\fbox{}\fbox{}} - \partial_{\fbox{}}\Gamma^{\alpha}_{\fbox{}\fbox{}} + \Gamma^{\alpha}_{\fbox{}\textcolor{lime}{\lambda}} \Gamma^{\textcolor{lime}{\lambda}}_{\fbox{}\fbox{}} - \Gamma^{\alpha}_{\fbox{}\textcolor{lime}{\lambda}} \Gamma^{\textcolor{lime}{\lambda}}_{\fbox{}\fbox{}}
 $$
 The next step is to take our $3$ index $\beta$, $\mu$ and $\nu$ & push the **middle**($m$) one down as shown.
-\begin{tikzcd}{riem1}
+~~~
+<div class="row">
+  <div class="container">
+    <img class="center" src="/assets/Physics/blogs/Menmonic_ten/riem1.svg">
+    <p>
+    <i></i>.
+    </p>
+    <div style="clear: both"></div>      
+  </div>
+</div>
+~~~
+<!-- \begin{tikzcd}{riem1}
 \beta \mu \nu \arrow[r, "down"] & \beta & & \nu\\
  &  & \mu & 
-\end{tikzcd}
+\end{tikzcd} -->
 Now, for the **positive**($+$) terms, we start from $\mu$ and go \col{blue}{anticlockwise} direction & for the **negative**($-$) terms, we start from $\nu$ and go \col{blue}{clockwise} term, as we do for \col{blue}{angle} measurment.
 
 The picture below should show what I mean.

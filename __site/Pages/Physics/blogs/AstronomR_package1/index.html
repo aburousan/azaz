@@ -9,7 +9,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
    <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
    
   <link rel="stylesheet" href="/css/franklin.css">
@@ -31,7 +32,7 @@
 </style>
 <![endif]-->
 
-   <title>Blogs</title>  
+   <title>Finding age of the Universe using AstronomR</title>  
   <!-- end custom head snippets -->
 </head>
 <body class="layout--single">
@@ -113,23 +114,30 @@
 
 
   <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
-<h1 id="list_of_blogs"><a href="#list_of_blogs" class="header-anchor">List of Blogs</a></h1>
-<p>This contains some interesting things related to physics:<br/> &#40;<em>This part will be updated as new blogs are added</em>&#41;</p>
-<ol>
-<li><p><a href="/Pages/Physics/blogs/TD_as_CT/">Time Dilation as Coordinate Transformation</a> –&gt; Yeah&#33;&#33;... First blog</p>
-</li>
-<li><p><a href="/Pages/Physics/blogs/Light_Momentum/">What exactly is Light&#39;s Momentum?</a> –&gt; Second Blog&#33;</p>
-</li>
-<li><p><a href="/Pages/Physics/blogs/Menmonic_ten/">Mnemonic for Riemann Tensor</a> –&gt; Memorising not good&#33; 🥲</p>
-</li>
-<li><p><a href="/Pages/Physics/blogs/special_func_gen1/">Formation of Orthogonal Polynomials using Linear Algebra</a> –&gt; Creating any Special Function?&#33;</p>
-</li>
-<li><p><a href="/Pages/Physics/blogs/temp_stat/">What exactly is Temperature ? A Statistical Picture</a> –&gt; Want some ice-cream?</p>
-</li>
-</ol>
 
-<button onclick="window.history.back()">Go Back</button>
+<h1 id="finding_age_of_the_universe_using_astronomr"><a href="#finding_age_of_the_universe_using_astronomr" class="header-anchor">Finding age of the Universe using AstronomR</a></h1>
+</p>
+<pre><code class="language-r">x &lt;- 2&#43;2</code></pre>
+<p><pre><code class="plaintext code-output">LoadError: RParseError: Error: unexpected symbol
+in expression starting at none:1
+</code></pre>
+</p>
+<pre><code class="language-python">import numpy as np
+  np.random.seed&#40;2&#41;
+  x &#61; np.random.randn&#40;5&#41;
+  r &#61; np.linalg.norm&#40;x&#41; / len&#40;x&#41;
+  np.round&#40;r, 2&#41;</code></pre>
+<p><pre><code class="plaintext code-output">0.65
+</code></pre>
 
+<table><tr><th align="left">Name</th><th align="left">Number</th></tr><tr><td align="left">Taimur</td><td align="left">1525</td></tr><tr><td align="left">Catherine</td><td align="left">5134</td></tr><tr><td align="left">Maria</td><td align="left">4214</td></tr><tr><td align="left">Arvind</td><td align="left">9019</td></tr><tr><td align="left">Jose</td><td align="left">8918</td></tr><tr><td align="left">Minjie</td><td align="left">5757</td></tr></table>
+
+\[
+using Latexify
+empty_ary = Array{Float32, 2}(undef, 2, 2)
+ls = latexify(empty_ary) # this is an L string
+
+\]
 <div class="page-foot">
     <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: December 22, 2024.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
@@ -180,6 +188,11 @@
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
 
     
     

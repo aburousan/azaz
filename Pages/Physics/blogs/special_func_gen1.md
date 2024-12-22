@@ -13,11 +13,11 @@ tags = ["code", "Linear_Algebra", "Special_Function", "Gram-Schmidt_Orthogonaliz
 
 **\col{purple}{Special Functions}** refer to a set of mathematical functions that arise frequently in various physical contexts, particularly in solving differential equations that describe physical phenomena.
 
-But do we really need to solve the differential equations to get those functions/polynomials? or **\col{blue}{is there something more fundamental related to the functional sapce itself?}**
+But do we really need to solve the differential equations to get those functions/polynomials? or **\col{blue}{is there something more fundamental related to the functional space itself?}**
 
 As we know, these functions are distributed through-out the whole physics world. To analyze most of the problems people need to know them. Well this is hard specially for students. So, is there any work around?\\
 Well, the answer is yes! But how? \\
-**\col{purple}{In this blog we are going to learn the answers of the previous questions}.**
+**\col{purple}{In this blog we are going to see exactly that}.**
 \poem{
 **In the realm where numbers flow,\\
 Special functions start to grow.\\
@@ -173,32 +173,6 @@ Let's see an example.
 </script>
 ~~~
 So, we have created **\col{red}{two orthogonal vectors}** from two non-orthogonal vectors. If we can also take the vectors to be normalized. But like mentioned before, it really doesn't matter.
-<!-- ```julia:./mandel.jl
-function mandel_check(c,max_ita=1000)
-    z = 0
-    for i in 1:max_ita
-        z = z^2 + c
-        if abs(z) >= 2
-            print(c," is not in mandelbrot set upto set iter no.")
-            break
-        else
-            if i==max_ita && abs(z)<2
-                print(c," is in mandelbrot set upto set iter no.")
-            end
-        end
-    end
-end
-mandel_check(1)
-``` -->
-<!-- The output is:
-\output{./mandel.jl}
-For $c = 0.3 + 0.2\mathbb{i}$,
-
-```julia:./mandel.jl
-mandel_check(0.3+0.2im)
-``` -->
-<!-- \output{./mandel.jl} -->
-
 
 
 ## Orthogonal Polynomials
@@ -208,7 +182,7 @@ An inner product on a vector space as we know is a map $I:V \times V \to \mathbb
 
 Suppose we are considering functions in the interval $x_1 \leq x \leq x_2$. An \col{purple}{inner product} of two such functions $f(x)$ and $g(x)$ can be defined as,
 $$
-\langle f|g \rangle = \int_{x_1}^{x_2}dx w(x)f^*(x)g(x)
+\langle f|g \rangle = \int_{x_1}^{x_2}dx w(x)f^*(x)g(x) \label{inn_eq_con}
 $$
 where $w(x)$ is called the **\col{blue}{weight function}** and $f^*(x)$ represent complex conjugate of $f(x)$.
 \note{$w(x)\geq 0$ must be assumed as without it any function can't have positive norm. This is sort of metric of the functional space.}
@@ -217,7 +191,7 @@ With this we are now ready to see how to generate special functions.
 
 ---
 
-As we know polynomials form a function space. If we restrict our attention to functions of $1$ real variables, we can ask **\col{red}{what could be a convenient basis in these function space}. Maybe you can say it is 
+As we know polynomials form a function space. If we restrict our attention to functions of $1$ real variables, we can ask **\col{red}{what could be a convenient basis in these function space}**. Maybe you can say it is 
 $$
 1,x,x^2,x^3,\cdots, x^n,\cdots
 $$
@@ -237,7 +211,7 @@ $$
 6. Then we have two condition,$$\int_{x_1}^{x_2}dx w(x)(a_{20} + a_{21}x+x^2)=0$$ and $$\int_{x_1}^{x_2}dx w(x)(a_{20} + a_{21}x+x^2)(a_{10}+x)=0$$
 7. This two gives us, $$ a_{20}I_0 + a_{21}I_1 +I_0 = 0 $$ and $$a_{20}a_{10}I_0 + (a_{20}+a_{21}a_{10})I_1 + (a_{21}+a_{10})I_2 + I_3 = 0$$
 8. Use this two to find $a_{20}$ and $a_{21}$. Repeat this process depending on how many terms you need.
-\note{If the weight function as well as the limits are symmetric, i.e., if $$w(x) = w(-x) \text{ \ and \ } x_1 = -x_2$$ then each polynomial will contains **\col{red}{either only the even powers or only the odd powers} of $x$. This means $$f_n(-x) = (-1)^nf_n(x)$$
+\note{If the weight function as well as the limits are symmetric, i.e., if $$w(x) = w(-x) \text{ \ and \ } x_1 = -x_2$$ then each polynomial will contains **\col{red}{either only the even powers or only the odd powers}** of $x$. This means $$f_n(-x) = (-1)^nf_n(x)$$
 
 Another interesting thing is, the condtions are same as the discrete version. To see this just write the inner product in bra-ket notation or see the julia code below.
 }
@@ -251,8 +225,8 @@ We know Legendre Polynomials are defined in the range $-1\leq x \leq 1$. Also, t
 1. Start with $P_0(x) = 1$. Then using eqn-\eqref{first1} we have $$a_{10} = -\frac{I_1}{I_0} = 0$$.
 2. Then, $P_1(x) = A_1x$. We set the normalization $A_1 = 1$, this gives us $P_1(x) = x$.
 3. For the next one we get $a_{21}=0$ and $a_{20} = -1/3$. Again taking $A_2 = 1$ gives $P_2(x) = -1/3 + x^2$.
- We can go as long as we want. This are exactly \col{red}{Legendre Polynomials}.\\
- It should be noted that we have not taken proper normalization. We can certainly do that. To do that just choose the coefficients such that the sum of them is $1$.
+ We can go as long as we want. This are exactly **\col{red}{Legendre Polynomials}**.\\
+ It should be noted that we have not taken proper normalization. Here roughly we will find them by choosing the coefficients such that the sum of them is $1$(This doesn't always works. Here I am just being lazy. To get the proper ones just take the inner product eqn-\eqref{inn_eq_con} & set it to $1$).
 
  As an example, coefficients of $P_2(x)$ are $1$ and $-1/3$. Multiply by a factor of $\alpha$ and solve such that the sum of all the coefficient is $1$. This is $\alpha + (-\frac{\alpha}{3}) = 1$ which gives $\alpha = 3/2$. This gives $P_2(x) = \frac{1}{2}(3x^2-1)$.
 

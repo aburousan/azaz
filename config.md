@@ -53,6 +53,22 @@ println(py"res")
 \codeoutput{!#1}
 }
 
+\newcommand{\rcode}[2]{
+```julia:!#1
+#hideall
+using RCall
+lines = replace("""!#2""", r"(^|\n)([^\n]+)\n?$" => s"\1res = \2")
+R"""
+$$lines
+"""
+println(R"res")
+```
+```r
+#2
+```
+\codeoutput{!#1}
+}
+
 
 
 \newcommand{\collaps}[2]{
