@@ -367,7 +367,7 @@ If you have some queries, do let me know in the comments or contact me using my 
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
     /*
     var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/physics/blogs/temp_stat/;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.url = https://rousan.netlify.app/pages/physics/blogs/astronomr_package1/;  // Replace PAGE_URL with your page's canonical URL variable
     this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
     */
