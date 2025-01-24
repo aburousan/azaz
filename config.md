@@ -53,17 +53,17 @@ println(py"res")
 \codeoutput{!#1}
 }
 
+
+
 \newcommand{\rcode}[2]{
 ```julia:!#1
 #hideall
 using RCall
-lines = replace("""!#2""", r"(^|\n)([^\n]+)\n?$" => s"\1res = \2")
 R"""
-$$lines
+!#2
 """
-println(R"res")
 ```
-```r
+```R
 #2
 ```
 \codeoutput{!#1}

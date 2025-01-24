@@ -1,0 +1,2 @@
+UndefVarError: `val` not defined in local scope
+Suggestion: check for an assignment to a local variable that shadows a global of the same name.

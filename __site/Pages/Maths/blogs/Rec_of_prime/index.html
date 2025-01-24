@@ -275,68 +275,15 @@ all_primes &#61; primes&#40;7, 110000&#41;#retrun all primes in range 5 to 1,10,
 periods &#61; period_of_rec_of_prime.&#40;all_primes&#41;
 df &#61; DataFrame&#40;Primes &#61; all_primes, Reciprocal_Periods &#61; periods&#41;
 print&#40;last&#40;df,50&#41;&#41;# give table like shank, just showing last 50</code></pre>
-<p>The output is: <pre><code class="plaintext code-output">50×2 DataFrame
- Row │ Primes  Reciprocal_Periods
-     │ Int64   Int64
-─────┼────────────────────────────
-   1 │ 109441                9120
-   2 │ 109451              109450
-   3 │ 109453                9121
-   4 │ 109469              109468
-   5 │ 109471               10947
-   6 │ 109481                7820
-   7 │ 109507               54753
-   8 │ 109517                 131
-   9 │ 109519               54759
-  10 │ 109537               15648
-  11 │ 109541               21908
-  12 │ 109547               54773
-  13 │ 109567                4058
-  14 │ 109579               15654
-  15 │ 109583              109582
-  16 │ 109589              109588
-  17 │ 109597               54798
-  18 │ 109609               54804
-  19 │ 109619              109618
-  20 │ 109621              109620
-  21 │ 109639               54819
-  22 │ 109661              109660
-  23 │ 109663               36554
-  24 │ 109673              109672
-  25 │ 109717               54858
-  26 │ 109721               54860
-  27 │ 109741               36580
-  28 │ 109751               10975
-  29 │ 109789              109788
-  30 │ 109793              109792
-  31 │ 109807               36602
-  32 │ 109819              109818
-  33 │ 109829              109828
-  34 │ 109831                2615
-  35 │ 109841                6865
-  36 │ 109843               18307
-  37 │ 109847              109846
-  38 │ 109849               27462
-  39 │ 109859              109858
-  40 │ 109873               15696
-  41 │ 109883               54941
-  42 │ 109891               21978
-  43 │ 109897              109896
-  44 │ 109903              109902
-  45 │ 109913                9992
-  46 │ 109919               54959
-  47 │ 109937              109936
-  48 │ 109943              109942
-  49 │ 109961               10996
-  50 │ 109987               54993</code></pre> To make a plot use,</p>
+<p>The output is:  To make a plot use,</p>
 <pre><code class="language-julia">using Plots
 plot&#40;all_primes, periods, title&#61;&quot;Plot of Reciprocal of Primes vs Period&quot;,seriestype&#61;:scatter,linewidth&#61;3&#41;
 xlabel&#33;&#40;&quot;Primes&quot;&#41;
 ylabel&#33;&#40;&quot;Period of Reciprocals&quot;&#41;</code></pre>
 
-<p>This is create a plot like, <div id="fdpifm" style=""></div>
+<p>This is create a plot like, <div id="fdpkcl" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpifm");
+graphDiv = document.getElementById("fdpkcl");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Rec_of_prime/output/prime_rec.json');
 </script>
 </p>
@@ -367,7 +314,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Rec_of_prime/
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 31, 2024.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: January 24, 2025.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

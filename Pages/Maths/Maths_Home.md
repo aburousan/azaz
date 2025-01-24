@@ -45,6 +45,14 @@ begin
 end
 println("The output, probability is = ",prob(10_000_000))
 ```
+
+<!-- \rcode{r1}{
+X <- 2
+mat <- matrix(1:9, nrow = 3, ncol = 3)
+print(mat)
+print(X)
+} -->
+
 The output is:
 \output{./birthday_tre.jl}
 ~~~

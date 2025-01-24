@@ -350,7 +350,7 @@ Var(E_N)\propto \frac{1}{N} \to Error \propto \frac{1}{\sqrt{N}}
 </li>
 </ol>
 <pre><code class="language-julia-repl">julia&gt; Inte &#61; &#40;b-a&#41;/N * sum&#40;f.&#40;x_v&#41;&#41;</code></pre>
-<p>I hope, you have understood this idea. Now, let&#39;s write a function to do the whole job and get some result. #:./monte_inte1D1.jl</p>
+<p>I hope, you have understood this idea. Now, let&#39;s write a function to do the whole job and get some result.</p>
 <pre><code class="language-julia">using Distributions
 
 function Inte_monte1D&#40;f,N,a,b&#41;
@@ -363,7 +363,7 @@ vv &#61; Inte_monte1D&#40;g,N,a,b&#41;
 println&#40;&quot;The area of semi-circle for N &#61; &#36;N , a &#61; &#36;a and b &#61; &#36;b is &quot;,vv&#41;</code></pre>
 <p>The output is: <pre><code class="plaintext code-output">The area of semi-circle for N = 1000 , a = -1 and b = 1 is 1.5817145092207434
 </code></pre></p>
-<p>Now, let&#39;s calculate the integration for different \(N\) values and calculate the error in each case. #:./monte<em>inte1D1</em>Nvary.jl</p>
+<p>Now, let&#39;s calculate the integration for different \(N\) values and calculate the error in each case.</p>
 <pre><code class="language-julia">using Distributions, DataFrames
 
 function Inte_monte1D&#40;f,N,a,b&#41;
@@ -464,7 +464,7 @@ println&#40;&quot;Multithreading-- No. of Thread &#61; &quot;,Threads.nthreads&#
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 19, 2024.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: January 24, 2025.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

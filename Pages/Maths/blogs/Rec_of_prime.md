@@ -76,7 +76,8 @@ This means, for any number $p$, we have to,
 * See for which (smallest) n, equation-1 is satisfied.
 Let's see an example. Let's take $p = 23$.\\
 The divisors of $23-1 = 22$ are $[1,2,11,22]$. For bigger numbers, we will be using a simple code to find the divisors.
-```julia:./divisors.jl
+<!-- :./divisors.jl -->
+```julia
 using Primes # will be using this library
 function divisor(n)
 	d = Int64[1]
@@ -99,7 +100,8 @@ The output is:
 \output{./divisors.jl}
 Now, let's calculate $10^{n}$ for $n = 1, 2, 11, 22$. If you do so, you will see only $10^{22} = 1$ under mod($23$). Hence, the result.\\
 The full code for implementing this in julia with an example is,
-```julia:./prime_rec.jl
+<!-- :./prime_rec.jl -->
+```julia
 using Primes # will be using this library
 function divisor(n)
 	d = Int64[1]
@@ -147,7 +149,8 @@ Here is a image from shank's notebook:
 </div>
 ~~~
 We can also plot the data. So, the code in it's full glory (along with table like shank) is,
-```julia:./prime_rec_f.jl
+<!-- :./prime_rec_f.jl -->
+```julia
 using Primes
 using DataFrames
 function divisor(n)
@@ -192,7 +195,8 @@ xlabel!("Primes")
 ylabel!("Period of Reciprocals")
 ```
 
-```julia:./prime_rec_f.jl
+<!-- :./prime_rec_f.jl -->
+```julia
 #hideall
 using Plots
 plotlyjs()

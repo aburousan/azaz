@@ -167,7 +167,8 @@ Just using the **\col{purple}{microstate number, we can find temperature of the 
 Let's use this idea and simulate few models. We will see how the the microstates along can define everything.
 
 We will start with a model where $\Omega \propto E^3$. Let's first define all the functions we need.
-```julia:./temp_stat_1.jl
+<!-- :./temp_stat_1.jl -->
+```julia
 using Random, ForwardDiff
 function omega1(E)
     return E^3
@@ -185,7 +186,8 @@ function temperature2(E)
 end
 ```
 Now, let's write a function for simulation.
-```julia:./temp_stat_1.jl
+<!-- :./temp_stat_1.jl -->
+```julia
 function heat_transfer(E1, E2, steps)
     energies_1 = [E1]; energies_2 = [E2]
     temperatures_1 = [temperature1(E1)]
@@ -209,7 +211,8 @@ function heat_transfer(E1, E2, steps)
 end
 ```
 Now, let's run the simulation.
-```julia:./temp_stat_1.jl
+<!-- :./temp_stat_1.jl -->
+```julia
 E1 = 10.0; E2 = 5.0
 steps = 100
 energies_1, energies_2, temperatures_1, temperatures_2 = heat_transfer(E1, E2, steps)
@@ -239,7 +242,8 @@ $$
 \Omega(E,N) = \binom{E/\epsilon + N -1}{E/\epsilon}
 $$
 3. As mentioned $S = k \ln(\Omega)$ and $1/T = dS/dE$. -->
-```julia:./temp_stat.jl
+<!-- :./temp_stat.jl -->
+```julia
 using Plots;plotlyjs()
 function omega(N::Int, k::Int)
     return binomial(BigInt(N), BigInt(k))

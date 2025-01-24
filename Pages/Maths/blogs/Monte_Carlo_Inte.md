@@ -277,7 +277,7 @@ julia> x_v = rand(Uniform(a,b),N)
 julia> Inte = (b-a)/N * sum(f.(x_v))
 ```
 I hope, you have understood this idea. Now, let's write a function to do the whole job and get some result.
-#:./monte_inte1D1.jl
+<!-- #:./monte_inte1D1.jl -->
 ```julia
 using Distributions
 
@@ -294,7 +294,7 @@ The output is:
 \output{./monte_inte1D1.jl}
 
 Now, let's calculate the integration for different $N$ values and calculate the error in each case.
-#:./monte_inte1D1_Nvary.jl
+<!-- #:./monte_inte1D1_Nvary.jl -->
 ```julia
 using Distributions, DataFrames
 
@@ -324,7 +324,8 @@ The output is:
 So, as we can see clearly that the error drops as the $N$ value increases. But compared to other numerical methods, this one seems a bit inefficient. Well, this weakness just is there in case of single or some times double varible functions , i.e., 2D functions.
 
 We can make the code much faster (although it is already very fast) using parallel computing and many more modern blackmagic of different algorithms & technology. But we will not discuss those here but a little example doesn't hurt.
-```julia:./monte_1D_thread.jl
+<!-- :./monte_1D_thread.jl -->
+```julia
 using Distributions
 
 function Inte_monte1D_thread(f,N,a,b,th_num=Threads.nthreads())
