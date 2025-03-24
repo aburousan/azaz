@@ -9,7 +9,7 @@ tags = ["physics", "code", "Kazi Abu Rousan"]
 +++
 
 # About me
-Hello! I’m **Kazi Abu Rousan**, a recent graduate from the [Indian Association for The Cultivation of Science](https://en.wikipedia.org/wiki/Indian_Association_for_the_Cultivation_of_Science), where I earned my master's degree in Physics with a specialization in Cosmology. In addition to my academic background, I have a passion for teaching and currently instruct students in Mathematics and Physics for Olympiad preparation at [Cheenta Ganit Kendra](https://www.cheenta.com/). I am also a member of [Institute of Physics](https://www.iop.org/).\\
+Hi! I’m **Kazi Abu Rousan**. I earned my master's degree in Physics with a specialization in Cosmology. In addition to my academic background, I have a passion for teaching and currently instruct students in Mathematics and Physics for Olympiad preparation at [Cheenta Ganit Kendra](https://www.cheenta.com/). I am also a member of [Institute of Physics(IOP)](https://www.iop.org/).\\
 ~~~
 <img src="/assets/me.jpeg" alt="It's a me! Rousan" width="500">
 <div class="caption"></div>
@@ -19,7 +19,6 @@ Ohh and here is my catto! Mr. **Gino**!
 ~~~
 <img src="/assets/gino.png" alt="It's Gino" width="500">
 ~~~
-
 
 For more visit my Social Accounts
 *
@@ -56,7 +55,7 @@ This is a **julia** package I am developing in my free time for calculating some
 
 * I also loves to make animation using **manim**-- a python library build by Grant (3blue1brown) to make animation videos on different topics of maths and physics. Here is the [playlist](https://youtube.com/playlist?list=PLTDTcDkWcXuzwI6M1bGzNh6dDPCB9qZiu&si=I8vaX6GaIaK5jVei).
 ~~~
-<iframe width="300" height="150" src="https://www.youtube.com/embed/videoseries?si=PXwPtqGFReU-ZJct&amp;list=PLTDTcDkWcXuzwI6M1bGzNh6dDPCB9qZiu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="200" height="100" src="https://www.youtube.com/embed/videoseries?si=PXwPtqGFReU-ZJct&amp;list=PLTDTcDkWcXuzwI6M1bGzNh6dDPCB9qZiu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ~~~
 
 
@@ -76,10 +75,21 @@ Some of my blogs on medium are,
 * I am teaching the python part of a course **Approaching Computational Thinking with R + Python** organised by [Cosmic Charade](https://cosmic-charade.netlify.app/).
 * I am writing a book on [Number Theory](https://www.researchgate.net/project/Number-Theory-with-Python). You can check the draft.
 ~~~
-<img src="/assets/book.jpg" alt="My Book" width="400">
+<img src="/assets/book.jpg" alt="My Book"
+				width="200"
+				height="300">
 ~~~
 
 * Recently, I have started doing digital art. Here are some of them [here](/Pages/art/).
+
+My CV:
+~~~
+<iframe src="https://docs.google.com/document/d/e/2PACX-1vRWjhYI77DfZRKgIyD9OIVdZ1qIzp_S6qxDEAAGqkJNq3_9RRFMKKIWUKQ8JY4ojQ/pub?embedded=true" 
+        width="90%" 
+        height="600px" 
+        style="border:none;">
+</iframe>
+~~~
 
 ~~~
 <button onclick="window.history.back()">Go Back</button>
