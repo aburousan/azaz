@@ -23,12 +23,10 @@
 <div class="gallery">
   <img src="/assets/art/dia13.jpeg" alt="Art 13">
   <img src="/assets/art/dia4.jpeg" alt="Art 4">
-  <img src="/assets/art/dia5.jpeg" alt="Art 5">
+  <img src="/assets/art/dia6.jpeg" alt="Art 5">
   <img src="/assets/art/dia14.jpeg" alt="Art 14">
   <img src="/assets/art/dia16.jpeg" alt="Art 16">
-  <img src="/assets/art/dia17.jpeg" alt="Art 17">
   <img src="/assets/art/dia5.jpeg" alt="Art 5">
-  <img src="/assets/art/dia18.jpeg" alt="Art 18">
   <img src="/assets/art/ghost_ani.gif" alt="Ghost Animation">
   <img src="/assets/art/dia2.jpeg" alt="Art 2">
   <img src="/assets/art/dia3.jpeg" alt="Art 3">
@@ -41,6 +39,8 @@
   <img src="/assets/art/dia12.jpeg" alt="Art 12">
   <img src="/assets/art/dia1.jpeg" alt="Art 1">
   <img src="/assets/art/dia15.jpeg" alt="Art 15">
+ <img src="/assets/art/dia17.jpeg" alt="Art 17">
+  <img src="/assets/art/dia18.jpeg" alt="Art 18">
 </div>
 
 <div id="disqus_thread"></div>
