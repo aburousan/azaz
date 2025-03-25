@@ -23,7 +23,8 @@
 <div class="gallery">
   <img src="/assets/art/dia13.jpeg" alt="Art 13">
   <img src="/assets/art/dia4.jpeg" alt="Art 4">
-  <img src="/assets/art/dia6.jpeg" alt="Art 5">
+  <img src="/assets/art/dia5.jpeg" alt="Art 5">
+  <img src="/assets/art/dia6.jpeg" alt="Art 6">
   <img src="/assets/art/dia14.jpeg" alt="Art 14">
   <img src="/assets/art/dia16.jpeg" alt="Art 16">
   <img src="/assets/art/dia5.jpeg" alt="Art 5">
