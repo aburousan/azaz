@@ -27,7 +27,6 @@
   <img src="/assets/art/dia6.jpeg" alt="Art 6">
   <img src="/assets/art/dia14.jpeg" alt="Art 14">
   <img src="/assets/art/dia16.jpeg" alt="Art 16">
-  <img src="/assets/art/dia5.jpeg" alt="Art 5">
   <img src="/assets/art/ghost_ani.gif" alt="Ghost Animation">
   <img src="/assets/art/dia2.jpeg" alt="Art 2">
   <img src="/assets/art/dia3.jpeg" alt="Art 3">
