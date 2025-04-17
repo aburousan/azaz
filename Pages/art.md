@@ -21,6 +21,7 @@
 </style>
 
 <div class="gallery">
+  <img src="/assets/art/dark_1.jpeg" alt="Art 19">
   <img src="/assets/art/dia13.jpeg" alt="Art 13">
   <img src="/assets/art/dia4.jpeg" alt="Art 4">
   <img src="/assets/art/dia5.jpeg" alt="Art 5">
