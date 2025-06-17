@@ -9,7 +9,7 @@ tags = ["physics", "code", "Kazi Abu Rousan"]
 +++
 
 # About me
-Hi! I’m **Kazi Abu Rousan**. I earned my master's degree in Physics with a specialization in Cosmology. In addition to my academic background, I have a passion for teaching and currently instruct students in Mathematics and Physics for Olympiad preparation at [Cheenta Ganit Kendra](https://www.cheenta.com/). I am also a member of [Institute of Physics(IOP)](https://www.iop.org/).\\
+Hi! I’m **Kazi Abu Rousan**, a student currently pursuing PhD in Cosmology at [NISER](https://www.niser.ac.in/). I hold a Master's degree in Physics with a specialization in Cosmology. In addition to my academic background, I'm deeply passionate about teaching and mentor students in Mathematics and Physics for Olympiad preparation at [Cheenta Ganit Kendra](https://www.cheenta.com/). I am also a member of [Institute of Physics(IOP)](https://www.iop.org/).\\
 ~~~
 <img src="/assets/me.jpeg" alt="It's a me! Rousan" width="500">
 <div class="caption"></div>
@@ -31,7 +31,8 @@ For more visit my Social Accounts
 * [Facebook](https://www.facebook.com/K.A.Rousan/)
 Feel free to contact me. I am hyperactive.
 # Some of my Works
-Some of the things written by me,
+Some of my works:
+* Recently, I am working on the Radiometric Calibration of VIR DAWN dataset .[You can visit a webapp I have developed for the calibartion. Anyone can upload .lbl, .qub and other house-keeping data & then download the calibrated .npy file](https://virdawnradiometrical.streamlit.app/) ![](/assets/radio_cal_1.png)
 * [Time Crystal as a consequence of NonCommutative Quantum Mechanics for 2D Harmonic Oscillator](https://www.researchgate.net/publication/372221313_Time_Crystal_as_a_consequence_of_NonCommutative_Quantum_Mechanics_for_2D_Harmonic_Oscillator) ![](https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/372221313/figure/fig1/AS:11431281173427597@1688888680920/Physical-Realisation-of-Time-Crystal_W640.jpg)
 This was done in the 2023 summer research project under the guidence of Prof. Archan S Majumdar under S. N. Bose National Centre for Basic Sciences.
 * [Basic Recombination and Formation of Neutral Hydrogen in Early Universe](https://www.researchgate.net/publication/376889659_Basic_Recombination_and_Formation_of_Neutral_Hydrogen_in_Early_Universe) ![](https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/376889659/figure/fig7/AS:11431281214834585@1703796954888/Comparison-of-Saha-Boltzmann-and-Peeble-Equation-Here-Boltzmann-Equation-means-the_W640.jpg)
@@ -65,7 +66,6 @@ Some of my blogs on medium are,
 * [Trapezoidal Rule: A Method of Numerical Integration](https://www.cantorsparadise.com/trapezoidal-rule-a-method-of-numerical-integration-5772838657b3)
 ![](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*2jcjgSAw_qoimpVm_2JNrg.png)
 
-
 # Some extra Mentorship
 
 * I have been a mentor for a Summer School of Astrophysics in 2023. For more visit their website [here](https://sites.google.com/view/intro-2-astro/2023-course). To access notes and assignment visit [here](https://github.com/howardisaacson/Intro-to-Astro2023/tree/main/Week2_packages_plotting) (The ones on matplotlib and numpy, Scipy and Astropy are made by me).
@@ -73,7 +73,7 @@ Some of my blogs on medium are,
 <iframe width="300" height="150" src="https://www.youtube.com/embed/0wXsGut5kYY" title="Intro2Astro: Numpy, Scipy &amp; Astropy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ~~~
 * I am teaching the python part of a course **Approaching Computational Thinking with R + Python** organised by [Cosmic Charade](https://cosmic-charade.netlify.app/).
-* I am writing a book on [Number Theory](https://www.researchgate.net/project/Number-Theory-with-Python). You can check the draft.
+* I am writing a book on [Number Theory](https://drive.google.com/file/d/1dD4zTXiz76PVD15ZdT4v-SawX2OkMIc8/view?usp=drive_link). You can check the draft.
 ~~~
 <img src="/assets/book.jpg" alt="My Book"
 				width="200"
@@ -82,14 +82,14 @@ Some of my blogs on medium are,
 
 * Recently, I have started doing digital art. Here are some of them [here](/Pages/art/).
 
-My CV:
+<!-- My CV:
 ~~~
 <iframe src="https://docs.google.com/document/d/e/2PACX-1vRWjhYI77DfZRKgIyD9OIVdZ1qIzp_S6qxDEAAGqkJNq3_9RRFMKKIWUKQ8JY4ojQ/pub?embedded=true" 
         width="90%" 
         height="600px" 
         style="border:none;">
 </iframe>
-~~~
+~~~ -->
 
 ~~~
 <button onclick="window.history.back()">Go Back</button>
