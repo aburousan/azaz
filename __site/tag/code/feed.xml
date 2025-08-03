@@ -23,12 +23,12 @@
 
 <item>
   <title>
-    <![CDATA[  Special Function and it&#39;s generation  ]]>
+    <![CDATA[  Introduction to Monte Carlo Integration  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </guid>
   <description>
-    <![CDATA[  A brief discussion on Introduction on how to generate special functions using the tools of linear algebra.  ]]>
+    <![CDATA[  A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it&#39;s theory.  ]]>
   </description>  
     
   <pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate>  
@@ -42,12 +42,12 @@
 
 <item>
   <title>
-    <![CDATA[  Introduction to Monte Carlo Integration  ]]>
+    <![CDATA[  Special Function and it&#39;s generation  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html </guid>
   <description>
-    <![CDATA[  A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it&#39;s theory.  ]]>
+    <![CDATA[  A brief discussion on Introduction on how to generate special functions using the tools of linear algebra.  ]]>
   </description>  
     
   <pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate>  
@@ -80,12 +80,12 @@
 
 <item>
   <title>
-    <![CDATA[  Introduction to Monte Carlo Integration  ]]>
+    <![CDATA[  Playing with Tupper&#39;s Formula in Julia  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Tupper_Form/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Tupper_Form/index.html </guid>
   <description>
-    <![CDATA[  A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it&#39;s theory.  ]]>
+    <![CDATA[  A brief intro to Tupper&#39;s Formula with Julia. Here we will see how to perform this in julia language.  ]]>
   </description>  
     
   <pubDate>Thu, 07 Mar 2024 00:00:00 +0000</pubDate>  
@@ -99,12 +99,12 @@
 
 <item>
   <title>
-    <![CDATA[  Playing with Tupper&#39;s Formula in Julia  ]]>
+    <![CDATA[  Introduction to Monte Carlo Integration  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Maths/blogs/Tupper_Form/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Tupper_Form/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </guid>
   <description>
-    <![CDATA[  A brief intro to Tupper&#39;s Formula with Julia. Here we will see how to perform this in julia language.  ]]>
+    <![CDATA[  A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it&#39;s theory.  ]]>
   </description>  
     
   <pubDate>Thu, 07 Mar 2024 00:00:00 +0000</pubDate>  
@@ -139,8 +139,8 @@
   <title>
     <![CDATA[  More goodies  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/about_me/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/about_me/index.html </guid>
   <description>
     <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
   </description>  
@@ -158,8 +158,8 @@
   <title>
     <![CDATA[  More goodies  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/about_me/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/about_me/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html </guid>
   <description>
     <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
   </description>  

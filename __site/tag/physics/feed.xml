@@ -23,6 +23,25 @@
 
 <item>
   <title>
+    <![CDATA[  virtools: A tool for radiometric calibration of DAWN VIR data  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/DAWN_VIR/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/DAWN_VIR/index.html </guid>
+  <description>
+    <![CDATA[  In this blog, we will understand how to use the package for radiometric calibration.  ]]>
+  </description>  
+    
+  <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  What exactly is Temperature  ]]>
   </title>
   <link> https://rousan.netlify.app/Pages/Physics/blogs/temp_stat/index.html </link>
@@ -61,12 +80,12 @@
 
 <item>
   <title>
-    <![CDATA[  Intro<em>2</em>QFT_1  ]]>
+    <![CDATA[  Lecture<em>Notes</em>and<em>Assignment</em>QFT1  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </guid>
   <description>
-    <![CDATA[  A Introductory course on Quantum Field Theory  ]]>
+    <![CDATA[  Lecture Notes and Assignment for the QFT1 course taken by Kazi Abu Rousan  ]]>
   </description>  
     
   <pubDate>Sat, 31 Aug 2024 00:00:00 +0000</pubDate>  
@@ -80,12 +99,12 @@
 
 <item>
   <title>
-    <![CDATA[  Lecture<em>Notes</em>and<em>Assignment</em>QFT1  ]]>
+    <![CDATA[  Intro<em>2</em>QFT_1  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html </guid>
   <description>
-    <![CDATA[  Lecture Notes and Assignment for the QFT1 course taken by Kazi Abu Rousan  ]]>
+    <![CDATA[  A Introductory course on Quantum Field Theory  ]]>
   </description>  
     
   <pubDate>Sat, 31 Aug 2024 00:00:00 +0000</pubDate>  
@@ -108,25 +127,6 @@
   </description>  
     
   <pubDate>Fri, 19 Jul 2024 00:00:00 +0000</pubDate>  
-  
-  
-  <atom:author>
-    <atom:name>Kazi Abu Rousan</atom:name>
-  </atom:author>
-        
-</item>
-
-<item>
-  <title>
-    <![CDATA[  Physics Papers  ]]>
-  </title>
-  <link> https://rousan.netlify.app/Pages/Physics/papers/phy_papers/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/papers/phy_papers/index.html </guid>
-  <description>
-    <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
-  </description>  
-    
-  <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>  
   
   
   <atom:author>
@@ -160,6 +160,25 @@
   </title>
   <link> https://rousan.netlify.app/Pages/Physics/blogs/phy_blog/index.html </link>
   <guid> https://rousan.netlify.app/Pages/Physics/blogs/phy_blog/index.html </guid>
+  <description>
+    <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
+  </description>  
+    
+  <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Physics Papers  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/papers/phy_papers/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/papers/phy_papers/index.html </guid>
   <description>
     <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
   </description>  
@@ -234,8 +253,8 @@
   <title>
     <![CDATA[  More goodies  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/about_me/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/about_me/index.html </guid>
   <description>
     <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
   </description>  
@@ -253,8 +272,8 @@
   <title>
     <![CDATA[  More goodies  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/about_me/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/about_me/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html </guid>
   <description>
     <![CDATA[  A short description of the page which would serve as <strong>blurb</strong> in a <code>RSS</code> feed; you can use basic markdown here but the whole description string must be a single line &#40;not a multiline string&#41;. Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don&#39;t expect maths or fancy styling to work; images should be ok though: <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg" alt="" />  ]]>
   </description>  
