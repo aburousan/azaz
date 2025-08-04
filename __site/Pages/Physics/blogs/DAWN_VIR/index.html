@@ -9,7 +9,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
    <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
    
   <link rel="stylesheet" href="/css/franklin.css">
@@ -133,7 +134,283 @@
   </fieldset>
   
 <h2 id="introduction_to_the_data_and_its_format"><a href="#introduction_to_the_data_and_its_format" class="header-anchor">Introduction to the Data and it&#39;s format</a></h2>
-<p>Writing...</p>
+<p>To use the package, we first have to know what is the data we are working with. <strong><span style="color: red">VIR</span></strong> actually uses the pushbroom method to capture images of the ceres surface in different wavelengths. 
+<div class="row">
+  <div class="container">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+      <img class="plot" src="/assets/Physics/blogs/virtools_blog/push_broom.png" style="max-width: 48%; height: auto;">
+      <img class="plot" src="/assets/Physics/blogs/virtools_blog/hyper_spec.png" style="max-width: 48%; height: auto;">
+    </div>
+    <div style="clear: both;"></div>      
+  </div>
+</div>
+ The left image is a diagram to show pushbroom method. There, we can see a detector array. This array actually take a image along it&#39;s length and then it is moved in a direction perpendicular to it&#39;s length giving us the image of the surface. The detector has many small detectors&#40;pixels&#41;. Those are called <strong><span style="color: purple">samples</span></strong>. This value is obviously fixed &#40;\(s=256\)&#41;. As the detector moves, it takes images. Each of these are called <strong><span style="color: purple">lines</span></strong> &#40;in the diagram the rectangular patches on ground&#41;. This number is not constant, it can vary data file to data file.</p>
+<p>The data is stored for \(b=432\) different wavelengths, i.e., the image is taken for \(432\) different wavelengths. We can think the data as different images &#40;sample &amp; line&#41; for different wavelengths stacked together. So, the image is sort of like <strong><span style="color: red">cube</span></strong> as shown in the previous image. One axis is <strong><span style="color: blue">band axis</span></strong>, one is <strong><span style="color: blue">sample axis</span></strong> and other is <strong><span style="color: blue">sample axis</span></strong>. So, if I store the cube file data as an numpy array <code>C</code>, then <code>C&#91;b,s,l&#93;</code> represent the value of data for band no. \(b\), sample no. \(s\) and line no. \(l\).</p>
+<table><tr><th align="right">Type</th><th align="right">Called</th></tr><tr><td align="right">For fixed band <code>C&#91;b,:,:&#93;</code></td><td align="right">Image</td></tr><tr><td align="right">For fixed sample <code>C&#91;:,s,:&#93;</code></td><td align="right">Slice</td></tr><tr><td align="right">For fixed line <code>C&#91;:,:,l&#93;</code></td><td align="right">Frame</td></tr></table>
+<p>When the device takes the data, It generates \(4\) files:</p>
+<ol>
+<li><p>.LBL file : This contains info about device name, target name, wavelengths, band index, SPICE file details, distance from sun and all other things. An example of the file is here.</p>
+</li>
+</ol>
+<pre><code class="language-txt">PDS_VERSION_ID &#61; PDS3                                                         
+LABEL_REVISION_NOTE &#61; &quot;MTC_11-10-2011&quot;                                        
+                                                                              
+/* Dataset and Product Information */                                         
+DATA_SET_NAME &#61; &quot;DAWN VIR RAW &#40;EDR&#41; CERES INFRARED SPECTRA V1.0&quot;              
+DATA_SET_ID &#61; &quot;DAWN-A-VIR-2-EDR-IR-CERES-SPECTRA-V1.0&quot;                        
+PRODUCT_ID &#61; &quot;VIR_IR_1A_1_493156585&quot;                                          
+PRODUCT_TYPE &#61; EDR                                                            
+PRODUCER_FULL_NAME &#61; &quot;M. C. DE SANCTIS&quot;                                       
+PRODUCER_INSTITUTION_NAME &#61; &quot;ISTITUTO NAZIONALE DI ASTROFISICA&quot;               
+PRODUCT_CREATION_TIME &#61; 2016-10-13T19:33:39.186                               
+PRODUCT_VERSION_ID &#61; &quot;01&quot;                                                     
+                                                                              
+/* File Information */                                                        
+RECORD_TYPE &#61; FIXED_LENGTH                                                    
+RECORD_BYTES &#61; 512                                                            
+FILE_RECORDS &#61; 15120                                                          
+LABEL_RECORDS &#61; 46                                                            
+                                                                              
+/* Time Information */                                                        
+START_TIME &#61; 2015-08-18T07:55:19.569                                          
+STOP_TIME &#61; 2015-08-18T08:07:59.799                                           
+IMAGE_MID_TIME &#61; 2015-08-18T08:01:39.684                                      
+SPACECRAFT_CLOCK_START_COUNT &#61; &quot;1/493156585.1098&quot;                             
+SPACECRAFT_CLOCK_STOP_COUNT &#61; &quot;1/493157346.7980&quot;                              
+                                                                              
+/* Mission description parameters */                                          
+INSTRUMENT_HOST_NAME &#61; &quot;DAWN&quot;                                                 
+INSTRUMENT_HOST_ID &#61; &quot;DAWN&quot;                                                   
+MISSION_PHASE_NAME &#61; &quot;CERES SCIENCE HAMO &#40;CSH&#41;&quot;                               
+                                                                              
+/* Instrument description parameters */                                       
+INSTRUMENT_NAME &#61; &quot;VISIBLE AND INFRARED SPECTROMETER&quot;                         
+INSTRUMENT_ID &#61; &quot;VIR&quot;                                                         
+INSTRUMENT_TYPE &#61; &quot;IMAGING SPECTROMETER&quot;                                      
+                                                                              
+/* Celestial Geometry                                       */                
+RIGHT_ASCENSION                  &#61;  279.965 &lt;degrees&gt;                         
+DECLINATION                      &#61;  -62.231 &lt;degrees&gt;                         
+TWIST_ANGLE                      &#61;  227.917 &lt;degrees&gt;                         
+CELESTIAL_NORTH_CLOCK_ANGLE      &#61;  312.083 &lt;degrees&gt;                         
+QUATERNION                       &#61; &#40;  0.11612,                                
+                                     -0.31567,                                
+                                     -0.91802,                                
+                                      0.21000 &#41;                               
+QUATERNION_DESC                  &#61; &quot;                                          
+     Above parameters are calculated at the center time of the observation    
+     which is 2015-08-18T08:01:39.684.  The quaternion has the form:          
+     w, x, y, z &#40;i.e. SPICE format&#41;.&quot;                                         
+                                                                              
+/* Solar geometry                                          */                 
+SPACECRAFT_SOLAR_DISTANCE        &#61;   441765162.5 &lt;km&gt;                         
+SC_SUN_POSITION_VECTOR           &#61; &#40; -259675440.2 &lt;km&gt;,                       
+                                      299958230.3 &lt;km&gt;,                       
+                                      194294067.4 &lt;km&gt; &#41;                      
+                                                                              
+SC_SUN_VELOCITY_VECTOR           &#61; &#40; -13.502 &lt;km/s&gt;,                          
+                                      -9.829 &lt;km/s&gt;,                          
+                                      -1.718 &lt;km/s&gt; &#41;                         
+                                                                              
+/* SPICE Kernels                                            */                
+SPICE_FILE_NAME                  &#61; &quot;DAWN_CSH_R01.TM&quot;                          
+                                                                              
+TARGET_NAME                      &#61; &quot;CAL LAMP&quot;                                 
+TARGET_TYPE                      &#61; &quot;CALIBRATION&quot;                              
+                                                                              
+/* COORDINATE SYSTEM                                        */                
+COORDINATE_SYSTEM_NAME           &#61; &quot;N/A&quot;                                      
+COORDINATE_SYSTEM_CENTER_NAME    &#61; &quot;N/A&quot;                                      
+                                                                              
+/* Geometry in &quot;IAU_VESTA&quot; coordinates from SPICE         */                  
+SUB_SPACECRAFT_LATITUDE          &#61; &quot;N/A&quot;                                      
+SUB_SPACECRAFT_LONGITUDE         &#61; &quot;N/A&quot;                                      
+SUB_SPACECRAFT_AZIMUTH           &#61; &quot;N/A&quot;                                      
+SPACECRAFT_ALTITUDE              &#61; &quot;N/A&quot;                                      
+TARGET_CENTER_DISTANCE           &#61; &quot;N/A&quot;                                      
+SC_TARGET_POSITION_VECTOR        &#61; &#40; &quot;N/A&quot;,                                   
+                                     &quot;N/A&quot;,                                   
+                                     &quot;N/A&quot; &#41;                                  
+                                                                              
+SC_TARGET_VELOCITY_VECTOR        &#61; &#40; &quot;N/A&quot;,                                   
+                                     &quot;N/A&quot;,                                   
+                                     &quot;N/A&quot; &#41;                                  
+                                                                              
+LOCAL_HOUR_ANGLE                 &#61; &quot;N/A&quot;                                      
+SUB_SOLAR_LATITUDE               &#61; &quot;N/A&quot;                                      
+SUB_SOLAR_LONGITUDE              &#61; &quot;N/A&quot;                                      
+SUB_SOLAR_AZIMUTH                &#61; &quot;N/A&quot;                                      
+                                                                              
+/* Illumination                                             */                
+INCIDENCE_ANGLE                  &#61; &quot;N/A&quot;                                      
+EMISSION_ANGLE                   &#61; &quot;N/A&quot;                                      
+PHASE_ANGLE                      &#61; &quot;N/A&quot;                                      
+                                                                              
+/* Image parameters                                         */                
+SLANT_DISTANCE                   &#61; &quot;N/A&quot;                                      
+MINIMUM_LATITUDE                 &#61; &quot;N/A&quot;                                      
+CENTER_LATITUDE                  &#61; &quot;N/A&quot;                                      
+MAXIMUM_LATITUDE                 &#61; &quot;N/A&quot;                                      
+WESTERNMOST_LONGITUDE            &#61; &quot;N/A&quot;                                      
+CENTER_LONGITUDE                 &#61; &quot;N/A&quot;                                      
+EASTERNMOST_LONGITUDE            &#61; &quot;N/A&quot;                                      
+HORIZONTAL_PIXEL_SCALE           &#61; &quot;N/A&quot;                                      
+VERTICAL_PIXEL_SCALE             &#61; &quot;N/A&quot;                                      
+NORTH_AZIMUTH                    &#61; &quot;N/A&quot;                                      
+ORBIT_NUMBER                     &#61; &quot;N/A&quot;                                      
+                                                                              
+/* Data description parameters */                                             
+PROCESSING_LEVEL_ID &#61; &quot;2&quot;                                                     
+DATA_QUALITY_ID &#61; &quot;1&quot;                                                         
+DATA_QUALITY_DESC &#61; &quot;0:INCOMPLETE; 1:COMPLETE&quot;                                
+TELEMETRY_SOURCE_ID &#61; &quot;EGSE&quot;                                                  
+CHANNEL_ID &#61; &quot;IR&quot;                                                             
+SOFTWARE_VERSION_ID &#61; &quot;EGSE V1.14,AMDLSpace&quot;                                  
+                                                                              
+/* Instrument status */                                                       
+INSTRUMENT_MODE_ID &#61; &quot;C_H_SPE_H_SPA_F&quot;                                        
+INSTRUMENT_MODE_DESC &#61;                                                        
+ &quot;S_H_SPE_H_SPA_F: Science, high spectral high spatial, Full slit             
+  S_H_SPE_L_SPA_F: Science, high spectral low spatial, Full slit              
+  S_H_SPE_L_SPA_F_SUM: Science, high spectral low spatial, Summing            
+  S_L_SPE_H_SPA_F: Science, Low spectral high spatial, Full slit              
+  S_L_SPE_L_SPA_F: Science, Low spectral low spatial, Full slit               
+  S_L_SPE_L_SPA_F_SUM: Science, Low spectral low spatial, Summing             
+  S_H_SPE_H_SPA_Q: Science, high spectral high spatial, Quarter slit          
+  S_L_SPE_H_SPA_Q: Science, low spectral high spatial, Quarter slit           
+  S_H_SPE_L_SPA_F_MEA: Science, high spectral low spatial, Meaning            
+  S_L_SPE_L_SPA_F_MEA: Science, low spectral low spatial, Meaning             
+  C_H_SPE_H_SPA_F: Calibration, high spectral high spatial, Full slit         
+  C_H_SPE_L_SPA_F: Calibration, high spectral low spatial, Full slit          
+  SPARE: CALIBRATION Spare                                                    
+  C_L_SPE_H_SPA_F: Calibration, low spectral high spatial, Full slit          
+  C_L_SPE_L_SPA_F: Calibration, low spectral low spatial, Full slit           
+  C_H_SPE_H_SPA_Q: Calibration, high spectral high spatial, Quarter slit      
+  C_L_SPE_H_SPA_Q: Calibration, low spectral high spatial, Quarter slit&quot;      
+ENCODING_TYPE &#61; &quot;N/A&quot;                                                         
+SCAN_MODE_ID &#61; &quot;5&quot;                                                            
+DAWN:SCAN_PARAMETER &#61; &#40;0.1, 0.1, 0.26, 25&#41;                                    
+SCAN_PARAMETER_DESC &#61; &#40;&quot;SCAN_START_ANGLE&quot;, &quot;SCAN_STOP_ANGLE&quot;,                 
+ &quot;SCAN_STEP_ANGLE&quot;,&quot;SCAN_STEP_NUMBER&quot;&#41;                                        
+DAWN:SCAN_PARAMETER_UNIT &#61; &#40;&quot;DEGREES&quot;, &quot;DEGREES&quot;, &quot;DEGREES&quot;, &quot;DIMENSIONLESS&quot;&#41; 
+FRAME_PARAMETER &#61; &#40;0.0, 1, 20, 0&#41;                                             
+FRAME_PARAMETER_DESC &#61; &#40;&quot;EXPOSURE_DURATION&quot;, &quot;FRAME_SUMMING&quot;,                 
+&quot;EXTERNAL_REPETITION_TIME&quot;, &quot;DARK_ACQUISITION_RATE&quot;&#41;                          
+DAWN:FRAME_PARAMETER_UNIT &#61; &#40;&quot;S&quot;, &quot;DIMENSIONLESS&quot;, &quot;S&quot;, &quot;DIMENSIONLESS&quot;&#41;      
+DAWN:VIR_IR_START_X_POSITION&#61;0                                                
+DAWN:VIR_IR_START_Y_POSITION&#61;0                                                
+MAXIMUM_INSTRUMENT_TEMPERATURE &#61; &#40;84.5, 135.6, 136.6, 79.0&#41;                   
+INSTRUMENT_TEMPERATURE_POINT &#61; &#40;&quot;FOCAL_PLANE&quot;, &quot;TELESCOPE&quot;, &quot;SPECTROMETER&quot;,   
+&quot;CRYOCOOLER&quot;&#41;                                                                 
+DAWN:INSTRUMENT_TEMPERATURE_UNIT &#61; &#40;&quot;K&quot;, &quot;K&quot;, &quot;K&quot;, &quot;K&quot;&#41;                       
+PHOTOMETRIC_CORRECTION_TYPE &#61; &quot;NONE&quot;                                          
+                                                                              
+/* Pointers to first record of objects in file */                             
+^HISTORY &#61; 48                                                                 
+OBJECT &#61; HISTORY                                                              
+END_OBJECT &#61; HISTORY                                                          
+^QUBE &#61; &quot;VIR_IR_1A_1_493156585_1.QUB&quot;                                         
+                                                                              
+/* Description of the object contained in the file */                         
+OBJECT &#61; QUBE                                                                 
+                                                                              
+/*    Standard cube Keywords */                                               
+ AXES &#61; 3                                                                     
+ AXIS_NAME &#61; &#40;BAND, SAMPLE, LINE&#41;                                             
+ CORE_ITEMS &#61; &#40; 432, 256, 35 &#41;                                                
+ CORE_ITEM_BYTES &#61; 2                                                          
+ CORE_ITEM_TYPE &#61; MSB_INTEGER                                                 
+ CORE_BASE &#61; 0.0                                                              
+ CORE_MULTIPLIER &#61; 1.0                                                        
+ CORE_VALID_MINIMUM &#61; 0                                                       
+ CORE_NULL &#61; -32768                                                           
+ CORE_LOW_REPR_SATURATION &#61; -32767                                            
+ CORE_LOW_INSTR_SATURATION &#61; -32767                                           
+ CORE_HIGH_REPR_SATURATION &#61; -32767                                           
+ CORE_HIGH_INSTR_SATURATION &#61; -32767                                          
+ CORE_NAME &#61; &quot;RAW DATA NUMBER&quot;                                                
+ CORE_UNIT &#61; DIMENSIONLESS                                                    
+                                                                              
+/*  Suffix definition */                                                      
+ SUFFIX_BYTES &#61; 4                                                             
+ SUFFIX_ITEMS &#61; &#40;    0,   0,    0&#41;                                            
+                                                                              
+/* Spectral axis description */                                               
+                                                                              
+    GROUP &#61; BAND_BIN                                                          
+                                                                              
+    BAND_BIN_CENTER &#61;                                                         
+&#40;1.021,1.030,1.040,1.049,1.059,....&#41;
+ BAND_BIN_WIDTH  &#61;                                                       
+&#40;0.0140,0.0140,0.0140,0.0140,......&#41;
+BAND_BIN_UNIT &#61; MICROMETER                                                   
+                                                                              
+    BAND_BIN_ORIGINAL_BAND &#61;                                                  
+&#40;1,2,3,4,5,6,7,8,9,10,11,12,.......&#41;
+END_GROUP &#61; BAND_BIN                                                          
+                                                                              
+END_OBJECT                     &#61; QUBE                                         
+END                                                                           
+                                                                              
+OBJECT &#61; HISTORY                                                              
+
+END_OBJECT &#61; HISTORY</code></pre>
+<ol start="2">
+<li><p>.QUB file: This contains the actual data. This stores the image as <strong><span style="color: red">Digital Number</span></strong> as normally happens for CCD type devices. This is the data we have to convert in radinace or reflectance. We can&#39;t directly open this data &#40;so can&#39;t show you here&#41;.</p>
+</li>
+<li><p>HK_.LBL file: This contains the column names for the other data file of detail information of the device like temperature of detector, temp of spectroscope, shutter status, exposure time for each lines.</p>
+</li>
+</ol>
+
+<p>To use this package, we have to first install it. For installing here is a bash script &#40;if you want you can just directly download and use from git&#41;,</p>
+<pre><code class="language-bash">#&#33;/bin/bash
+ENV_DIR&#61;&quot;./virtools-venv&quot;
+REPO_URL&#61;&quot;https://github.com/aburousan/virtools.git&quot;
+CLONE_DIR&#61;&quot;./virtools&quot;
+
+echo &quot;Creating virtual environment in &#36;ENV_DIR&quot;
+python3 -m venv &quot;&#36;ENV_DIR&quot;
+source &quot;&#36;ENV_DIR/bin/activate&quot;
+
+pip install --upgrade pip setuptools wheel build
+
+echo &quot;Cloning repo...&quot;
+rm -rf &quot;&#36;CLONE_DIR&quot;
+git clone &quot;&#36;REPO_URL&quot; &quot;&#36;CLONE_DIR&quot;
+cd &quot;&#36;CLONE_DIR&quot; || exit 1
+pip install numpy scipy matplotlib scikit-image pvl PyWavelets
+python3 -m build
+pip install dist/*.whl
+
+echo &quot;virtools installed in virtualenv at &#36;ENV_DIR&quot;
+echo &quot;To activate: source &#36;ENV_DIR/bin/activate&quot;</code></pre>
+<p>This will create a environment in python and install the package there. For installing in conda, use:</p>
+<pre><code class="language-bash">#&#33;/bin/bash
+
+ENV_NAME&#61;&quot;virtools-env&quot;
+PYTHON_VERSION&#61;&quot;3.10&quot;
+REPO_URL&#61;&quot;https://github.com/aburousan/virtools.git&quot;
+CLONE_DIR&#61;&quot;./virtools&quot;
+
+echo &quot;Creating conda environment: &#36;ENV_NAME&quot;
+conda create -y -n &quot;&#36;ENV_NAME&quot; python&#61;&#36;PYTHON_VERSION
+
+source &quot;&#36;&#40;conda info --base&#41;/etc/profile.d/conda.sh&quot;
+conda activate &quot;&#36;ENV_NAME&quot;
+
+echo &quot;Cloning repo...&quot;
+rm -rf &quot;&#36;CLONE_DIR&quot;
+git clone &quot;&#36;REPO_URL&quot; &quot;&#36;CLONE_DIR&quot;
+cd &quot;&#36;CLONE_DIR&quot; || exit 1
+
+echo &quot;Installing dependencies...&quot;
+conda install -y numpy scipy matplotlib scikit-image pip
+pip install pvl PyWavelets build
+
+python3 -m build
+pip install dist/*.whl
+
+echo &quot;virtools installed in conda env: &#36;ENV_NAME&quot;</code></pre>
 <p><hr /> –&gt; –&gt;</p>
 <p>Hope this helps you in some way. If you like it then share with others if possible.</p>
 <p>If you have some queries, do let me know in the comments or contact me using my using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
@@ -162,7 +439,7 @@
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 03, 2025.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 04, 2025.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -211,6 +488,11 @@
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
 
     
     

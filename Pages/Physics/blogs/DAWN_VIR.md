@@ -66,7 +66,294 @@ Each better answer calls for more.**
     virtools is a python-package developed by myself. To use download it from [github](https://github.com/aburousan/virtools) or follow this blog.
 }
 ## Introduction to the Data and it's format
-Writing...
+To use the package, we first have to know what is the data we are working with. **\col{red}{VIR}** actually uses the pushbroom method to capture images of the ceres surface in different wavelengths.
+~~~
+<div class="row">
+  <div class="container">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+      <img class="plot" src="/assets/Physics/blogs/virtools_blog/push_broom.png" style="max-width: 48%; height: auto;">
+      <img class="plot" src="/assets/Physics/blogs/virtools_blog/hyper_spec.png" style="max-width: 48%; height: auto;">
+    </div>
+    <div style="clear: both;"></div>      
+  </div>
+</div>
+~~~
+The left image is a diagram to show pushbroom method. There, we can see a detector array. This array actually take a image along it's length and then it is moved in a direction perpendicular to it's length giving us the image of the surface. The detector has many small detectors(pixels). Those are called **\col{purple}{samples}**. This value is obviously fixed ($s=256$). As the detector moves, it takes images. Each of these are called **\col{purple}{lines}** (in the diagram the rectangular patches on ground). This number is not constant, it can vary data file to data file.
+
+The data is stored for $b=432$ different wavelengths, i.e., the image is taken for $432$ different wavelengths. We can think the data as different images (sample & line) for different wavelengths stacked together. So, the image is sort of like **\col{red}{cube}** as shown in the previous image. One axis is **\col{blue}{band axis}**, one is **\col{blue}{sample axis}** and other is **\col{blue}{sample axis}**. So, if I store the cube file data as an numpy array `C`, then `C[b,s,l]` represent the value of data for band no. $b$, sample no. $s$ and line no. $l$.
+
+| Type | Called|
+|----- |-------|
+| For fixed band `C[b,:,:]`    |  Image |
+| For fixed sample `C[:,s,:]`  |  Slice |
+| For fixed line `C[:,:,l]`    |  Frame |
+
+When the device takes the data, It generates $4$ files:
+1. .LBL file : This contains info about device name, target name, wavelengths, band index, SPICE file details, distance from sun and all other things. An example of the file is here.
+```txt
+PDS_VERSION_ID = PDS3                                                         
+LABEL_REVISION_NOTE = "MTC_11-10-2011"                                        
+                                                                              
+/* Dataset and Product Information */                                         
+DATA_SET_NAME = "DAWN VIR RAW (EDR) CERES INFRARED SPECTRA V1.0"              
+DATA_SET_ID = "DAWN-A-VIR-2-EDR-IR-CERES-SPECTRA-V1.0"                        
+PRODUCT_ID = "VIR_IR_1A_1_493156585"                                          
+PRODUCT_TYPE = EDR                                                            
+PRODUCER_FULL_NAME = "M. C. DE SANCTIS"                                       
+PRODUCER_INSTITUTION_NAME = "ISTITUTO NAZIONALE DI ASTROFISICA"               
+PRODUCT_CREATION_TIME = 2016-10-13T19:33:39.186                               
+PRODUCT_VERSION_ID = "01"                                                     
+                                                                              
+/* File Information */                                                        
+RECORD_TYPE = FIXED_LENGTH                                                    
+RECORD_BYTES = 512                                                            
+FILE_RECORDS = 15120                                                          
+LABEL_RECORDS = 46                                                            
+                                                                              
+/* Time Information */                                                        
+START_TIME = 2015-08-18T07:55:19.569                                          
+STOP_TIME = 2015-08-18T08:07:59.799                                           
+IMAGE_MID_TIME = 2015-08-18T08:01:39.684                                      
+SPACECRAFT_CLOCK_START_COUNT = "1/493156585.1098"                             
+SPACECRAFT_CLOCK_STOP_COUNT = "1/493157346.7980"                              
+                                                                              
+/* Mission description parameters */                                          
+INSTRUMENT_HOST_NAME = "DAWN"                                                 
+INSTRUMENT_HOST_ID = "DAWN"                                                   
+MISSION_PHASE_NAME = "CERES SCIENCE HAMO (CSH)"                               
+                                                                              
+/* Instrument description parameters */                                       
+INSTRUMENT_NAME = "VISIBLE AND INFRARED SPECTROMETER"                         
+INSTRUMENT_ID = "VIR"                                                         
+INSTRUMENT_TYPE = "IMAGING SPECTROMETER"                                      
+                                                                              
+/* Celestial Geometry                                       */                
+RIGHT_ASCENSION                  =  279.965 <degrees>                         
+DECLINATION                      =  -62.231 <degrees>                         
+TWIST_ANGLE                      =  227.917 <degrees>                         
+CELESTIAL_NORTH_CLOCK_ANGLE      =  312.083 <degrees>                         
+QUATERNION                       = (  0.11612,                                
+                                     -0.31567,                                
+                                     -0.91802,                                
+                                      0.21000 )                               
+QUATERNION_DESC                  = "                                          
+     Above parameters are calculated at the center time of the observation    
+     which is 2015-08-18T08:01:39.684.  The quaternion has the form:          
+     w, x, y, z (i.e. SPICE format)."                                         
+                                                                              
+/* Solar geometry                                          */                 
+SPACECRAFT_SOLAR_DISTANCE        =   441765162.5 <km>                         
+SC_SUN_POSITION_VECTOR           = ( -259675440.2 <km>,                       
+                                      299958230.3 <km>,                       
+                                      194294067.4 <km> )                      
+                                                                              
+SC_SUN_VELOCITY_VECTOR           = ( -13.502 <km/s>,                          
+                                      -9.829 <km/s>,                          
+                                      -1.718 <km/s> )                         
+                                                                              
+/* SPICE Kernels                                            */                
+SPICE_FILE_NAME                  = "DAWN_CSH_R01.TM"                          
+                                                                              
+TARGET_NAME                      = "CAL LAMP"                                 
+TARGET_TYPE                      = "CALIBRATION"                              
+                                                                              
+/* COORDINATE SYSTEM                                        */                
+COORDINATE_SYSTEM_NAME           = "N/A"                                      
+COORDINATE_SYSTEM_CENTER_NAME    = "N/A"                                      
+                                                                              
+/* Geometry in "IAU_VESTA" coordinates from SPICE         */                  
+SUB_SPACECRAFT_LATITUDE          = "N/A"                                      
+SUB_SPACECRAFT_LONGITUDE         = "N/A"                                      
+SUB_SPACECRAFT_AZIMUTH           = "N/A"                                      
+SPACECRAFT_ALTITUDE              = "N/A"                                      
+TARGET_CENTER_DISTANCE           = "N/A"                                      
+SC_TARGET_POSITION_VECTOR        = ( "N/A",                                   
+                                     "N/A",                                   
+                                     "N/A" )                                  
+                                                                              
+SC_TARGET_VELOCITY_VECTOR        = ( "N/A",                                   
+                                     "N/A",                                   
+                                     "N/A" )                                  
+                                                                              
+LOCAL_HOUR_ANGLE                 = "N/A"                                      
+SUB_SOLAR_LATITUDE               = "N/A"                                      
+SUB_SOLAR_LONGITUDE              = "N/A"                                      
+SUB_SOLAR_AZIMUTH                = "N/A"                                      
+                                                                              
+/* Illumination                                             */                
+INCIDENCE_ANGLE                  = "N/A"                                      
+EMISSION_ANGLE                   = "N/A"                                      
+PHASE_ANGLE                      = "N/A"                                      
+                                                                              
+/* Image parameters                                         */                
+SLANT_DISTANCE                   = "N/A"                                      
+MINIMUM_LATITUDE                 = "N/A"                                      
+CENTER_LATITUDE                  = "N/A"                                      
+MAXIMUM_LATITUDE                 = "N/A"                                      
+WESTERNMOST_LONGITUDE            = "N/A"                                      
+CENTER_LONGITUDE                 = "N/A"                                      
+EASTERNMOST_LONGITUDE            = "N/A"                                      
+HORIZONTAL_PIXEL_SCALE           = "N/A"                                      
+VERTICAL_PIXEL_SCALE             = "N/A"                                      
+NORTH_AZIMUTH                    = "N/A"                                      
+ORBIT_NUMBER                     = "N/A"                                      
+                                                                              
+/* Data description parameters */                                             
+PROCESSING_LEVEL_ID = "2"                                                     
+DATA_QUALITY_ID = "1"                                                         
+DATA_QUALITY_DESC = "0:INCOMPLETE; 1:COMPLETE"                                
+TELEMETRY_SOURCE_ID = "EGSE"                                                  
+CHANNEL_ID = "IR"                                                             
+SOFTWARE_VERSION_ID = "EGSE V1.14,AMDLSpace"                                  
+                                                                              
+/* Instrument status */                                                       
+INSTRUMENT_MODE_ID = "C_H_SPE_H_SPA_F"                                        
+INSTRUMENT_MODE_DESC =                                                        
+ "S_H_SPE_H_SPA_F: Science, high spectral high spatial, Full slit             
+  S_H_SPE_L_SPA_F: Science, high spectral low spatial, Full slit              
+  S_H_SPE_L_SPA_F_SUM: Science, high spectral low spatial, Summing            
+  S_L_SPE_H_SPA_F: Science, Low spectral high spatial, Full slit              
+  S_L_SPE_L_SPA_F: Science, Low spectral low spatial, Full slit               
+  S_L_SPE_L_SPA_F_SUM: Science, Low spectral low spatial, Summing             
+  S_H_SPE_H_SPA_Q: Science, high spectral high spatial, Quarter slit          
+  S_L_SPE_H_SPA_Q: Science, low spectral high spatial, Quarter slit           
+  S_H_SPE_L_SPA_F_MEA: Science, high spectral low spatial, Meaning            
+  S_L_SPE_L_SPA_F_MEA: Science, low spectral low spatial, Meaning             
+  C_H_SPE_H_SPA_F: Calibration, high spectral high spatial, Full slit         
+  C_H_SPE_L_SPA_F: Calibration, high spectral low spatial, Full slit          
+  SPARE: CALIBRATION Spare                                                    
+  C_L_SPE_H_SPA_F: Calibration, low spectral high spatial, Full slit          
+  C_L_SPE_L_SPA_F: Calibration, low spectral low spatial, Full slit           
+  C_H_SPE_H_SPA_Q: Calibration, high spectral high spatial, Quarter slit      
+  C_L_SPE_H_SPA_Q: Calibration, low spectral high spatial, Quarter slit"      
+ENCODING_TYPE = "N/A"                                                         
+SCAN_MODE_ID = "5"                                                            
+DAWN:SCAN_PARAMETER = (0.1, 0.1, 0.26, 25)                                    
+SCAN_PARAMETER_DESC = ("SCAN_START_ANGLE", "SCAN_STOP_ANGLE",                 
+ "SCAN_STEP_ANGLE","SCAN_STEP_NUMBER")                                        
+DAWN:SCAN_PARAMETER_UNIT = ("DEGREES", "DEGREES", "DEGREES", "DIMENSIONLESS") 
+FRAME_PARAMETER = (0.0, 1, 20, 0)                                             
+FRAME_PARAMETER_DESC = ("EXPOSURE_DURATION", "FRAME_SUMMING",                 
+"EXTERNAL_REPETITION_TIME", "DARK_ACQUISITION_RATE")                          
+DAWN:FRAME_PARAMETER_UNIT = ("S", "DIMENSIONLESS", "S", "DIMENSIONLESS")      
+DAWN:VIR_IR_START_X_POSITION=0                                                
+DAWN:VIR_IR_START_Y_POSITION=0                                                
+MAXIMUM_INSTRUMENT_TEMPERATURE = (84.5, 135.6, 136.6, 79.0)                   
+INSTRUMENT_TEMPERATURE_POINT = ("FOCAL_PLANE", "TELESCOPE", "SPECTROMETER",   
+"CRYOCOOLER")                                                                 
+DAWN:INSTRUMENT_TEMPERATURE_UNIT = ("K", "K", "K", "K")                       
+PHOTOMETRIC_CORRECTION_TYPE = "NONE"                                          
+                                                                              
+/* Pointers to first record of objects in file */                             
+^HISTORY = 48                                                                 
+OBJECT = HISTORY                                                              
+END_OBJECT = HISTORY                                                          
+^QUBE = "VIR_IR_1A_1_493156585_1.QUB"                                         
+                                                                              
+/* Description of the object contained in the file */                         
+OBJECT = QUBE                                                                 
+                                                                              
+/*    Standard cube Keywords */                                               
+ AXES = 3                                                                     
+ AXIS_NAME = (BAND, SAMPLE, LINE)                                             
+ CORE_ITEMS = ( 432, 256, 35 )                                                
+ CORE_ITEM_BYTES = 2                                                          
+ CORE_ITEM_TYPE = MSB_INTEGER                                                 
+ CORE_BASE = 0.0                                                              
+ CORE_MULTIPLIER = 1.0                                                        
+ CORE_VALID_MINIMUM = 0                                                       
+ CORE_NULL = -32768                                                           
+ CORE_LOW_REPR_SATURATION = -32767                                            
+ CORE_LOW_INSTR_SATURATION = -32767                                           
+ CORE_HIGH_REPR_SATURATION = -32767                                           
+ CORE_HIGH_INSTR_SATURATION = -32767                                          
+ CORE_NAME = "RAW DATA NUMBER"                                                
+ CORE_UNIT = DIMENSIONLESS                                                    
+                                                                              
+/*  Suffix definition */                                                      
+ SUFFIX_BYTES = 4                                                             
+ SUFFIX_ITEMS = (    0,   0,    0)                                            
+                                                                              
+/* Spectral axis description */                                               
+                                                                              
+    GROUP = BAND_BIN                                                          
+                                                                              
+    BAND_BIN_CENTER =                                                         
+(1.021,1.030,1.040,1.049,1.059,....)
+ BAND_BIN_WIDTH  =                                                       
+(0.0140,0.0140,0.0140,0.0140,......)
+BAND_BIN_UNIT = MICROMETER                                                   
+                                                                              
+    BAND_BIN_ORIGINAL_BAND =                                                  
+(1,2,3,4,5,6,7,8,9,10,11,12,.......)
+END_GROUP = BAND_BIN                                                          
+                                                                              
+END_OBJECT                     = QUBE                                         
+END                                                                           
+                                                                              
+OBJECT = HISTORY                                                              
+
+END_OBJECT = HISTORY                                                          
+```
+2. .QUB file: This contains the actual data. This stores the image as **\col{red}{Digital Number}** as normally happens for CCD type devices. This is the data we have to convert in radinace or reflectance. We can't directly open this data (so can't show you here).
+3. HK_.LBL file: This contains the column names for the other data file of detail information of the device like temperature of detector, temp of spectroscope, shutter status, exposure time for each lines.
+
+```txt
+
+```
+To use this package, we have to first install it. For installing here is a bash script (if you want you can just directly download and use from git),
+```bash
+#!/bin/bash
+ENV_DIR="./virtools-venv"
+REPO_URL="https://github.com/aburousan/virtools.git"
+CLONE_DIR="./virtools"
+
+echo "Creating virtual environment in $ENV_DIR"
+python3 -m venv "$ENV_DIR"
+source "$ENV_DIR/bin/activate"
+
+pip install --upgrade pip setuptools wheel build
+
+echo "Cloning repo..."
+rm -rf "$CLONE_DIR"
+git clone "$REPO_URL" "$CLONE_DIR"
+cd "$CLONE_DIR" || exit 1
+pip install numpy scipy matplotlib scikit-image pvl PyWavelets
+python3 -m build
+pip install dist/*.whl
+
+echo "virtools installed in virtualenv at $ENV_DIR"
+echo "To activate: source $ENV_DIR/bin/activate"
+```
+This will create a environment in python and install the package there. For installing in conda, use:
+```bash
+#!/bin/bash
+
+ENV_NAME="virtools-env"
+PYTHON_VERSION="3.10"
+REPO_URL="https://github.com/aburousan/virtools.git"
+CLONE_DIR="./virtools"
+
+echo "Creating conda environment: $ENV_NAME"
+conda create -y -n "$ENV_NAME" python=$PYTHON_VERSION
+
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate "$ENV_NAME"
+
+echo "Cloning repo..."
+rm -rf "$CLONE_DIR"
+git clone "$REPO_URL" "$CLONE_DIR"
+cd "$CLONE_DIR" || exit 1
+
+echo "Installing dependencies..."
+conda install -y numpy scipy matplotlib scikit-image pip
+pip install pvl PyWavelets build
+
+python3 -m build
+pip install dist/*.whl
+
+echo "virtools installed in conda env: $ENV_NAME"
+```
 <!-- I will be assuming that readers have some basic knowledge on **metric**. But still to be sure, let's start by discussing a bit on it.
 \defn{
     Metric is an object that turns coordinat distance into physical distance. It is normally represented by $g$.
