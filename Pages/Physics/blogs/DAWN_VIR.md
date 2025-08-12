@@ -299,8 +299,251 @@ END_OBJECT = HISTORY
 3. HK_.LBL file: This contains the column names for the other data file of detail information of the device like temperature of detector, temp of spectroscope, shutter status, exposure time for each lines.
 
 ```txt
-
+PDS_VERSION_ID                = "PDS3"                                        
+DATA_SET_ID                   = "DAWN-A-VIR-2-EDR-IR-CERES-SPECTRA-V1.0"      
+PRODUCT_ID                    = "VIR_IR_1A_1_493156585_HK"                    
+PRODUCT_TYPE                  = "ENGINEERING_DATA"                            
+PRODUCT_VERSION_ID            = "01"                                          
+PRODUCT_CREATION_TIME         = 2016-10-13T19:33:39.186                       
+                                                                              
+RECORD_TYPE                   = FIXED_LENGTH                                  
+RECORD_BYTES                  = 288                                           
+FILE_RECORDS                  = 35                                            
+                                                                              
+START_TIME                    = 2015-08-18T07:55:19.569                       
+STOP_TIME                     = 2015-08-18T08:07:59.799                       
+SPACECRAFT_CLOCK_START_COUNT  = "1/493156585.1098"                            
+SPACECRAFT_CLOCK_STOP_COUNT   = "1/493157346.7980"                            
+                                                                              
+INSTRUMENT_HOST_NAME          = "DAWN"                                        
+INSTRUMENT_HOST_ID            = "DAWN"                                        
+MISSION_PHASE_NAME            = "CERES SCIENCE HAMO (CSH)"                    
+TARGET_NAME                   = "CAL LAMP"                                    
+INSTRUMENT_NAME               = "VISIBLE AND INFRARED SPECTROMETER"           
+INSTRUMENT_ID                 = "VIR"                                         
+DESCRIPTION                   = ""                                            
+                                                                              
+^TABLE                        = "VIR_IR_1A_1_493156585_HK_1.TAB"              
+OBJECT                        = TABLE                                         
+  INTERCHANGE_FORMAT          = ASCII                                         
+  ROWS                        = 35                                            
+  COLUMNS                     = 33                                            
+  ROW_BYTES                   = 288                                           
+  DESCRIPTION                 = ""                                            
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "VERSION, TYPE, SECONDARY HEADER FLAG"        
+    COLUMN_NUMBER             = 1                                             
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = ASCII_INTEGER                                 
+    START_BYTE                = 1                                             
+    BYTES                     = 2                                             
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "APID"                                        
+    COLUMN_NUMBER             = 2                                             
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = ASCII_INTEGER                                 
+    START_BYTE                = 4                                             
+    BYTES                     = 3                                             
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "PACKET SEQUENCE CONTROL"                     
+    COLUMN_NUMBER             = 3                                             
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = ASCII_INTEGER                                 
+    START_BYTE                = 8                                             
+    BYTES                     = 5                                             
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "PACKETS LENGTH"                              
+    COLUMN_NUMBER             = 4                                             
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = ASCII_INTEGER                                 
+    START_BYTE                = 14                                            
+    BYTES                     = 4                                             
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "SCET TIME (CLOCK)"                           
+    COLUMN_NUMBER             = 5                                             
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = ASCII_REAL                                    
+    START_BYTE                = 19                                            
+    BYTES                     = 12                                            
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "FRAME NUMBER"                                
+    COLUMN_NUMBER             = 6                                             
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = ASCII_INTEGER                                 
+    START_BYTE                = 34                                            
+    BYTES                     = 3                                             
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "FRAME COUNT"                                 
+    COLUMN_NUMBER             = 7                                             
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = ASCII_INTEGER                                 
+    START_BYTE                = 38                                            
+    BYTES                     = 3                                             
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "SUBFRAME COUNT"                              
+    COLUMN_NUMBER             = 8                                             
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = ASCII_INTEGER                                 
+    START_BYTE                = 42                                            
+    BYTES                     = 2                                             
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "PACKETS COUNT"                               
+    COLUMN_NUMBER             = 9                                             
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = ASCII_INTEGER                                 
+    START_BYTE                = 45                                            
+    BYTES                     = 2                                             
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "SHUTTER STATUS"                              
+    COLUMN_NUMBER             = 10                                            
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = CHARACTER                                     
+    START_BYTE                = 48                                            
+    BYTES                     = 8                                             
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "CHANNEL ID"                                  
+    COLUMN_NUMBER             = 11                                            
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = CHARACTER                                     
+    START_BYTE                = 57                                            
+    BYTES                     = 3                                             
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "COMPRESSION MODE"                            
+    COLUMN_NUMBER             = 12                                            
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = CHARACTER                                     
+    START_BYTE                = 61                                            
+    BYTES                     = 20                                            
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "SPECTRAL RANGE"                              
+    COLUMN_NUMBER             = 13                                            
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = CHARACTER                                     
+    START_BYTE                = 82                                            
+    BYTES                     = 24                                            
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "CURRENT MODE"                                
+    COLUMN_NUMBER             = 14                                            
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = CHARACTER                                     
+    START_BYTE                = 107                                           
+    BYTES                     = 12                                            
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "CURRENT SUBMODE"                             
+    COLUMN_NUMBER             = 15                                            
+    UNIT                      = "N/A"                                         
+    DATA_TYPE                 = CHARACTER                                     
+    START_BYTE                = 120                                           
+    BYTES                     = 14                                            
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "IR EXPO"                                     
+    COLUMN_NUMBER             = 16                                            
+    UNIT                      = "S"                                           
+    DATA_TYPE                 = ASCII_REAL                                    
+    START_BYTE                = 135                                           
+    BYTES                     = 10                                            
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "IR TEMP"                                     
+    COLUMN_NUMBER             = 17                                            
+    UNIT                      = "K"                                           
+    DATA_TYPE                 = ASCII_REAL                                    
+    START_BYTE                = 146                                           
+    BYTES                     = 10                                            
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "CCD EXPO"                                    
+    COLUMN_NUMBER             = 18                                            
+    UNIT                      = "S"                                           
+    DATA_TYPE                 = ASCII_REAL                                    
+    START_BYTE                = 157                                           
+    BYTES                     = 10                                            
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN                                        
+                                                                              
+  OBJECT                      = COLUMN                                        
+    NAME                      = "CCD TEMP"                                    
+    COLUMN_NUMBER             = 19                                            
+    UNIT                      = "K"                                           
+    DATA_TYPE                 = ASCII_REAL                                    
+    START_BYTE                = 168                                           
+    BYTES                     = 10                                            
+    DESCRIPTION               = ""                                            
+  END_OBJECT                  = COLUMN
 ```
+4. HK_.TAB file: This contains the data corresponding to the table names in the previous HK_.LBL file. It looks like,
+```txt
+ 8 102     0 1017 493156585.1020   5   1  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.000000  84.482243   0.000000 170.251659   0.066178   0.997557 135.007163 137.163745  77.109671 140.777476   0.007059 142.686342  0  0  0  0  9216  1
+ 8 102   456 1017 493156605.1000   5   2  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.000000  84.482243   0.000000 170.251659   0.066178   0.997557 135.065449 137.192888  77.672624 140.762904   0.007071 142.700913  0  0  0  0  9216  1
+ 8 102   912 1017 493156625.1000   5   3  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.000000  84.482243   0.000000 170.222171   0.066178   0.997557 135.036306 137.178316  77.672624 140.748333   0.007383 142.686342  0  0  0  0  9216  1
+ 8 102  1368 1017 493156645.1000   5   4  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.000000  84.513481   0.000000 170.207427   0.066178   0.997557 135.036306 137.163745  77.561390 140.748333   0.007151 142.686342  0  0  0  0  9216  1
+ 8 102  1824 1017 493156665.1000   5   5  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.000000  84.419766   0.000000 170.236915   0.066178   0.997557 135.036306 137.178316  77.673980 140.762904   0.006509 142.686342  0  0  0  0  9216  1
+ 8 102  2508 1017 493156677.4550   5   1  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.513481   1.000000 170.207427   0.066178   0.997557 135.036306 137.207459  78.949101 140.704618   0.007218 142.700913  0  0  0  0  9216  2
+ 8 102  2964 1017 493156697.0500   5   2  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.607197   1.000000 170.222171   0.066178   0.997557 135.050877 137.178316  78.639817 140.748333   0.006668 142.671770  0  0  0  0  9216  2
+ 8 102  3420 1017 493156717.0500   5   3  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.544720   1.000000 170.207427   0.066178   0.997557 135.036306 137.149173  78.641173 140.762904   0.006601 142.671770  0  0  0  0  9216  2
+ 8 102  3876 1017 493156737.0500   5   4  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.607197   1.000000 170.207427   0.066178   0.997557 135.036306 137.222031  78.753764 140.704618   0.007065 142.715485  0  0  0  0  9216  2
+ 8 102  4332 1017 493156757.0500   5   5  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.669674   1.000000 170.222171   0.066178   0.997557 135.050877 137.163745  78.578774 140.748333   0.007206 142.700913  0  0  0  0  9216  2
+ 8 102  4788 1017 493156769.1400   5   1  0  1   closed  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.669674   1.000000 170.207427   0.066178   0.997557 135.021734 137.178316  79.014214 140.748333   0.007169 142.686342  0  0  0  0  9216  3
+ 8 102  5244 1017 493156789.0500   5   2  0  1   closed  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.669674   1.000000 170.207427   0.066178   0.997557 134.992591 137.178316  78.725277 140.748333   0.007261 142.686342  0  0  0  0  9216  3
+ 8 102  5700 1017 493156809.0500   5   3  0  1   closed  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.669674   1.000000 170.207427   0.066178   0.997557 135.007163 137.207459  78.726633 140.777476   0.007187 142.715485  0  0  0  0  9216  3
+ 8 102  6156 1017 493156829.0500   5   4  0  1   closed  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.607197   1.000000 170.222171   0.066178   0.997557 135.036306 137.163745  78.653382 140.762904   0.006601 142.686342  0  0  0  0  9216  3
+ 8 102  6612 1017 493156849.0500   5   5  0  1   closed  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.732151   1.000000 170.207427   0.066178   0.997557 135.021734 137.178316  78.722564 140.777476   0.006527 142.700913  0  0  0  0  9216  3
+ 8 102  6840 1017 493156921.0510   5   1  0  1     open  IR  data_not_compressed  all_spectral_sub-frames  calibration  H_SPE_H_SPA_F   0.500000  84.669674  20.000000 170.310635   0.066178   0.997557 135.021734 137.149173  78.622182 140.748333   0.007200 142.671770  0  0  0  0  9216  4
+```
+We have to use these files together to **convert the data in the qub file into radiance and reflectance**. Let's see now how.
+## Setting up the package:
+First you have to install the package to install it. For now the package is written for **\col{red}{IR data}**. This is quite general so it should work for the visible spectra too. But the detilt function is needed for that, which is not added for now.
+
 To use this package, we have to first install it. For installing here is a bash script (if you want you can just directly download and use from git),
 ```bash
 #!/bin/bash
@@ -354,6 +597,64 @@ pip install dist/*.whl
 
 echo "virtools installed in conda env: $ENV_NAME"
 ```
+Once these two are ran, the package is installed in your system and you can just activate the environment to run the code.
+## Importing the data:
+The data which is recored is stored in fortran format in MSB format. So, while importing we have to correct the endianness and aslo the array type. There are mainly two functions for importing data:
+1. `load_qub_from_lbl` is a function which takes lbl and qub file names with location. It will load a dictionary of all lbl file data and a numpy array with qun file data. It also returns a mask (depending on the optional argument `flag_mask`) of the locations of the saturated and nan value pixels.
+2. `load_qub_from_lbl_name` is a function which takes only the base folder and lbl file name. It will then load all four data files (lbl file data as previously, qub file data along with hk.lbl and hk.tab data file).
+Example:
+```python
+File_name_unc = "VIR_IR_1A_1_495681682"
+base_folder_name = "/Data/rousan/Ceres_Data/DWNCHVIR_I1A-170324/DWNCHVIR_I1A/DATA/20150816_HAMO/20150909_CYCLE3/"
+lbl_file_unc = base_folder_name+File_name_unc+"_1.LBL"
+qub_file_unc = base_folder_name+File_name_unc+"_1.QUB"
+lbl_hk_file_unc = base_folder_name+File_name_unc+"_HK_1.LBL"
+tab_hk_file_unc = base_folder_name+File_name_unc+"_HK_1.TAB"
+```
+This are the file names with location. Now pass it to the function:
+```python
+cube_array,lbl_data, flag_mask=load_qub_from_lbl(lbl_file_unc,qub_file_unc,return_flag_mask=True)
+```
+The actual data is saved inside the `cube_array` array. `lbl_data` contains the meta data. Let's extract the datas from these python numpy aray and meta-data we will need.
+```python
+bands, samples, lines = lbl_data["shape"]
+wvlen_center = lbl_data["wave_length_cen"]
+wvlen_width = lbl_data["wave_width"]
+wvlen_band_val = lbl_data["wave_length_band_val"]
+exposure_time = lbl_data["exposure_time"]
+spacecraft_solar_dist = lbl_data["spacecraft_solar_dist"]
+```
+Now, we also need the data from house keeping files. For that there are some more functions:
+```python
+hk = extract_hk_data(lbl_hk_file_unc, tab_hk_file_unc)
+exposure_times = np.array(hk["data"]["exposure_time_ir"])
+ir_temps = np.array(hk["data"]["ir_temp"])
+spec_temps = np.array(hk["data"]["spect_temp"])
+closed_index = hk["closed_indexes"]
+```
+If we want, we can directly use the other file to import the whole data. `wvlen_center` contains the wavelength values in $\mu m$ & `wvlen_band_val` contains the band values (like eg:$1,2,3,\cdots,$). `closed_index` is contains the index of the lines for which the shutter was closed, hence giving us the **\col{red}{dark frames}**.
+
+## Calibration
+First thing after importing the data, we need to locate the defective pixels and then interpolate it. I am usingg the spline for that. There is a function for exactly that.
+```python
+cube_def_rem = fix_defective_pixels_with_spline(cube_array,defective_ir_pixels,wvlen_center,FILTER_BANDS_IR)
+```
+Here `FILTER_BANDS_IR` and `defective_ir_pixels` are numpy arraies which contains the location of filter regions(OSF regions) and detective pixel locations. This gives us an interpolated data. To see the data(image at a specific wavelength/band no.) we have a function called `show_band_image`.
+```python
+show_band_image(cube_def_rem,200,cbar_label="DN")
+```
+This gives:
+~~~
+<div class="row">
+  <div class="container">
+    <img class="left" src="/assets/Physics/blogs/virtools_blog/image_cra1.png" >
+    <div style="clear: both"></div>      
+  </div>
+</div>
+~~~
+This contains **\col{red}{bias}**,**\col{red}{dark current}**,**\col{red}{thermal background}** and many other things. Now, we will remove these effects to get the actual signal.
+
+After this to model thermal current, we have to use the dark frames. This will be done by using a function which will detect calibration frames in a folder.
 <!-- I will be assuming that readers have some basic knowledge on **metric**. But still to be sure, let's start by discussing a bit on it.
 \defn{
     Metric is an object that turns coordinat distance into physical distance. It is normally represented by $g$.

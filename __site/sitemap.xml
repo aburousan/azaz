@@ -33,7 +33,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/phy_co/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -63,7 +63,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/DAWN_VIR/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2025-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -160,6 +160,12 @@
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html</loc>
     <lastmod>2025-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/NISER_Course/Main_page/index.html</loc>
+    <lastmod>2025-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>

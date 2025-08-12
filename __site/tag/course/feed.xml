@@ -23,6 +23,25 @@
 
 <item>
   <title>
+    <![CDATA[  NISER_Course  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/NISER_Course/Main_page/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/NISER_Course/Main_page/index.html </guid>
+  <description>
+    <![CDATA[  Courses Taken in NISER  ]]>
+  </description>  
+    
+  <pubDate>Mon, 11 Aug 2025 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  Intro<em>2</em>QFT_1  ]]>
   </title>
   <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html </link>

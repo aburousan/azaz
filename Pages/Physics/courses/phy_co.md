@@ -8,11 +8,54 @@ rss_pubdate = Date(2024, 6, 6)
 tags = ["physics", "courses"]
 +++
 
-# List of Courses and Books
-
-This contains the list of courses & books in the website:\\
-(*This part will be updated as new courses & books are added*)
-1. [Introduction to Quantum Field Theory with Canonical Quanlization](/Pages/Physics/courses/Intro_to_QFT/Course_Page/).
+# List of Courses:
+Scroll Below
+~~~
+<div class="feature__wrapper">
+  <div class="feature__item">
+    <div class="archive__item">
+      <div class="archive__item-teaser">
+        <img src="/assets/Physics/blogs.jpg" alt="customizable" />
+      </div>
+      <div class="archive__item-body">
+        <h2 class="archive__item-title">NISER Courses</h2>
+        <div class="archive__item-excerpt">
+          <p>Find Notes from Courses</p>
+        </div>
+        <p><a href="/Pages/Physics/courses/NISER_Course/Main_page" class="btn btn--primary">Visit</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="feature__item">
+    <div class="archive__item">
+      <div class="archive__item-teaser">
+        <img src="/assets/Physics/papers.jpeg" alt="fully responsive" />
+      </div>
+      <div class="archive__item-body">
+        <h2 class="archive__item-title">Own Courses</h2>
+        <div class="archive__item-excerpt">
+          <p>This are the courses taught by me.</p>
+        </div>
+        <p><a href="/Pages/Physics/courses/My_Own/Main_page" class="btn btn--primary">Visit</a></p>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="feature__item">
+    <div class="archive__item">
+      <div class="archive__item-teaser">
+        <img src="/assets/Physics/course.png" alt="100% free" />
+      </div>
+      <div class="archive__item-body">
+        <h2 class="archive__item-title">Courses</h2>
+        <div class="archive__item-excerpt">
+          <p>Courses and Books</p>
+        </div>
+        <p><a href="/Pages/Physics/courses/phy_co" class="btn btn--primary">Visit</a></p>
+      </div>
+    </div>
+  </div> -->
+</div>
+~~~
 
 ~~~
 <button onclick="window.history.back()">Go Back</button>
