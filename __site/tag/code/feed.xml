@@ -23,6 +23,25 @@
 
 <item>
   <title>
+    <![CDATA[  Legendre&#39;s Tranformation: A intuitive approach  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/legendre_trans/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/legendre_trans/index.html </guid>
+  <description>
+    <![CDATA[  A brief discussion on Legendre Transformation  ]]>
+  </description>  
+    
+  <pubDate>Fri, 31 Oct 2025 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  Introduction to Monte Carlo Integration  ]]>
   </title>
   <link> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </link>
