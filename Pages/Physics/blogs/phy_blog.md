@@ -19,7 +19,7 @@ This contains some interesting things related to physics:\\
 5. [What exactly is Temperature ? A Statistical Picture](/Pages/Physics/blogs/temp_stat/) --> Want some ice-cream?
 6. [Finding age of the Universe using AstronomR](/Pages/Physics/blogs/AstronomR_package1/) --> Feeling old yet?
 7. [Legendre's Tranformation: An Intuitive Approach](/Pages/Physics/blogs/legendre_trans/) --> Is it some legendary thing?
-<!-- 7. [Radiometric Calibration of DAWN VIR data](/Pages/Physics/blogs/DAWN_VIR/) --> Seeing Ceres? -->
+<!-- 7. [Radiometric Calibration of DAWN VIR data](/Pages/Physics/blogs/DAWN_VIR/) --> 
 ~~~
 <button onclick="window.history.back()">Go Back</button>
 ~~~
