@@ -114,7 +114,7 @@
 
 
   <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#introduction">Introduction</a><ol><li><a href="#transformaing_one_function_into_another_without_infgormation_lost">Transformaing one function into another without infgormation lost</a></li><li><a href="#finding_the_lost_information">Finding the lost information</a></li></ol></li><li><a href="#legendre_transformation">Legendre Transformation</a><ol><li><a href="#introduction__2">Introduction</a></li><li><a href="#what_functions_respect_legendre_transformation">What functions respect legendre transformation?</a></li><li><a href="#legendre_transform_of_multi-variable_functions">Legendre Transform of multi-variable functions</a></li></ol></li><li><a href="#application_of_legendre_transform">Application of Legendre Transform</a></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#introduction">Introduction</a><ol><li><a href="#transforming_one_function_into_another_without_information_loss">Transforming one function into another without information loss</a></li><li><a href="#finding_the_lost_information">Finding the lost information</a></li></ol></li><li><a href="#legendre_transformation">Legendre Transformation</a><ol><li><a href="#introduction__2">Introduction</a></li><li><a href="#what_functions_respect_legendre_transformation">What functions respect legendre transformation?</a></li><li><a href="#legendre_transform_of_multi-variable_functions">Legendre Transform of multi-variable functions</a></li></ol></li><li><a href="#application_of_legendre_transform">Application of Legendre Transform</a></li></ol></div>
 <h1 id="legendres_tranformation_an_intuitive_approach"><a href="#legendres_tranformation_an_intuitive_approach" class="header-anchor">Legendre&#39;s Tranformation: An Intuitive Approach</a></h1>
 <p><strong><span style="color: purple">Legendre Transformation</span></strong> is an involutive transformation on real-valued functions that are convex on a real variable. Specifically, if a real-valued multivariable function is convex on one of its independent real variables, then the Legendre transform with respect to this variable is applicable to the function.</p>
 <p>This uses the fact that <strong><span style="color: blue">points and lines are related by some sort of duality</span></strong>, which let&#39;s us relate different ideas of physics to each other. Although, we learn it just as a transformation in Classical Mechanics &amp; Thermodynamics, it is really simple and intuitive. </p>
@@ -205,7 +205,7 @@
   });
 </script>
 </p>
-<h3 id="transformaing_one_function_into_another_without_infgormation_lost"><a href="#transformaing_one_function_into_another_without_infgormation_lost" class="header-anchor">Transformaing one function into another without infgormation lost</a></h3>
+<h3 id="transforming_one_function_into_another_without_information_loss"><a href="#transforming_one_function_into_another_without_information_loss" class="header-anchor">Transforming one function into another without information loss</a></h3>
 <p>To go further, let&#39;s start with the function:</p>
 \[
 f(x) = x^2
@@ -225,7 +225,7 @@ p(x) = \frac{df}{dx} = 2x
 <script>
   JXG.Options.text.useMathJax = true;
 
-  var board = JXG.JSXGraph.initBoard('tangentBoard', {
+  var boardd = JXG.JSXGraph.initBoard('tangentBoard', {
     boundingbox: [-5, 10, 5, -5],
     axis: true,
     showCopyright: false,
@@ -237,15 +237,15 @@ p(x) = \frac{df}{dx} = 2x
   const df = x => 2 * x;
 
   // --- Plot f(x) ---
-  const curve = board.create('functiongraph', [f, -4, 4],
+  const curve = boardd.create('functiongraph', [f, -4, 4],
     { strokeColor: '#0047AB', strokeWidth: 2 });
 
   // --- Slider for x0 ---
-  const slider = board.create('slider', [[-4.5, 9], [4.5, 9], [-4, 0, 4]],
+  const slider = boardd.create('slider', [[-4.5, 9], [4.5, 9], [-4, 0, 4]],
     { name: 'x₀', snapWidth: 0.1 });
 
   // --- Movable point P(x0, f(x0)) ---
-  const P = board.create('point', [
+  const P = boardd.create('point', [
     () => slider.Value(),
     () => f(slider.Value())
   ], {
@@ -256,7 +256,7 @@ p(x) = \frac{df}{dx} = 2x
   });
 
   // --- Tangent line at P ---
-  const tangent = board.create('line', [
+  const tangent = boardd.create('line', [
     () => [slider.Value(), f(slider.Value())],
     () => [slider.Value() + 1, f(slider.Value()) + df(slider.Value())]
   ], {
@@ -265,7 +265,7 @@ p(x) = \frac{df}{dx} = 2x
   });
 
   // --- Y-intercept (0, b) ---
-  const intercept = board.create('point', [
+  const intercept = boardd.create('point', [
     0,
     () => f(slider.Value()) - df(slider.Value()) * slider.Value()
   ], {
@@ -290,7 +290,7 @@ p(x) = \frac{df}{dx} = 2x
     const b = y0 - slope * x0;
 
     // Create faint tangent for the trail
-    const t = board.create('functiongraph', [
+    const t = boardd.create('functiongraph', [
       x => slope * x + b, -5, 5
     ], {
       strokeColor: '#1CA9C9',
@@ -301,10 +301,10 @@ p(x) = \frac{df}{dx} = 2x
 
     tangentTrail.push(t);
     if (tangentTrail.length > maxTrail) {
-      board.removeObject(tangentTrail.shift());
+      boardd.removeObject(tangentTrail.shift());
     }
 
-    board.update();
+    boardd.update();
   });
 </script>
 

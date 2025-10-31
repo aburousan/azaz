@@ -110,7 +110,7 @@ Suppose we have some function $y=f(x)$. We can draw it as some curve on x-y plan
   });
 </script>
 ~~~
-### Transformaing one function into another without infgormation lost
+### Transforming one function into another without information loss
 To go further, let's start with the function:
 $$
 f(x) = x^2
@@ -132,7 +132,7 @@ $$
 <script>
   JXG.Options.text.useMathJax = true;
 
-  var board = JXG.JSXGraph.initBoard('tangentBoard', {
+  var boardd = JXG.JSXGraph.initBoard('tangentBoard', {
     boundingbox: [-5, 10, 5, -5],
     axis: true,
     showCopyright: false,
@@ -144,15 +144,15 @@ $$
   const df = x => 2 * x;
 
   // --- Plot f(x) ---
-  const curve = board.create('functiongraph', [f, -4, 4],
+  const curve = boardd.create('functiongraph', [f, -4, 4],
     { strokeColor: '#0047AB', strokeWidth: 2 });
 
   // --- Slider for x0 ---
-  const slider = board.create('slider', [[-4.5, 9], [4.5, 9], [-4, 0, 4]],
+  const slider = boardd.create('slider', [[-4.5, 9], [4.5, 9], [-4, 0, 4]],
     { name: 'x₀', snapWidth: 0.1 });
 
   // --- Movable point P(x0, f(x0)) ---
-  const P = board.create('point', [
+  const P = boardd.create('point', [
     () => slider.Value(),
     () => f(slider.Value())
   ], {
@@ -163,7 +163,7 @@ $$
   });
 
   // --- Tangent line at P ---
-  const tangent = board.create('line', [
+  const tangent = boardd.create('line', [
     () => [slider.Value(), f(slider.Value())],
     () => [slider.Value() + 1, f(slider.Value()) + df(slider.Value())]
   ], {
@@ -172,7 +172,7 @@ $$
   });
 
   // --- Y-intercept (0, b) ---
-  const intercept = board.create('point', [
+  const intercept = boardd.create('point', [
     0,
     () => f(slider.Value()) - df(slider.Value()) * slider.Value()
   ], {
@@ -197,7 +197,7 @@ $$
     const b = y0 - slope * x0;
 
     // Create faint tangent for the trail
-    const t = board.create('functiongraph', [
+    const t = boardd.create('functiongraph', [
       x => slope * x + b, -5, 5
     ], {
       strokeColor: '#1CA9C9',
@@ -208,10 +208,10 @@ $$
 
     tangentTrail.push(t);
     if (tangentTrail.length > maxTrail) {
-      board.removeObject(tangentTrail.shift());
+      boardd.removeObject(tangentTrail.shift());
     }
 
-    board.update();
+    boardd.update();
   });
 </script>
 ~~~
