@@ -483,21 +483,21 @@ println&#40;&quot;With Normalization:&quot;&#41;
 for &#40;i, poly&#41; in enumerate&#40;leg_f&#41;
     println&#40;&quot;P&#39;_&#36;&#40;i-1&#41;&#40;x&#41; &#61; &#36;poly&quot;&#41;
 end</code></pre>
-<p>which gives, <pre><code class="plaintext code-output">Without normalization:
-P_0(x) = 1
-P_1(x) = x
-P_2(x) = x^2 - 1/3
-P_3(x) = x*(x^2 - 3/5)
-P_4(x) = x^4 - 6*x^2/7 + 3/35
-P_5(x) = x*(63*x^4 - 70*x^2 + 15)/63
+<p>which gives,</p>
+<pre><code class="language-plaintext">Without normalization:
+P_0&#40;x&#41; &#61; 1
+P_1&#40;x&#41; &#61; x
+P_2&#40;x&#41; &#61; x^2 - 1/3
+P_3&#40;x&#41; &#61; x*&#40;x^2 - 3/5&#41;
+P_4&#40;x&#41; &#61; x^4 - 6*x^2/7 &#43; 3/35
+P_5&#40;x&#41; &#61; x*&#40;63*x^4 - 70*x^2 &#43; 15&#41;/63
 With Normalization:
-P'_0(x) = 1
-P'_1(x) = x
-P'_2(x) = 3*x^2/2 - 1/2
-P'_3(x) = 5*x*(x^2 - 3/5)/2
-P'_4(x) = 35*x^4/8 - 15*x^2/4 + 3/8
-P'_5(x) = x*(63*x^4 - 70*x^2 + 15)/8
-</code></pre></p>
+P&#39;_0&#40;x&#41; &#61; 1
+P&#39;_1&#40;x&#41; &#61; x
+P&#39;_2&#40;x&#41; &#61; 3*x^2/2 - 1/2
+P&#39;_3&#40;x&#41; &#61; 5*x*&#40;x^2 - 3/5&#41;/2
+P&#39;_4&#40;x&#41; &#61; 35*x^4/8 - 15*x^2/4 &#43; 3/8
+P&#39;_5&#40;x&#41; &#61; x*&#40;63*x^4 - 70*x^2 &#43; 15&#41;/8</code></pre>
 <p>Let&#39;s see one more example:</p>
 <h3 id="hermite_polynomials"><a href="#hermite_polynomials" class="header-anchor">Hermite Polynomials</a></h3>
 <p>We know Legendre Polynomials are defined in the range \(-\infty < x <\infty \). Also, take \(w(x) = \exp(-x^2)\).</p>
@@ -528,21 +528,21 @@ println&#40;&quot;With Normalization:&quot;&#41;
 for &#40;i, poly&#41; in enumerate&#40;her_f&#41;
     println&#40;&quot;H&#39;_&#36;&#40;i-1&#41;&#40;x&#41; &#61; &#36;poly&quot;&#41;
 end</code></pre>
-<p>which gives, <pre><code class="plaintext code-output">Without normalization:
-H_0(x) = 1
-H_1(x) = x
-H_2(x) = x^2 - 1/2
-H_3(x) = x*(x^2 - 3/2)
-H_4(x) = x^4 - 3*x^2 + 3/4
-H_5(x) = x*(x^4 - 5*x^2 + 15/4)
+<p>which gives,</p>
+<pre><code class="language-plaintext">Without normalization:
+H_0&#40;x&#41; &#61; 1
+H_1&#40;x&#41; &#61; x
+H_2&#40;x&#41; &#61; x^2 - 1/2
+H_3&#40;x&#41; &#61; x*&#40;x^2 - 3/2&#41;
+H_4&#40;x&#41; &#61; x^4 - 3*x^2 &#43; 3/4
+H_5&#40;x&#41; &#61; x*&#40;x^4 - 5*x^2 &#43; 15/4&#41;
 With Normalization:
-H'_0(x) = 1
-H'_1(x) = x
-H'_2(x) = 2*x^2 - 1
-H'_3(x) = -2*x*(x^2 - 3/2)
-H'_4(x) = -4*x^4/5 + 12*x^2/5 - 3/5
-H'_5(x) = -4*x*(x^4 - 5*x^2 + 15/4)
-</code></pre></p>
+H&#39;_0&#40;x&#41; &#61; 1
+H&#39;_1&#40;x&#41; &#61; x
+H&#39;_2&#40;x&#41; &#61; 2*x^2 - 1
+H&#39;_3&#40;x&#41; &#61; -2*x*&#40;x^2 - 3/2&#41;
+H&#39;_4&#40;x&#41; &#61; -4*x^4/5 &#43; 12*x^2/5 - 3/5
+H&#39;_5&#40;x&#41; &#61; -4*x*&#40;x^4 - 5*x^2 &#43; 15/4&#41;</code></pre>
 
   <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
       Consider </p>
@@ -679,7 +679,7 @@ P_n(x) = \sum_{r=0}^{n}A_{nr}x^r
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 03, 2025.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: June 24, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -769,7 +769,7 @@ P_n(x) = \sum_{r=0}^{n}A_{nr}x^r
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=17" data-cat="/assets/oneko.gif"></script>
+    <script src="/assets/oneko.js?v=36" data-cat="/assets/oneko.gif"></script>
   </body>
 </html>
 

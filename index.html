@@ -14,7 +14,14 @@
       document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
     </script>
     <!-- For all browsers -->
-    <link rel="stylesheet" href="/css/minimal-mistakes.css">
+    {{ insert style.html }}
+    <script>
+      // Load theme before rendering to avoid flash
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark-mode');
+      }
+    </script>
     <!--[if IE ]>
       <style>
         /* old IE unsupported flexbox fixes */

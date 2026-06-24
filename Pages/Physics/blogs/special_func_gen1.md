@@ -231,7 +231,7 @@ We know Legendre Polynomials are defined in the range $-1\leq x \leq 1$. Also, t
  As an example, coefficients of $P_2(x)$ are $1$ and $-1/3$. Multiply by a factor of $\alpha$ and solve such that the sum of all the coefficient is $1$. This is $\alpha + (-\frac{\alpha}{3}) = 1$ which gives $\alpha = 3/2$. This gives $P_2(x) = \frac{1}{2}(3x^2-1)$.
 
 Let's write a code in julia for this.
-```julia:./orthogonal_poly.jl
+```julia
 function inner_product(f, g, a ,b, w)
     return integrate(f * g * w, (x, a, b))
 end
@@ -258,7 +258,7 @@ function normalized(p)
 end
 ```
 These are the functions we are going to use. Let's use this for recreating the result.
-```julia:./orthogonal_poly.jl
+```julia
 using SymPy
 x = Sym("x")
 monomials = [x^i for i in 0:5]
@@ -274,7 +274,22 @@ for (i, poly) in enumerate(leg_f)
 end
 ```
 which gives,
-\output{./orthogonal_poly.jl}
+```plaintext
+Without normalization:
+P_0(x) = 1
+P_1(x) = x
+P_2(x) = x^2 - 1/3
+P_3(x) = x*(x^2 - 3/5)
+P_4(x) = x^4 - 6*x^2/7 + 3/35
+P_5(x) = x*(63*x^4 - 70*x^2 + 15)/63
+With Normalization:
+P'_0(x) = 1
+P'_1(x) = x
+P'_2(x) = 3*x^2/2 - 1/2
+P'_3(x) = 5*x*(x^2 - 3/5)/2
+P'_4(x) = 35*x^4/8 - 15*x^2/4 + 3/8
+P'_5(x) = x*(63*x^4 - 70*x^2 + 15)/8
+```
 
 Let's see one more example:
 ### Hermite Polynomials
@@ -287,7 +302,7 @@ We know Legendre Polynomials are defined in the range $-\infty < x <\infty $. Al
  It should be noted that we have not taken proper normalization. We can certainly do that. To do that just choose the coefficients such that the sum of them is $1$.
 
  Our code gives us,
- ```julia:./orthogonal_poly.jl
+ ```julia
 monomials = [x^i for i in 0:5]
 hermite_polynomials = gram_schmidt(monomials,-oo,oo;w=exp(-x^2))
 her_f = normalized.(hermite_polynomials)
@@ -301,7 +316,22 @@ for (i, poly) in enumerate(her_f)
 end
 ```
 which gives,
-\output{./orthogonal_poly.jl}
+```plaintext
+Without normalization:
+H_0(x) = 1
+H_1(x) = x
+H_2(x) = x^2 - 1/2
+H_3(x) = x*(x^2 - 3/2)
+H_4(x) = x^4 - 3*x^2 + 3/4
+H_5(x) = x*(x^4 - 5*x^2 + 15/4)
+With Normalization:
+H'_0(x) = 1
+H'_1(x) = x
+H'_2(x) = 2*x^2 - 1
+H'_3(x) = -2*x*(x^2 - 3/2)
+H'_4(x) = -4*x^4/5 + 12*x^2/5 - 3/5
+H'_5(x) = -4*x*(x^4 - 5*x^2 + 15/4)
+```
 
 \prob{Consider $$w(x) = \frac{1}{\sqrt{1-x^2}}$$ along with $-1\leq x \leq 1$. Find the first three values using the method. Don't use the code in the beginning. Also guess what special function it is?
 

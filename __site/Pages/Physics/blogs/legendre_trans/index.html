@@ -445,76 +445,73 @@ f(p) = \frac{p^2}{4}
 
   // Draw both parabolas
   brd.create('functiongraph', [f1, -5, 9],
-    { strokeColor: '#0047AB', strokeWidth: 2 });
+    { strokeColor: '#0047AB', strokeWidth: 2.5 });
   brd.create('functiongraph', [f2, -1, 9],
-    { strokeColor: '#178F3E', strokeWidth: 2 });
+    { strokeColor: '#178F3E', strokeWidth: 2.5 });
 
   // Slider for HEIGHT
   const s = brd.create('slider', [[-5,18],[8,18],[0,4,16]],
     { name:'y₀', snapWidth:0.1 });
 
-  // Get branch sign from dropdown
+  // Branch sign from dropdown
   let branch = 1; // +√y default
   document.getElementById("branchSelect").addEventListener("change", e => {
     branch = parseInt(e.target.value);
     brd.update();
   });
 
-  // Points at same height (left or right branch)
-  const P1 = brd.create('point', [
-    ()=>branch * Math.sqrt(s.Value()),
-    ()=>s.Value()
-  ], { name:'P₁', color:'#D13F32', size:3, fixed:true });
+  // Helpers for the two contact x-positions at the current height
+  const xA = () => branch * Math.sqrt(Math.max(s.Value(), 0));
+  const xB = () => 4 + branch * Math.sqrt(Math.max(s.Value(), 0));
 
-  const P2 = brd.create('point', [
-    ()=>4 + branch * Math.sqrt(s.Value()),
-    ()=>s.Value()
-  ], { name:'P₂', color:'#E6B800', size:3, fixed:true });
+  // --- Static "fan" of parallel tangent pairs (drawn ONCE, no runtime churn) ---
+  // This shows the parallel-at-equal-heights idea persistently and cheaply.
+  // We only rebuild it when the branch flips, not every frame.
+  let fan = [];
+  function drawFan() {
+    fan.forEach(o => brd.removeObject(o));
+    fan = [];
+    for (let h = 1.5; h <= 16; h += 2) {
+      const a = branch * Math.sqrt(h), m1 = 2 * a, c1 = h - m1 * a;
+      const b = 4 + branch * Math.sqrt(h), m2 = 2 * (b - 4), c2 = h - m2 * b;
+      fan.push(brd.create('line', [[-6, m1*-6 + c1], [10, m1*10 + c1]],
+        { strokeColor:'#1CA9C9', strokeWidth:1, strokeOpacity:0.16, fixed:true, highlight:false }));
+      fan.push(brd.create('line', [[-6, m2*-6 + c2], [10, m2*10 + c2]],
+        { strokeColor:'#178F3E', strokeWidth:1, strokeOpacity:0.16, fixed:true, highlight:false }));
+    }
+  }
+  drawFan();
 
-  // Tangents at those points
-  const T1 = brd.create('line', [
-    ()=>[branch * Math.sqrt(s.Value()), s.Value()],
-    ()=>[branch * Math.sqrt(s.Value()) + 1,
-         s.Value() + df1(branch * Math.sqrt(s.Value()))]
-  ], { strokeColor:'#1CA9C9', strokeWidth:2 });
+  // Dashed equal-height connector — makes "same height" obvious
+  const P1 = brd.create('point', [xA, ()=>s.Value()],
+    { name:'P₁', color:'#D13F32', size:4, fixed:true, label:{offset:[8,8]} });
+  const P2 = brd.create('point', [xB, ()=>s.Value()],
+    { name:'P₂', color:'#E6B800', size:4, fixed:true, label:{offset:[8,8]} });
+  brd.create('segment', [P1, P2],
+    { strokeColor:'#888', strokeWidth:1, dash:2, fixed:true });
 
-  const T2 = brd.create('line', [
-    ()=>[4 + branch * Math.sqrt(s.Value()), s.Value()],
-    ()=>[4 + branch * Math.sqrt(s.Value()) + 1,
-         s.Value() + df2(4 + branch * Math.sqrt(s.Value()))]
-  ], { strokeColor:'#7FD16C', strokeWidth:2 });
+  // Bold live tangents at the two points (only 2 dynamic curves on the board)
+  brd.create('line', [
+    ()=>[xA(), s.Value()],
+    ()=>[xA() + 1, s.Value() + df1(xA())]
+  ], { strokeColor:'#1CA9C9', strokeWidth:3, fixed:true });
+  brd.create('line', [
+    ()=>[xB(), s.Value()],
+    ()=>[xB() + 1, s.Value() + df2(xB())]
+  ], { strokeColor:'#178F3E', strokeWidth:3, fixed:true });
 
-  // Trails
-  let trail1=[], trail2=[];
-  const maxTrail=25;
+  // Rebuild the static fan when the branch changes
+  document.getElementById("branchSelect").addEventListener("change", () => { drawFan(); brd.update(); });
 
-  s.on('drag', ()=>{
-    const y0 = s.Value();
-    const xA = branch * Math.sqrt(y0);
-    const xB = 4 + branch * Math.sqrt(y0);
+  // Live slope readout — the heart of the lesson: both slopes are EQUAL
+  brd.create('text', [-5.5, 16, 'Blue: f₁(x)=x²'], {fontSize:15, color:'#0047AB', fixed:true});
+  brd.create('text', [-5.5, 15, 'Green: f₂(x)=(x−4)²'], {fontSize:15, color:'#178F3E', fixed:true});
+  brd.create('text', [-5.5, 14, 'Tangents stay parallel at equal heights'], {fontSize:13, color:'#333', fixed:true});
+  brd.create('text', [-5.5, 12.7,
+    () => 'slope on both branches = ' + df1(xA()).toFixed(2)
+  ], {fontSize:15, color:'#9C27B0', fixed:true, cssStyle:'font-weight:bold;'});
 
-    const m1 = df1(xA);
-    const m2 = df2(xB);
-    const b1 = y0 - m1 * xA;
-    const b2 = y0 - m2 * xB;
-
-    const t1 = brd.create('functiongraph',[x=>m1*x+b1,-6,10],
-      {strokeColor:'#1CA9C9',strokeWidth:1,opacity:0.25,fixed:true});
-    trail1.push(t1);
-    if(trail1.length>maxTrail) brd.removeObject(trail1.shift());
-
-    const t2 = brd.create('functiongraph',[x=>m2*x+b2,-6,10],
-      {strokeColor:'#7FD16C',strokeWidth:1,opacity:0.25,fixed:true});
-    trail2.push(t2);
-    if(trail2.length>maxTrail) brd.removeObject(trail2.shift());
-
-    brd.update();
-  });
-
-  // Labels
-  brd.create('text', [-5.5, 16, 'Blue: f₁(x)=x²'], {fontSize:15, color:'#0047AB'});
-  brd.create('text', [-5.5, 15, 'Green: f₂(x)=(x−4)²'], {fontSize:15, color:'#178F3E'});
-  brd.create('text', [-5.5, 14, 'Tangents remain parallel at equal heights'], {fontSize:14, color:'#333'});
+  // No autoplay — drag the y₀ slider yourself (or let the cat grab it).
 })();
 </script>
  Fortunately, there is a closely related quantity that is able to capture the <strong><span style="color: red">uniqueness</span></strong> of each of these functions and that is the \(y\) intercepts of the tangent line which we can see actually do differ depending on the original function. So, taking that into account, we can solve this problem.</p>
@@ -741,7 +738,7 @@ dW\geq dF
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 31, 2025.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: June 24, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -831,7 +828,7 @@ dW\geq dF
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=17" data-cat="/assets/oneko.gif"></script>
+    <script src="/assets/oneko.js?v=36" data-cat="/assets/oneko.gif"></script>
   </body>
 </html>
 
