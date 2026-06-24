@@ -1,8 +1,2 @@
-
-   ColorTrace =
-       - 1/2 + 1/2*N^2;
-
-   ColorFactor =
-       - 1/2*N^-1 + 1/2*N;
-
-
+UndefVarError: `evaluate_form` not defined in `Main.FD_SANDBOX_6576664627771013874`
+Suggestion: check for spelling errors or missing imports.

@@ -333,7 +333,46 @@
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=36" data-cat="/assets/oneko.gif"></script>
+    <script src="/assets/oneko.js?v=36" data-cat="/assets/oneko.gif">    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
   </body>
 </html>
 

@@ -11,7 +11,8 @@ html.dark-mode fieldset.note,
 html.dark-mode fieldset.tip,
 html.dark-mode fieldset.todo,
 html.dark-mode fieldset.defn,
-html.dark-mode fieldset.poem {
+html.dark-mode fieldset.poem,
+html.dark-mode #oneko {
     filter: invert(100%) hue-rotate(180deg);
 }
 

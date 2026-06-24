@@ -104,6 +104,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>https://rousan.netlify.app/scratch/index.html</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/phy_blog/index.html</loc>
     <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>

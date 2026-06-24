@@ -521,9 +521,9 @@ ylabel&#33;&#40;&quot;Time Taken &#40;seconds&#41;&quot;&#41;
 title&#33;&#40;&quot;Time Comparison of Sum of Primes Across Different Languages&quot;&#41;
 plot&#33;&#40;legend&#61;:topright&#41;
 savefig&#40;p, joinpath&#40;@OUTPUT, &quot;fast_cou10.json&quot;&#41;&#41;</code></pre>
-<p><div id="fdpqai" style=""></div>
+<p><div id="fdpccj" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpqai");
+graphDiv = document.getElementById("fdpccj");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/fast_and_curious/code/output/fast_cou10.json');
 </script>
  It very clearly shows which one is superior and which is not for this particular code. Now, we can modify the codes for more efficiency and optimization &#40;like using Numpy/Numba, StaticArray, Eigen, OpenMP , etc&#41;, but here for this blog I think it&#39;s enough. We will continue for discussion in some other blog.</p>
@@ -830,7 +830,46 @@ Time taken: 1.6742537021636963 seconds</code></pre>
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=36" data-cat="/assets/oneko.gif"></script>
+    <script src="/assets/oneko.js?v=36" data-cat="/assets/oneko.gif">    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
   </body>
 </html>
 

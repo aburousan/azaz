@@ -197,134 +197,196 @@
 
 
   <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#what_is_form_and_why_is_it_different">What is FORM and Why is it Different?</a></li><li><a href="#installing_and_running_form">Installing and Running FORM</a><ol><li><a href="#native_installation">Native Installation</a></li><li><a href="#running_form_from_the_command_line">Running FORM from the Command Line</a></li></ol></li><li><a href="#the_julia-form_bridge">The Julia-FORM Bridge</a></li><li><a href="#understanding_form_syntax_the_basics">Understanding FORM Syntax &#40;The Basics&#41;</a></li><li><a href="#example_1_tensor_contractions_the_levi-civita_tensor">Example 1: Tensor Contractions &amp; The Levi-Civita Tensor</a></li><li><a href="#example_2_traces_of_dirac_gamma_matrices">Example 2: Traces of Dirac Gamma Matrices</a></li><li><a href="#example_3_symmetry_properties_of_functions">Example 3: Symmetry Properties of Functions</a></li><li><a href="#example_4_built-in_mathematical_functions_sums">Example 4: Built-in Mathematical Functions &amp; Sums</a></li><li><a href="#example_5_tensors_and_schoonschip_notation">Example 5: Tensors and SCHOONSCHIP Notation</a></li><li><a href="#example_6_vector_calculus_and_cross_products">Example 6: Vector Calculus and Cross Products</a></li><li><a href="#example_7_gram_determinants_and_autodeclare">Example 7: Gram Determinants and AutoDeclare</a></li><li><a href="#example_8_mandelstam_variables_and_scattering_kinematics">Example 8: Mandelstam Variables and Scattering Kinematics</a></li><li><a href="#example_9_a_full_qft_calculation_compton_scattering">Example 9: A Full QFT Calculation — Compton Scattering</a><ol><li><a href="#reconciling_the_output_with_the_textbook">Reconciling the Output with the Textbook</a></li></ol></li><li><a href="#example_10_qcd_and_color_algebra_sun">Example 10: QCD and Color Algebra &#40;\(SU(N)\)&#41;</a></li><li><a href="#conclusion">Conclusion</a></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#what_is_form_and_why_is_it_different">What is FORM and Why is it Different?</a></li><li><a href="#installing_and_running_form">Installing and Running FORM</a></li><li><a href="#the_julia-form_bridge">The Julia-FORM Bridge</a></li><li><a href="#understanding_form_syntax_the_basics">Understanding FORM Syntax &#40;The Basics&#41;</a></li><li><a href="#built-in_mathematical_functions_sums"><ol>
+<li><p>Built-in Mathematical Functions &amp; Sums</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start2_symmetry_properties_of_functions"><ol start="2">
+<li><p>Symmetry Properties of Functions</p>
+</li>
+</ol>
+</a><ol><li><a href="#symmetric_s_to_the_stress-energy_tensor">Symmetric &#40;S&#41; \(\to\) The Stress-Energy Tensor</a></li><li><a href="#antisymmetric_a_to_the_faraday_electromagnetic_tensor">Antisymmetric &#40;A&#41; \(\to\) The Faraday Electromagnetic Tensor</a></li><li><a href="#cyclic_c_to_quark-gluon_loops_color_traces">Cyclic &#40;C&#41; \(\to\) Quark-Gluon Loops &#40;Color Traces&#41;</a></li><li><a href="#reverse_cyclic_r_to_loops_of_photons">Reverse Cyclic &#40;R&#41; \(\to\) Loops of Photons</a></li></ol></li><li><a href="#ol_start3_iterative_substitution_with_repeat"><ol start="3">
+<li><p>Iterative Substitution with <code>repeat</code></p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start4_conditional_term_selection_if_count"><ol start="4">
+<li><p>Conditional Term Selection &#40;<code>if</code> &#43; <code>count</code>&#41;</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start5_organising_output_with_bracket"><ol start="5">
+<li><p>Organising Output with <code>Bracket</code></p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start6_the_preprocessor_metaprogramming_with_do"><ol start="6">
+<li><p>The Preprocessor — Metaprogramming with <code>#do</code></p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start7_tensors_and_schoonschip_notation"><ol start="7">
+<li><p>Tensors and SCHOONSCHIP Notation</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start8_tensor_contractions_the_levi-civita_tensor"><ol start="8">
+<li><p>Tensor Contractions &amp; The Levi-Civita Tensor</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start9_vector_calculus_and_cross_products"><ol start="9">
+<li><p>Vector Calculus and Cross Products</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start10_gram_determinants_and_autodeclare"><ol start="10">
+<li><p>Gram Determinants and AutoDeclare</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start11_traces_of_dirac_gamma_matrices"><ol start="11">
+<li><p>Traces of Dirac Gamma Matrices</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start12_gamma_matrix_algebra_in_d_dimensions"><ol start="12">
+<li><p>Gamma Matrix Algebra in \(D\) Dimensions</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start13_wicks_theorem_with_dd_"><ol start="13">
+<li><p>Wick&#39;s Theorem with <code>dd_</code></p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start14_qcd_and_color_algebra_sun"><ol start="14">
+<li><p>QCD and Color Algebra &#40;\(SU(N)\)&#41;</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start15_exact_rational_arithmetic_with_polyratfun"><ol start="15">
+<li><p>Exact Rational Arithmetic with <code>PolyRatFun</code></p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start16_mandelstam_variables_and_scattering_kinematics"><ol start="16">
+<li><p>Mandelstam Variables and Scattering Kinematics</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start17_generating_optimised_code_format_o"><ol start="17">
+<li><p>Generating Optimised Code &#40;<code>Format O</code>&#41;</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start18_a_full_qft_calculation_compton_scattering"><ol start="18">
+<li><p>A Full QFT Calculation — Compton Scattering</p>
+</li>
+</ol>
+</a></li><li><a href="#why_form_over_feyncalc">Why FORM over FeynCalc?</a></li><li><a href="#conclusion">Conclusion</a></li></ol></div>
 <h1 id="symbolic_manipulation_in_qft_a_pedestrians_guide_to_form_via_julia"><a href="#symbolic_manipulation_in_qft_a_pedestrians_guide_to_form_via_julia" class="header-anchor">Symbolic Manipulation in QFT: A Pedestrian&#39;s Guide to FORM via Julia</a></h1>
 
   <fieldset class=" poem"><legend class=" poem-legend"> 🪶 Poem</legend>
       <strong>Mathematica dreams, Sage likes to play,<br/> FORM grinds the billion terms away.<br/> Where memory breaks and others deform,<br/> loops bow down to the will of FORM.</strong><br/></p>
-<p>                                  ---K.A.Rousan</p>
-<p>
+<p><div style="text-align: right; font-style: italic;">&mdash; K.A.Rousan</div> 
   </fieldset>
   
-<p>In Quantum Field Theory &#40;QFT&#41;, computing scattering amplitudes often involves evaluating traces of dozens of Dirac gamma matrices, contracting hundreds of Lorentz indices, and wrangling millions of algebraic terms. General-purpose computer algebra systems &#40;CAS&#41; like Mathematica or SymPy often choke on memory or speed when dealing with these &quot;real computations.&quot;</p>
+<p>If you&#39;ve ever tried computing scattering amplitudes in Quantum Field Theory &#40;QFT&#41;, you know the pain. You&#39;re usually stuck evaluating traces of dozens of Dirac gamma matrices, contracting hundreds of Lorentz indices, and wrangling millions of algebraic terms. Most people naturally reach for general-purpose tools like Mathematica or SymPy, but these systems inevitably choke on memory or grind to a halt when faced with real-world loop computations.</p>
 <h2 id="what_is_form_and_why_is_it_different"><a href="#what_is_form_and_why_is_it_different" class="header-anchor">What is FORM and Why is it Different?</a></h2>
-<p>Enter <strong>FORM</strong>. Developed over decades by Jos Vermaseren at NIKHEF, FORM is the spiritual successor to SCHOONSCHIP &#40;one of the very first dedicated programs for high-energy physics, created in the 1960s&#41;. It is not a general-purpose computer algebra system. Instead, it was explicitly built to tackle massive <strong><span style="color: red">real computations</span></strong> on <strong><span style="color: blue">real computers</span></strong>. </p>
+<p>That&#39;s where <strong>FORM</strong> comes in. Created by Jos Vermaseren at NIKHEF, it&#39;s the modern successor to SCHOONSCHIP &#40;which was one of the very first dedicated high-energy physics programs back in the 60s&#41;. FORM isn’t trying to be a general-purpose math environment. It was built from the ground up for one thing: ripping through massive <strong><span style="color: red">real computations</span></strong> on <strong><span style="color: blue">real computers</span></strong>. </p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      When you compute the square of a Feynman diagram with many loops, you can easily generate millions of terms. General-purpose systems &#40;which try to hold the entire expression and its structure in memory simultaneously&#41; will often crash. FORM avoids this by sequentially processing expressions <strong>term by term</strong>. 
+      When you square a Feynman diagram with multiple loops, you can easily spawn millions of terms. General-purpose CAS tools try to keep the entire expression tree in memory, which crashes your machine. FORM avoids this by processing expressions sequentially, <strong>term by term</strong>. 
   </fieldset>
   
-<p>This local operational mode means:</p>
+<p>Because it works locally on each term, FORM gives you:</p>
 <ul>
-<li><p><strong>Memory Efficiency:</strong> Only the active term needs to be in memory, allowing computations with billions of terms.</p>
+<li><p><strong>Unmatched Memory Efficiency:</strong> Only the active term lives in memory, meaning you can chew through expressions with billions of terms.</p>
 </li>
-<li><p><strong>Speed:</strong> Operations are aggressively optimized for tensor contractions, Dirac algebra, and pattern-matching substitutions.</p>
+<li><p><strong>Raw Speed:</strong> The core operations are deeply optimized for tensor contractions, Dirac algebra, and pattern-matching.</p>
 </li>
-<li><p><strong>No Built-in Factorization:</strong> Because factorization requires seeing the <em>whole</em> expression at once, FORM does not do it automatically. You guide it using specific bracket commands or substitutions.</p>
+<li><p><strong>No Auto-Factorization:</strong> Factorization requires seeing the whole expression at once, so FORM just doesn&#39;t do it. Instead, you guide the grouping using specific bracket commands.</p>
 </li>
 </ul>
-<p>In this post, we will look at how to leverage FORM&#39;s QFT capabilities directly from the <strong>Julia programming language</strong> using Franklin.jl.</p>
+<p>In this post, I&#39;ll show you how to tap into FORM&#39;s QFT capabilities without leaving the comfort of the <strong>Julia</strong> programming language.</p>
 <h2 id="installing_and_running_form"><a href="#installing_and_running_form" class="header-anchor">Installing and Running FORM</a></h2>
-<p>Before connecting it to Julia, you might wonder how to install and run FORM natively. </p>
-<h3 id="native_installation"><a href="#native_installation" class="header-anchor">Native Installation</a></h3>
-<p>FORM is open-source and hosted on GitHub &#40;<code>github.com/vermaseren/form</code>&#41;. You can compile it from source on most Unix-like systems &#40;Linux, macOS&#41; using standard GNU build tools:</p>
+<p>If you want to run FORM natively, it&#39;s open-source and hosted on GitHub &#40;<code>github.com/vermaseren/form</code>&#41;. You can compile it from source on Linux or macOS using the usual GNU build tools:</p>
 <pre><code class="language-bash">git clone https://github.com/vermaseren/form.git
 cd form
 autoreconf -i
 ./configure
 make
 sudo make install</code></pre>
-<h3 id="running_form_from_the_command_line"><a href="#running_form_from_the_command_line" class="header-anchor">Running FORM from the Command Line</a></h3>
-<p>Once installed, you run FORM by creating a script with the <code>.frm</code> extension &#40;e.g., <code>calc.frm</code>&#41; and executing it via your terminal:</p>
+<p>Once that&#39;s done, you just write your script into a <code>.frm</code> file &#40;like <code>calc.frm</code>&#41; and feed it to the terminal:</p>
 <pre><code class="language-bash">form calc.frm</code></pre>
-<p>This reads the script, evaluates the algebra, and prints the result to standard output. </p>
+<p>FORM will read the file, crunch the algebra, and dump the result to standard output. </p>
 <h2 id="the_julia-form_bridge"><a href="#the_julia-form_bridge" class="header-anchor">The Julia-FORM Bridge</a></h2>
-<p>While FORM has its own syntax, it is highly convenient to orchestrate the generation of diagrams and parsing of results in Julia. We can use the <code>FORM_jll.jl</code> package to guarantee the <code>form</code> binary is available on any system. </p>
-<p>Let&#39;s define a simple wrapper in Julia to evaluate FORM code:</p>
-<pre><code class="language-julia">using FORM_jll
-
-function evaluate_form&#40;script::String&#41;
-    # We append &#39;Format 255;&#39; to use the full horizontal width, &#39;Off statistics;&#39; to hide execution times, and &#39;.end&#39; to terminate the FORM script.
-    full_script &#61; &quot;Format 255;\nOff statistics;\n&quot; * script * &quot;\nPrint;\n.end\n&quot;
-    
-    # Create a temporary directory to store our script file safely
-    mktempdir&#40;&#41; do dir
-        frm_path &#61; joinpath&#40;dir, &quot;calc.frm&quot;&#41;
-        
-        # Write our FORM code to the temporary file
-        write&#40;frm_path, full_script&#41;
-        
-        out &#61; IOBuffer&#40;&#41;
-        
-        # form&#40;&#41; provides the path to the FORM executable.
-        # We run it in quiet mode &#40;-q&#41; to suppress startup text, and capture the output.
-        form&#40;&#41; do form_exe
-            run&#40;pipeline&#40;&#96;&#36;form_exe -q &#36;frm_path&#96;, stdout&#61;out&#41;&#41;
-        end
-        
-        # Convert the captured bytes into a Julia String and return it
-        return String&#40;take&#33;&#40;out&#41;&#41;
-    end
-end</code></pre>
+<p>While FORM&#39;s syntax is powerful, it&#39;s a bit rigid. It&#39;s much nicer to orchestrate diagram generation and parse the results inside Julia. To make this seamless, we use the <code>FORM_jll.jl</code> package, which guarantees the <code>form</code> binary is available regardless of your operating system. </p>
+<p><em>&#40;Note: For the code snippets below, we&#39;ve set up a small <code>evaluate_form</code> wrapper behind the scenes that passes the string to the FORM binary and returns the result.&#41;</em></p>
 <h2 id="understanding_form_syntax_the_basics"><a href="#understanding_form_syntax_the_basics" class="header-anchor">Understanding FORM Syntax &#40;The Basics&#41;</a></h2>
-<p>Before we dive into heavy QFT, let&#39;s briefly break down the FORM syntax you will see in the upcoming code blocks. FORM is a statement-based language; every command ends with a semicolon &#40;<code>;</code>&#41;.</p>
+<p>Before getting into the physics examples, here&#39;s a quick rundown of the FORM syntax you&#39;ll see. It’s statement-based, meaning you end every command with a semicolon &#40;<code>;</code>&#41;.</p>
 <ul>
-<li><p><strong>Declarations &#40;<code>Symbols</code>, <code>Vectors</code>, <code>Indices</code>, <code>Functions</code>&#41;:</strong> FORM needs to know exactly what mathematical objects it is dealing with. You must declare scalars as <code>Symbols</code>, four-vectors as <code>Vectors</code>, spacetime/color indices as <code>Indices</code>, and non-commutative operators as <code>Functions</code>.</p>
+<li><p><strong>Declarations &#40;<code>Symbols</code>, <code>Vectors</code>, <code>Indices</code>, <code>Functions</code>&#41;:</strong> FORM needs to know what it&#39;s looking at. You have to declare your scalars as <code>Symbols</code>, four-vectors as <code>Vectors</code>, spacetime/color indices as <code>Indices</code>, and non-commuting operators as <code>Functions</code>.</p>
 </li>
-<li><p><strong>Defining Expressions &#40;<code>Local</code>&#41;:</strong> The <code>Local</code> keyword defines an algebraic expression that FORM will actively evaluate and store in memory.</p>
+<li><p><strong>Defining Expressions &#40;<code>Local</code>&#41;:</strong> The <code>Local</code> keyword tells FORM to evaluate an algebraic expression and store it in memory.</p>
 </li>
-<li><p><strong>Dirac Matrices &#40;<code>g_</code>&#41;:</strong> The building block of QFT fermion lines&#33; In FORM, <code>g_&#40;spin_line, index&#41;</code> represents \(\gamma^\mu\). <code>g_&#40;1, m&#41;</code> is the gamma matrix \(\gamma^\mu\) on fermion line 1. You can also write slash momenta as <code>g_&#40;1, p&#41;</code> &#40;\(\not{p}\)&#41;.</p>
+<li><p><strong>Dirac Matrices &#40;<code>g_</code>&#41;:</strong> The absolute core of QFT fermion lines. <code>g_&#40;spin_line, index&#41;</code> is FORM&#39;s way of writing \(\gamma^\mu\). So <code>g_&#40;1, m&#41;</code> is the gamma matrix \(\gamma^\mu\) on fermion line 1. Slash momenta are just <code>g_&#40;1, p&#41;</code> for \(\not{p}\).</p>
 </li>
-<li><p><strong>Kronecker Delta / Metric Tensor &#40;<code>d_</code>&#41;:</strong> FORM uses <code>d_&#40;m, n&#41;</code> to represent both the Kronecker delta \(\delta_{mn}\) and the Minkowski metric \(\eta_{\mu\nu}\).</p>
+<li><p><strong>Kronecker Delta / Metric Tensor &#40;<code>d_</code>&#41;:</strong> FORM uses <code>d_&#40;m, n&#41;</code> for both the Kronecker delta \(\delta_{mn}\) and the Minkowski metric \(\eta_{\mu\nu}\).</p>
 </li>
-<li><p><strong>Traces &#40;<code>trace4</code>&#41;:</strong> <code>trace4, 1;</code> tells FORM to take the Dirac trace over the gamma matrices residing on fermion line <code>1</code> in 4 dimensions.</p>
+<li><p><strong>Traces &#40;<code>trace4</code>&#41;:</strong> Calling <code>trace4, 1;</code> takes the Dirac trace over all the gamma matrices on fermion line <code>1</code> in 4 dimensions.</p>
 </li>
-<li><p><strong>Contractions &#40;<code>contract</code>&#41;:</strong> <code>contract;</code> tells FORM to sum over repeated dummy indices in the expression &#40;e.g., Einstein summation convention&#41;.</p>
+<li><p><strong>Contractions &#40;<code>contract</code>&#41;:</strong> Just type <code>contract;</code> to sum over repeated dummy indices &#40;Einstein summation&#41;.</p>
 </li>
-<li><p><strong>Pattern Matching &#40;<code>id</code>&#41;:</strong> The <code>id</code> &#40;identify&#41; command applies algebraic substitutions. For example, <code>id p.k &#61; s/2;</code> substitutes the dot product \(p \cdot k\) with \(s/2\). You can use wildcards like <code>id d_&#40;i?, i?&#41; &#61; N;</code> to substitute any repeated index \(i\) with \(N\).</p>
+<li><p><strong>Pattern Matching &#40;<code>id</code>&#41;:</strong> The <code>id</code> command substitutes expressions. For instance, <code>id p.k &#61; s/2;</code> replaces the dot product \(p \cdot k\) with \(s/2\). You can also use wildcards, like <code>id d_&#40;i?, i?&#41; &#61; N;</code> to replace any contracted index \(i\) with \(N\).</p>
 </li>
-<li><p><strong>Factorization &#40;<code>Bracket</code>&#41;:</strong> FORM expands everything by default. If you want to group terms together based on certain variables &#40;like propagators&#41;, you use <code>Bracket Ds, Du;</code>.</p>
+<li><p><strong>Factorization &#40;<code>Bracket</code>&#41;:</strong> Since FORM expands everything, you use <code>Bracket Ds, Du;</code> to group your terms together based on specific variables &#40;like propagators&#41;.</p>
+</li>
+<li><p><strong>Iteration &#40;<code>repeat ... endrepeat</code>&#41;:</strong> This block loops its statements over each term until nothing changes anymore. It&#39;s the standard way to handle recursive definitions.</p>
+</li>
+<li><p><strong>Sorting &amp; Storage &#40;<code>.sort</code>, <code>.store</code>&#41;:</strong> <code>.sort</code> closes a module, forcing FORM to collect like terms. <code>.store</code> saves the finished expression so you can reuse it in later modules.</p>
+</li>
+<li><p><strong>The Preprocessor &#40;<code>#do</code>, <code>#define</code>, <code>#include</code>&#41;:</strong> A C-style macro layer that runs <em>before</em> any algebra happens. It’s great for generating code or looping over diagrams. Variables are injected using backticks, like <code>&#96;i&#39;</code>.</p>
+</li>
+<li><p><strong>Rational Coefficients &#40;<code>PolyRatFun</code>&#41;:</strong> This declares a function that tells FORM to keep coefficients as fully-cancelled polynomial fractions rather than expanding the denominators. It&#39;s an absolute lifesaver for loop calculations.</p>
+</li>
+<li><p><strong>Conditionals &#40;<code>if &#40;...&#41; ... endif</code>, <code>Discard</code>&#41;:</strong> You can branch based on a term&#39;s properties &#40;like its power <code>count</code> in a specific symbol&#41; and just toss the term away using <code>Discard</code>.</p>
+</li>
+<li><p><strong>Code Optimisation &#40;<code>Format O1</code>–<code>O4</code>&#41;:</strong> This spits out your expression as deeply optimized straight-line code &#40;using Horner schemes and common-subexpression elimination&#41; so you can directly copy-paste it into C or Fortran.</p>
+</li>
+<li><p><strong>Combinatorics &#40;<code>dd_</code>, <code>distrib_</code>&#41;:</strong> <code>dd_</code> generates all pairwise contractions of its arguments &#40;perfect for Wick&#39;s theorem&#41;, and <code>distrib_</code> distributes arguments across functions.</p>
 </li>
 </ul>
-<p>Now, let&#39;s see these in action&#33;</p>
-<h2 id="example_1_tensor_contractions_the_levi-civita_tensor"><a href="#example_1_tensor_contractions_the_levi-civita_tensor" class="header-anchor">Example 1: Tensor Contractions &amp; The Levi-Civita Tensor</a></h2>
-<p>In QFT, we often contract antisymmetric tensors \(\epsilon_{\mu\nu\rho\sigma}\). Let&#39;s compute the contraction of two Levi-Civita tensors in 4 dimensions: </p>
-\[
-\epsilon_{\mu\nu\rho\sigma}\epsilon^{\mu\nu\rho\sigma} = 4! = 24
-\]
-<pre><code class="language-julia">form_code &#61; &quot;&quot;&quot;
-    Dimension 4;
-    Indices m,n,r,s;
-    Local result &#61; e_&#40;m,n,r,s&#41; * e_&#40;m,n,r,s&#41;;
-    contract;
+<p>Alright, let&#39;s ramp up from basic math to full QFT scattering amplitudes.</p>
+<h2 id="built-in_mathematical_functions_sums"><a href="#built-in_mathematical_functions_sums" class="header-anchor"><ol>
+<li><p>Built-in Mathematical Functions &amp; Sums</p>
+</li>
+</ol>
+</a></h2>
+<p>FORM comes pre-loaded with standard math functions like factorials &#40;<code>fac_</code>&#41;, binomial coefficients &#40;<code>binom_</code>&#41;, Kronecker deltas &#40;<code>delta_</code>&#41;, and arbitrary summations &#40;<code>sum_</code>&#41;. </p>
+<p>If you just want to sum the Taylor series of \(e^x\) up to \(x^5\), it&#39;s as simple as this:</p>
+<pre><code class="language-julia">include&#40;&quot;form.jl&quot;&#41;
+using .FormWrapper
+
+math_code &#61; &quot;&quot;&quot;
+    Symbols x, i;
+    Local expx &#61; sum_&#40;i, 0, 5, x^i/fac_&#40;i&#41;&#41;;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;form_code&#41;&#41;</code></pre>
+println&#40;evaluate_form&#40;math_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
-   result =
-      24;
+   expx =
+       + 1
+       + x
+       + 1/2*x^2
+       + 1/6*x^3
+       + 1/24*x^4
+       + 1/120*x^5
+      ;
 
 
 </code></pre>
-<h2 id="example_2_traces_of_dirac_gamma_matrices"><a href="#example_2_traces_of_dirac_gamma_matrices" class="header-anchor">Example 2: Traces of Dirac Gamma Matrices</a></h2>
-<p>The bread and butter of evaluating Feynman diagrams with fermions is the Dirac algebra. Let&#39;s compute a standard QED trace: </p>
-\[
-\text{Tr}(\gamma^\mu \gamma^\nu \gamma^\rho \gamma^\sigma) = 4 (\eta^{\mu\nu}\eta^{\rho\sigma} - \eta^{\mu\rho}\eta^{\nu\sigma} + \eta^{\mu\sigma}\eta^{\nu\rho})
-\]
-<pre><code class="language-julia">trace_code &#61; &quot;&quot;&quot;
-    Dimension 4;
-    Indices m,n,r,s;
-    Local QEDtrace &#61; g_&#40;1, m&#41; * g_&#40;1, n&#41; * g_&#40;1, r&#41; * g_&#40;1, s&#41;;
-    trace4, 1;
-&quot;&quot;&quot;
-println&#40;evaluate_form&#40;trace_code&#41;&#41;</code></pre>
-<pre><code class="plaintext code-output">
-   QEDtrace =
-      4*d_(m,n)*d_(r,s) - 4*d_(m,r)*d_(n,s) + 4*d_(m,s)*d_(n,r);
-
-
-</code></pre>
-<h2 id="example_3_symmetry_properties_of_functions"><a href="#example_3_symmetry_properties_of_functions" class="header-anchor">Example 3: Symmetry Properties of Functions</a></h2>
-<p>FORM natively handles function symmetries. You can declare functions as <code>symmetric</code>, <code>antisymmetric</code>, <code>cyclic</code>, or <code>rcyclic</code>. FORM will automatically sort their arguments into standard order and apply the correct minus signs for antisymmetric permutations&#33;</p>
+<h2 id="ol_start2_symmetry_properties_of_functions"><a href="#ol_start2_symmetry_properties_of_functions" class="header-anchor"><ol start="2">
+<li><p>Symmetry Properties of Functions</p>
+</li>
+</ol>
+</a></h2>
+<p>Functions in FORM can be natively declared as <code>symmetric</code>, <code>antisymmetric</code>, <code>cyclic</code>, or <code>rcyclic</code>. FORM automatically sorts their arguments into alphabetical order based on the rules of that symmetry, completely automating the bookkeeping of minus signs and equivalent terms&#33;</p>
+<p>To see why this is so powerful, let&#39;s look at how FORM handles these four symmetries using real physics examples:</p>
+<h3 id="symmetric_s_to_the_stress-energy_tensor"><a href="#symmetric_s_to_the_stress-energy_tensor" class="header-anchor">Symmetric &#40;S&#41; \(\to\) The Stress-Energy Tensor</a></h3>
+<p>In relativity, the stress-energy tensor is symmetric &#40;\(T^{\mu\nu} = T^{\nu\mu}\)&#41;. The momentum flowing in the \(x\)-direction across a \(y\)-surface is identically equal to the momentum flowing in the \(y\)-direction across an \(x\)-surface. If your code generates <code>T&#40;y, x&#41;</code>, FORM says, &quot;Ah, \(T\) is symmetric. I prefer alphabetical order, so I will rewrite this as <code>&#43; T&#40;x, y&#41;</code>.&quot; This allows FORM to instantly combine <code>T&#40;x,y&#41; &#43; T&#40;y,x&#41;</code> into <code>2*T&#40;x,y&#41;</code>.</p>
+<h3 id="antisymmetric_a_to_the_faraday_electromagnetic_tensor"><a href="#antisymmetric_a_to_the_faraday_electromagnetic_tensor" class="header-anchor">Antisymmetric &#40;A&#41; \(\to\) The Faraday Electromagnetic Tensor</a></h3>
+<p>The Faraday tensor is totally antisymmetric &#40;\(F_{\mu\nu} = -F_{\nu\mu}\)&#41;. If \(F^{xy} = B_z\), then \(F^{yx} = -B_z\). If you input <code>F&#40;y, x&#41;</code>, FORM wants it alphabetical. It swaps them to <code>F&#40;x, y&#41;</code>, but because it knows \(F\) is antisymmetric, it enforces the physics by spitting out <code>- F&#40;x, y&#41;</code>.  <strong>The Magic Trick:</strong> What if your math accidentally produces <code>F&#40;x, x&#41;</code>? FORM knows that swapping \(x\) and \(x\) takes zero swaps, but the antisymmetric rule demands a minus sign. Since \(F^{xx} = -F^{xx}\), it must be \(0\). FORM silently deletes <code>F&#40;x, x&#41;</code> from your calculation entirely&#33; &#40;Physically, there is no self-interacting magnetic field&#41;.</p>
+<h3 id="cyclic_c_to_quark-gluon_loops_color_traces"><a href="#cyclic_c_to_quark-gluon_loops_color_traces" class="header-anchor">Cyclic &#40;C&#41; \(\to\) Quark-Gluon Loops &#40;Color Traces&#41;</a></h3>
+<p>Imagine a quark in a circular loop emitting three gluons: Red &#40;\(R\)&#41;, Green &#40;\(G\)&#41;, and Blue &#40;\(B\)&#41;. The math for this is a matrix trace: \(\text{Tr}(T^R T^G T^B)\). Because it&#39;s a circle, the starting point doesn&#39;t matter. Emitting \(R \to G \to B\) is the exact same physical diagram as starting later and emitting \(G \to B \to R\). However, if it emitted them as \(R \to B \to G\), that is a physically <em>different</em> diagram&#33; You cannot arbitrarily swap two gluons; you can only &quot;rotate&quot; your starting perspective. If you input <code>Trace&#40;G, B, R&#41;</code>, FORM is only allowed to rotate it. It rotates \(G\) to the back, leaving <code>Trace&#40;B, R, G&#41;</code>. It rotates \(B\) to the back, leaving <code>&#43; Trace&#40;R, G, B&#41;</code>. It stops there because \(R\) is alphabetically first.</p>
+<h3 id="reverse_cyclic_r_to_loops_of_photons"><a href="#reverse_cyclic_r_to_loops_of_photons" class="header-anchor">Reverse Cyclic &#40;R&#41; \(\to\) Loops of Photons</a></h3>
+<p>Imagine a closed circular loop of 4 photons: \(A, B, C, D\).  Unlike quarks, photons do not carry a &quot;charge direction&quot;. This means tracing the loop clockwise &#40;\(A \to B \to C \to D\)&#41; produces the <strong>exact same physics amplitude</strong> as tracing the loop counter-clockwise &#40;\(A \to D \to C \to B\)&#41;.  If your diagram generator traces the loop backwards and gives FORM <code>Loop&#40;D, C, B, A&#41;</code>, FORM realizes it&#39;s a reverse-cyclic function. It flips the whole thing backward to <code>&#40;A, B, C, D&#41;</code> and outputs <code>&#43; Loop&#40;A, B, C, D&#41;</code>. Now, FORM can combine the clockwise and counter-clockwise diagrams perfectly&#33;</p>
+<p>Here is how all four symmetries look in code when we ask FORM to sort the messy sequence <code>&#40;x2, x3, x4, x1, x5&#41;</code>:</p>
 <pre><code class="language-julia">sym_code &#61; &quot;&quot;&quot;
     Symbols x1,x2,x3,x4,x5;
     Functions S&#40;symmetric&#41;, A&#40;antisymmetric&#41;, C&#40;cyclic&#41;, R&#40;rcyclic&#41;;
@@ -336,36 +398,132 @@ println&#40;evaluate_form&#40;trace_code&#41;&#41;</code></pre>
 println&#40;evaluate_form&#40;sym_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    [S] =
-      S(x1,x2,x3,x4,x5);
+       + S(x1,x2,x3,x4,x5)
+      ;
 
    [A] =
-       - A(x1,x2,x3,x4,x5);
+       - A(x1,x2,x3,x4,x5)
+      ;
 
    [C] =
-      C(x1,x5,x2,x3,x4);
+       + C(x1,x5,x2,x3,x4)
+      ;
 
    [R] =
-      R(x1,x4,x3,x2,x5);
+       + R(x1,x4,x3,x2,x5)
+      ;
 
 
 </code></pre>
-<h2 id="example_4_built-in_mathematical_functions_sums"><a href="#example_4_built-in_mathematical_functions_sums" class="header-anchor">Example 4: Built-in Mathematical Functions &amp; Sums</a></h2>
-<p>FORM comes packed with implemented mathematical functions for factorials &#40;<code>fac_</code>&#41;, binomial coefficients &#40;<code>binom_</code>&#41;, Kronecker deltas &#40;<code>delta_</code>&#41;, and even arbitrary summations &#40;<code>sum_</code>&#41;. </p>
-<p>Let&#39;s quickly sum the Taylor series of \(e^x\) up to \(x^5\):</p>
-<pre><code class="language-julia">math_code &#61; &quot;&quot;&quot;
-    Symbols x, i;
-    Local expx &#61; sum_&#40;i, 0, 5, x^i/fac_&#40;i&#41;&#41;;
+<h2 id="ol_start3_iterative_substitution_with_repeat"><a href="#ol_start3_iterative_substitution_with_repeat" class="header-anchor"><ol start="3">
+<li><p>Iterative Substitution with <code>repeat</code></p>
+</li>
+</ol>
+</a></h2>
+<p>Whenever you need recursive definitions, a <code>repeat ... endrepeat</code> block is your best friend. It applies the rules inside it over and over until the expression stops changing.</p>
+<p>Here is how you&#39;d compute \(5!\) by unfolding \(f(n) = n\,f(n-1)\) down to the base case \(f(0)=1\). We use the built-in <code>pos_</code> wildcard to ensure it only matches positive integers and stops cleanly:</p>
+<pre><code class="language-julia">repeat_code &#61; &quot;&quot;&quot;
+    Symbol n;
+    CFunction f;
+    Local Fact &#61; f&#40;5&#41;;
+    repeat;
+      id f&#40;n?pos_&#41; &#61; n*f&#40;n-1&#41;;
+    endrepeat;
+    id f&#40;0&#41; &#61; 1;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;math_code&#41;&#41;</code></pre>
+println&#40;evaluate_form&#40;repeat_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
-   expx =
-      1 + x + 1/2*x^2 + 1/6*x^3 + 1/24*x^4 + 1/120*x^5;
+   Fact =
+       + 120
+      ;
 
 
 </code></pre>
-<h2 id="example_5_tensors_and_schoonschip_notation"><a href="#example_5_tensors_and_schoonschip_notation" class="header-anchor">Example 5: Tensors and SCHOONSCHIP Notation</a></h2>
-<p>FORM distinguishes between <code>Vectors</code>, <code>Indices</code>, and <code>Tensors</code> &#40;or <code>CTensors</code> for commuting components&#41;. It also utilizes the highly elegant <strong>SCHOONSCHIP notation</strong>: when an index is summed over and is the argument of a vector, the vector itself replaces the index&#33;</p>
-<p>For instance, \(\sum_i u_i v_i\) evaluates directly to the dot product \(u \cdot v\).</p>
+<p>You get exactly \(120\). Wildcard sets like <code>pos_</code> &#40;positive integers&#41;, <code>int_</code>, and <code>symbol_</code> make the pattern matching incredibly robust.</p>
+<h2 id="ol_start4_conditional_term_selection_if_count"><a href="#ol_start4_conditional_term_selection_if_count" class="header-anchor"><ol start="4">
+<li><p>Conditional Term Selection &#40;<code>if</code> &#43; <code>count</code>&#41;</p>
+</li>
+</ol>
+</a></h2>
+<p>Filtering out unwanted terms is a breeze with <code>if</code> conditionals. The <code>count</code> function checks the total power of specific symbols in a term. By pairing it with <code>Discard</code>, you can isolate a specific order of expansion. </p>
+<p>Watch what happens when we expand \((x+y)^4\) but tell FORM to throw away anything that isn&#39;t exactly quadratic in \(x\):</p>
+<pre><code class="language-julia">cond_code &#61; &quot;&quot;&quot;
+    Symbols x, y;
+    Local P &#61; &#40;x&#43;y&#41;^4;
+    if &#40;count&#40;x,1&#41; &#33;&#61; 2&#41; Discard;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;cond_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   P =
+       + 6*x^2*y^2
+      ;
+
+
+</code></pre>
+<p>We&#39;re left with just \(6x^2y^2\). This trick is exactly how you project onto a specific power of a coupling constant in perturbation theory.</p>
+<h2 id="ol_start5_organising_output_with_bracket"><a href="#ol_start5_organising_output_with_bracket" class="header-anchor"><ol start="5">
+<li><p>Organising Output with <code>Bracket</code></p>
+</li>
+</ol>
+</a></h2>
+<p>FORM refuses to factorize expressions automatically because of the memory overhead. Instead, you use <code>Bracket</code> to force structure onto the final output. It pulls your chosen variables outside the parentheses and groups the remaining coefficients together.</p>
+<pre><code class="language-julia">bracket_code &#61; &quot;&quot;&quot;
+    Symbols a, b, x;
+    Local E &#61; a*x^2 &#43; b*x^2 &#43; a*x &#43; 7*x;
+    Bracket x;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;bracket_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   E =
+
+       + x * (
+          + 7
+          + a
+          )
+
+       + x^2 * (
+          + b
+          + a
+          );
+
+
+</code></pre>
+<p>It beautifully collects the expression in powers of \(x\): \(x\,(7+a) + x^2\,(a+b)\). In real calculations, you&#39;ll use this constantly to bracket on propagator denominators or coupling constants so you can actually read the result.</p>
+<h2 id="ol_start6_the_preprocessor_metaprogramming_with_do"><a href="#ol_start6_the_preprocessor_metaprogramming_with_do" class="header-anchor"><ol start="6">
+<li><p>The Preprocessor — Metaprogramming with <code>#do</code></p>
+</li>
+</ol>
+</a></h2>
+<p>Before FORM even touches the algebra, it runs a C-style preprocessor. This lets you programmatically generate huge blocks of expressions. Using the backtick-quote syntax <code>&#96;i&#39;</code>, you can inject the current value of a loop variable.</p>
+<p>Here’s a quick <code>#do</code> loop that physically writes out a geometric series before evaluation:</p>
+<pre><code class="language-julia">prepro_code &#61; &quot;&quot;&quot;
+    Symbol x;
+    Local Geom &#61; 0
+    #do i&#61;1,5
+       &#43; x^&#96;i&#39;
+    #enddo
+    ;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;prepro_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   Geom =
+       + x
+       + x^2
+       + x^3
+       + x^4
+       + x^5
+      ;
+
+
+</code></pre>
+<p>In a serious project, you use this exact mechanism to loop over hundreds of auto-generated Feynman diagrams.</p>
+<h2 id="ol_start7_tensors_and_schoonschip_notation"><a href="#ol_start7_tensors_and_schoonschip_notation" class="header-anchor"><ol start="7">
+<li><p>Tensors and SCHOONSCHIP Notation</p>
+</li>
+</ol>
+</a></h2>
+<p>FORM strictly distinguishes between <code>Vectors</code>, <code>Indices</code>, and <code>Tensors</code> &#40;or <code>CTensors</code> for commuting components&#41;. It also uses the incredibly elegant <strong>SCHOONSCHIP notation</strong>: whenever an index is summed over and happens to be the argument of a vector, the vector itself replaces the index&#33;</p>
+<p>Because of this, \(\sum_i u_i v_i\) just instantly becomes the dot product \(u \cdot v\).</p>
 <pre><code class="language-julia">tensor_code &#61; &quot;&quot;&quot;
     Vectors u,v;
     Indices i,j;
@@ -383,23 +541,49 @@ println&#40;evaluate_form&#40;math_code&#41;&#41;</code></pre>
 println&#40;evaluate_form&#40;tensor_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    dot =
-      u.v;
+       + u.v
+      ;
 
    schoonschip =
-      f(u,v);
+       + f(u,v)
+      ;
 
    nocontract =
-      u(k)*v(k);
+       + u(k)*v(k)
+      ;
 
 
 </code></pre>
+<p><em>&#40;Notice how setting the dimension of an index to 0 prevents FORM from contracting it if you want to keep the explicit summation.&#41;</em></p>
+<h2 id="ol_start8_tensor_contractions_the_levi-civita_tensor"><a href="#ol_start8_tensor_contractions_the_levi-civita_tensor" class="header-anchor"><ol start="8">
+<li><p>Tensor Contractions &amp; The Levi-Civita Tensor</p>
+</li>
+</ol>
+</a></h2>
+<p>Antisymmetric tensors like \(\epsilon_{\mu\nu\rho\sigma}\) show up everywhere in physics. Contracting two of them in 4 dimensions is a classic exercise that gives you \(4! = 24\). FORM does this in its sleep.</p>
+\[
+\epsilon_{\mu\nu\rho\sigma}\epsilon^{\mu\nu\rho\sigma} = 24
+\]
+<pre><code class="language-julia">form_code &#61; &quot;&quot;&quot;
+    Dimension 4;
+    Indices m,n,r,s;
+    Local result &#61; e_&#40;m,n,r,s&#41; * e_&#40;m,n,r,s&#41;;
+    contract;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;form_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   result =
+       + 24
+      ;
 
-  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      You can explicitly force summation over uncontracted dimension-zero indices using the <code>sum k;</code> command. 
-  </fieldset>
-  
-<h2 id="example_6_vector_calculus_and_cross_products"><a href="#example_6_vector_calculus_and_cross_products" class="header-anchor">Example 6: Vector Calculus and Cross Products</a></h2>
-<p>Using the Levi-Civita tensor <code>e_</code>, we can perform 3D vector calculus trivially. Let&#39;s compute the double cross product \(\vec{u} \times (\vec{v} \times \vec{w})\) and verify the classic &quot;BAC-CAB&quot; vector identity rule&#33;</p>
+
+</code></pre>
+<h2 id="ol_start9_vector_calculus_and_cross_products"><a href="#ol_start9_vector_calculus_and_cross_products" class="header-anchor"><ol start="9">
+<li><p>Vector Calculus and Cross Products</p>
+</li>
+</ol>
+</a></h2>
+<p>Because we have the Levi-Civita tensor <code>e_</code>, 3D vector calculus is trivial. We can compute a double cross product \(\vec{u} \times (\vec{v} \times \vec{w})\) and instantly recover the famous &quot;BAC-CAB&quot; identity rule.</p>
 <pre><code class="language-julia">cross_code &#61; &quot;&quot;&quot;
     Dimension 3;
     Vectors u,v,w;
@@ -412,13 +596,19 @@ println&#40;evaluate_form&#40;tensor_code&#41;&#41;</code></pre>
 println&#40;evaluate_form&#40;cross_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    [ux(vxw)] =
-      v(k)*u.w - w(k)*u.v;
+       + v(k)*u.w
+       - w(k)*u.v
+      ;
 
 
 </code></pre>
-<h2 id="example_7_gram_determinants_and_autodeclare"><a href="#example_7_gram_determinants_and_autodeclare" class="header-anchor">Example 7: Gram Determinants and AutoDeclare</a></h2>
-<p>FORM is the absolute king of determinants. To compute the Gram determinant of \(n\) vectors, we square the Levi-Civita tensor. For 10 vectors, the expanded Gram determinant has \(10! = 3,628,800\) terms, which FORM chews through in minutes. </p>
-<p>Let&#39;s compute the Gram determinant for 3 vectors using <code>AutoDeclare</code> &#40;which tells FORM to automatically assume all undeclared variables starting with <code>v</code> are vectors&#41; and the <code>...</code> sequence generation operator:</p>
+<h2 id="ol_start10_gram_determinants_and_autodeclare"><a href="#ol_start10_gram_determinants_and_autodeclare" class="header-anchor"><ol start="10">
+<li><p>Gram Determinants and AutoDeclare</p>
+</li>
+</ol>
+</a></h2>
+<p>If you need determinants, FORM is unmatched. You compute the Gram determinant of \(n\) vectors simply by squaring the Levi-Civita tensor. To give you an idea of the speed, the expanded Gram determinant for 10 vectors has \(3,628,800\) terms, and FORM chews through it in minutes. </p>
+<p>To keep things readable, we&#39;ll do 3 vectors. We can use <code>AutoDeclare</code> to tell FORM that anything starting with <code>v</code> is a vector, and use the <code>...</code> operator to generate the sequence:</p>
 <pre><code class="language-julia">gram_code &#61; &quot;&quot;&quot;
     AutoDeclare Vector v;
     Local G3 &#61; e_&#40;v1,...,v3&#41;^2;
@@ -427,16 +617,162 @@ println&#40;evaluate_form&#40;cross_code&#41;&#41;</code></pre>
 println&#40;evaluate_form&#40;gram_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    G3 =
-      v1.v1*v2.v2*v3.v3 - v1.v1*v2.v3^2 + 2*v1.v2*v1.v3*v2.v3 - v1.v2^2*v3.v3 - v1.v3^2*v2.v2;
+       + v1.v1*v2.v2*v3.v3
+       - v1.v1*v2.v3^2
+       + 2*v1.v2*v1.v3*v2.v3
+       - v1.v2^2*v3.v3
+       - v1.v3^2*v2.v2
+      ;
 
 
 </code></pre>
-<h2 id="example_8_mandelstam_variables_and_scattering_kinematics"><a href="#example_8_mandelstam_variables_and_scattering_kinematics" class="header-anchor">Example 8: Mandelstam Variables and Scattering Kinematics</a></h2>
-<p>For Bhabha scattering kinematics &#40;\(e^+ e^- \to e^+ e^-\)&#41;, we evaluate traces and substitute the Mandelstam invariants. In the limit where we ignore the electron mass, \(s+t+u=0\). The differential cross section is given by:</p>
+<h2 id="ol_start11_traces_of_dirac_gamma_matrices"><a href="#ol_start11_traces_of_dirac_gamma_matrices" class="header-anchor"><ol start="11">
+<li><p>Traces of Dirac Gamma Matrices</p>
+</li>
+</ol>
+</a></h2>
+<p>Alright, let&#39;s get into the QFT bread and butter: Dirac algebra. Evaluating a standard trace of four gamma matrices:</p>
 \[
-\frac{d\sigma}{d\cos\theta} = \frac{\pi\alpha^2}{s} \left[ u^2 \left(\frac{1}{s} + \frac{1}{t}\right)^2 + \left(\frac{t}{s}\right)^2 + \left(\frac{s}{t}\right)^2 \right]
+\text{Tr}(\gamma^\mu \gamma^\nu \gamma^\rho \gamma^\sigma) = 4 (\eta^{\mu\nu}\eta^{\rho\sigma} - \eta^{\mu\rho}\eta^{\nu\sigma} + \eta^{\mu\sigma}\eta^{\nu\rho})
 \]
-<p>With Mandelstam variables defined as:</p>
+<pre><code class="language-julia">trace_code &#61; &quot;&quot;&quot;
+    Dimension 4;
+    Indices m,n,r,s;
+    Local QEDtrace &#61; g_&#40;1, m&#41; * g_&#40;1, n&#41; * g_&#40;1, r&#41; * g_&#40;1, s&#41;;
+    trace4, 1;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;trace_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   QEDtrace =
+       + 4*d_(m,n)*d_(r,s)
+       - 4*d_(m,r)*d_(n,s)
+       + 4*d_(m,s)*d_(n,r)
+      ;
+
+
+</code></pre>
+<h2 id="ol_start12_gamma_matrix_algebra_in_d_dimensions"><a href="#ol_start12_gamma_matrix_algebra_in_d_dimensions" class="header-anchor"><ol start="12">
+<li><p>Gamma Matrix Algebra in \(D\) Dimensions</p>
+</li>
+</ol>
+</a></h2>
+<p>When you&#39;re doing <strong>dimensional regularization</strong>, you have to work in \(D = 4 - 2\epsilon\) spacetime dimensions. That means the standard contraction identities become dependent on \(D\):</p>
+\[
+\gamma^\mu \gamma_\mu = D\,\mathbf{1}, \qquad
+\gamma^\mu \gamma^\alpha \gamma_\mu = (2-D)\,\gamma^\alpha, \qquad
+\gamma^\mu \gamma^\alpha \gamma^\beta \gamma_\mu = 4\,\eta^{\alpha\beta}\mathbf{1} - (4-D)\,\gamma^\alpha\gamma^\beta
+\]
+<p>We can handle this symbolically by declaring <code>D</code> as a <code>Symbol</code> and setting <code>Dimension D;</code>.</p>
+<pre><code class="language-julia">gamma_code &#61; &quot;&quot;&quot;
+    Symbols D;
+    Dimension D;
+    Indices m, a;
+    Local C1 &#61; g_&#40;1, m&#41; * g_&#40;1, m&#41;;
+    Local C2 &#61; g_&#40;1, m&#41; * g_&#40;1, a&#41; * g_&#40;1, m&#41; * g_&#40;1, a&#41;;
+    trace4, 1;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;gamma_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   C1 =
+       + 4*D
+      ;
+
+   C2 =
+       + 8*D
+       - 4*D^2
+      ;
+
+
+</code></pre>
+<p>FORM evaluates \(\texttt{C1}\) to \(4D\), and \(\texttt{C2}\) to \(8D - 4D^2\), which perfectly matches the theoretical expectations once you take the trace.</p>
+<h2 id="ol_start13_wicks_theorem_with_dd_"><a href="#ol_start13_wicks_theorem_with_dd_" class="header-anchor"><ol start="13">
+<li><p>Wick&#39;s Theorem with <code>dd_</code></p>
+</li>
+</ol>
+</a></h2>
+<p>For combinatorial headaches like Wick&#39;s theorem, FORM gives us the <code>dd_</code> function. It generates <strong>all pairwise contractions</strong> of its arguments instantly. For a free field, the 4-point function is just the sum over all possible ways to pair the fields into propagators:</p>
+<pre><code class="language-julia">wick_code &#61; &quot;&quot;&quot;
+    Vectors p1, p2, p3, p4;
+    Local Wick4 &#61; dd_&#40;p1, p2, p3, p4&#41;;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;wick_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   Wick4 =
+       + p1.p2*p3.p4
+       + p1.p3*p2.p4
+       + p1.p4*p2.p3
+      ;
+
+
+</code></pre>
+<p>It spits out the three possible pairings without missing a beat. If you hand it \(2n\) fields, it generates all \((2n-1)!!\) contractions automatically.</p>
+<h2 id="ol_start14_qcd_and_color_algebra_sun"><a href="#ol_start14_qcd_and_color_algebra_sun" class="header-anchor"><ol start="14">
+<li><p>QCD and Color Algebra &#40;\(SU(N)\)&#41;</p>
+</li>
+</ol>
+</a></h2>
+<p>If you&#39;re working in QCD, you&#39;ll constantly be taking traces over \(SU(3)\) color matrices to find factors like \(C_F\):</p>
+\[
+\sum_a \left(T^a T^a\right)_{ij} = C_F \delta_{ij} \implies \text{Tr}(T^a T^a) = C_F \text{Tr}(\mathbf{1}) = C_F N
+\]
+<p>We can derive \(C_F = \frac{N^2 - 1}{2N}\) natively using the \(SU(N)\) Fierz identity and non-commutative functions:</p>
+<pre><code class="language-julia">qcd_code &#61; &quot;&quot;&quot;
+    Symbols N, CF, TR;
+    Dimension N;
+    Indices a, b, c, i, j, k, l;
+    
+    Functions T;
+    
+    Local ColorTrace &#61; T&#40;a, i, j&#41; * T&#40;a, j, i&#41;;
+    Local ColorFactor &#61; ColorTrace * N^-1;
+    
+    id T&#40;a?, i?, j?&#41; * T&#40;a?, k?, l?&#41; &#61; TR * &#40; d_&#40;i,l&#41;*d_&#40;j,k&#41; - d_&#40;i,j&#41;*d_&#40;k,l&#41;*N^-1 &#41;;
+    
+    contract;
+    
+    id TR &#61; 1/2;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;qcd_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   ColorTrace =
+       - 1/2
+       + 1/2*N^2
+      ;
+
+   ColorFactor =
+       - 1/2*N^-1
+       + 1/2*N
+      ;
+
+
+</code></pre>
+<h2 id="ol_start15_exact_rational_arithmetic_with_polyratfun"><a href="#ol_start15_exact_rational_arithmetic_with_polyratfun" class="header-anchor"><ol start="15">
+<li><p>Exact Rational Arithmetic with <code>PolyRatFun</code></p>
+</li>
+</ol>
+</a></h2>
+<p>Normally, FORM aggressively flattens everything into a giant sum, which is a nightmare if you&#39;re dealing with denominators. By declaring a function as <code>PolyRatFun</code>, you force FORM to keep coefficients as fully-cancelled polynomial fractions. This is critical for handling rational functions of \(D\) in loop integrals.</p>
+<pre><code class="language-julia">poly_code &#61; &quot;&quot;&quot;
+    Symbol x;
+    CFunction rat;
+    PolyRatFun rat;
+    Local F &#61; rat&#40;1, x&#41; &#43; rat&#40;1, 1&#43;x&#41;;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;poly_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   F =
+       + rat(2*x + 1,x^2 + x)
+      ;
+
+
+</code></pre>
+<p>FORM smartly combines the fractions, finding the common denominator and reducing it to \(\dfrac{2x+1}{x^2+x}\).</p>
+<h2 id="ol_start16_mandelstam_variables_and_scattering_kinematics"><a href="#ol_start16_mandelstam_variables_and_scattering_kinematics" class="header-anchor"><ol start="16">
+<li><p>Mandelstam Variables and Scattering Kinematics</p>
+</li>
+</ol>
+</a></h2>
+<p>Let&#39;s plug some real kinematics into the mix. For Bhabha scattering &#40;\(e^+ e^- \to e^+ e^-\)&#41;, after evaluating traces we substitute the Mandelstam invariants. Ignoring the electron mass, \(s+t+u=0\).</p>
 \[
 s = (p+k)^2, \quad t = (p-p')^2, \quad u = (p-k')^2
 \]
@@ -473,42 +809,62 @@ s = (p+k)^2, \quad t = (p-p')^2, \quad u = (p-k')^2
 println&#40;evaluate_form&#40;mandelstam_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    M2 =
-      8*u^2 + 8*t^2;
+       + 8*u^2
+       + 8*t^2
+      ;
 
 
 </code></pre>
-<h2 id="example_9_a_full_qft_calculation_compton_scattering"><a href="#example_9_a_full_qft_calculation_compton_scattering" class="header-anchor">Example 9: A Full QFT Calculation — Compton Scattering</a></h2>
-<p>Let&#39;s compute the unpolarized squared matrix element for <strong>Compton Scattering</strong> &#40;\(e^-(p) + \gamma(k) \to e^-(p') + \gamma(k')\)&#41;. </p>
+<h2 id="ol_start17_generating_optimised_code_format_o"><a href="#ol_start17_generating_optimised_code_format_o" class="header-anchor"><ol start="17">
+<li><p>Generating Optimised Code &#40;<code>Format O</code>&#41;</p>
+</li>
+</ol>
+</a></h2>
+<p>This is arguably one of FORM&#39;s most underrated features. It can take a messy symbolic output and rewrite it as <strong>numerically optimised C or Fortran code</strong> &#40;applying Horner schemes and common-subexpression elimination&#41;. This bridges the gap between doing the math and actually running Monte Carlo integrations.</p>
+<pre><code class="language-julia">opt_code &#61; &quot;&quot;&quot;
+    Symbols a, b, c;
+    Local F &#61; &#40;a&#43;b&#43;c&#41;^3;
+    .sort
+    Format O2;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;opt_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">      Z1_=c^2;
+      Z2_=3*c + b;
+      Z2_=b*Z2_;
+      Z2_=3*Z1_ + Z2_;
+      Z2_=b*Z2_;
+      Z3_=2*c + b;
+      Z3_=b*Z3_;
+      Z1_=Z1_ + Z3_;
+      Z3_=c + b;
+      Z3_=3*Z3_ + a;
+      Z3_=a*Z3_;
+      Z1_=3*Z1_ + Z3_;
+      Z1_=a*Z1_;
+      Z3_=c^3;
+      F=Z1_ + Z3_ + Z2_;
+
+
+
+</code></pre>
+<p>Instead of handing you a giant expanded polynomial, FORM defines a chain of temporary <code>Z</code> variables that aggressively reuse intermediate values, drastically cutting down CPU cycles when evaluated.</p>
+<h2 id="ol_start18_a_full_qft_calculation_compton_scattering"><a href="#ol_start18_a_full_qft_calculation_compton_scattering" class="header-anchor"><ol start="18">
+<li><p>A Full QFT Calculation — Compton Scattering</p>
+</li>
+</ol>
+</a></h2>
+<p>To wrap things up, let&#39;s compute the unpolarized squared matrix element for <strong>Compton Scattering</strong> &#40;\(e^-(p) + \gamma(k) \to e^-(p') + \gamma(k')\)&#41;. </p>
 <p>The scattering amplitude \(\mathcal{M}\) is the sum of the \(s\)-channel and \(u\)-channel Feynman diagrams:</p>
-\[
-\mathcal{M} = \mathcal{M}_s + \mathcal{M}_u 
-\]
 
 <div style="text-align: center; margin-bottom: 2rem;">
   <img class="math-diagram" src="/assets/Physics/blogs/form_pedestrian_qft_blog/compton.svg" alt="Compton Scattering Feynman Diagrams" style="max-width: 100%; height: auto; border-radius: 8px;">
 </div>
 
-<p>Where the invariant matrix element &#40;derived from the Feynman rules of QED&#41; is given by:</p>
-\[
-i\mathcal{M} = \bar{u}(p') (-ie\gamma^\mu) \epsilon_\mu^*(k') \frac{i(\not{p} + \not{k} + m)}{(p+k)^2 - m^2} (-ie\gamma^\nu) \epsilon_\nu(k) u(p) + \bar{u}(p') (-ie\gamma^\nu) \epsilon_\nu(k) \frac{i(\not{p} - \not{k}' + m)}{(p-k')^2 - m^2} (-ie\gamma^\mu) \epsilon_\mu^*(k') u(p)
-\]
-<p>Which simplifies to:</p>
-\[
-i\mathcal{M} = -ie^2 \epsilon_\mu^*(k') \epsilon_\nu(k) \bar{u}(p') \left[ \frac{\gamma^\mu(\not{p} + \not{k} + m)\gamma^\nu}{(p+k)^2 - m^2} + \frac{\gamma^\nu(\not{p} - \not{k}' + m)\gamma^\mu}{(p-k')^2 - m^2} \right] u(p)
-\]
-<p>Squaring this amplitude involves taking the trace over the fermion lines and summing over the final state photon polarizations \(\sum \epsilon_\mu \epsilon_\nu^* \to -g_{\mu\nu}\). Averaging over initial electron and photon spins, and summing over final states gives:</p>
-\[
-\frac{1}{4} \sum_{\text{spins}} |\mathcal{M}|^2 = \frac{e^4}{4} g_{\mu\rho} g_{\nu\sigma} \cdot \text{tr}\left\{ (\not{p}' + m) \left[ \frac{\gamma^\mu(\not{p}+\not{k}+m)\gamma^\nu}{2p\cdot k} + \frac{\gamma^\nu(\not{p}-\not{k}'+m)\gamma^\mu}{-2p\cdot k'} \right] (\not{p} + m) \left[ \dots \right] \right\}
-\]
-<p>Doing this by hand requires pages of trace theorems to get the final Klein-Nishina result:</p>
+<p>If you do this by hand, you&#39;ll fill pages with trace theorems trying not to drop a factor of 2, just to reach the Klein-Nishina result:</p>
 \[
 \frac{1}{4} \sum_{\text{spins}} |\mathcal{M}|^2 = 2e^4 \left[ \frac{p \cdot k'}{p \cdot k} + \frac{p \cdot k}{p \cdot k'} + 2m^2 \left( \frac{1}{p \cdot k} - \frac{1}{p \cdot k'} \right) + m^4 \left( \frac{1}{p \cdot k} - \frac{1}{p \cdot k'} \right)^2 \right]
 \]
-
-  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      FORM handles these massive intermediate traces and tensor contractions instantly, ensuring we never drop a minus sign or miss a factor of 2&#33; 
-  </fieldset>
-  
+<p>Let FORM handle it:</p>
 <pre><code class="language-julia">compton_code &#61; &quot;&quot;&quot;
     Dimension 4;
     Vectors p, k, pp, kp;
@@ -549,65 +905,56 @@ i\mathcal{M} = -ie^2 \epsilon_\mu^*(k') \epsilon_\nu(k) \bar{u}(p') \left[ \frac
 println&#40;evaluate_form&#40;compton_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    M2 =
-       + pdotk^-2 * ( 2*m^4 )
 
-       + pdotk^-1*pdotkp^-1 * (  - 4*m^4 )
+       + pdotk^-2 * (
+          + 2*m^4
+          )
 
-       + pdotk^-1 * ( 4*m^2 )
+       + pdotk^-1*pdotkp^-1 * (
+          - 4*m^4
+          )
 
-       + pdotk^-1*pdotkp * ( 2 )
+       + pdotk^-1 * (
+          + 4*m^2
+          )
 
-       + pdotkp^-2 * ( 2*m^4 )
+       + pdotk^-1*pdotkp * (
+          + 2
+          )
 
-       + pdotkp^-1 * (  - 4*m^2 )
+       + pdotkp^-2 * (
+          + 2*m^4
+          )
 
-       + pdotk*pdotkp^-1 * ( 2 );
+       + pdotkp^-1 * (
+          - 4*m^2
+          )
 
-
-</code></pre>
-<h3 id="reconciling_the_output_with_the_textbook"><a href="#reconciling_the_output_with_the_textbook" class="header-anchor">Reconciling the Output with the Textbook</a></h3>
-<p>Because we used <code>pdotk</code> for \(p \cdot k\) and <code>pdotkp</code> for \(p \cdot k'\), and applied <code>Multiply 4^-1;</code> to account for the \(\frac{1}{4}\) initial state spin-averaging, FORM&#39;s final result is a <strong>perfect term-by-term match</strong> with the expanded version of the textbook&#39;s Klein-Nishina formula&#33;</p>
-<p>For example, the textbook has the term \(2m^4 \left( \frac{1}{p\cdot k} - \frac{1}{p\cdot k'} \right)^2\). When expanded, this gives:</p>
-\[ \frac{2m^4}{(p \cdot k)^2} + \frac{2m^4}{(p \cdot k')^2} - \frac{4m^4}{(p \cdot k)(p \cdot k')} \]
-<p>Which is exactly what FORM prints out natively as <code>pdotk^-2 * 2*m^4</code>, <code>pdotkp^-2 * 2*m^4</code>, and <code>pdotk^-1*pdotkp^-1 * -4*m^4</code>.</p>
-<p>You literally just type the Feynman rules, and FORM hands you the final physical answer.</p>
-<h2 id="example_10_qcd_and_color_algebra_sun"><a href="#example_10_qcd_and_color_algebra_sun" class="header-anchor">Example 10: QCD and Color Algebra &#40;\(SU(N)\)&#41;</a></h2>
-<p>In QCD, calculations require taking traces over \(SU(3)\) color matrices. We often need to evaluate the standard color factor \(C_F\):</p>
-\[
-\sum_a \left(T^a T^a\right)_{ij} = C_F \delta_{ij} \implies \text{Tr}(T^a T^a) = C_F \text{Tr}(\mathbf{1}) = C_F N
-\]
-<p>Using the \(SU(N)\) Fierz identity, we know:</p>
-\[
-C_F = \frac{N^2 - 1}{2N}
-\]
-<p>Let&#39;s derive this using FORM&#39;s pattern matching and non-commutative functions:</p>
-<pre><code class="language-julia">qcd_code &#61; &quot;&quot;&quot;
-    Symbols N, CF, TR;
-    Dimension N;
-    Indices a, b, c, i, j, k, l;
-    
-    Functions T;
-    
-    Local ColorTrace &#61; T&#40;a, i, j&#41; * T&#40;a, j, i&#41;;
-    Local ColorFactor &#61; ColorTrace * N^-1;
-    
-    id T&#40;a?, i?, j?&#41; * T&#40;a?, k?, l?&#41; &#61; TR * &#40; d_&#40;i,l&#41;*d_&#40;j,k&#41; - d_&#40;i,j&#41;*d_&#40;k,l&#41;*N^-1 &#41;;
-    
-    contract;
-    
-    id TR &#61; 1/2;
-&quot;&quot;&quot;
-
-println&#40;evaluate_form&#40;qcd_code&#41;&#41;</code></pre>
-<pre><code class="plaintext code-output">
-   ColorTrace =
-       - 1/2 + 1/2*N^2;
-
-   ColorFactor =
-       - 1/2*N^-1 + 1/2*N;
+       + pdotk*pdotkp^-1 * (
+          + 2
+          );
 
 
 </code></pre>
+<p>Because we told FORM to bracket on the dot products, the output maps <strong>perfectly</strong> to the textbook result. The \(2m^4 \left( \frac{1}{p\cdot k} - \frac{1}{p\cdot k'} \right)^2\) term expands precisely into the coefficients FORM prints natively. You literally just type in the Feynman rules, hit run, and the physics drops out.</p>
+<h2 id="why_form_over_feyncalc"><a href="#why_form_over_feyncalc" class="header-anchor">Why FORM over FeynCalc?</a></h2>
+<p>If you&#39;ve spent any time doing QFT, you&#39;ve probably used <a href="https://feyncalc.github.io/">FeynCalc</a>. So why bother learning FORM? It completely comes down to scale:</p>
+<ul>
+<li><p><strong>The Memory Model:</strong> FeynCalc runs inside Mathematica, meaning it stores the entire expression as a single object. FORM processes terms sequentially. If you hit a calculation with a billion terms, FeynCalc will crash your computer; FORM will just chew through it.</p>
+</li>
+<li><p><strong>Brute Speed:</strong> FORM’s pattern matcher and tensor algebra engines are hand-optimized C. For heavy multi-loop traces, it is aggressively faster than any general-purpose system, and it parallelizes cleanly via <code>tform</code>.</p>
+</li>
+<li><p><strong>Research-Grade Scaling:</strong> The cutting-edge multi-loop results you see in physics literature are computed with FORM. FeynCalc is fantastic for one-loop checks and pedagogical work, but it stalls out right where FORM is getting started.</p>
+</li>
+<li><p><strong>Direct Export:</strong> As shown above, FORM exports highly optimized C/Fortran natively, creating a smooth pipeline from symbolic math to numerical simulation.</p>
+</li>
+</ul>
+<p>Obviously, FeynCalc wins on usability—it sits happily inside a graphical Mathematica notebook. But by bridging FORM with Julia, as we&#39;ve done here, you get the best of both worlds. You can use Julia&#39;s lovely syntax to orchestrate the generation and plotting, and offload the brutal algebraic lifting to FORM.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      This guide just covers FORM&#39;s raw algebra capabilities. In a real workflow, you&#39;d feed FORM&#39;s output into an <strong>IBP reduction</strong> tool &#40;like Kira&#41; to boil thousands of loop integrals down to a handful of masters. I&#39;ll be writing up a dedicated Kira tutorial—complete with a fully automated FORM \(\to\) Kira pipeline—in a future post. 
+  </fieldset>
+  
 <h2 id="conclusion"><a href="#conclusion" class="header-anchor">Conclusion</a></h2>
 <p>FORM isn&#39;t just an archaic tool; it is a hyper-optimized engine that outpaces modern algebra systems for the specific mathematical structures of Particle Physics. By calling it seamlessly from Julia, we get the best of both worlds: Julia&#39;s modern package management and flow control, and FORM&#39;s raw power for the QFT heavy lifting.</p>
 <div class="page-foot">
@@ -701,7 +1048,46 @@ println&#40;evaluate_form&#40;qcd_code&#41;&#41;</code></pre>
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=36" data-cat="/assets/oneko.gif"></script>
+    <script src="/assets/oneko.js?v=36" data-cat="/assets/oneko.gif">    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
   </body>
 </html>
 

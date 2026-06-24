@@ -15,5 +15,4 @@ qcd_code = """
     
     id TR = 1/2;
 """
-
 println(evaluate_form(qcd_code))

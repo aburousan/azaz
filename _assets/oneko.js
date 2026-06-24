@@ -7,6 +7,8 @@
   if (isReducedMotion) return;
 
   const nekoEl = document.createElement("div");
+  let glassesEl = null;
+  let wearingGlasses = false;
   
   let nekoPosX = 32;
   let nekoPosY = 32;
@@ -165,6 +167,16 @@
     nekoEl.style.filter = "sepia(100%) saturate(1100%) hue-rotate(332deg) brightness(0.98) contrast(1.15)";
     nekoEl.style.transform = "scale(1.4)";
     nekoEl.style.transformOrigin = "center";
+    
+    glassesEl = document.createElement("div");
+    glassesEl.innerHTML = "👓";
+    glassesEl.style.position = "absolute";
+    glassesEl.style.fontSize = "14px";
+    glassesEl.style.top = "4px";
+    glassesEl.style.left = "7px";
+    glassesEl.style.pointerEvents = "none";
+    glassesEl.style.display = "none";
+    nekoEl.appendChild(glassesEl);
 
     document.body.appendChild(nekoEl);
 
@@ -373,6 +385,7 @@
         state = "roaming";
         targetElement = null;
         inspecting = true;
+        wearingGlasses = Math.random() < 0.25;
         idleAnimation = null;
         nekoSpeed = 16;
         stateTimer = 250;
@@ -581,7 +594,7 @@
     if (critterCooldown > 0) critterCooldown--;
     if (!critterActive) {
       // very rarely, a mouse scurries in
-      if (critterCooldown <= 0 && Math.random() < 0.004) spawnCritter();
+      if (critterCooldown <= 0 && Math.random() < 0.0001) spawnCritter();
       return;
     }
     critterLife--;
@@ -652,8 +665,8 @@
     switch (idleAnimation) {
       case "sleeping":
         if (idleAnimationFrame === 0) {
-          // Decide ONCE per sleep whether this nap gets a purr — keep it rare
-          purrThisSleep = Math.random() < 0.2;
+          // Decide ONCE per sleep whether this nap gets a purr
+          purrThisSleep = Math.random() < 0.4;
         }
         if (idleAnimationFrame < 8) {
           setSprite("tired", 0);
@@ -685,6 +698,8 @@
 
   function frame() {
     frameCount += 1;
+
+    if (glassesEl) glassesEl.style.display = (inspecting && wearingGlasses) ? "block" : "none";
 
     // --- Tail-puff reaction (fake "bristling" via CSS, no sprite for it) ---
     if (puffCooldown > 0) puffCooldown--;
@@ -728,7 +743,7 @@
     }
     
     // Very frequent roaming/exploration!
-    if (state === "chasing" && Math.random() < 0.01) {
+    if (state === "chasing" && Math.random() < 0.05) {
         if (!pickRandomElementTarget()) {
             // Wander to a random spot on screen if there are no elements to inspect
             targetX = nekoPosX + (Math.random() - 0.5) * window.innerWidth;
@@ -742,7 +757,7 @@
     
     // If we've been standing completely still for a while, definitely go explore!
     const distToMouse = Math.sqrt((nekoPosX - mousePosX) ** 2 + (nekoPosY - mousePosY) ** 2);
-    if (state === "chasing" && distToMouse < 32 && Math.random() < 0.05) {
+    if (state === "chasing" && distToMouse < 32 && Math.random() < 0.2) {
         if (!pickRandomElementTarget()) {
             targetX = nekoPosX + (Math.random() - 0.5) * window.innerWidth;
             targetY = nekoPosY + (Math.random() - 0.5) * window.innerHeight;

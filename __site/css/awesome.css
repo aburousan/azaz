@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+body, html, .page__content {
+  font-family: 'Patrick Hand', cursive !important;
+  font-size: 1.15rem; /* Handwritten fonts need to be slightly larger for readability */
+}
+
+/* Protect KaTeX math formulas from being overridden by the handwritten font */
+.katex, .katex * {
+  font-family: KaTeX_Main, "Times New Roman", serif !important;
+}
+
 /* Reading Progress Bar */
 .progress-container {
   width: 100%;
@@ -16,11 +28,23 @@
 
 /* Glassmorphism Masthead */
 .masthead {
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(245, 248, 255, 0.90) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+}
+
+.masthead__menu-item a, .site-title {
+  color: #0ea5e9 !important; /* Bright blue text */
+}
+
+.masthead__menu-item a:hover {
+  color: #0284c7 !important; /* Darker blue on hover */
+}
+.masthead__inner-wrap {
+  padding-top: 0.5em !important;
+  padding-bottom: 0.5em !important;
 }
 html.dark-mode .masthead {
   /* It will be inverted by dark mode, so white becomes black. 

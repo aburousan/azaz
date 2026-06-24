@@ -1,5 +1,2 @@
-
-   QEDtrace =
-      4*d_(m,n)*d_(r,s) - 4*d_(m,r)*d_(n,s) + 4*d_(m,s)*d_(n,r);
-
-
+UndefVarError: `evaluate_form` not defined in `Main.FD_SANDBOX_6576664627771013874`
+Suggestion: check for spelling errors or missing imports.
