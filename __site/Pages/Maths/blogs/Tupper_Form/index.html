@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="/css/franklin.css">
 <link rel="stylesheet" href="/css/minimal-mistakes.css">
 <link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
 <link rel="icon" href="/assets/favicon.jpg">
 <!--[if IE ]>
 <style>
@@ -34,28 +36,109 @@
 
    <title>Playing with Tupper's Formula in Julia</title>  
   <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
 </head>
 <body class="layout--single">
-  <div class="masthead">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
         <a class="site-title" href="/">Azazaya</a>
         <ul class="visible-links">
-          <li class="masthead__menu-item"><a href="/home_page/" >Home</a></li>
-          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" >Maths Home</a></li>
-          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" >Physics Home</a></li>
-          <li class="masthead__menu-item"><a href="/Pages/Tags_page">Tags</a></li>
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-calculator"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-book-open"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-calculator"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
         </ul>
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
           <div class="navicon"></div>
         </button>
+        <button id="theme-toggle" title="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
         <ul class="hidden-links hidden"></ul>
       </nav>
     </div>
   </div>
 </div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+  
+  // Update button icon based on initial state
+  if (document.documentElement.classList.contains('dark-mode')) {
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+  }
+  
+  themeToggle.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark-mode');
+    
+    if (document.documentElement.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      localStorage.setItem('theme', 'light');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
 
   <div class="initial-content">
     <div id="main" role="main">
@@ -131,9 +214,9 @@
 \]
 <p>As we can see this is an <strong><span style="color: red">inequality</span></strong>. If we plot this for \(0 < x < 106\) and \(k < y < k + 17\), then we get the plot,</p>
 
-<div id="fdpwnp" style=""></div>
+<div id="fdpuwf" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwnp");
+graphDiv = document.getElementById("fdpuwf");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp1.json');
 </script>
 
@@ -144,9 +227,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
 <pre><code class="language-julia">k_cheenta &#61; 15806189098778893000052913054993993567015366941292274179534053586295503647737517933409233769405785763940088519276398488552677297965783134336600594346427856575753581916591574206800450783605935534858246029155800031822984955455385598121139153589540046302557674614212697588833953815011872377415466312636343196950183648558632777828536170792550924288</code></pre>
 <p>we will get,</p>
 
-<p><div id="fdpwat" style=""></div>
+<p><div id="fdpidc" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwat");
+graphDiv = document.getElementById("fdpidc");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp8.json');
 </script>
  This is the name where I teaches physics. Why not checkout the website of <a href="https://www.cheenta.com/">CHEENTA</a> and see my awesome colleagues and students.</p>
@@ -154,9 +237,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
 <pre><code class="language-julia">k_cosmic &#61;1271483917409047962504190716480820125972278621369534229771189155117893513117560028103293542766164054366623611185886118600739414120455650913109912110581287743239969847780541636461645780364303397660529613100638803746819131463964363046325228418810374936998088829255027447274810308302244558096667122081824157031726139625219810246859835932683694862411835356166461473745281741462375240388909870117619294905778805095592609024873542546088290387587421750247353346676976414510740261093361230273514384628199351519546799586984946538836015942052347904</code></pre>
 <p>we will get, </p>
 
-<div id="fdpqwv" style=""></div>
+<div id="fdpbkv" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpqwv");
+graphDiv = document.getElementById("fdpbkv");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp2.json');
 </script>
 
@@ -237,40 +320,40 @@ p &#61; plot_tupper&#40;k&#41;</code></pre>
 <p>Here are few more plots.</p>
 <pre><code class="language-julia">k_pac &#61; 144520248970897582847942537337194567481277782215150702479718813968549088735682987348888251320905766438178883231976923440016667764749242125128995265907053708020473915320841631792025549005418004768657201699730466383394901601374319715520996181145249781945019068359500510657804325640801197867556863142280259694206254096081665642417367403946384170774537427319606443899923010379398938675025786929455234476319291860957618345432248004921728033349419816206749854472038193939738513848960476759782673313437697051994580681869819330446336774047268864</code></pre>
 
-<div id="fdppcx" style=""></div>
+<div id="fdpflk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdppcx");
+graphDiv = document.getElementById("fdpflk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp3.json');
 </script>
 
 <pre><code class="language-julia">k_euler &#61;2352035939949658122140829649197960929306974813625028263292934781954073595495544614140648457342461564887325223455620804204796011434955111022376601635853210476633318991990462192687999109308209472315419713652238185967518731354596984676698288025582563654632501009155760415054499960</code></pre>
 
-<p><div id="fdppub" style=""></div>
+<p><div id="fdpjfm" style=""></div>
 <script>
-graphDiv = document.getElementById("fdppub");
+graphDiv = document.getElementById("fdpjfm");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp4.json');
 </script>
  Why not try making \(E=mc^2\) ?</p>
 <pre><code class="language-julia">k_spand &#61;270887593047695068902177512637039315790870805545237574209083294224566348164515629454108026611013012827103306726993631111616993188494955886640992666873946363041693530171313017819263864013685045445247668181602663772762348140363360641126220335131367302996818140888926115019048960218133602241808439634450714519167159218935381199001214374043071404065825421114593354638235539762000889521529816363996094790128255258340071055083759359335933136601088</code></pre>
 
-<div id="fdpvym" style=""></div>
+<div id="fdpjtd" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpvym");
+graphDiv = document.getElementById("fdpjtd");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp5.json');
 </script>
 
 <p>Not going to give you k value for this one</p>
 
-<div id="fdpwbc" style=""></div>
+<div id="fdpucp" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwbc");
+graphDiv = document.getElementById("fdpucp");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp6.json');
 </script>
 
 
-<p><div id="fdpbfo" style=""></div>
+<p><div id="fdpsmw" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpbfo");
+graphDiv = document.getElementById("fdpsmw");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp7.json');
 </script>
  Calculate \(\sigma\) for \(e^- + e^+ \to \mu^- + \mu^+\) &#40;use feynman&#39;s diagram drawn above&#41;</p>
@@ -301,7 +384,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 03, 2025.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: June 24, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -362,6 +445,36 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
 
     
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Floating Back Button -->
+    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat -->
+    <script src="/assets/oneko.js?v=17" data-cat="/assets/oneko.gif"></script>
   </body>
 </html>
 
@@ -423,5 +536,32 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
       }, 5000);
     });
   
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#e52e71'; // Accent color
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
   })();
   </script>

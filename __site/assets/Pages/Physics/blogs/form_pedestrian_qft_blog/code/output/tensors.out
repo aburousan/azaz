@@ -1,0 +1,11 @@
+
+   dot =
+      u.v;
+
+   schoonschip =
+      f(u,v);
+
+   nocontract =
+      u(k)*v(k);
+
+

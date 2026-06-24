@@ -11,13 +11,12 @@ tags = ["physics", "code", "Kazi Abu Rousan"]
 # About me
 Hi! I’m **Kazi Abu Rousan**, a student currently pursuing PhD in Cosmology at [NISER](https://www.niser.ac.in/). I hold a Master's degree in Physics with a specialization in Cosmology. In addition to my academic background, I'm deeply passionate about teaching and mentor students in Mathematics and Physics for Olympiad preparation at [Cheenta Ganit Kendra](https://www.cheenta.com/). I am also a member of [Institute of Physics(IOP)](https://www.iop.org/).\\
 ~~~
-<img src="/assets/me.jpeg" alt="It's a me! Rousan" width="500">
-<div class="caption"></div>
+<img src="/assets/me.jpeg" alt="It's a me! Rousan" class="cv-img" style="max-width: 400px;">
 ~~~
 
 Ohh and here is my catto! Mr. **Gino**!
 ~~~
-<img src="/assets/gino.png" alt="It's Gino" width="500">
+<img src="/assets/gino.png" alt="It's Gino" class="cv-img" style="max-width: 400px;">
 ~~~
 
 For more visit my Social Accounts
@@ -32,23 +31,41 @@ For more visit my Social Accounts
 Feel free to contact me. I am hyperactive.
 # Some of my Works
 Some of my works:
-* Recently, I am working on the Radiometric Calibration of VIR DAWN dataset .[You can visit a webapp I have developed for the calibartion. Anyone can upload .lbl, .qub and other house-keeping data & then download the calibrated .npy file](https://virdawnradiometrical.streamlit.app/) ![](/assets/radio_cal_1.png)
-* [Time Crystal as a consequence of NonCommutative Quantum Mechanics for 2D Harmonic Oscillator](https://www.researchgate.net/publication/372221313_Time_Crystal_as_a_consequence_of_NonCommutative_Quantum_Mechanics_for_2D_Harmonic_Oscillator) ![](https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/372221313/figure/fig1/AS:11431281173427597@1688888680920/Physical-Realisation-of-Time-Crystal_W640.jpg)
+* Recently, I am working on the Radiometric Calibration of VIR DAWN dataset .[You can visit a webapp I have developed for the calibartion. Anyone can upload .lbl, .qub and other house-keeping data & then download the calibrated .npy file](https://virdawnradiometrical.streamlit.app/)
+~~~
+<img src="/assets/radio_cal_1.png" class="cv-img" style="max-width: 400px;">
+~~~
+* [Time Crystal as a consequence of NonCommutative Quantum Mechanics for 2D Harmonic Oscillator](https://www.researchgate.net/publication/372221313_Time_Crystal_as_a_consequence_of_NonCommutative_Quantum_Mechanics_for_2D_Harmonic_Oscillator)
+~~~
+<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/372221313/figure/fig1/AS:11431281173427597@1688888680920/Physical-Realisation-of-Time-Crystal_W640.jpg" class="cv-img" style="max-width: 400px;">
+~~~
 This was done in the 2023 summer research project under the guidence of Prof. Archan S Majumdar under S. N. Bose National Centre for Basic Sciences.
-* [Basic Recombination and Formation of Neutral Hydrogen in Early Universe](https://www.researchgate.net/publication/376889659_Basic_Recombination_and_Formation_of_Neutral_Hydrogen_in_Early_Universe) ![](https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/376889659/figure/fig7/AS:11431281214834585@1703796954888/Comparison-of-Saha-Boltzmann-and-Peeble-Equation-Here-Boltzmann-Equation-means-the_W640.jpg)
+* [Basic Recombination and Formation of Neutral Hydrogen in Early Universe](https://www.researchgate.net/publication/376889659_Basic_Recombination_and_Formation_of_Neutral_Hydrogen_in_Early_Universe)
+~~~
+<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/376889659/figure/fig7/AS:11431281214834585@1703796954888/Comparison-of-Saha-Boltzmann-and-Peeble-Equation-Here-Boltzmann-Equation-means-the_W640.jpg" class="cv-img" style="max-width: 400px;">
+~~~
 In this article I have discussed the mechanism of **Recombination in the early universe** and have discribed **Peeble's Equation**.
 * [Extension of Gauss circle problem: Lattices for a Triangular grid and discovery of a new formula of $\pi$](https://www.researchgate.net/publication/370161335_Extension_of_Gauss_circle_problem_Lattices_for_a_Triangular_grid)
-![](https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/370161335/figure/fig3/AS:11431281152663383@1682100177142/A-circle-of-Radius-7-has-18-lattice-points-on-it_Q320.jpg)
+~~~
+<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/370161335/figure/fig3/AS:11431281152663383@1682100177142/A-circle-of-Radius-7-has-18-lattice-points-on-it_Q320.jpg" class="cv-img" style="max-width: 400px;">
+~~~
 
 Here I have tried to extend the **Gauss's Circle Problem** for a triangular grid and also found a new infinite series for $\pi$.
 * [Diffraction patterns by different orientation of rectangular Apertures: Intuitive understanding of Optical Transformations](https://www.researchgate.net/publication/356142815_Diffraction_patterns_by_different_orientation_of_rectangular_Apertures_Intuitive_understanding_of_Optical_Transformations)
-![](https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/356142815/figure/fig2/AS:1098551824265217@1638926573534/Diffraction-pattern-of-the-aperture-in-Fig-2.ppm)
+~~~
+<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/356142815/figure/fig2/AS:1098551824265217@1638926573534/Diffraction-pattern-of-the-aperture-in-Fig-2.ppm" class="cv-img" style="max-width: 400px;">
+~~~
 
 This article is based on a problem which came in tifr exam. Here, I have discussed how diffraction patterns can change depending upon different configuration of apertures and simulated the things using python.
-* [Method of Images and It's Relation to Optical Images](https://link.springer.com/article/10.1007/s12045-022-1398-y)![](https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/361545877/figure/fig7/AS:1171982066429952@1656433707070/Here-you-see-the-fields-from-qred-to-qblue-The-field-is-symmetry-about-the-grounded_W640.jpg)
+* [Method of Images and It's Relation to Optical Images](https://link.springer.com/article/10.1007/s12045-022-1398-y)
+~~~
+<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/361545877/figure/fig7/AS:1171982066429952@1656433707070/Here-you-see-the-fields-from-qred-to-qblue-The-field-is-symmetry-about-the-grounded_W640.jpg" class="cv-img" style="max-width: 400px;">
+~~~
 Here I have tried to show how **Optical Lense** formulas are similar to that of **electrostatic method of images**.
 * [Introduction to Anyons and Generalized Distribution Function](https://www.researchgate.net/publication/352641643_Introduction_to_Anyons_and_generalized_distribution_function)
-![](https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/352641643/figure/fig3/AS:1040709511565313@1625135891075/The-reflection-operation-with-respect-to-one-axis-This-shows-ph-p-and-ph-p-are.ppm)
+~~~
+<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/352641643/figure/fig3/AS:1040709511565313@1625135891075/The-reflection-operation-with-respect-to-one-axis-This-shows-ph-p-and-ph-p-are.ppm" class="cv-img" style="max-width: 400px;">
+~~~
 
 This is my BSc. project, here I have tried to find a **generalized distribution function** which **anyons** follow. We can get **Bosonic** and **Fermionic** distribution function from that function as a special case.
 * [Cosmic.jl: A simple package for study of Cosmology](https://github.com/aburousan/cosmic.jl)
@@ -62,9 +79,13 @@ This is a **julia** package I am developing in my free time for calculating some
 
 Some of my blogs on medium are,
 * [What is Fourier Series? and It's Beauty](https://medium.com/swlh/what-is-fourier-series-and-its-beauty-ce2410012329). You can also watch a [video](https://youtu.be/0y8UsIFcvPs) on this.
-![Joaquin Phoenix Joker using 6000 epicycles](https://miro.medium.com/v2/resize:fit:720/format:webp/1*YkraGeZW9la2P7sDetBpFQ.png)
+~~~
+<img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*YkraGeZW9la2P7sDetBpFQ.png" alt="Joaquin Phoenix Joker using 6000 epicycles" class="cv-img" style="max-width: 400px;">
+~~~
 * [Trapezoidal Rule: A Method of Numerical Integration](https://www.cantorsparadise.com/trapezoidal-rule-a-method-of-numerical-integration-5772838657b3)
-![](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*2jcjgSAw_qoimpVm_2JNrg.png)
+~~~
+<img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*2jcjgSAw_qoimpVm_2JNrg.png" class="cv-img" style="max-width: 400px;">
+~~~
 
 # Some extra Mentorship
 
@@ -75,9 +96,7 @@ Some of my blogs on medium are,
 * I am teaching the python part of a course **Approaching Computational Thinking with R + Python** organised by [Cosmic Charade](https://cosmic-charade.netlify.app/).
 * I am writing a book on [Number Theory](https://drive.google.com/file/d/1dD4zTXiz76PVD15ZdT4v-SawX2OkMIc8/view?usp=drive_link). You can check the draft.
 ~~~
-<img src="/assets/book.jpg" alt="My Book"
-				width="200"
-				height="300">
+<img src="/assets/book.jpg" alt="My Book" class="cv-img" style="max-width: 400px;">
 ~~~
 
 * Recently, I have started doing digital art. Here are some of them [here](/Pages/art/).

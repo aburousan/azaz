@@ -1,0 +1,502 @@
+/* Reading Progress Bar */
+.progress-container {
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+}
+.progress-bar {
+  height: 4px;
+  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  width: 0%;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Glassmorphism Masthead */
+.masthead {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+}
+html.dark-mode .masthead {
+  /* It will be inverted by dark mode, so white becomes black. 
+     We just need it to stay slightly transparent to maintain the blur. */
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Animated Menu Underlines */
+.masthead__menu-item a {
+  position: relative;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+.masthead__menu-item a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #e52e71; /* Accent color */
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+.masthead__menu-item a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Profile Picture Pulse Animation */
+.author__avatar img {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.author__avatar img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(229, 46, 113, 0.4);
+}
+
+/* Topic-Specific Watermarks */
+.watermark-bg {
+  position: fixed;
+  bottom: -10vh;
+  right: -5vw;
+  font-size: 60vh;
+  opacity: 0.03; /* Extremely subtle */
+  z-index: -100;
+  pointer-events: none;
+  color: #000;
+  transform: rotate(-15deg);
+}
+
+html.dark-mode .watermark-bg {
+  color: #fff;
+  opacity: 0.02;
+}
+
+/* Responsive Layout Adjustments */
+html, body {
+  overflow-x: clip; /* Prevent horizontal scroll without breaking position: sticky */
+}
+
+/* Desktop Sidebar adjustments */
+@media (min-width: 1024px) {
+  #main {
+    max-width: 100% !important;
+  }
+  .franklin-content {
+    width: 100% !important;
+    padding-left: 280px !important; /* Fixed space for sidebar */
+    padding-right: 2% !important;
+  }
+}
+
+/* =======================================================
+   BEAUTIFUL PASTEL CLASSIC THEME (Light Mode)
+   ======================================================= */
+:root {
+  --pastel-bg: #fdfbf7;        /* Soft vintage off-white */
+  --pastel-text: #4a4a4a;      /* Soft dark grey text */
+  --pastel-heading: #52616b;   /* Vintage grey-blue */
+  --pastel-link: #62a0c2;      /* Beautiful pastel teal/blue */
+  --pastel-link-hover: #457b9d;
+}
+
+body:not(.dark-mode) {
+  background-color: var(--pastel-bg);
+  color: var(--pastel-text);
+}
+
+body:not(.dark-mode) .page__content {
+  color: var(--pastel-text);
+}
+
+body:not(.dark-mode) h1, 
+body:not(.dark-mode) h2, 
+body:not(.dark-mode) h3, 
+body:not(.dark-mode) h4, 
+body:not(.dark-mode) h5, 
+body:not(.dark-mode) h6,
+body:not(.dark-mode) .page__title {
+  color: var(--pastel-heading);
+}
+
+body:not(.dark-mode) a:not(.btn) {
+  color: var(--pastel-link);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+body:not(.dark-mode) a:not(.btn):hover {
+  color: var(--pastel-link-hover);
+  text-decoration: underline;
+}
+
+body:not(.dark-mode) .author__name {
+  color: var(--pastel-heading);
+}
+
+/* =======================================================
+   MASTHEAD DROPDOWN MENU
+   ======================================================= */
+/* Overriding minimal-mistakes hidden clipping bug on the navbar */
+.greedy-nav .visible-links {
+  overflow: visible !important;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fcfcfc;
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15);
+  z-index: 10000;
+  border-radius: 8px;
+  overflow: hidden;
+  top: 100%;
+  left: 0;
+  margin-top: 0;
+}
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content,
+.dropdown-content:hover {
+  display: block !important;
+}
+/* Invisible bridge to prevent mouse-leave when moving to dropdown */
+.dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 15px;
+}
+.dropdown-content a {
+  color: #4a4a4a;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 0.9em;
+  transition: all 0.2s ease;
+}
+.dropdown-content a:hover {
+  background-color: var(--pastel-link) !important;
+  color: white !important;
+}
+html.dark-mode .dropdown-content {
+  background-color: #1a1a1a;
+  box-shadow: 0px 8px 16px 0px rgba(255,255,255,0.05);
+}
+html.dark-mode .dropdown-content a {
+  color: #e0e0e0;
+}
+html.dark-mode .dropdown-content a:hover {
+  background-color: #3d2b0e !important;
+  color: #ffb84d !important;
+}
+
+/* =======================================================
+   FLOATING BACK BUTTON
+   ======================================================= */
+#floating-back-btn {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  background-color: var(--pastel-link);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#floating-back-btn:hover {
+  background-color: var(--pastel-link-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+}
+html.dark-mode #floating-back-btn {
+  background-color: #3d2b0e;
+  color: #f1f1f1;
+}
+html.dark-mode #floating-back-btn:hover {
+  background-color: #ffb84d;
+  color: #1a1a1a;
+}
+
+/* =======================================================
+   PREMIUM CV IMAGES (About Me)
+   ======================================================= */
+/* Overriding terrible franklin default padding */
+.franklin-content img {
+  padding-left: 0 !important;
+}
+
+.cv-img, .franklin-content img:not(.math-diagram):not(.emoji) {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease;
+  margin: 1.5rem auto;
+  display: block;
+  border: 4px solid var(--pastel-bg);
+  padding-left: 0 !important; /* Force removal of ghost space */
+  cursor: zoom-in;
+}
+.cv-img:hover, .franklin-content img:not(.math-diagram):not(.emoji):hover {
+  transform: scale(1.03) translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+html.dark-mode .cv-img, html.dark-mode .franklin-content img:not(.math-diagram):not(.emoji) {
+  border-color: #1a1a1a;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* =======================================================
+   UNIVERSAL LIGHTBOX (Zoom)
+   ======================================================= */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  z-index: 9999999;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 10px 50px rgba(0,0,0,0.6);
+  animation: lightboxZoom 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  padding: 0 !important;
+  border: 2px solid rgba(255,255,255,0.1);
+}
+@keyframes lightboxZoom {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (min-width: 1280px) {
+  #main {
+    max-width: 95% !important;
+  }
+  .franklin-content {
+    padding-left: 320px !important;
+    padding-right: 5% !important;
+  }
+}
+
+@media (min-width: 1600px) {
+  #main {
+    max-width: 98% !important;
+  }
+}
+
+/* Optimize padding and scaling for mobile/tablet */
+@media (max-width: 768px) {
+  .page__title {
+    font-size: 1.8em;
+  }
+  .watermark-bg {
+    font-size: 90vw !important; /* Scale watermark for mobile */
+    right: -15vw !important;
+    bottom: -5vh !important;
+  }
+  .franklin-content {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+  }
+  #theme-toggle {
+    margin-left: 0.2rem;
+    padding: 0.2rem;
+  }
+}
+
+/* =======================================================
+   GLASSMORPHISM MASTHEAD & DROPDOWN FIXES
+   ======================================================= */
+/* Ensure masthead has a high z-index and doesn't hide dropdowns */
+.masthead,
+.masthead__inner-wrap,
+.masthead__menu,
+.greedy-nav,
+.visible-links,
+.masthead__menu-item {
+  overflow: visible !important;
+  z-index: 99999 !important;
+}
+
+/* Apply beautiful frosted glass transparency */
+.masthead {
+  background: rgba(253, 251, 247, 0.85) !important; /* Matches pastel theme */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.greedy-nav {
+  background: transparent !important;
+}
+
+/* Dark mode glassmorphism */
+html.dark-mode .masthead {
+  background: rgba(3, 3, 3, 0.85) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* =======================================================
+   PREMIUM HOME PAGE LAYOUT
+   ======================================================= */
+.hero-section {
+  text-align: center;
+  padding: 4rem 1rem 2rem;
+}
+.gradient-text {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--pastel-heading) 0%, var(--pastel-link) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: var(--pastel-text);
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.content-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 3rem;
+  margin: 2rem 0;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.02);
+  transition: transform 0.3s ease;
+}
+.content-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.06);
+}
+
+.lead-text {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: var(--pastel-heading);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.image-showcase {
+  text-align: center;
+  margin: 3rem 0;
+}
+.showcase-img {
+  max-width: 600px;
+  width: 100%;
+}
+.caption {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 1rem;
+}
+
+.premium-quote {
+  position: relative;
+  background: var(--pastel-bg);
+  padding: 3rem 4rem;
+  border-radius: 16px;
+  margin: 4rem 0 2rem;
+  text-align: center;
+  border-left: none;
+}
+.quote-mark {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8rem;
+  color: var(--pastel-link);
+  opacity: 0.2;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+.premium-quote p {
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--pastel-heading);
+  position: relative;
+  z-index: 1;
+}
+.premium-quote footer {
+  margin-top: 1.5rem;
+  font-weight: bold;
+  color: var(--pastel-link);
+  font-size: 1.1rem;
+}
+
+.poem-card {
+  background: linear-gradient(to bottom right, #ffffff, var(--pastel-bg));
+  border-radius: 20px;
+  padding: 4rem;
+  margin: 3rem 0;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05), 0 10px 30px rgba(0,0,0,0.03);
+}
+.poem-card h3 {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  color: var(--pastel-heading);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+.poem-text p {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  color: var(--pastel-text);
+  font-style: italic;
+}
+
+/* Dark mode overrides for Home Page */
+html.dark-mode .content-card {
+  background: #111;
+  border-color: #222;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+html.dark-mode .poem-card {
+  background: linear-gradient(to bottom right, #111, #0a0a0a);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 10px 30px rgba(0,0,0,0.5);
+}
+html.dark-mode .premium-quote {
+  background: #151515;
+}
+html.dark-mode .gradient-text {
+  background: linear-gradient(135deg, #ffb84d 0%, #62a0c2 100%);
+  -webkit-background-clip: text;
+}

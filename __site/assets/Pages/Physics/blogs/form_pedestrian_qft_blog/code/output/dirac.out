@@ -1,0 +1,5 @@
+
+   QEDtrace =
+      4*d_(m,n)*d_(r,s) - 4*d_(m,r)*d_(n,s) + 4*d_(m,s)*d_(n,r);
+
+

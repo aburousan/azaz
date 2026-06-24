@@ -1,0 +1,794 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.jpg">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>A Pedestrian's Guide to FORM for Particle Physics (via Julia)</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Azazaya</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-calculator"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-book-open"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-calculator"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+  
+  // Update button icon based on initial state
+  if (document.documentElement.classList.contains('dark-mode')) {
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+  }
+  
+  themeToggle.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark-mode');
+    
+    if (document.documentElement.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      localStorage.setItem('theme', 'light');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/minimal-mistakes/Rousan.jpeg" alt="Septimia Zenobia" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+
+
+  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#what_is_form_and_why_is_it_different">What is FORM and Why is it Different?</a></li><li><a href="#installing_and_running_form">Installing and Running FORM</a><ol><li><a href="#native_installation">Native Installation</a></li><li><a href="#running_form_from_the_command_line">Running FORM from the Command Line</a></li></ol></li><li><a href="#the_julia-form_bridge">The Julia-FORM Bridge</a></li><li><a href="#understanding_form_syntax_the_basics">Understanding FORM Syntax &#40;The Basics&#41;</a></li><li><a href="#example_1_tensor_contractions_the_levi-civita_tensor">Example 1: Tensor Contractions &amp; The Levi-Civita Tensor</a></li><li><a href="#example_2_traces_of_dirac_gamma_matrices">Example 2: Traces of Dirac Gamma Matrices</a></li><li><a href="#example_3_symmetry_properties_of_functions">Example 3: Symmetry Properties of Functions</a></li><li><a href="#example_4_built-in_mathematical_functions_sums">Example 4: Built-in Mathematical Functions &amp; Sums</a></li><li><a href="#example_5_tensors_and_schoonschip_notation">Example 5: Tensors and SCHOONSCHIP Notation</a></li><li><a href="#example_6_vector_calculus_and_cross_products">Example 6: Vector Calculus and Cross Products</a></li><li><a href="#example_7_gram_determinants_and_autodeclare">Example 7: Gram Determinants and AutoDeclare</a></li><li><a href="#example_8_mandelstam_variables_and_scattering_kinematics">Example 8: Mandelstam Variables and Scattering Kinematics</a></li><li><a href="#example_9_a_full_qft_calculation_compton_scattering">Example 9: A Full QFT Calculation — Compton Scattering</a><ol><li><a href="#reconciling_the_output_with_the_textbook">Reconciling the Output with the Textbook</a></li></ol></li><li><a href="#example_10_qcd_and_color_algebra_sun">Example 10: QCD and Color Algebra &#40;\(SU(N)\)&#41;</a></li><li><a href="#conclusion">Conclusion</a></li></ol></div>
+<h1 id="symbolic_manipulation_in_qft_a_pedestrians_guide_to_form_via_julia"><a href="#symbolic_manipulation_in_qft_a_pedestrians_guide_to_form_via_julia" class="header-anchor">Symbolic Manipulation in QFT: A Pedestrian&#39;s Guide to FORM via Julia</a></h1>
+
+  <fieldset class=" poem"><legend class=" poem-legend"> 🪶 Poem</legend>
+      <strong>Mathematica dreams, Sage likes to play,<br/> FORM grinds the billion terms away.<br/> Where memory breaks and others deform,<br/> loops bow down to the will of FORM.</strong><br/></p>
+<p>                                  ---K.A.Rousan</p>
+<p>
+  </fieldset>
+  
+<p>In Quantum Field Theory &#40;QFT&#41;, computing scattering amplitudes often involves evaluating traces of dozens of Dirac gamma matrices, contracting hundreds of Lorentz indices, and wrangling millions of algebraic terms. General-purpose computer algebra systems &#40;CAS&#41; like Mathematica or SymPy often choke on memory or speed when dealing with these &quot;real computations.&quot;</p>
+<h2 id="what_is_form_and_why_is_it_different"><a href="#what_is_form_and_why_is_it_different" class="header-anchor">What is FORM and Why is it Different?</a></h2>
+<p>Enter <strong>FORM</strong>. Developed over decades by Jos Vermaseren at NIKHEF, FORM is the spiritual successor to SCHOONSCHIP &#40;one of the very first dedicated programs for high-energy physics, created in the 1960s&#41;. It is not a general-purpose computer algebra system. Instead, it was explicitly built to tackle massive <strong><span style="color: red">real computations</span></strong> on <strong><span style="color: blue">real computers</span></strong>. </p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      When you compute the square of a Feynman diagram with many loops, you can easily generate millions of terms. General-purpose systems &#40;which try to hold the entire expression and its structure in memory simultaneously&#41; will often crash. FORM avoids this by sequentially processing expressions <strong>term by term</strong>. 
+  </fieldset>
+  
+<p>This local operational mode means:</p>
+<ul>
+<li><p><strong>Memory Efficiency:</strong> Only the active term needs to be in memory, allowing computations with billions of terms.</p>
+</li>
+<li><p><strong>Speed:</strong> Operations are aggressively optimized for tensor contractions, Dirac algebra, and pattern-matching substitutions.</p>
+</li>
+<li><p><strong>No Built-in Factorization:</strong> Because factorization requires seeing the <em>whole</em> expression at once, FORM does not do it automatically. You guide it using specific bracket commands or substitutions.</p>
+</li>
+</ul>
+<p>In this post, we will look at how to leverage FORM&#39;s QFT capabilities directly from the <strong>Julia programming language</strong> using Franklin.jl.</p>
+<h2 id="installing_and_running_form"><a href="#installing_and_running_form" class="header-anchor">Installing and Running FORM</a></h2>
+<p>Before connecting it to Julia, you might wonder how to install and run FORM natively. </p>
+<h3 id="native_installation"><a href="#native_installation" class="header-anchor">Native Installation</a></h3>
+<p>FORM is open-source and hosted on GitHub &#40;<code>github.com/vermaseren/form</code>&#41;. You can compile it from source on most Unix-like systems &#40;Linux, macOS&#41; using standard GNU build tools:</p>
+<pre><code class="language-bash">git clone https://github.com/vermaseren/form.git
+cd form
+autoreconf -i
+./configure
+make
+sudo make install</code></pre>
+<h3 id="running_form_from_the_command_line"><a href="#running_form_from_the_command_line" class="header-anchor">Running FORM from the Command Line</a></h3>
+<p>Once installed, you run FORM by creating a script with the <code>.frm</code> extension &#40;e.g., <code>calc.frm</code>&#41; and executing it via your terminal:</p>
+<pre><code class="language-bash">form calc.frm</code></pre>
+<p>This reads the script, evaluates the algebra, and prints the result to standard output. </p>
+<h2 id="the_julia-form_bridge"><a href="#the_julia-form_bridge" class="header-anchor">The Julia-FORM Bridge</a></h2>
+<p>While FORM has its own syntax, it is highly convenient to orchestrate the generation of diagrams and parsing of results in Julia. We can use the <code>FORM_jll.jl</code> package to guarantee the <code>form</code> binary is available on any system. </p>
+<p>Let&#39;s define a simple wrapper in Julia to evaluate FORM code:</p>
+<pre><code class="language-julia">using FORM_jll
+
+function evaluate_form&#40;script::String&#41;
+    # We append &#39;Format 255;&#39; to use the full horizontal width, &#39;Off statistics;&#39; to hide execution times, and &#39;.end&#39; to terminate the FORM script.
+    full_script &#61; &quot;Format 255;\nOff statistics;\n&quot; * script * &quot;\nPrint;\n.end\n&quot;
+    
+    # Create a temporary directory to store our script file safely
+    mktempdir&#40;&#41; do dir
+        frm_path &#61; joinpath&#40;dir, &quot;calc.frm&quot;&#41;
+        
+        # Write our FORM code to the temporary file
+        write&#40;frm_path, full_script&#41;
+        
+        out &#61; IOBuffer&#40;&#41;
+        
+        # form&#40;&#41; provides the path to the FORM executable.
+        # We run it in quiet mode &#40;-q&#41; to suppress startup text, and capture the output.
+        form&#40;&#41; do form_exe
+            run&#40;pipeline&#40;&#96;&#36;form_exe -q &#36;frm_path&#96;, stdout&#61;out&#41;&#41;
+        end
+        
+        # Convert the captured bytes into a Julia String and return it
+        return String&#40;take&#33;&#40;out&#41;&#41;
+    end
+end</code></pre>
+<h2 id="understanding_form_syntax_the_basics"><a href="#understanding_form_syntax_the_basics" class="header-anchor">Understanding FORM Syntax &#40;The Basics&#41;</a></h2>
+<p>Before we dive into heavy QFT, let&#39;s briefly break down the FORM syntax you will see in the upcoming code blocks. FORM is a statement-based language; every command ends with a semicolon &#40;<code>;</code>&#41;.</p>
+<ul>
+<li><p><strong>Declarations &#40;<code>Symbols</code>, <code>Vectors</code>, <code>Indices</code>, <code>Functions</code>&#41;:</strong> FORM needs to know exactly what mathematical objects it is dealing with. You must declare scalars as <code>Symbols</code>, four-vectors as <code>Vectors</code>, spacetime/color indices as <code>Indices</code>, and non-commutative operators as <code>Functions</code>.</p>
+</li>
+<li><p><strong>Defining Expressions &#40;<code>Local</code>&#41;:</strong> The <code>Local</code> keyword defines an algebraic expression that FORM will actively evaluate and store in memory.</p>
+</li>
+<li><p><strong>Dirac Matrices &#40;<code>g_</code>&#41;:</strong> The building block of QFT fermion lines&#33; In FORM, <code>g_&#40;spin_line, index&#41;</code> represents \(\gamma^\mu\). <code>g_&#40;1, m&#41;</code> is the gamma matrix \(\gamma^\mu\) on fermion line 1. You can also write slash momenta as <code>g_&#40;1, p&#41;</code> &#40;\(\not{p}\)&#41;.</p>
+</li>
+<li><p><strong>Kronecker Delta / Metric Tensor &#40;<code>d_</code>&#41;:</strong> FORM uses <code>d_&#40;m, n&#41;</code> to represent both the Kronecker delta \(\delta_{mn}\) and the Minkowski metric \(\eta_{\mu\nu}\).</p>
+</li>
+<li><p><strong>Traces &#40;<code>trace4</code>&#41;:</strong> <code>trace4, 1;</code> tells FORM to take the Dirac trace over the gamma matrices residing on fermion line <code>1</code> in 4 dimensions.</p>
+</li>
+<li><p><strong>Contractions &#40;<code>contract</code>&#41;:</strong> <code>contract;</code> tells FORM to sum over repeated dummy indices in the expression &#40;e.g., Einstein summation convention&#41;.</p>
+</li>
+<li><p><strong>Pattern Matching &#40;<code>id</code>&#41;:</strong> The <code>id</code> &#40;identify&#41; command applies algebraic substitutions. For example, <code>id p.k &#61; s/2;</code> substitutes the dot product \(p \cdot k\) with \(s/2\). You can use wildcards like <code>id d_&#40;i?, i?&#41; &#61; N;</code> to substitute any repeated index \(i\) with \(N\).</p>
+</li>
+<li><p><strong>Factorization &#40;<code>Bracket</code>&#41;:</strong> FORM expands everything by default. If you want to group terms together based on certain variables &#40;like propagators&#41;, you use <code>Bracket Ds, Du;</code>.</p>
+</li>
+</ul>
+<p>Now, let&#39;s see these in action&#33;</p>
+<h2 id="example_1_tensor_contractions_the_levi-civita_tensor"><a href="#example_1_tensor_contractions_the_levi-civita_tensor" class="header-anchor">Example 1: Tensor Contractions &amp; The Levi-Civita Tensor</a></h2>
+<p>In QFT, we often contract antisymmetric tensors \(\epsilon_{\mu\nu\rho\sigma}\). Let&#39;s compute the contraction of two Levi-Civita tensors in 4 dimensions: </p>
+\[
+\epsilon_{\mu\nu\rho\sigma}\epsilon^{\mu\nu\rho\sigma} = 4! = 24
+\]
+<pre><code class="language-julia">form_code &#61; &quot;&quot;&quot;
+    Dimension 4;
+    Indices m,n,r,s;
+    Local result &#61; e_&#40;m,n,r,s&#41; * e_&#40;m,n,r,s&#41;;
+    contract;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;form_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   result =
+      24;
+
+
+</code></pre>
+<h2 id="example_2_traces_of_dirac_gamma_matrices"><a href="#example_2_traces_of_dirac_gamma_matrices" class="header-anchor">Example 2: Traces of Dirac Gamma Matrices</a></h2>
+<p>The bread and butter of evaluating Feynman diagrams with fermions is the Dirac algebra. Let&#39;s compute a standard QED trace: </p>
+\[
+\text{Tr}(\gamma^\mu \gamma^\nu \gamma^\rho \gamma^\sigma) = 4 (\eta^{\mu\nu}\eta^{\rho\sigma} - \eta^{\mu\rho}\eta^{\nu\sigma} + \eta^{\mu\sigma}\eta^{\nu\rho})
+\]
+<pre><code class="language-julia">trace_code &#61; &quot;&quot;&quot;
+    Dimension 4;
+    Indices m,n,r,s;
+    Local QEDtrace &#61; g_&#40;1, m&#41; * g_&#40;1, n&#41; * g_&#40;1, r&#41; * g_&#40;1, s&#41;;
+    trace4, 1;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;trace_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   QEDtrace =
+      4*d_(m,n)*d_(r,s) - 4*d_(m,r)*d_(n,s) + 4*d_(m,s)*d_(n,r);
+
+
+</code></pre>
+<h2 id="example_3_symmetry_properties_of_functions"><a href="#example_3_symmetry_properties_of_functions" class="header-anchor">Example 3: Symmetry Properties of Functions</a></h2>
+<p>FORM natively handles function symmetries. You can declare functions as <code>symmetric</code>, <code>antisymmetric</code>, <code>cyclic</code>, or <code>rcyclic</code>. FORM will automatically sort their arguments into standard order and apply the correct minus signs for antisymmetric permutations&#33;</p>
+<pre><code class="language-julia">sym_code &#61; &quot;&quot;&quot;
+    Symbols x1,x2,x3,x4,x5;
+    Functions S&#40;symmetric&#41;, A&#40;antisymmetric&#41;, C&#40;cyclic&#41;, R&#40;rcyclic&#41;;
+    Local &#91;S&#93; &#61; S&#40;x2,x3,x4,x1,x5&#41;;
+    Local &#91;A&#93; &#61; A&#40;x2,x3,x4,x1,x5&#41;;
+    Local &#91;C&#93; &#61; C&#40;x2,x3,x4,x1,x5&#41;;
+    Local &#91;R&#93; &#61; R&#40;x2,x3,x4,x1,x5&#41;;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;sym_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   [S] =
+      S(x1,x2,x3,x4,x5);
+
+   [A] =
+       - A(x1,x2,x3,x4,x5);
+
+   [C] =
+      C(x1,x5,x2,x3,x4);
+
+   [R] =
+      R(x1,x4,x3,x2,x5);
+
+
+</code></pre>
+<h2 id="example_4_built-in_mathematical_functions_sums"><a href="#example_4_built-in_mathematical_functions_sums" class="header-anchor">Example 4: Built-in Mathematical Functions &amp; Sums</a></h2>
+<p>FORM comes packed with implemented mathematical functions for factorials &#40;<code>fac_</code>&#41;, binomial coefficients &#40;<code>binom_</code>&#41;, Kronecker deltas &#40;<code>delta_</code>&#41;, and even arbitrary summations &#40;<code>sum_</code>&#41;. </p>
+<p>Let&#39;s quickly sum the Taylor series of \(e^x\) up to \(x^5\):</p>
+<pre><code class="language-julia">math_code &#61; &quot;&quot;&quot;
+    Symbols x, i;
+    Local expx &#61; sum_&#40;i, 0, 5, x^i/fac_&#40;i&#41;&#41;;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;math_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   expx =
+      1 + x + 1/2*x^2 + 1/6*x^3 + 1/24*x^4 + 1/120*x^5;
+
+
+</code></pre>
+<h2 id="example_5_tensors_and_schoonschip_notation"><a href="#example_5_tensors_and_schoonschip_notation" class="header-anchor">Example 5: Tensors and SCHOONSCHIP Notation</a></h2>
+<p>FORM distinguishes between <code>Vectors</code>, <code>Indices</code>, and <code>Tensors</code> &#40;or <code>CTensors</code> for commuting components&#41;. It also utilizes the highly elegant <strong>SCHOONSCHIP notation</strong>: when an index is summed over and is the argument of a vector, the vector itself replaces the index&#33;</p>
+<p>For instance, \(\sum_i u_i v_i\) evaluates directly to the dot product \(u \cdot v\).</p>
+<pre><code class="language-julia">tensor_code &#61; &quot;&quot;&quot;
+    Vectors u,v;
+    Indices i,j;
+    Function f;
+    Index k&#61;0;
+    
+    Local dot &#61; u&#40;i&#41; * v&#40;i&#41;;
+    Local schoonschip &#61; f&#40;i,j&#41; * u&#40;i&#41; * v&#40;j&#41;;
+    
+* Overruling contraction using dimension 0
+    Local nocontract &#61; u&#40;k&#41; * v&#40;k&#41;;
+    
+    contract;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;tensor_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   dot =
+      u.v;
+
+   schoonschip =
+      f(u,v);
+
+   nocontract =
+      u(k)*v(k);
+
+
+</code></pre>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      You can explicitly force summation over uncontracted dimension-zero indices using the <code>sum k;</code> command. 
+  </fieldset>
+  
+<h2 id="example_6_vector_calculus_and_cross_products"><a href="#example_6_vector_calculus_and_cross_products" class="header-anchor">Example 6: Vector Calculus and Cross Products</a></h2>
+<p>Using the Levi-Civita tensor <code>e_</code>, we can perform 3D vector calculus trivially. Let&#39;s compute the double cross product \(\vec{u} \times (\vec{v} \times \vec{w})\) and verify the classic &quot;BAC-CAB&quot; vector identity rule&#33;</p>
+<pre><code class="language-julia">cross_code &#61; &quot;&quot;&quot;
+    Dimension 3;
+    Vectors u,v,w;
+    Indices i,j,k,m,n;
+    
+* Cross product definition using Levi-Civita
+    Local &#91;ux&#40;vxw&#41;&#93; &#61; e_&#40;i,j,k&#41; * u&#40;i&#41; * &#40;e_&#40;m,n,j&#41; * v&#40;m&#41; * w&#40;n&#41;&#41;;
+    contract;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;cross_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   [ux(vxw)] =
+      v(k)*u.w - w(k)*u.v;
+
+
+</code></pre>
+<h2 id="example_7_gram_determinants_and_autodeclare"><a href="#example_7_gram_determinants_and_autodeclare" class="header-anchor">Example 7: Gram Determinants and AutoDeclare</a></h2>
+<p>FORM is the absolute king of determinants. To compute the Gram determinant of \(n\) vectors, we square the Levi-Civita tensor. For 10 vectors, the expanded Gram determinant has \(10! = 3,628,800\) terms, which FORM chews through in minutes. </p>
+<p>Let&#39;s compute the Gram determinant for 3 vectors using <code>AutoDeclare</code> &#40;which tells FORM to automatically assume all undeclared variables starting with <code>v</code> are vectors&#41; and the <code>...</code> sequence generation operator:</p>
+<pre><code class="language-julia">gram_code &#61; &quot;&quot;&quot;
+    AutoDeclare Vector v;
+    Local G3 &#61; e_&#40;v1,...,v3&#41;^2;
+    contract;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;gram_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   G3 =
+      v1.v1*v2.v2*v3.v3 - v1.v1*v2.v3^2 + 2*v1.v2*v1.v3*v2.v3 - v1.v2^2*v3.v3 - v1.v3^2*v2.v2;
+
+
+</code></pre>
+<h2 id="example_8_mandelstam_variables_and_scattering_kinematics"><a href="#example_8_mandelstam_variables_and_scattering_kinematics" class="header-anchor">Example 8: Mandelstam Variables and Scattering Kinematics</a></h2>
+<p>For Bhabha scattering kinematics &#40;\(e^+ e^- \to e^+ e^-\)&#41;, we evaluate traces and substitute the Mandelstam invariants. In the limit where we ignore the electron mass, \(s+t+u=0\). The differential cross section is given by:</p>
+\[
+\frac{d\sigma}{d\cos\theta} = \frac{\pi\alpha^2}{s} \left[ u^2 \left(\frac{1}{s} + \frac{1}{t}\right)^2 + \left(\frac{t}{s}\right)^2 + \left(\frac{s}{t}\right)^2 \right]
+\]
+<p>With Mandelstam variables defined as:</p>
+\[
+s = (p+k)^2, \quad t = (p-p')^2, \quad u = (p-k')^2
+\]
+
+<div style="text-align: center; margin-bottom: 2rem;">
+  <img class="math-diagram" src="/assets/Physics/blogs/form_pedestrian_qft_blog/bhabha.svg" alt="Bhabha Scattering Feynman Diagrams" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<pre><code class="language-julia">mandelstam_code &#61; &quot;&quot;&quot;
+    Dimension 4;
+    Vectors p, k, pp, kp;
+    Indices m, n;
+    Symbols s, t, u;
+    
+    Local M2 &#61; g_&#40;1, m&#41; * g_&#40;1, p&#41; * g_&#40;1, n&#41; * g_&#40;1, k&#41; 
+             * g_&#40;2, m&#41; * g_&#40;2, pp&#41;* g_&#40;2, n&#41; * g_&#40;2, kp&#41;;
+             
+    trace4, 1;
+    trace4, 2;
+    contract;
+    
+    id p.p &#61; 0;
+    id k.k &#61; 0;
+    id pp.pp &#61; 0;
+    id kp.kp &#61; 0;
+    
+    id p.k &#61; s/2;
+    id pp.kp &#61; s/2;
+    id p.pp &#61; -t/2;
+    id k.kp &#61; -t/2;
+    id p.kp &#61; -u/2;
+    id k.pp &#61; -u/2;
+&quot;&quot;&quot;
+println&#40;evaluate_form&#40;mandelstam_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   M2 =
+      8*u^2 + 8*t^2;
+
+
+</code></pre>
+<h2 id="example_9_a_full_qft_calculation_compton_scattering"><a href="#example_9_a_full_qft_calculation_compton_scattering" class="header-anchor">Example 9: A Full QFT Calculation — Compton Scattering</a></h2>
+<p>Let&#39;s compute the unpolarized squared matrix element for <strong>Compton Scattering</strong> &#40;\(e^-(p) + \gamma(k) \to e^-(p') + \gamma(k')\)&#41;. </p>
+<p>The scattering amplitude \(\mathcal{M}\) is the sum of the \(s\)-channel and \(u\)-channel Feynman diagrams:</p>
+\[
+\mathcal{M} = \mathcal{M}_s + \mathcal{M}_u 
+\]
+
+<div style="text-align: center; margin-bottom: 2rem;">
+  <img class="math-diagram" src="/assets/Physics/blogs/form_pedestrian_qft_blog/compton.svg" alt="Compton Scattering Feynman Diagrams" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Where the invariant matrix element &#40;derived from the Feynman rules of QED&#41; is given by:</p>
+\[
+i\mathcal{M} = \bar{u}(p') (-ie\gamma^\mu) \epsilon_\mu^*(k') \frac{i(\not{p} + \not{k} + m)}{(p+k)^2 - m^2} (-ie\gamma^\nu) \epsilon_\nu(k) u(p) + \bar{u}(p') (-ie\gamma^\nu) \epsilon_\nu(k) \frac{i(\not{p} - \not{k}' + m)}{(p-k')^2 - m^2} (-ie\gamma^\mu) \epsilon_\mu^*(k') u(p)
+\]
+<p>Which simplifies to:</p>
+\[
+i\mathcal{M} = -ie^2 \epsilon_\mu^*(k') \epsilon_\nu(k) \bar{u}(p') \left[ \frac{\gamma^\mu(\not{p} + \not{k} + m)\gamma^\nu}{(p+k)^2 - m^2} + \frac{\gamma^\nu(\not{p} - \not{k}' + m)\gamma^\mu}{(p-k')^2 - m^2} \right] u(p)
+\]
+<p>Squaring this amplitude involves taking the trace over the fermion lines and summing over the final state photon polarizations \(\sum \epsilon_\mu \epsilon_\nu^* \to -g_{\mu\nu}\). Averaging over initial electron and photon spins, and summing over final states gives:</p>
+\[
+\frac{1}{4} \sum_{\text{spins}} |\mathcal{M}|^2 = \frac{e^4}{4} g_{\mu\rho} g_{\nu\sigma} \cdot \text{tr}\left\{ (\not{p}' + m) \left[ \frac{\gamma^\mu(\not{p}+\not{k}+m)\gamma^\nu}{2p\cdot k} + \frac{\gamma^\nu(\not{p}-\not{k}'+m)\gamma^\mu}{-2p\cdot k'} \right] (\not{p} + m) \left[ \dots \right] \right\}
+\]
+<p>Doing this by hand requires pages of trace theorems to get the final Klein-Nishina result:</p>
+\[
+\frac{1}{4} \sum_{\text{spins}} |\mathcal{M}|^2 = 2e^4 \left[ \frac{p \cdot k'}{p \cdot k} + \frac{p \cdot k}{p \cdot k'} + 2m^2 \left( \frac{1}{p \cdot k} - \frac{1}{p \cdot k'} \right) + m^4 \left( \frac{1}{p \cdot k} - \frac{1}{p \cdot k'} \right)^2 \right]
+\]
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      FORM handles these massive intermediate traces and tensor contractions instantly, ensuring we never drop a minus sign or miss a factor of 2&#33; 
+  </fieldset>
+  
+<pre><code class="language-julia">compton_code &#61; &quot;&quot;&quot;
+    Dimension 4;
+    Vectors p, k, pp, kp;
+    Indices mu, nu;
+    Symbols m, pdotk, pdotkp;
+
+    Local M2 &#61; 
+      &#40;g_&#40;1,pp&#41; &#43; m&#41; * &#40;
+           g_&#40;1,mu&#41; * &#40;g_&#40;1,p&#41; &#43; g_&#40;1,k&#41; &#43; m&#41; * g_&#40;1,nu&#41; * pdotk^-1 * 2^-1
+         &#43; g_&#40;1,nu&#41; * &#40;g_&#40;1,p&#41; - g_&#40;1,kp&#41; &#43; m&#41; * g_&#40;1,mu&#41; * pdotkp^-1 * &#40;-2&#41;^-1
+      &#41; 
+      * &#40;g_&#40;1,p&#41; &#43; m&#41; * &#40;
+           g_&#40;1,nu&#41; * &#40;g_&#40;1,p&#41; &#43; g_&#40;1,k&#41; &#43; m&#41; * g_&#40;1,mu&#41; * pdotk^-1 * 2^-1
+         &#43; g_&#40;1,mu&#41; * &#40;g_&#40;1,p&#41; - g_&#40;1,kp&#41; &#43; m&#41; * g_&#40;1,nu&#41; * pdotkp^-1 * &#40;-2&#41;^-1
+      &#41;;
+
+    trace4, 1;
+    contract;
+    
+    id p.p &#61; m^2;
+    id pp.pp &#61; m^2;
+    id k.k &#61; 0;
+    id kp.kp &#61; 0;
+    
+    id p.k &#61; pdotk;
+    id pp.kp &#61; pdotk;
+    id p.kp &#61; pdotkp;
+    id k.pp &#61; pdotkp;
+    
+    id p.pp &#61; pdotk - pdotkp &#43; m^2;
+    id k.kp &#61; pdotk - pdotkp;
+    
+    Multiply 4^-1;
+    
+    Bracket pdotk, pdotkp;
+&quot;&quot;&quot;
+
+println&#40;evaluate_form&#40;compton_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   M2 =
+       + pdotk^-2 * ( 2*m^4 )
+
+       + pdotk^-1*pdotkp^-1 * (  - 4*m^4 )
+
+       + pdotk^-1 * ( 4*m^2 )
+
+       + pdotk^-1*pdotkp * ( 2 )
+
+       + pdotkp^-2 * ( 2*m^4 )
+
+       + pdotkp^-1 * (  - 4*m^2 )
+
+       + pdotk*pdotkp^-1 * ( 2 );
+
+
+</code></pre>
+<h3 id="reconciling_the_output_with_the_textbook"><a href="#reconciling_the_output_with_the_textbook" class="header-anchor">Reconciling the Output with the Textbook</a></h3>
+<p>Because we used <code>pdotk</code> for \(p \cdot k\) and <code>pdotkp</code> for \(p \cdot k'\), and applied <code>Multiply 4^-1;</code> to account for the \(\frac{1}{4}\) initial state spin-averaging, FORM&#39;s final result is a <strong>perfect term-by-term match</strong> with the expanded version of the textbook&#39;s Klein-Nishina formula&#33;</p>
+<p>For example, the textbook has the term \(2m^4 \left( \frac{1}{p\cdot k} - \frac{1}{p\cdot k'} \right)^2\). When expanded, this gives:</p>
+\[ \frac{2m^4}{(p \cdot k)^2} + \frac{2m^4}{(p \cdot k')^2} - \frac{4m^4}{(p \cdot k)(p \cdot k')} \]
+<p>Which is exactly what FORM prints out natively as <code>pdotk^-2 * 2*m^4</code>, <code>pdotkp^-2 * 2*m^4</code>, and <code>pdotk^-1*pdotkp^-1 * -4*m^4</code>.</p>
+<p>You literally just type the Feynman rules, and FORM hands you the final physical answer.</p>
+<h2 id="example_10_qcd_and_color_algebra_sun"><a href="#example_10_qcd_and_color_algebra_sun" class="header-anchor">Example 10: QCD and Color Algebra &#40;\(SU(N)\)&#41;</a></h2>
+<p>In QCD, calculations require taking traces over \(SU(3)\) color matrices. We often need to evaluate the standard color factor \(C_F\):</p>
+\[
+\sum_a \left(T^a T^a\right)_{ij} = C_F \delta_{ij} \implies \text{Tr}(T^a T^a) = C_F \text{Tr}(\mathbf{1}) = C_F N
+\]
+<p>Using the \(SU(N)\) Fierz identity, we know:</p>
+\[
+C_F = \frac{N^2 - 1}{2N}
+\]
+<p>Let&#39;s derive this using FORM&#39;s pattern matching and non-commutative functions:</p>
+<pre><code class="language-julia">qcd_code &#61; &quot;&quot;&quot;
+    Symbols N, CF, TR;
+    Dimension N;
+    Indices a, b, c, i, j, k, l;
+    
+    Functions T;
+    
+    Local ColorTrace &#61; T&#40;a, i, j&#41; * T&#40;a, j, i&#41;;
+    Local ColorFactor &#61; ColorTrace * N^-1;
+    
+    id T&#40;a?, i?, j?&#41; * T&#40;a?, k?, l?&#41; &#61; TR * &#40; d_&#40;i,l&#41;*d_&#40;j,k&#41; - d_&#40;i,j&#41;*d_&#40;k,l&#41;*N^-1 &#41;;
+    
+    contract;
+    
+    id TR &#61; 1/2;
+&quot;&quot;&quot;
+
+println&#40;evaluate_form&#40;qcd_code&#41;&#41;</code></pre>
+<pre><code class="plaintext code-output">
+   ColorTrace =
+       - 1/2 + 1/2*N^2;
+
+   ColorFactor =
+       - 1/2*N^-1 + 1/2*N;
+
+
+</code></pre>
+<h2 id="conclusion"><a href="#conclusion" class="header-anchor">Conclusion</a></h2>
+<p>FORM isn&#39;t just an archaic tool; it is a hyper-optimized engine that outpaces modern algebra systems for the specific mathematical structures of Particle Physics. By calling it seamlessly from Julia, we get the best of both worlds: Julia&#39;s modern package management and flow control, and FORM&#39;s raw power for the QFT heavy lifting.</p>
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: June 24, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Floating Back Button -->
+    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat -->
+    <script src="/assets/oneko.js?v=17" data-cat="/assets/oneko.gif"></script>
+  </body>
+</html>
+
+
+<script>
+  (function(){
+  
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#e52e71'; // Accent color
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

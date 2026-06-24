@@ -1,0 +1,17 @@
+
+   M2 =
+       + pdotk^-2 * ( 2*m^4 )
+
+       + pdotk^-1*pdotkp^-1 * (  - 4*m^4 )
+
+       + pdotk^-1 * ( 4*m^2 )
+
+       + pdotk^-1*pdotkp * ( 2 )
+
+       + pdotkp^-2 * ( 2*m^4 )
+
+       + pdotkp^-1 * (  - 4*m^2 )
+
+       + pdotk*pdotkp^-1 * ( 2 );
+
+

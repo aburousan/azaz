@@ -14,6 +14,14 @@
   {{insert style.html}}
   {{isdef title}} <title>{{fill title}}</title>  {{end}}
   <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
 </head>
 {{insert body_layout.html}}
 

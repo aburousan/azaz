@@ -1,0 +1,1 @@
+"/home/rousan/Website/azaz-main/azaz/__site/assets/Pages/Physics/blogs/temp_stat/output/plotlytemp_stat02.json"

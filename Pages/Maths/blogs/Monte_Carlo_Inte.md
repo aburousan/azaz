@@ -282,8 +282,12 @@ I hope, you have understood this idea. Now, let's write a function to do the who
 using Distributions
 
 function Inte_monte1D(f,N,a,b)
-    x_v = rand(Uniform(a,b),N)
-    return ((b-a)/N)*sum(f.(x_v))
+    d = Uniform(a,b)
+    s = 0.0
+    for _ in 1:N
+        s += f(rand(d))
+    end
+    return ((b-a)/N)*s
 end
 g(x) = sqrt(1 - x^2)
 N = 1000; a = -1; b = 1;
@@ -299,8 +303,12 @@ Now, let's calculate the integration for different $N$ values and calculate the 
 using Distributions, DataFrames
 
 function Inte_monte1D(f,N,a,b)
-    x_v = rand(Uniform(a,b),N)
-    return ((b-a)/N)*sum(f.(x_v))
+    d = Uniform(a,b)
+    s = 0.0
+    for _ in 1:N
+        s += f(rand(d))
+    end
+    return ((b-a)/N)*s
 end
 
 inte_results = Float64[]
@@ -339,8 +347,12 @@ function Inte_monte1D_thread(f,N,a,b,th_num=Threads.nthreads())
 end
 
 function Inte_monte1D(f,N,a,b)
-    xv = rand(Uniform(a,b),N)
-    return ((b-a)/N)*sum(f.(xv))
+    d = Uniform(a,b)
+    s = 0.0
+    for _ in 1:N
+        s += f(rand(d))
+    end
+    return ((b-a)/N)*s
 end
 
 a = -1; b = 1;

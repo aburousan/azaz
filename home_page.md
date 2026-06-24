@@ -1,43 +1,56 @@
 @def title = "Home"
 @def tags = ["syntax", "code"]
 
-# Idea behind this website
-**Mathematics** and **Physics**... This two are really something I enjoy. Each time I read something of maths or physics, it really force me to think how beautiful and elegant things are. How can something born from our mind can describe this world!!...
-
 ~~~
-<img src="/assets/subham_pic.jpeg" alt="" width="600">
-<div class="caption"></div>
+<div class="hero-section">
+  <h1 class="gradient-text">The Philosophy of Beauty</h1>
+  <p class="hero-subtitle">Exploring the elegant intersection of Mathematics and Physics</p>
+</div>
+
+<div class="content-card">
+  <p class="lead-text"><strong>Mathematics</strong> and <strong>Physics</strong>... These two are really something I enjoy. Each time I read something of maths or physics, it really forces me to think how beautiful and elegant things are. How can something born from our mind describe this world so perfectly?</p>
+  
+  <div class="image-showcase">
+    <img src="/assets/subham_pic.jpeg" alt="Author Portrait" class="cv-img showcase-img">
+    <p class="caption"><em>Image taken by my friend <a href="https://www.instagram.com/subhamchakraborty__?utm_source=ig_web_button_share_sheet&igsh=ODdmZWVhMTFiMw==">Subham Chakraborty</a></em></p>
+  </div>
+  
+  <p>This fascination forces me to always try to find patterns and beauty in the theories. Through this website, I want to show others exactly how beautiful these fields can be.</p>
+</div>
+
+<div class="content-card">
+  <div class="image-showcase">
+    <img src="/assets/map.png" alt="Physics Map" class="cv-img showcase-img">
+  </div>
+  <p>Here is a <strong>map of different fields of physics</strong>, and I love to run around all the parts.</p>
+  
+  <blockquote class="premium-quote">
+    <span class="quote-mark">"</span>
+    <p>Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.</p>
+    <footer>— Albert Einstein</footer>
+  </blockquote>
+</div>
+
+<div class="poem-card">
+  <h3>A Ode to Physics</h3>
+  <div class="poem-text">
+    <p>In the realm of particles, small and grand,<br>
+    Quantum Field Theory, a mathematical stand,<br>
+    Group theory dances with symmetries bright,<br>
+    Unraveling particles, in quarks their flight.</p>
+    
+    <p>Lie algebras and representations intertwine,<br>
+    Mapping the forces, a mathematical shrine,<br>
+    Gauge symmetries weave through QFT's tale,<br>
+    Unifying particles, in equations frail.</p>
+    
+    <p>Through fields and groups, a new world appears,<br>
+    Where mathematical beauty conquers all fears,<br>
+    In quantum realms, symmetries hold sway,<br>
+    QFT and group theory, their dance will stay.</p>
+  </div>
+</div>
 ~~~
-*Image taken by my friend [Subham Chakraborty](https://www.instagram.com/subhamchakraborty__?utm_source=ig_web_button_share_sheet&igsh=ODdmZWVhMTFiMw==)*
-
-This fascination force me to always try to find patterns and beauty in the theories. Through this website, I want to show others how beautiful these are.
-
-~~~
-<img src="/assets/map.png" alt="" width="700">
-<div class="caption"></div>
-~~~
-Here is a **map of different field of physics** and I love to run around all the parts.
-> “Two things are infinite the universe and human stupidity and I am not sure about the universe.” - Albert Einstein
-
-
-
-A small poem on one of my favouite topics: \\
-------------------------------------------------------------------
-In the realm of particles, small and grand,\\
-Quantum Field Theory, a mathematical stand,\\
-Group theory dances with symmetries bright,\\
-Unraveling particles, in quarks their flight.
-
-Lie algebras and representations intertwine,\\
-Mapping the forces, a mathematical shrine,\\
-Gauge symmetries weave through QFT's tale,\\
-Unifying particles, in equations frail.
-
-Through fields and groups, a new world appears,\\
-Where mathematical beauty conquers all fears,\\
-In quantum realms, symmetries hold sway,\\
-QFT and group theory, their dance will stay.
------------------------------------------------------------------------------
 <!-- * [Physics Main Page](/Pages/Physics/Physics_Home/)
 * [Mathematics Main Page](/Pages/Maths//Maths_Home/)
 for more info. -->

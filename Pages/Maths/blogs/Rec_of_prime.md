@@ -123,7 +123,7 @@ function period_of_rec_of_prime(p)
 	divisors = divisor(p-1)
 	res = 0
 	for i in divisors
-		if big(10)^i % big(p) == big(1)
+		if powermod(10, i, p) == 1
 			res = i
 			break
 		end
@@ -173,7 +173,7 @@ function period_of_rec_of_prime(p)
 	divisors = divisor(p-1)
 	res = 0
 	for i in divisors
-		if big(10)^i % big(p) == big(1)
+		if powermod(10, i, p) == 1
 			res = i
 			break
 		end
