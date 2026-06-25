@@ -65,7 +65,7 @@ The output is:
   <div class="feature__item">
     <div class="archive__item">
       <div class="archive__item-teaser">
-        <img src="/assets/Maths/blogs.jpeg" alt="customizable" />
+        <img src="/assets/Maths/blogs.webp" alt="customizable" />
       </div>
       <div class="archive__item-body">
         <h2 class="archive__item-title">Read Blogs</h2>
@@ -79,7 +79,7 @@ The output is:
   <div class="feature__item">
     <div class="archive__item">
       <div class="archive__item-teaser">
-        <img src="/assets/Maths/papers.jpg" alt="fully responsive" />
+        <img src="/assets/Maths/papers.webp" alt="fully responsive" />
       </div>
       <div class="archive__item-body">
         <h2 class="archive__item-title">Papers</h2>
@@ -93,7 +93,7 @@ The output is:
   <div class="feature__item">
     <div class="archive__item">
       <div class="archive__item-teaser">
-        <img src="/assets/Maths/course.jpg" alt="100% free" />
+        <img src="/assets/Maths/course.webp" alt="100% free" />
       </div>
       <div class="archive__item-body">
         <h2 class="archive__item-title">Courses</h2>

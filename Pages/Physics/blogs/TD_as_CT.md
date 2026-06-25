@@ -30,7 +30,7 @@ Your position is on changing. You are only going forward in time. So, you will b
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/TD_as_CT/world_line1.jpg" >
+    <img class="left" src="/assets/Physics/blogs/TD_as_CT/world_line1.webp" >
     <div style="clear: both"></div>      
   </div>
 </div>
@@ -47,7 +47,7 @@ The axis are represented by $ct$ and $x$. Hence, Light's world line will be a li
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/TD_as_CT/world_line1c.jpg">
+    <img class="left" src="/assets/Physics/blogs/TD_as_CT/world_line1c.webp">
     <div style="clear: both"></div>      
   </div>
 </div>
@@ -63,7 +63,7 @@ Note: *Here slope must be measured with respect to $ct-$ axis.*
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/TD_as_CT/world_line1_flash.jpg">
+    <img class="left" src="/assets/Physics/blogs/TD_as_CT/world_line1_flash.webp">
     <div style="clear: both"></div>      
   </div>
 </div>
@@ -84,7 +84,7 @@ Let's say after moving some distance, he emits a signal. This is represented by 
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/TD_as_CT/event_line1.jpg">
+    <img class="left" src="/assets/Physics/blogs/TD_as_CT/event_line1.webp">
     <div style="clear: both"></div>      
   </div>
 </div>
@@ -106,7 +106,7 @@ $$
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/TD_as_CT/event_line1_eife.jpg">
+    <img class="left" src="/assets/Physics/blogs/TD_as_CT/event_line1_eife.webp">
     <div style="clear: both"></div>      
   </div>
 </div>
@@ -141,7 +141,7 @@ Let's start with the example of **Einstein** and **Feynman**. In the **Einstein'
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/TD_as_CT/event_line1_eife2.jpg">
+    <img class="left" src="/assets/Physics/blogs/TD_as_CT/event_line1_eife2.webp">
     <div style="clear: both"></div>      
   </div>
 </div>
@@ -154,7 +154,7 @@ To see what happens in his frame, we apply a **Lorentz Transformation**. The tra
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/TD_as_CT/event_line1_eife3.jpg">
+    <img class="left" src="/assets/Physics/blogs/TD_as_CT/event_line1_eife3.webp">
     <div style="clear: both"></div>      
   </div>
 </div>
@@ -166,7 +166,7 @@ Beacuse, the vector is not along the time axis, our intution is already telling 
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/TD_as_CT/final_blog1.jpg">
+    <img class="left" src="/assets/Physics/blogs/TD_as_CT/final_blog1.webp">
     <div style="clear: both"></div>      
   </div>
 </div>
@@ -184,24 +184,4 @@ If you have some question, do let me know in the comments or contact me using my
 <button onclick="window.history.back()">Go Back</button>
 ~~~
 
-~~~
-<div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    /*
-    var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/physics/blogs/td_as_ct/;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://https-rousan-netlify-app.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-~~~
+{{comments}}

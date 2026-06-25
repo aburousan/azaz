@@ -36,4 +36,4 @@ compton_code = """
     Bracket pdotk, pdotkp;
 """
 
-println(evaluate_form(compton_code))
+println(FormWrapper.evaluate_form(compton_code))

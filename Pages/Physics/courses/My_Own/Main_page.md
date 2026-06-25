@@ -9,7 +9,7 @@ tags = ["physics", "course"]
 +++
 
 <!-- ~~~
-<img src="/assets/Physics/courses/NISER/NISER_img.jpg" alt="Library Complex" width="500">
+<img src="/assets/Physics/courses/NISER/NISER_img.webp" alt="Library Complex" width="500">
 <div class="caption"></div>
 ~~~ -->
 # **\col{red}{List of Courses}:**

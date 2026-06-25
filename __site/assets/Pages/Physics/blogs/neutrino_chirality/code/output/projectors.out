@@ -1,0 +1,8 @@
+γ5² = I            : true
+P_L + P_R = I       : true
+P_L is a projector  : true
+P_R is a projector  : true
+P_L P_R = 0 (orthog): true
+
+diag(P_L) = [1, 1, 0, 0]   # keeps the UPPER block → ψ_L
+diag(P_R) = [0, 0, 1, 1]   # keeps the LOWER block → ψ_R

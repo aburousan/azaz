@@ -21,7 +21,7 @@ Well, It seems very simple right?, just by looking at the surface.
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/cur_st.jpeg">
+    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/cur_st.webp">
     <p>
     <i></i>.
     </p>
@@ -37,7 +37,7 @@ As an example, earth is spherical but we live on it. So, we only have maps but n
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/cur_st2.jpeg">
+    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/cur_st2.webp">
     <p>
     <i></i>.
     </p>
@@ -53,7 +53,7 @@ This exact thing is done by **Riemann Curvature Tensor**. The whole idea is base
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/parallelt.jpeg">
+    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/parallelt.webp">
     <p>
     <i></i>
     </p>
@@ -66,7 +66,7 @@ To define  **\col{blue}{Riemann Curvature Tensor}**, we need to define two vecto
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/para2.jpeg">
+    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/para2.webp">
     <p>
     <i></i>
     </p>
@@ -80,7 +80,7 @@ Let's consider a general case where each point of the parallelogram are represen
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/para1.jpeg">
+    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/para1.webp">
     <p>
     <i></i>
     </p>
@@ -152,7 +152,7 @@ The picture below should show what I mean.
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/cyclicp.jpeg">
+    <img class="left" src="/assets/Physics/blogs/Menmonic_ten/cyclicp.webp">
     <p>
     <i></i>.
     </p>
@@ -178,24 +178,4 @@ If you have some queries, do let me know in the comments or contact me using my 
 ~~~
 
 
-~~~
-<div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    /*
-    var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/physics/blogs/menmonic_ten/;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://https-rousan-netlify-app.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-~~~
+{{comments}}

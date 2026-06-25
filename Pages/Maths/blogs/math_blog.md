@@ -20,3 +20,5 @@ This contains some interesting things related to Mathematics :\\
 ~~~
 <button onclick="window.history.back()">Go Back</button>
 ~~~
+
+{{comments}}

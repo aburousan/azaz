@@ -1,6 +1,8 @@
 +++
 title = "A Pedestrian's Guide to FORM for Particle Physics (via Julia)"
-date = Date(2026, 6, 24)
+rss = "Tutorial for learning FORM."
+rss_title = "A Pedestrian's Guide to FORM for Particle Physics (via Julia)"
+rss_pubdate = Date(2026, 6, 23)
 tags = ["qft", "particle-physics", "julia", "form"]
 +++
 
@@ -95,7 +97,7 @@ math_code = """
     Symbols x, i;
     Local expx = sum_(i, 0, 5, x^i/fac_(i));
 """
-println(evaluate_form(math_code))
+println(FormWrapper.evaluate_form(math_code))
 ```
 \output{form_eval}
 
@@ -135,7 +137,7 @@ sym_code = """
     Local [C] = C(x2,x3,x4,x1,x5);
     Local [R] = R(x2,x3,x4,x1,x5);
 """
-println(evaluate_form(sym_code))
+println(FormWrapper.evaluate_form(sym_code))
 ```
 \output{form_eval}
 
@@ -155,7 +157,7 @@ repeat_code = """
     endrepeat;
     id f(0) = 1;
 """
-println(evaluate_form(repeat_code))
+println(FormWrapper.evaluate_form(repeat_code))
 ```
 \output{form_eval}
 
@@ -173,7 +175,7 @@ cond_code = """
     Local P = (x+y)^4;
     if (count(x,1) != 2) Discard;
 """
-println(evaluate_form(cond_code))
+println(FormWrapper.evaluate_form(cond_code))
 ```
 \output{form_eval}
 
@@ -189,7 +191,7 @@ bracket_code = """
     Local E = a*x^2 + b*x^2 + a*x + 7*x;
     Bracket x;
 """
-println(evaluate_form(bracket_code))
+println(FormWrapper.evaluate_form(bracket_code))
 ```
 \output{form_eval}
 
@@ -210,7 +212,7 @@ prepro_code = """
     #enddo
     ;
 """
-println(evaluate_form(prepro_code))
+println(FormWrapper.evaluate_form(prepro_code))
 ```
 \output{form_eval}
 
@@ -237,7 +239,7 @@ tensor_code = """
     
     contract;
 """
-println(evaluate_form(tensor_code))
+println(FormWrapper.evaluate_form(tensor_code))
 ```
 \output{form_eval}
 
@@ -258,7 +260,7 @@ form_code = """
     Local result = e_(m,n,r,s) * e_(m,n,r,s);
     contract;
 """
-println(evaluate_form(form_code))
+println(FormWrapper.evaluate_form(form_code))
 ```
 \output{form_eval}
 
@@ -276,7 +278,7 @@ cross_code = """
     Local [ux(vxw)] = e_(i,j,k) * u(i) * (e_(m,n,j) * v(m) * w(n));
     contract;
 """
-println(evaluate_form(cross_code))
+println(FormWrapper.evaluate_form(cross_code))
 ```
 \output{form_eval}
 
@@ -292,7 +294,7 @@ gram_code = """
     Local G3 = e_(v1,...,v3)^2;
     contract;
 """
-println(evaluate_form(gram_code))
+println(FormWrapper.evaluate_form(gram_code))
 ```
 \output{form_eval}
 
@@ -311,7 +313,7 @@ trace_code = """
     Local QEDtrace = g_(1, m) * g_(1, n) * g_(1, r) * g_(1, s);
     trace4, 1;
 """
-println(evaluate_form(trace_code))
+println(FormWrapper.evaluate_form(trace_code))
 ```
 \output{form_eval}
 
@@ -336,7 +338,7 @@ gamma_code = """
     Local C2 = g_(1, m) * g_(1, a) * g_(1, m) * g_(1, a);
     trace4, 1;
 """
-println(evaluate_form(gamma_code))
+println(FormWrapper.evaluate_form(gamma_code))
 ```
 \output{form_eval}
 
@@ -351,7 +353,7 @@ wick_code = """
     Vectors p1, p2, p3, p4;
     Local Wick4 = dd_(p1, p2, p3, p4);
 """
-println(evaluate_form(wick_code))
+println(FormWrapper.evaluate_form(wick_code))
 ```
 \output{form_eval}
 
@@ -384,7 +386,7 @@ qcd_code = """
     
     id TR = 1/2;
 """
-println(evaluate_form(qcd_code))
+println(FormWrapper.evaluate_form(qcd_code))
 ```
 \output{form_eval}
 
@@ -399,7 +401,7 @@ poly_code = """
     PolyRatFun rat;
     Local F = rat(1, x) + rat(1, 1+x);
 """
-println(evaluate_form(poly_code))
+println(FormWrapper.evaluate_form(poly_code))
 ```
 \output{form_eval}
 
@@ -445,7 +447,7 @@ mandelstam_code = """
     id p.kp = -u/2;
     id k.pp = -u/2;
 """
-println(evaluate_form(mandelstam_code))
+println(FormWrapper.evaluate_form(mandelstam_code))
 ```
 \output{form_eval}
 
@@ -460,7 +462,7 @@ opt_code = """
     .sort
     Format O2;
 """
-println(evaluate_form(opt_code))
+println(FormWrapper.evaluate_form(opt_code))
 ```
 \output{form_eval}
 
@@ -524,7 +526,7 @@ compton_code = """
     Bracket pdotk, pdotkp;
 """
 
-println(evaluate_form(compton_code))
+println(FormWrapper.evaluate_form(compton_code))
 ```
 \output{form_eval}
 
@@ -548,3 +550,6 @@ This guide just covers FORM's raw algebra capabilities. In a real workflow, you'
 ## Conclusion
 
 FORM isn't just an archaic tool; it is a hyper-optimized engine that outpaces modern algebra systems for the specific mathematical structures of Particle Physics. By calling it seamlessly from Julia, we get the best of both worlds: Julia's modern package management and flow control, and FORM's raw power for the QFT heavy lifting.
+
+
+{{comments}}

@@ -133,7 +133,7 @@ This may be useful for local custom layouts like having a photo next to a text i
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/rndimg.jpg">
+    <img class="left" src="/assets/rndimg.webp">
     <p>
     Marine iguanas are truly splendid creatures. They're found on the Gálapagos islands, have skin that basically acts as a solar panel, can swim and may have the ability to adapt their body size depending on whether there's food or not.
     </p>
@@ -151,7 +151,7 @@ This may be useful for local custom layouts like having a photo next to a text i
 
 @@row
 @@container
-@@left ![](/assets/rndimg.jpg) @@
+@@left ![](/assets/rndimg.webp) @@
 @@
 Marine iguanas are **truly splendid** creatures. They're not found in equations like $\exp(-i\pi)+1$. But they're still quite cool.
 ~~~

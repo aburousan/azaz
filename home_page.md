@@ -11,7 +11,7 @@
   <p class="lead-text"><strong>Mathematics</strong> and <strong>Physics</strong>... These two are really something I enjoy. Each time I read something of maths or physics, it really forces me to think how beautiful and elegant things are. How can something born from our mind describe this world so perfectly?</p>
   
   <div class="image-showcase">
-    <img src="/assets/subham_pic.jpeg" alt="Author Portrait" class="cv-img showcase-img">
+    <img src="/assets/subham_pic.webp" alt="Author Portrait" class="cv-img showcase-img" style="max-width: 450px;">
     <p class="caption"><em>Image taken by my friend <a href="https://www.instagram.com/subhamchakraborty__?utm_source=ig_web_button_share_sheet&igsh=ODdmZWVhMTFiMw==">Subham Chakraborty</a></em></p>
   </div>
   
@@ -20,7 +20,7 @@
 
 <div class="content-card">
   <div class="image-showcase">
-    <img src="/assets/map.png" alt="Physics Map" class="cv-img showcase-img">
+    <img src="/assets/map.webp" alt="Physics Map" class="cv-img showcase-img" style="max-width: 550px;">
   </div>
   <p>Here is a <strong>map of different fields of physics</strong>, and I love to run around all the parts.</p>
   
@@ -51,6 +51,9 @@
   </div>
 </div>
 ~~~
+
+{{recent_blogs}}
+
 <!-- * [Physics Main Page](/Pages/Physics/Physics_Home/)
 * [Mathematics Main Page](/Pages/Maths//Maths_Home/)
 for more info. -->
@@ -189,7 +192,7 @@ In a similar vein you can cite references that would be at the bottom of the pag
 <!-- ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/rndimg.jpg">
+    <img class="left" src="/assets/rndimg.webp">
     <p>
     Marine iguanas are truly splendid creatures. They're found on the Gálapagos islands, have skin that basically acts as a solar panel, can swim and may have the ability to adapt their body size depending on whether there's food or not.
     </p>
@@ -207,7 +210,7 @@ In a similar vein you can cite references that would be at the bottom of the pag
 
 <!-- @@row
 @@container
-@@left ![](/assets/rndimg.jpg) @@
+@@left ![](/assets/rndimg.webp) @@
 @@
 Marine iguanas are **truly splendid** creatures. They're not found in equations like $\exp(-i\pi)+1$. But they're still quite cool.
 ~~~

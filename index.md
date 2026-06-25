@@ -5,7 +5,7 @@
 **Mathematics** and **Physics**... These two are really something I enjoy. Each time I read something of maths or physics, it really forces me to think how beautiful and elegant things are. How can something born from our mind can describe this world!!...
 
 ~~~
-<img src="/assets/subham_pic.jpeg" alt="" width="600">
+<img src="/assets/subham_pic.webp" alt="" width="600">
 <div class="caption"></div>
 ~~~
 *Image taken by my friend [Subham Chakraborty](https://www.instagram.com/subhamchakraborty__?utm_source=ig_web_button_share_sheet&igsh=ODdmZWVhMTFiMw==)*
@@ -13,7 +13,7 @@
 This fascination forces me to always try to find patterns and beauty in the theories. Through this website, I want to show others how beautiful these are.
 
 ~~~
-<img src="/assets/map.png" alt="" width="700">
+<img src="/assets/map.webp" alt="" width="700">
 <div class="caption"></div>
 ~~~
 Here is a **map of different field of physics** and I love to run around all the parts.
@@ -176,7 +176,7 @@ In a similar vein you can cite references that would be at the bottom of the pag
 <!-- ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/rndimg.jpg">
+    <img class="left" src="/assets/rndimg.webp">
     <p>
     Marine iguanas are truly splendid creatures. They're found on the Gálapagos islands, have skin that basically acts as a solar panel, can swim and may have the ability to adapt their body size depending on whether there's food or not.
     </p>
@@ -194,7 +194,7 @@ In a similar vein you can cite references that would be at the bottom of the pag
 
 <!-- @@row
 @@container
-@@left ![](/assets/rndimg.jpg) @@
+@@left ![](/assets/rndimg.webp) @@
 @@
 Marine iguanas are **truly splendid** creatures. They're not found in equations like $\exp(-i\pi)+1$. But they're still quite cool.
 ~~~

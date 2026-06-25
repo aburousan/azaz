@@ -28,7 +28,7 @@ We can say  ~~~
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Maths/blogs/Monte_Carlo_Inte/Monte_Carlo_cover.png">
+    <img class="left" src="/assets/Maths/blogs/Monte_Carlo_Inte/Monte_Carlo_cover.webp">
     <p>
     <i>Rectangular Boxes under the Surface with randomly chosen position. We will try to understand what this means in this blog</i>.
     </p>
@@ -123,7 +123,7 @@ $p(x)$ must satsify,
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Maths/blogs/Monte_Carlo_Inte/pdf_vs_pmf.png"  width="400">
+    <img class="center" src="/assets/Maths/blogs/Monte_Carlo_Inte/pdf_vs_pmf.webp"  width="400">
     <p>
     Note that the PDF is continuous and PMF is discontinious.
     </p>
@@ -167,7 +167,7 @@ Note: Visually, this is the area of a semi-circle of radius 1.
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Maths/blogs/Monte_Carlo_Inte/area_inte.png"  width="350">
+    <img class="center" src="/assets/Maths/blogs/Monte_Carlo_Inte/area_inte.webp"  width="350">
     <p>
     Integration is equals to the area under the curve, i.e., yellow region area.
     </p>
@@ -211,7 +211,7 @@ This is the case we consider as $\int_{a}^{b}dx\ p(x) = 1$ (see the Figure below
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Maths/blogs/Monte_Carlo_Inte/uniform_PDF1.png"  width="400">
+    <img class="center" src="/assets/Maths/blogs/Monte_Carlo_Inte/uniform_PDF1.webp"  width="400">
     <p>
     
     </p>
@@ -369,7 +369,7 @@ The output is:
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Maths/blogs/Monte_Carlo_Inte/monte_multi_thread.png"  height="180">
+    <img class="center" src="/assets/Maths/blogs/Monte_Carlo_Inte/monte_multi_thread.webp"  height="180">
     <p>
     
     </p>
@@ -391,24 +391,4 @@ If you have some queries, do let me know in the comments or contact me using my 
 ~~~
 
 
-~~~
-<div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    /*
-    var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/maths/blogs/monte_carlo_inte/;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://https-rousan-netlify-app.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-~~~
+{{comments}}

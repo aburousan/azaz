@@ -1,12 +1,98 @@
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 body, html, .page__content {
-  font-family: 'Patrick Hand', cursive !important;
-  font-size: 1.15rem; /* Handwritten fonts need to be slightly larger for readability */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-size: 1rem;
 }
 
-/* Protect KaTeX math formulas from being overridden by the handwritten font */
-.katex, .katex * {
+/* Sub-headings keep the warm book serif (Lora) */
+h2, h3, h4, h5, h6, .author__name {
+  font-family: 'Lora', Georgia, serif !important;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Big titles get an elegant high-contrast display serif (Cormorant Garamond).
+   Three-tier classic hierarchy: Cormorant (titles) / Lora (sub-heads) / Inter (body). */
+h1, .page__title, .site-title {
+  font-family: 'Cormorant Garamond', 'Lora', Georgia, serif !important;
+  font-weight: 700;
+  letter-spacing: 0.005em;
+}
+
+/* Cormorant has a small x-height, so the wordmark needs a size bump to read
+   as a proper brand mark rather than tiny nav text. */
+.site-title {
+  font-size: 1.85rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/* Elegant Text Selection — tuned to the restrained teal accent */
+::selection {
+  background: rgba(47, 109, 120, 0.18);
+  color: inherit;
+}
+html.dark-mode ::selection {
+  background: rgba(205, 168, 99, 0.30); /* warm gold on dark */
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+html.dark-mode ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+html.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Subtle Paper Grain Overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 999999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+html.dark-mode body::before {
+  opacity: 0.03;
+}
+
+/* Fade-Up Scroll Animation Classes */
+.fade-up-element {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.fade-up-element.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Protect KaTeX math formulas from being overridden by the global font.
+   NOTE: only the .katex root is forced here. Do NOT add ".katex *" — that
+   would clobber KaTeX's own glyph fonts (KaTeX_Size1-4 used for stretchy
+   matrix/vector parentheses, KaTeX_Math, KaTeX_AMS, ...) and make big
+   delimiters render at the wrong (small) size. KaTeX's bundled CSS already
+   assigns the correct font to each inner element. */
+.katex {
   font-family: KaTeX_Main, "Times New Roman", serif !important;
 }
 
@@ -35,21 +121,139 @@ body, html, .page__content {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
 }
 
+/* =======================================================
+   RECENT BLOGS SECTION
+   ======================================================= */
+.recent-blogs-container {
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+.recent-blogs-header {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+html.dark-mode .recent-blogs-header {
+  color: #eee;
+}
+.recent-blogs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+html.dark-mode .blog-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+}
+html.dark-mode .blog-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+}
+.blog-card-category {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.blog-card-category.physics { color: #e52e71; }
+.blog-card-category.mathematics { color: #ff8a00; }
+.blog-card-title {
+  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+}
+.blog-card-desc {
+  font-size: 0.95rem;
+  color: #666;
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+html.dark-mode .blog-card-desc {
+  color: #aaa;
+}
+.blog-card-meta {
+  font-size: 0.85rem;
+  color: #999;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  padding-top: 1rem;
+}
+html.dark-mode .blog-card-meta {
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
 .masthead__menu-item a, .site-title {
-  color: #0ea5e9 !important; /* Bright blue text */
+  color: #2f6d78 !important; /* Restrained deep teal (was harsh cyan) */
 }
 
 .masthead__menu-item a:hover {
-  color: #0284c7 !important; /* Darker blue on hover */
+  color: #234f58 !important; /* Deeper teal on hover */
+}
+
+/* Refined two-tone nav: antique-gold icons against teal labels, a touch
+   smaller and delicately spaced, with a gentle lift on hover. */
+.masthead__menu-item a i,
+.masthead__menu-item a .fas,
+.masthead__menu-item a .fab,
+.masthead__menu-item a .far {
+  color: var(--ornament-gold, #9c7a3c);
+  font-size: 0.86em;
+  margin-right: 3px;
+  vertical-align: baseline;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+.masthead__menu-item a:hover i,
+.masthead__menu-item a:hover .fas,
+.masthead__menu-item a:hover .fab,
+.masthead__menu-item a:hover .far {
+  transform: translateY(-2px);
+  color: #b8923f;
+}
+.masthead__menu-item a {
+  letter-spacing: 0.015em;
+}
+/* keep the little dropdown caret tied to the label, not gold */
+.masthead__menu-item a .fa-caret-down {
+  color: inherit;
+  font-size: 0.7em;
+  opacity: 0.7;
+}
+html.dark-mode .masthead__menu-item a i,
+html.dark-mode .masthead__menu-item a .fas,
+html.dark-mode .masthead__menu-item a .fab,
+html.dark-mode .masthead__menu-item a .far {
+  color: #d8b46a;
+}
+html.dark-mode .masthead__menu-item a:hover i,
+html.dark-mode .masthead__menu-item a:hover .fas {
+  color: #f0c97e;
 }
 .masthead__inner-wrap {
-  padding-top: 0.5em !important;
-  padding-bottom: 0.5em !important;
+  padding-top: 0.25em !important;
+  padding-bottom: 0.25em !important;
 }
 html.dark-mode .masthead {
-  /* It will be inverted by dark mode, so white becomes black. 
-     We just need it to stay slightly transparent to maintain the blur. */
-  background: rgba(255, 255, 255, 0.85) !important;
+  /* Real dark translucent bar (hand-built dark theme, no page invert). */
+  background: rgba(20, 17, 13, 0.72) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* Animated Menu Underlines */
@@ -67,7 +271,7 @@ html.dark-mode .masthead {
   height: 2px;
   bottom: -4px;
   left: 0;
-  background-color: #e52e71; /* Accent color */
+  background-color: var(--ornament-gold, #9c7a3c); /* classic gilt underline */
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
 }
@@ -125,10 +329,11 @@ html, body {
    ======================================================= */
 :root {
   --pastel-bg: #fdfbf7;        /* Soft vintage off-white */
-  --pastel-text: #4a4a4a;      /* Soft dark grey text */
+  --pastel-text: #423f3a;      /* Warm dark grey ink */
   --pastel-heading: #52616b;   /* Vintage grey-blue */
-  --pastel-link: #62a0c2;      /* Beautiful pastel teal/blue */
-  --pastel-link-hover: #457b9d;
+  --pastel-link: #2f6d78;      /* Restrained deep teal (one accent) */
+  --pastel-link-hover: #234f58;
+  --ornament-gold: #9c7a3c;    /* Antique gold for rules & fleurons */
 }
 
 body:not(.dark-mode) {
@@ -376,9 +581,9 @@ html.dark-mode .cv-img, html.dark-mode .franklin-content img:not(.math-diagram):
 
 /* Apply beautiful frosted glass transparency */
 .masthead {
-  background: rgba(253, 251, 247, 0.85) !important; /* Matches pastel theme */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(253, 251, 247, 0.60) !important; /* Matches pastel theme */
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 .greedy-nav {
@@ -387,7 +592,7 @@ html.dark-mode .cv-img, html.dark-mode .franklin-content img:not(.math-diagram):
 
 /* Dark mode glassmorphism */
 html.dark-mode .masthead {
-  background: rgba(3, 3, 3, 0.85) !important;
+  background: rgba(3, 3, 3, 0.60) !important;
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
@@ -523,4 +728,89 @@ html.dark-mode .premium-quote {
 html.dark-mode .gradient-text {
   background: linear-gradient(135deg, #ffb84d 0%, #62a0c2 100%);
   -webkit-background-clip: text;
+}
+
+/* =======================================================
+   PREMIUM / CLASSIC POLISH  (added: ornaments, captions,
+   code blocks)   [paper grain already exists above]
+   ======================================================= */
+
+/* ---- (5) Ornamental section rules ----
+   Replace plain <hr> with a centered antique-gold fleuron. */
+.franklin-content hr {
+  border: none;
+  height: auto;
+  margin: 3rem auto;
+  text-align: center;
+  overflow: visible;
+}
+.franklin-content hr::before {
+  content: "❧";
+  display: inline-block;
+  color: var(--ornament-gold, #9c7a3c);
+  font-size: 1.4rem;
+  line-height: 1;
+  letter-spacing: 0.4em;       /* nudge the glyph visually centered */
+  padding-left: 0.4em;
+  opacity: 0.85;
+}
+html.dark-mode .franklin-content hr::before {
+  color: #cda863;
+}
+
+/* ---- (10) Figure captions ----
+   In the blogs a caption is the *italic* paragraph right after a centered
+   figure block; style it like a classic plate caption. */
+.franklin-content div[style*="text-align"] + p {
+  text-align: center;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #6b6b6b;
+  max-width: 90%;
+  margin: 0.4rem auto 2.2rem;
+  line-height: 1.55;
+}
+html.dark-mode .franklin-content div[style*="text-align"] + p {
+  color: #a99f8a;
+}
+
+/* ---- (10) Refined code blocks ----
+   Classic monospace, soft inset panel, thin accent spine, language-agnostic. */
+.franklin-content pre {
+  font-family: "SF Mono", "JetBrains Mono", "Fira Code", ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  background: #faf6ee;
+  border: 1px solid #ece3d3;
+  border-left: 3px solid var(--pastel-link, #2f6d78);
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+  margin: 1.6rem 0;
+  overflow-x: auto;
+  box-shadow: 0 1px 2px rgba(60, 50, 30, 0.04);
+}
+.franklin-content pre code {
+  background: none !important;
+  padding: 0;
+  font-size: inherit;
+}
+/* inline code: subtle parchment chip */
+.franklin-content :not(pre) > code {
+  font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  background: #f1ebde;
+  color: #7a5a2a;
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+}
+html.dark-mode .franklin-content pre {
+  background: #211d16;
+  border-color: #322c22;
+  border-left-color: #cda863;
+  box-shadow: none;
+}
+html.dark-mode .franklin-content :not(pre) > code {
+  background: #2a2419;
+  color: #e0c489;
 }

@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="/css/adjust.css">
 <link rel="stylesheet" href="/css/dark-mode.css">
 <link rel="stylesheet" href="/css/awesome.css">
-<link rel="icon" href="/assets/favicon.jpg">
+<link rel="icon" href="/assets/favicon.webp">
 <!--[if IE ]>
 <style>
   /* old IE unsupported flexbox fixes */
@@ -84,15 +84,16 @@
         <a class="site-title" href="/">Azazaya</a>
         <ul class="visible-links">
           <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
-          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-calculator"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
           <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
           
           <!-- Dropdown Menu for Blogs -->
           <li class="masthead__menu-item dropdown">
-            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-book-open"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
             <div class="dropdown-content">
               <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
-              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-calculator"></i> Maths Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
             </div>
           </li>
           
@@ -145,7 +146,7 @@
       <div class="sidebar sticky">
         <div itemscope itemtype="https://schema.org/Person">
           <div class="author__avatar">
-            <img src="/assets/minimal-mistakes/Rousan.jpeg" alt="Septimia Zenobia" itemprop="image">
+            <img src="/assets/minimal-mistakes/Rousan.webp" alt="Septimia Zenobia" itemprop="image">
           </div>
           <div class="author__content">
             <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
@@ -358,7 +359,7 @@ math_code &#61; &quot;&quot;&quot;
     Symbols x, i;
     Local expx &#61; sum_&#40;i, 0, 5, x^i/fac_&#40;i&#41;&#41;;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;math_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;math_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    expx =
        + 1
@@ -395,7 +396,7 @@ println&#40;evaluate_form&#40;math_code&#41;&#41;</code></pre>
     Local &#91;C&#93; &#61; C&#40;x2,x3,x4,x1,x5&#41;;
     Local &#91;R&#93; &#61; R&#40;x2,x3,x4,x1,x5&#41;;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;sym_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;sym_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    [S] =
        + S(x1,x2,x3,x4,x5)
@@ -431,7 +432,7 @@ println&#40;evaluate_form&#40;sym_code&#41;&#41;</code></pre>
     endrepeat;
     id f&#40;0&#41; &#61; 1;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;repeat_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;repeat_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    Fact =
        + 120
@@ -452,7 +453,7 @@ println&#40;evaluate_form&#40;repeat_code&#41;&#41;</code></pre>
     Local P &#61; &#40;x&#43;y&#41;^4;
     if &#40;count&#40;x,1&#41; &#33;&#61; 2&#41; Discard;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;cond_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;cond_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    P =
        + 6*x^2*y^2
@@ -472,7 +473,7 @@ println&#40;evaluate_form&#40;cond_code&#41;&#41;</code></pre>
     Local E &#61; a*x^2 &#43; b*x^2 &#43; a*x &#43; 7*x;
     Bracket x;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;bracket_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;bracket_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    E =
 
@@ -504,7 +505,7 @@ println&#40;evaluate_form&#40;bracket_code&#41;&#41;</code></pre>
     #enddo
     ;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;prepro_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;prepro_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    Geom =
        + x
@@ -538,7 +539,7 @@ println&#40;evaluate_form&#40;prepro_code&#41;&#41;</code></pre>
     
     contract;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;tensor_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;tensor_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    dot =
        + u.v
@@ -570,7 +571,7 @@ println&#40;evaluate_form&#40;tensor_code&#41;&#41;</code></pre>
     Local result &#61; e_&#40;m,n,r,s&#41; * e_&#40;m,n,r,s&#41;;
     contract;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;form_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;form_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    result =
        + 24
@@ -593,7 +594,7 @@ println&#40;evaluate_form&#40;form_code&#41;&#41;</code></pre>
     Local &#91;ux&#40;vxw&#41;&#93; &#61; e_&#40;i,j,k&#41; * u&#40;i&#41; * &#40;e_&#40;m,n,j&#41; * v&#40;m&#41; * w&#40;n&#41;&#41;;
     contract;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;cross_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;cross_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    [ux(vxw)] =
        + v(k)*u.w
@@ -614,7 +615,7 @@ println&#40;evaluate_form&#40;cross_code&#41;&#41;</code></pre>
     Local G3 &#61; e_&#40;v1,...,v3&#41;^2;
     contract;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;gram_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;gram_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    G3 =
        + v1.v1*v2.v2*v3.v3
@@ -641,7 +642,7 @@ println&#40;evaluate_form&#40;gram_code&#41;&#41;</code></pre>
     Local QEDtrace &#61; g_&#40;1, m&#41; * g_&#40;1, n&#41; * g_&#40;1, r&#41; * g_&#40;1, s&#41;;
     trace4, 1;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;trace_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;trace_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    QEDtrace =
        + 4*d_(m,n)*d_(r,s)
@@ -671,7 +672,7 @@ println&#40;evaluate_form&#40;trace_code&#41;&#41;</code></pre>
     Local C2 &#61; g_&#40;1, m&#41; * g_&#40;1, a&#41; * g_&#40;1, m&#41; * g_&#40;1, a&#41;;
     trace4, 1;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;gamma_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;gamma_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    C1 =
        + 4*D
@@ -695,7 +696,7 @@ println&#40;evaluate_form&#40;gamma_code&#41;&#41;</code></pre>
     Vectors p1, p2, p3, p4;
     Local Wick4 &#61; dd_&#40;p1, p2, p3, p4&#41;;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;wick_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;wick_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    Wick4 =
        + p1.p2*p3.p4
@@ -732,7 +733,7 @@ println&#40;evaluate_form&#40;wick_code&#41;&#41;</code></pre>
     
     id TR &#61; 1/2;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;qcd_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;qcd_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    ColorTrace =
        - 1/2
@@ -758,7 +759,7 @@ println&#40;evaluate_form&#40;qcd_code&#41;&#41;</code></pre>
     PolyRatFun rat;
     Local F &#61; rat&#40;1, x&#41; &#43; rat&#40;1, 1&#43;x&#41;;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;poly_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;poly_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    F =
        + rat(2*x + 1,x^2 + x)
@@ -806,7 +807,7 @@ s = (p+k)^2, \quad t = (p-p')^2, \quad u = (p-k')^2
     id p.kp &#61; -u/2;
     id k.pp &#61; -u/2;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;mandelstam_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;mandelstam_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    M2 =
        + 8*u^2
@@ -827,7 +828,7 @@ println&#40;evaluate_form&#40;mandelstam_code&#41;&#41;</code></pre>
     .sort
     Format O2;
 &quot;&quot;&quot;
-println&#40;evaluate_form&#40;opt_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;opt_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">      Z1_=c^2;
       Z2_=3*c + b;
       Z2_=b*Z2_;
@@ -902,7 +903,7 @@ println&#40;evaluate_form&#40;opt_code&#41;&#41;</code></pre>
     Bracket pdotk, pdotkp;
 &quot;&quot;&quot;
 
-println&#40;evaluate_form&#40;compton_code&#41;&#41;</code></pre>
+println&#40;FormWrapper.evaluate_form&#40;compton_code&#41;&#41;</code></pre>
 <pre><code class="plaintext code-output">
    M2 =
 
@@ -957,8 +958,12 @@ println&#40;evaluate_form&#40;compton_code&#41;&#41;</code></pre>
   
 <h2 id="conclusion"><a href="#conclusion" class="header-anchor">Conclusion</a></h2>
 <p>FORM isn&#39;t just an archaic tool; it is a hyper-optimized engine that outpaces modern algebra systems for the specific mathematical structures of Particle Physics. By calling it seamlessly from Julia, we get the best of both worlds: Julia&#39;s modern package management and flow control, and FORM&#39;s raw power for the QFT heavy lifting.</p>
+<div id="custom-comments-container"></div>
+<link rel="stylesheet" href="/assets/css/custom_comments.css">
+<script type="module" src="/assets/js/custom_comments.js"></script>
+
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: June 24, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: June 25, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -1005,6 +1010,42 @@ println&#40;evaluate_form&#40;compton_code&#41;&#41;</code></pre>
       </footer>
     </div>
 
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
     <script src="/libs/minimal-mistakes/main.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
 
@@ -1048,7 +1089,7 @@ println&#40;evaluate_form&#40;compton_code&#41;&#41;</code></pre>
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=36" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=52" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {

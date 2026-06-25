@@ -10,6 +10,10 @@ title = "Tags"
 * page with tag [`code`](/tag/code/)
 * page with tag [`Gram Schmidt Orthogonalization`](/tag/gram-schmidt_orthogonalization/)
 * page with tag [`Special Functions`](/tag/special_function/)
+* page with tag [`General Relativity`](/tag/general_relativity/)
+* page with tag [`qft`](/tag/qft/)
+* page with tag [`prime_numbers`](/tag/prime_numbers/)
+* page with tag [`Particle_Physics`](/tag/particle-physics/)
 
 ~~~
   <div style="margin-bottom: 300px; font-size: 24px">

@@ -104,7 +104,7 @@ To understand the idea of we have to remember there are two coordinates in the p
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Physics/blogs/Finding_age_astroR1/scale_fact.jpg" >
+    <img class="left" src="/assets/Physics/blogs/Finding_age_astroR1/scale_fact.webp" >
     <div style="clear: both"></div>      
   </div>
 </div>
@@ -359,24 +359,4 @@ If you have some queries, do let me know in the comments or contact me using my 
 ~~~
 
 
-~~~
-<div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    /*
-    var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/physics/blogs/astronomr_package1/;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://https-rousan-netlify-app.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-~~~
+{{comments}}

@@ -11,12 +11,12 @@ tags = ["physics", "code", "Kazi Abu Rousan"]
 # About me
 Hi! I’m **Kazi Abu Rousan**, a student currently pursuing PhD in Cosmology at [NISER](https://www.niser.ac.in/). I hold a Master's degree in Physics with a specialization in Cosmology. In addition to my academic background, I'm deeply passionate about teaching and mentor students in Mathematics and Physics for Olympiad preparation at [Cheenta Ganit Kendra](https://www.cheenta.com/). I am also a member of [Institute of Physics(IOP)](https://www.iop.org/).\\
 ~~~
-<img src="/assets/me.jpeg" alt="It's a me! Rousan" class="cv-img" style="max-width: 400px;">
+<img src="/assets/me.webp" alt="It's a me! Rousan" class="cv-img" style="max-width: 400px;">
 ~~~
 
 Ohh and here is my catto! Mr. **Gino**!
 ~~~
-<img src="/assets/gino.png" alt="It's Gino" class="cv-img" style="max-width: 400px;">
+<img src="/assets/gino.webp" alt="It's Gino" class="cv-img" style="max-width: 400px;">
 ~~~
 
 For more visit my Social Accounts
@@ -33,7 +33,7 @@ Feel free to contact me. I am hyperactive.
 Some of my works:
 * Recently, I am working on the Radiometric Calibration of VIR DAWN dataset .[You can visit a webapp I have developed for the calibartion. Anyone can upload .lbl, .qub and other house-keeping data & then download the calibrated .npy file](https://virdawnradiometrical.streamlit.app/)
 ~~~
-<img src="/assets/radio_cal_1.png" class="cv-img" style="max-width: 400px;">
+<img src="/assets/radio_cal_1.webp" class="cv-img" style="max-width: 400px;">
 ~~~
 * [Time Crystal as a consequence of NonCommutative Quantum Mechanics for 2D Harmonic Oscillator](https://www.researchgate.net/publication/372221313_Time_Crystal_as_a_consequence_of_NonCommutative_Quantum_Mechanics_for_2D_Harmonic_Oscillator)
 ~~~
@@ -96,7 +96,7 @@ Some of my blogs on medium are,
 * I am teaching the python part of a course **Approaching Computational Thinking with R + Python** organised by [Cosmic Charade](https://cosmic-charade.netlify.app/).
 * I am writing a book on [Number Theory](https://drive.google.com/file/d/1dD4zTXiz76PVD15ZdT4v-SawX2OkMIc8/view?usp=drive_link). You can check the draft.
 ~~~
-<img src="/assets/book.jpg" alt="My Book" class="cv-img" style="max-width: 400px;">
+<img src="/assets/book.webp" alt="My Book" class="cv-img" style="max-width: 400px;">
 ~~~
 
 * Recently, I have started doing digital art. Here are some of them [here](/Pages/art/).

@@ -1,46 +1,162 @@
-html.dark-mode {
-    filter: invert(100%) hue-rotate(180deg);
-    background-color: #fcfcfc; /* Inverts to a nice dark grey #030303 */
+/* =========================================================================
+   HAND-BUILT WARM DARK THEME
+   -------------------------------------------------------------------------
+   Replaces the old `filter: invert(100%)` page hack with a real palette of
+   warm ink-on-charcoal colors. Far fewer surprises (no inverted photos, no
+   counter-invert gymnastics for the cat / fireflies / emoji) and a more
+   "premium classic" feel — like gilt on dark leather.
+
+   The dark-mode class lives on <html>, so `body:not(.dark-mode)` (the light
+   rules) is ALWAYS true. To win the cascade these rules use the higher-
+   specificity prefix `html.dark-mode body ...`.
+   ========================================================================= */
+
+:root {
+  --d-bg:      #14110d;   /* warm near-black paper             */
+  --d-panel:   #1e1a13;   /* slightly raised surface           */
+  --d-text:    #e3dccd;   /* warm cream body text              */
+  --d-head:    #f1ead9;   /* brighter cream for headings       */
+  --d-muted:   #a99f8a;   /* captions / secondary text         */
+  --d-gold:    #d8b46a;   /* antique-gold accent (links)       */
+  --d-gold-hi: #f0c97e;   /* gold hover                        */
+  --d-border:  #322c22;   /* hairline borders                  */
 }
-html.dark-mode img,
-html.dark-mode picture,
-html.dark-mode video,
-html.dark-mode iframe,
-html.dark-mode .author__avatar img,
+
+/* ---- base paper & text -------------------------------------------------- */
+html.dark-mode { background-color: var(--d-bg); }
+html.dark-mode body { background-color: var(--d-bg); }
+
+html.dark-mode body,
+html.dark-mode body .page__content,
+html.dark-mode body p,
+html.dark-mode body li,
+html.dark-mode body td,
+html.dark-mode body blockquote {
+  color: var(--d-text);
+}
+
+html.dark-mode body h1,
+html.dark-mode body h2,
+html.dark-mode body h3,
+html.dark-mode body h4,
+html.dark-mode body h5,
+html.dark-mode body h6,
+html.dark-mode body .page__title,
+html.dark-mode body .author__name {
+  color: var(--d-head);
+}
+
+html.dark-mode body a:not(.btn) { color: var(--d-gold); }
+html.dark-mode body a:not(.btn):hover { color: var(--d-gold-hi); }
+
+/* nav links (override the teal !important light rule) */
+html.dark-mode .masthead__menu-item a,
+html.dark-mode .site-title { color: var(--d-gold) !important; }
+html.dark-mode .masthead__menu-item a:hover { color: var(--d-gold-hi) !important; }
+
+/* ---- images & figures --------------------------------------------------- */
+/* Photos render normally now (no page invert). Only the line-art math/blog
+   diagrams were authored black-on-transparent, so invert just THEM to get
+   light strokes on the dark page. */
+html.dark-mode img.math-diagram {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Interactive JSXGraph boards: keep a light "plate" so the plotted curves
+   and KaTeX labels stay readable, framed like a figure inset. */
+html.dark-mode .jxgbox {
+  background-color: #f5f1e8 !important;
+  border-color: #4a443a !important;
+}
+
+/* ---- call-out boxes (note / tip / defn / poem ...) ---------------------- */
 html.dark-mode fieldset.note,
 html.dark-mode fieldset.tip,
-html.dark-mode fieldset.todo,
 html.dark-mode fieldset.defn,
+html.dark-mode fieldset.todo,
 html.dark-mode fieldset.poem,
-html.dark-mode #oneko {
-    filter: invert(100%) hue-rotate(180deg);
+html.dark-mode fieldset.exam,
+html.dark-mode fieldset.prob,
+html.dark-mode fieldset.cm-diff {
+  background-color: var(--d-panel);
+  color: var(--d-text);
+  border-color: var(--d-border);
 }
-
-/* Let SVGs invert their black lines to white lines naturally! */
-html.dark-mode img.math-diagram {
-    filter: none !important;
-}
-
-/* Custom Dark Theme Overrides for double-inverted blocks */
-html.dark-mode fieldset.note {
-    background-color: #3d2b0e;
-    color: #f1f1f1;
-}
+/* warm accent tints for the most-used boxes */
+html.dark-mode fieldset.note { background-color: #211a10; }
+html.dark-mode fieldset.tip  { background-color: #14201a; }
+html.dark-mode fieldset.defn { background-color: #1a1726; }
 html.dark-mode fieldset.note .note-legend {
-    background-color: #ffb84d;
-    color: #1a1a1a;
+  background-color: #ffb84d;
+  color: #1a1a1a;
 }
 
-/* Theme toggle button styles */
+/* ---- misc surfaces that need a touch-up in real dark mode --------------- */
+html.dark-mode .watermark-bg { color: #fff; opacity: 0.025; }
+
+html.dark-mode table th,
+html.dark-mode table td { border-color: var(--d-border); }
+html.dark-mode table th { background-color: var(--d-panel); }
+
+html.dark-mode hr { border-color: var(--d-border); }
+
+/* page footer (was a hard-coded light #f2f3f3 strip) */
+html.dark-mode .page__footer {
+  background-color: #100e0b;
+  color: var(--d-muted);
+  border-top: 1px solid var(--d-border);
+}
+html.dark-mode .page__footer a { color: var(--d-gold); }
+html.dark-mode .page__footer a:hover { color: var(--d-gold-hi); }
+
+/* ---- theme toggle button ----------------------------------------------- */
 #theme-toggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    padding: 0.5rem;
-    margin-left: 1rem;
-    transition: transform 0.2s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  transition: transform 0.2s ease;
+  color: #2f6d78;            /* visible in light mode */
 }
 #theme-toggle:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
+html.dark-mode #theme-toggle { color: #f0c97e; }   /* gold sun on dark */
+
+/* ---- syntax highlighting in dark mode ----------------------------------
+   The site ships the *light* GitHub highlight.js theme (dark text on white).
+   With the page no longer inverted, that text would be black-on-dark. These
+   `html.dark-mode` rules out-specify the .hljs-* classes and recolor them to
+   a warm dark palette on the dark code panel. */
+html.dark-mode .hljs {
+  color: #e3dccd;
+  background: transparent;
+}
+html.dark-mode .hljs-comment,
+html.dark-mode .hljs-quote { color: #7e7763; font-style: italic; }
+html.dark-mode .hljs-keyword,
+html.dark-mode .hljs-selector-tag,
+html.dark-mode .hljs-doctag,
+html.dark-mode .hljs-section,
+html.dark-mode .hljs-name { color: #e3a857; }            /* keywords: gold   */
+html.dark-mode .hljs-built_in,
+html.dark-mode .hljs-type,
+html.dark-mode .hljs-class .hljs-title,
+html.dark-mode .hljs-title.class_ { color: #7fb6c9; }    /* types: teal      */
+html.dark-mode .hljs-string,
+html.dark-mode .hljs-attr,
+html.dark-mode .hljs-regexp,
+html.dark-mode .hljs-addition { color: #9ccc8a; }        /* strings: green   */
+html.dark-mode .hljs-number,
+html.dark-mode .hljs-literal,
+html.dark-mode .hljs-symbol,
+html.dark-mode .hljs-meta { color: #e08a5b; }            /* numbers: orange  */
+html.dark-mode .hljs-function .hljs-title,
+html.dark-mode .hljs-title,
+html.dark-mode .hljs-title.function_ { color: #8fc3da; } /* fn names: blue   */
+html.dark-mode .hljs-variable,
+html.dark-mode .hljs-template-variable,
+html.dark-mode .hljs-params { color: #e3dccd; }
+html.dark-mode .hljs-attribute { color: #d6b15e; }

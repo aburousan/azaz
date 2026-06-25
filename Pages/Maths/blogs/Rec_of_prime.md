@@ -19,7 +19,7 @@ I don't know about you but there was certainly a guy called **William Shanks**, 
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Maths/blogs/Rec_of_prime/shank_work_time.jpeg">
+    <img class="left" src="/assets/Maths/blogs/Rec_of_prime/shank_work_time.webp">
     <p>
     The working period of <b>William Shanks</b> on this topic.
     </p>
@@ -38,7 +38,7 @@ For an example let's take $p=7$.
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Maths/blogs/Rec_of_prime/seven_div.jpg"  width="400">
+    <img class="center" src="/assets/Maths/blogs/Rec_of_prime/seven_div.webp"  width="400">
     <p>
     Division of 1 by 7. We all have done this in our childhood. See in the end, we are again getting 1 as we have before.
     </p>
@@ -140,7 +140,7 @@ Here is a image from shank's notebook:
 ~~~
 <div class="row">
   <div class="container">
-    <img class="left" src="/assets/Maths/blogs/Rec_of_prime/shank_2.jpg">
+    <img class="left" src="/assets/Maths/blogs/Rec_of_prime/shank_2.webp">
     <p>
     Few values found by shank. The left ones are prime number and right ones are the periods. As you can see, he had corrected one of the values. Most codes actually give the wrong value but ours will not.
     </p>
@@ -217,24 +217,4 @@ If you have some question, do let me know in the comments or contact me using my
 <button onclick="window.history.back()">Go Back</button>
 ~~~
 
-~~~
-<div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    /*
-    var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/maths/blogs/rec_of_prime/;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://https-rousan-netlify-app.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-~~~
+{{comments}}

@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="/css/adjust.css">
 <link rel="stylesheet" href="/css/dark-mode.css">
 <link rel="stylesheet" href="/css/awesome.css">
-<link rel="icon" href="/assets/favicon.jpg">
+<link rel="icon" href="/assets/favicon.webp">
 <!--[if IE ]>
 <style>
   /* old IE unsupported flexbox fixes */
@@ -71,15 +71,16 @@
         <a class="site-title" href="/">Azazaya</a>
         <ul class="visible-links">
           <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
-          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-calculator"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
           <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
           
           <!-- Dropdown Menu for Blogs -->
           <li class="masthead__menu-item dropdown">
-            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-book-open"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
             <div class="dropdown-content">
               <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
-              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-calculator"></i> Maths Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
             </div>
           </li>
           
@@ -130,7 +131,7 @@
 
 <div class="initial-content">
   <div class="page__hero--overlay"
-    style="background-color: #3b3b3b; background-image: url('/assets/minimal-mistakes/cos.jpg');">
+    style="background-color: #3b3b3b; background-image: url('/assets/minimal-mistakes/cos.webp');">
     <div class="wrapper">
       <h1 id="page-title" class="page__title" itemprop="headline">Azazaya</h1>
       <p class="page__lead">Personal Website for <br> writting blogs.</p>
@@ -145,7 +146,7 @@
           <div class="feature__item">
             <div class="archive__item">
               <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/board_art.jpeg" alt="customizable" />
+                <img src="/assets/minimal-mistakes/board_art.webp" alt="customizable" />
               </div>
               <div class="archive__item-body">
                 <h2 class="archive__item-title">About the Website</h2>
@@ -159,7 +160,7 @@
           <div class="feature__item">
             <div class="archive__item">
               <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/lect_f.png" alt="fully responsive" />
+                <img src="/assets/minimal-mistakes/lect_f.webp" alt="fully responsive" />
               </div>
               <div class="archive__item-body">
                 <h2 class="archive__item-title">Articles</h2>
@@ -173,7 +174,7 @@
           <div class="feature__item">
             <div class="archive__item">
               <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/about_me_icon.jpeg" alt="100% free" />
+                <img src="/assets/minimal-mistakes/about_me_icon.webp" alt="100% free" />
               </div>
               <div class="archive__item-body">
                 <h2 class="archive__item-title">About Me</h2>
@@ -185,6 +186,31 @@
             </div>
           </div>
         </div>
+        <div class="recent-blogs-container fade-up-element"><h2 class="recent-blogs-header">Recently Published</h2><div class="recent-blogs-grid"><a href="/Pages/Physics/blogs/neutrino_chirality/" class="blog-card">
+    <div class="blog-card-category physics">Physics</div>
+    <h3 class="blog-card-title">The Physics of Neutrinos: Chirality, Helicity, and Parity Violation</h3>
+    <p class="blog-card-desc">A fascinating exploration into this topic...</p>
+    <div class="blog-card-meta">Jun 25, 2026</div>
+</a>
+<a href="/Pages/Physics/blogs/form_pedestrian_qft_blog/" class="blog-card">
+    <div class="blog-card-category physics">Physics</div>
+    <h3 class="blog-card-title">A Pedestrian's Guide to FORM for Particle Physics (via Julia)</h3>
+    <p class="blog-card-desc">Tutorial for learning FORM.</p>
+    <div class="blog-card-meta">Jun 23, 2026</div>
+</a>
+<a href="/Pages/Maths/blogs/Pi_in_Mandel/" class="blog-card">
+    <div class="blog-card-category mathematics">Mathematics</div>
+    <h3 class="blog-card-title">Introduction to Monte Carlo Integration</h3>
+    <p class="blog-card-desc">A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it's theory.</p>
+    <div class="blog-card-meta">Nov 7, 2024</div>
+</a>
+<a href="/Pages/Maths/blogs/fast_and_curious/" class="blog-card">
+    <div class="blog-card-category mathematics">Mathematics</div>
+    <h3 class="blog-card-title">Fast and Curious</h3>
+    <p class="blog-card-desc">A blog on comparing speed of different languages.</p>
+    <div class="blog-card-meta">Oct 19, 2024</div>
+</a>
+</div></div>
       </section>
     </article>
 
@@ -211,6 +237,42 @@
         <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
       </footer>
     </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
@@ -246,7 +308,7 @@
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=36" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=52" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {

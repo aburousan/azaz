@@ -1,0 +1,5 @@
+Source       1-v/c (naive)   1-v/c (stable)  P_wrong=(m/2E)²
+Solar (pp)   7.1e-15         7.1e-15         3.5e-15
+Reactor      1.1e-16         7.8e-17         3.9e-17
+Accelerator  0.0             1.3e-21         6.2e-22
+KATRIN max   1.0e-13         1.0e-13         5.1e-14

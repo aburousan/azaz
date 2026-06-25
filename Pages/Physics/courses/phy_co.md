@@ -15,7 +15,7 @@ Scroll Below
   <div class="feature__item">
     <div class="archive__item">
       <div class="archive__item-teaser">
-        <img src="/assets/Physics/blogs.jpg" alt="customizable" />
+        <img src="/assets/Physics/blogs.webp" alt="customizable" />
       </div>
       <div class="archive__item-body">
         <h2 class="archive__item-title">NISER Courses</h2>
@@ -29,7 +29,7 @@ Scroll Below
   <div class="feature__item">
     <div class="archive__item">
       <div class="archive__item-teaser">
-        <img src="/assets/Physics/papers.jpeg" alt="fully responsive" />
+        <img src="/assets/Physics/papers.webp" alt="fully responsive" />
       </div>
       <div class="archive__item-body">
         <h2 class="archive__item-title">Own Courses</h2>
@@ -43,7 +43,7 @@ Scroll Below
   <!-- <div class="feature__item">
     <div class="archive__item">
       <div class="archive__item-teaser">
-        <img src="/assets/Physics/course.png" alt="100% free" />
+        <img src="/assets/Physics/course.webp" alt="100% free" />
       </div>
       <div class="archive__item-body">
         <h2 class="archive__item-title">Courses</h2>

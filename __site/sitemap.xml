@@ -3,43 +3,43 @@
 
 <url>
     <loc>https://rousan.netlify.app/Pages/art/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Maths/blogs/fast_and_curious/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/about_me/index.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/Menmonic_ten/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/My_Own/Main_page/index.html</loc>
-    <lastmod>2025-08-12</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/TD_as_CT/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/phy_co/index.html</loc>
-    <lastmod>2025-08-12</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -51,55 +51,55 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Maths/blogs/Tupper_Form/index.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Tags_page/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Maths/Maths_Home/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/DAWN_VIR/index.html</loc>
-    <lastmod>2025-08-05</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Maths/blogs/Monte_Carlo_Inte/index.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/form_pedestrian_qft_blog/index.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/temp_stat/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -111,55 +111,61 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/phy_blog/index.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/Light_Momentum/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://rousan.netlify.app/Pages/Physics/blogs/neutrino_chirality/index.html</loc>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/home_page/index.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/franklin/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Maths/blogs/math_blog/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/legendre_trans/index.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -177,37 +183,37 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/special_func_gen1/index.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/NISER_Course/Main_page/index.html</loc>
-    <lastmod>2025-08-12</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Maths/blogs/Rec_of_prime/index.html</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/AstronomR_package1/index.html</loc>
-    <lastmod>2025-08-03</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/index/</loc>
-    <lastmod>2026-06-24</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>

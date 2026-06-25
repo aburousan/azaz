@@ -46,7 +46,7 @@ $$
 The problem with this proof is that fact **\col{green}{It doesn't teach us what is physically happening}** nor it tells us how the hell **\col{green}{something which doesn't have any mass can have momentum?}**
 
 @@im-50
-![](/assets/Physics/blogs/Light_Momentum/em_field_light.jpg)
+![](/assets/Physics/blogs/Light_Momentum/em_field_light.webp)
 @@
 **Spolier: Magnetic-Field Component is responsible for Light Momentum**
 
@@ -103,7 +103,7 @@ Another nice observation is the tail of **Hale Bopp** comet. Normally, when a co
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Physics/blogs/Light_Momentum/Hale_Bopp.jpeg" height="400">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/Hale_Bopp.webp" height="400">
     <p>
     
     </p>
@@ -133,7 +133,7 @@ As shown in the figure, when the **E-field** points downwards, the electron bein
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Physics/blogs/Light_Momentum/E_wave_pushe.png" height="300">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/E_wave_pushe.webp" height="300">
     <p>
     
     </p>
@@ -145,7 +145,7 @@ In the next moment when the wave goes up at the same location, the electron feel
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Physics/blogs/Light_Momentum/E_wave_pushe1.png" height="300">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/E_wave_pushe1.webp" height="300">
     <p>
     
     </p>
@@ -166,7 +166,7 @@ where $q$ is the charge of the particle, $\vec{v}$ is the velocity and $\vec{B}$
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Physics/blogs/Light_Momentum/B_wave_push1.png" height="300">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/B_wave_push1.webp" height="300">
     <p>
     
     </p>
@@ -178,7 +178,7 @@ After a while when the magnetic field is now pointing in the $+\hat{x}$ directio
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Physics/blogs/Light_Momentum/B_wave_push2.png" height="300">
+    <img class="center" src="/assets/Physics/blogs/Light_Momentum/B_wave_push2.webp" height="300">
     <p>
     
     </p>
@@ -252,3 +252,5 @@ If you have some queries, do let me know in the comments or contact me using my 
         async>
 </script>
 ~~~
+
+{{comments}}

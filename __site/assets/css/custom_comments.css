@@ -1,0 +1,182 @@
+/* Custom Comment Section Styling */
+#custom-comments-container {
+    margin-top: 50px;
+    padding: 25px;
+    background: #fdfbf7;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 1px solid #eaeaea;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+/* For dark themes on other pages, it will adapt if we use transparent or inherit */
+body.dark-theme #custom-comments-container {
+    background: #111;
+    border: 1px solid #333;
+    color: #e0e0e0;
+}
+
+#comments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #eaeaea;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+body.dark-theme #comments-header {
+    border-bottom: 2px solid #333;
+}
+
+#comments-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: inherit;
+}
+
+.comment-btn {
+    background: #2c3e50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.comment-btn:hover {
+    background: #1a252f;
+    transform: translateY(-2px);
+}
+
+.comment-btn-small {
+    background: transparent;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    padding: 4px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85em;
+    margin-left: 10px;
+    transition: all 0.2s;
+}
+
+.comment-btn-small:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+#comment-text {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    background: transparent;
+    color: inherit;
+}
+
+#comment-text:focus {
+    border-color: #2c3e50;
+    outline: none;
+}
+
+.comment-item {
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+    animation: fadeIn 0.5s ease;
+}
+
+body.dark-theme .comment-item {
+    border-bottom: 1px solid #333;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.comment-meta {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.1em;
+}
+
+body.dark-theme .comment-author {
+    color: #0ea5e9;
+}
+
+.comment-body {
+    line-height: 1.6;
+    color: inherit;
+    word-wrap: break-word;
+}
+
+#user-info {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   DARK MODE  (the site toggles html.dark-mode, NOT
+   body.dark-theme — the old rules above never matched).
+   Warm-dark palette to match the site theme.
+   ========================================================= */
+html.dark-mode #custom-comments-container {
+    background: #1e1a13;
+    border: 1px solid #322c22;
+    color: #e3dccd;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+}
+html.dark-mode #comments-header {
+    border-bottom: 2px solid #322c22;
+}
+html.dark-mode #comments-header h3 {
+    color: #f1ead9;
+}
+html.dark-mode #comment-text {
+    border: 2px solid #322c22;
+    color: #e3dccd;
+}
+html.dark-mode #comment-text:focus {
+    border-color: #d8b46a;
+}
+html.dark-mode .comment-btn {
+    background: #2a2419;
+    color: #f0c97e;
+}
+html.dark-mode .comment-btn:hover {
+    background: #352c1d;
+}
+html.dark-mode .comment-item {
+    border-bottom: 1px solid #322c22;
+}
+html.dark-mode .comment-author {
+    color: #d8b46a;
+}
+html.dark-mode .comment-meta {
+    color: #a99f8a;
+}

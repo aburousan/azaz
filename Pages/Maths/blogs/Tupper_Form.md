@@ -117,7 +117,7 @@ This has 3 steps:
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Maths/blogs/tupper_img/graph_ran.png"  width="400">
+    <img class="center" src="/assets/Maths/blogs/tupper_img/graph_ran.webp"  width="400">
     <p>
     This is the grid. Now, we can just draw "a" at one corner.
     </p>
@@ -129,7 +129,7 @@ This has 3 steps:
 ~~~
 <div class="row">
   <div class="container">
-    <img class="center" src="/assets/Maths/blogs/tupper_img/a_pix_c.png"  width="300">
+    <img class="center" src="/assets/Maths/blogs/tupper_img/a_pix_c.webp"  width="300">
     <p>
     
     </p>
@@ -243,24 +243,4 @@ If you have some queries, do let me know in the comments or contact me using my 
 ~~~
 
 
-~~~
-<div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    /*
-    var disqus_config = function () {
-    this.page.url = https://rousan.netlify.app/pages/maths/blogs/tupper_form/;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://https-rousan-netlify-app.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-~~~
+{{comments}}
