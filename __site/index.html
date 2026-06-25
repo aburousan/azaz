@@ -275,7 +275,7 @@
     </script>
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
 
     
     
@@ -308,7 +308,7 @@
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=52" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=53" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
@@ -351,10 +351,12 @@
   </body>
 </html>
 
-
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
 <script>
   (function(){
-  
+
     // Get the elements.
     // - the 'pre' element.
     // - the 'div' with the 'paste-content' id.

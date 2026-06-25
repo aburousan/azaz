@@ -1,0 +1,23 @@
+# Netlify caching headers (headers-only; does not touch your build config).
+# Speeds up repeat visits and in-site navigation by letting the browser reuse
+# already-downloaded assets instead of re-fetching them.
+#
+# NOTE: /css is intentionally NOT cached aggressively, because the stylesheets
+# change during development and have no content-hash in their filename — a long
+# cache there would hide your edits. Vendored libs never change, so they get a
+# 1-year immutable cache; images get 30 days.
+
+[[headers]]
+  for = "/libs/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"

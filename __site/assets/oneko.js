@@ -16,6 +16,8 @@
   let magicCat = false;         // page mentions witch/magic -> can teleport
   let artPage = false;          // art gallery page -> cat admires & purrs
   let sparkleEl = null;         // puff of magic shown on a teleport
+  let speechEl = null;          // little speech bubble for reactions
+  let speechTicks = 0;          // frames the speech bubble stays up
   let glassesProgress = 0;      // 0..1 slide-on animation for the glasses
 
   // --- Fake 3D depth: the cat can "run into the distance" and back ---
@@ -241,6 +243,25 @@
     bookEl = mkAccessory("📖", 15);
     heartEl = mkAccessory("😻", 16);
     sparkleEl = mkAccessory("✨", 22);
+
+    // A small speech bubble for the cat's reactions (e.g. on seeing Gino)
+    speechEl = document.createElement("div");
+    speechEl.setAttribute("aria-hidden", "true");
+    speechEl.style.position = "fixed";
+    speechEl.style.pointerEvents = "none";
+    speechEl.style.zIndex = Z_TOP.toString();
+    speechEl.style.background = "#fffef7";
+    speechEl.style.color = "#2c2c2c";
+    speechEl.style.border = "2px solid #d8b46a";
+    speechEl.style.borderRadius = "12px";
+    speechEl.style.padding = "5px 11px";
+    speechEl.style.fontSize = "12.5px";
+    speechEl.style.fontFamily = "'Lora', Georgia, serif";
+    speechEl.style.fontStyle = "italic";
+    speechEl.style.whiteSpace = "nowrap";
+    speechEl.style.boxShadow = "0 4px 14px rgba(0,0,0,0.20)";
+    speechEl.style.display = "none";
+    document.body.appendChild(speechEl);
 
     // Detect a quantum-physics page once: the cat puts on a scholar look.
     const contentEl = document.querySelector(".franklin-content, .page__content, main");
@@ -720,6 +741,31 @@
       } else {
         heartEl.style.display = "none";
       }
+    }
+  }
+
+  // Pop a small speech bubble above the cat for a few seconds
+  function showSpeech(text, ticks) {
+    if (!speechEl) return;
+    speechEl.textContent = text;
+    speechTicks = ticks || 45;
+  }
+
+  function updateSpeech() {
+    if (!speechEl) return;
+    if (speechTicks > 0) {
+      speechTicks--;
+      speechEl.style.display = "block";
+      const w = speechEl.offsetWidth || 90;
+      let x = nekoPosX - w / 2;
+      x = Math.min(Math.max(4, x), window.innerWidth - w - 4);
+      let y = nekoPosY - 26 - speechEl.offsetHeight;   // float above the head
+      if (y < 4) y = nekoPosY + 26;                    // flip below if no room
+      speechEl.style.left = `${x}px`;
+      speechEl.style.top = `${y}px`;
+      speechEl.style.opacity = (speechTicks < 6) ? (speechTicks / 6).toFixed(2) : "1";
+    } else if (speechEl.style.display !== "none") {
+      speechEl.style.display = "none";
     }
   }
 
@@ -1786,12 +1832,20 @@
                   const isAvatar = te && te.closest && te.closest('.author__avatar');
                   const isImg = teTag === 'img';
                   const isText = ['p', 'li', 'h1', 'h2', 'h3'].includes(teTag);
+                  const teSrc = (isImg && te.src) ? te.src.toLowerCase() : "";
                   const hideable = te && (
                       isImg ||
                       (te.closest && te.closest('.content-card, .archive__item, .feature__item, .jxgbox, .colbox-blue, .poem-card'))
                   );
 
-                  if (artPage && isImg && Math.random() < 0.65) {
+                  if (isImg && teSrc.includes('gino')) {
+                      // Spotted a fellow feline (Gino) — sit, gaze, and proudly claim it
+                      state = "disturbed";
+                      idleAnimation = "admire";   // sit, heart, purr
+                      idleAnimationFrame = 0;
+                      stateTimer = 85 + Math.floor(Math.random() * 30);
+                      showSpeech("Behold — my beautiful real self!", 48);
+                  } else if (artPage && isImg && Math.random() < 0.65) {
                       // On the art page: sit, admire the piece, and purr
                       state = "disturbed";
                       idleAnimation = "admire";
@@ -1961,6 +2015,7 @@
       }
       updateEyes(); // keep the dark-mode eye glow tracking the cat
       updateAccessories(); // glasses / mortarboard / book over the cat
+      updateSpeech(); // reaction speech bubble
     }
     window.requestAnimationFrame(onAnimationFrame);
   }

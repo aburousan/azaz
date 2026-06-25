@@ -9,6 +9,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS) -->
+  <link rel="preconnect" href="https://use.fontawesome.com">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
    <link rel="stylesheet" href="/libs/katex/katex.min.css">
      
    <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
@@ -146,7 +154,7 @@
       <div class="sidebar sticky">
         <div itemscope itemtype="https://schema.org/Person">
           <div class="author__avatar">
-            <img src="/assets/minimal-mistakes/Rousan.webp" alt="Septimia Zenobia" itemprop="image">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
           </div>
           <div class="author__content">
             <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
@@ -195,9 +203,7 @@
     };
   </script>
   
-
-
-  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
+<div class="franklin-content">
 <div class="franklin-toc"><ol><li><a href="#setting_up_our_test_problem">Setting up our test problem</a></li><li><a href="#why_choosing_this">Why choosing this?</a></li><li><a href="#writing_the_codes">Writing the codes</a><ol><li><a href="#julia">Julia</a></li><li><a href="#python">Python</a></li><li><a href="#c">C&#43;&#43;</a></li><li><a href="#fortran">Fortran</a></li><li><a href="#r">R</a></li></ol></li><li><a href="#running_and_result">Running and Result</a><ol><li><a href="#running_the_code">Running the code</a></li><li><a href="#results">Results</a></li><li><a href="#extra_remark">Extra Remark</a></li></ol></li></ol></div>
 <h1 id="fast_and_curious_a_speed_comparison_of_different_languages"><a href="#fast_and_curious_a_speed_comparison_of_different_languages" class="header-anchor">Fast and Curious: A speed comparison of different languages</a></h1>
 <p>In today&#39;s data-driven world, the choice of <strong>programming language</strong> can significantly impact performance and efficiency. As developers and researchers strive to solve increasingly complex problems, the need for speed becomes paramount. But how do different programming languages stack up against each other in terms of execution speed? 
@@ -522,9 +528,9 @@ ylabel&#33;&#40;&quot;Time Taken &#40;seconds&#41;&quot;&#41;
 title&#33;&#40;&quot;Time Comparison of Sum of Primes Across Different Languages&quot;&#41;
 plot&#33;&#40;legend&#61;:topright&#41;
 savefig&#40;p, joinpath&#40;@OUTPUT, &quot;fast_cou10.json&quot;&#41;&#41;</code></pre>
-<p><div id="fdpkzl" style=""></div>
+<p><div id="fdpqyi" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpkzl");
+graphDiv = document.getElementById("fdpqyi");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/fast_and_curious/code/output/fast_cou10.json');
 </script>
  It very clearly shows which one is superior and which is not for this particular code. Now, we can modify the codes for more efficiency and optimization &#40;like using Numpy/Numba, StaticArray, Eigen, OpenMP , etc&#41;, but here for this blog I think it&#39;s enough. We will continue for discussion in some other blog.</p>
@@ -808,7 +814,7 @@ Time taken: 1.6742537021636963 seconds</code></pre>
     </script>
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
 
     
         <script src="/libs/katex/katex.min.js"></script>
@@ -850,7 +856,7 @@ Time taken: 1.6742537021636963 seconds</code></pre>
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=52" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=53" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
@@ -893,10 +899,12 @@ Time taken: 1.6742537021636963 seconds</code></pre>
   </body>
 </html>
 
-
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
 <script>
   (function(){
-  
+
     // Get the elements.
     // - the 'pre' element.
     // - the 'div' with the 'paste-content' id.

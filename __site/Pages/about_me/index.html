@@ -9,10 +9,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS) -->
+  <link rel="preconnect" href="https://use.fontawesome.com">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
    <link rel="stylesheet" href="/libs/katex/katex.min.css">
      
-   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
-   
+  
   <link rel="stylesheet" href="/css/franklin.css">
 <link rel="stylesheet" href="/css/minimal-mistakes.css">
 <link rel="stylesheet" href="/css/adjust.css">
@@ -146,7 +153,7 @@
       <div class="sidebar sticky">
         <div itemscope itemtype="https://schema.org/Person">
           <div class="author__avatar">
-            <img src="/assets/minimal-mistakes/Rousan.webp" alt="Septimia Zenobia" itemprop="image">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
           </div>
           <div class="author__content">
             <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
@@ -195,132 +202,254 @@
     };
   </script>
   
+<div class="franklin-content">
 
+<style>
+  .cv-header {
+    display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
+    margin: 1.5rem 0 2.5rem;
+  }
+  .cv-header img.cv-photo {
+    width: 215px; height: auto; border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.14);
+    border: 4px solid var(--pastel-bg, #fdfbf7);
+    flex-shrink: 0;
+  }
+  .cv-id { flex: 1; min-width: 250px; }
+  .cv-id h1 { margin: 0 0 .25rem; font-size: 2.9rem; line-height: 1; }
+  .cv-role {
+    font-family: 'Lora', Georgia, serif; font-style: italic;
+    color: var(--pastel-link, #2f6d78); font-size: 1.15rem; margin-bottom: .5rem;
+  }
+  .cv-tagline { color: var(--pastel-text, #444); margin-bottom: 1rem; font-size: .98rem; }
+  .cv-links { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .cv-links a {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .35rem .85rem; border: 1px solid #e2d9c7; border-radius: 30px;
+    font-size: .85rem; font-weight: 600; text-decoration: none !important;
+    color: var(--pastel-link, #2f6d78); transition: all .2s ease;
+  }
+  .cv-links a:hover {
+    background: var(--pastel-link, #2f6d78); color: #fff !important;
+    transform: translateY(-2px);
+  }
+  .cv-links a i { color: var(--ornament-gold, #9c7a3c); }
+  .cv-links a:hover i { color: #fff; }
 
-  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
-<h1 id="about_me"><a href="#about_me" class="header-anchor">About me</a></h1>
-<p>Hi&#33; I’m <strong>Kazi Abu Rousan</strong>, a student currently pursuing PhD in Cosmology at <a href="https://www.niser.ac.in/">NISER</a>. I hold a Master&#39;s degree in Physics with a specialization in Cosmology. In addition to my academic background, I&#39;m deeply passionate about teaching and mentor students in Mathematics and Physics for Olympiad preparation at <a href="https://www.cheenta.com/">Cheenta Ganit Kendra</a>. I am also a member of <a href="https://www.iop.org/">Institute of Physics&#40;IOP&#41;</a>.<br/> 
-<img src="/assets/me.webp" alt="It's a me! Rousan" class="cv-img" style="max-width: 400px;">
-</p>
-<p>Ohh and here is my catto&#33; Mr. <strong>Gino</strong>&#33; 
-<img src="/assets/gino.webp" alt="It's Gino" class="cv-img" style="max-width: 400px;">
-</p>
-<p>For more visit my Social Accounts</p>
+  /* proficiency / score bars */
+  .bar-row { display: flex; align-items: center; gap: .9rem; margin: .45rem 0; }
+  .bar-row .blabel { width: 168px; font-weight: 600; font-size: .9rem; flex-shrink: 0; }
+  .bar-row .track {
+    flex: 1; height: 11px; background: #ece3d3; border-radius: 6px; overflow: hidden;
+  }
+  .bar-row .fill {
+    height: 100%; border-radius: 6px;
+    background: linear-gradient(90deg, var(--pastel-link, #2f6d78), var(--ornament-gold, #b8923f));
+  }
+  .bar-row .bval { width: 64px; text-align: right; font-size: .8rem; color: #8a8170; flex-shrink: 0; }
+
+  .edu-item { margin: 0 0 1.2rem; }
+  .edu-item .ehead { font-weight: 700; font-size: 1.02rem; }
+  .edu-item .esub { color: #6b6358; font-size: .9rem; margin: .15rem 0 .35rem; font-style: italic; }
+
+  .cv-skills { display: flex; flex-wrap: wrap; gap: .5rem; margin: .4rem 0 1rem; }
+  .cv-skills span {
+    background: #f1ebde; color: #7a5a2a; padding: .32rem .7rem;
+    border-radius: 6px; font-size: .85rem; font-weight: 600;
+  }
+  .franklin-content h2 {
+    border-bottom: 1px solid #e7ded0; padding-bottom: .3rem;
+    margin-top: 1.9rem; margin-bottom: .8rem;
+  }
+  /* The theme locks content to a narrow 705px centred column, which leaves
+     huge empty margins on a wide screen. Use the available width as a clean,
+     left-aligned document instead. */
+  @media (min-width: 940px) {
+    .franklin-content {
+      width: auto !important; max-width: 880px;
+      padding-left: 1.5rem !important; padding-right: 1.5rem !important;
+      margin-left: auto !important; margin-right: auto !important;
+    }
+  }
+  /* Tighten the loose vertical rhythm (figures + broken lists left big gaps) */
+  .franklin-content ul { margin-top: .35rem; margin-bottom: .35rem; }
+  .edu-item { margin-bottom: .85rem !important; }
+  .franklin-content .cv-img { margin: .5rem auto 1rem !important; }
+
+  /* Clean CV lists — no bullet/arrow marks, just a thin accent rule */
+  .franklin-content ul { list-style: none; padding-left: 0; margin-left: 0; }
+  .franklin-content ul li {
+    margin: 0 0 .7rem; padding-left: .9rem;
+    border-left: 2px solid #e2d9c7; list-style: none;
+  }
+  .franklin-content ul li::marker { content: ""; }
+  .franklin-content ul ul { margin-top: .5rem; }
+
+  /* Embedded videos: centred, comfortable size, responsive */
+  .franklin-content iframe {
+    display: block; margin: 1rem auto 1.4rem;
+    width: 100%; max-width: 480px; aspect-ratio: 16 / 9; height: auto;
+    border-radius: 8px;
+  }
+
+  /* dark mode */
+  html.dark-mode .franklin-content ul li { border-left-color: #3a3326; }
+  html.dark-mode .cv-header img.cv-photo { border-color: #1e1a13; }
+  html.dark-mode .cv-links a { border-color: #3a3326; color: #d8b46a; }
+  html.dark-mode .cv-links a i { color: #d8b46a; }
+  html.dark-mode .cv-links a:hover { background: #d8b46a; color: #14110d !important; }
+  html.dark-mode .cv-links a:hover i { color: #14110d; }
+  html.dark-mode .bar-row .track { background: #2a2419; }
+  html.dark-mode .bar-row .bval { color: #a99f8a; }
+  html.dark-mode .edu-item .esub { color: #a99f8a; }
+  html.dark-mode .cv-skills span { background: #2a2419; color: #e0c489; }
+  html.dark-mode .franklin-content h2 { border-bottom-color: #322c22; }
+</style>
+
+<div class="cv-header">
+  <img class="cv-photo" src="/assets/me.webp" alt="Kazi Abu Rousan">
+  <div class="cv-id">
+    <h1>Kazi Abu Rousan</h1>
+    <div class="cv-role">PhD Student in Cosmology &middot; NISER</div>
+    <div class="cv-tagline">Early-Universe Cosmology &middot; Mathematical Physics &middot; Scientific Computing &middot; Science Outreach</div>
+    <div class="cv-links">
+      <a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a href="https://github.com/aburousan" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+      <a href="https://www.researchgate.net/profile/Kazi-Abu-Rousan" rel="noopener"><i class="fab fa-researchgate"></i> ResearchGate</a>
+      <a href="https://medium.com/@kaziaburousan" rel="noopener"><i class="fab fa-medium"></i> Medium</a>
+    </div>
+  </div>
+</div>
+
+<h2 id="profile"><a href="#profile" class="header-anchor">Profile</a></h2>
+<p>I&#39;m <strong>Kazi Abu Rousan</strong>, a PhD student in <strong>Cosmology</strong> at <a href="https://www.niser.ac.in/">NISER</a>, with a Master&#39;s degree in Physics &#40;High-Energy Physics&#41; from the <a href="https://www.iacs.res.in/">Indian Association for the Cultivation of Science &#40;IACS&#41;</a>. I work on the physics of the <strong>early universe</strong>, build small scientific tools in Julia, Python and R, and care a lot about teaching and science communication — I create expository articles, videos, and animations, and have mentored students for the Physics and Mathematics Olympiads.</p>
+<h2 id="research_interests"><a href="#research_interests" class="header-anchor">Research Interests</a></h2>
+<p>My current research is on <strong>primordial gravitational waves</strong> and <strong>inflation</strong>, the study of <strong>galactic dust and its cross-correlation with the Cosmic Infrared Background &#40;CIB&#41;</strong>, and <strong>modified theories of gravity</strong> — I&#39;m currently writing a paper in this area with collaborators in theoretical physics. More broadly, I&#39;m interested in <strong>early-universe cosmology</strong> and <strong>cosmological perturbation theory</strong> &#40;the long-term goal of my Julia package <em>Cosmic.jl</em>&#41;, along with <strong>non-commutative quantum mechanics</strong> and time crystals, and <strong>computational and numerical methods</strong> for physics.</p>
+<h2 id="education"><a href="#education" class="header-anchor">Education</a></h2>
+
+<div class="edu-item">
+  <div class="ehead">M.Sc. in Physics (High-Energy Physics) — Indian Association for the Cultivation of Science (IACS), Jadavpur, Kolkata</div>
+  <div class="esub">MS Project: Study of Recombination and spectral distortion of the CMB</div>
+</div>
+
+<div class="edu-item">
+  <div class="ehead">B.Sc. in Physics — Sripatsingh College, Jiaganj (University of Kalyani)</div>
+  <div class="esub">B.Sc. Dissertation: Introduction to Anyons and a Generalized Distribution Function</div>
+</div>
+
+<div class="edu-item">
+  <div class="ehead">Higher Secondary — Nawab Bahadur's Institution, Murshidabad</div>
+</div>
+
+<h2 id="experience"><a href="#experience" class="header-anchor">Experience</a></h2>
 <ul>
-<li><p>
-<a href="https://twitter.com/AustinRousan?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @AustinRousan</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-</p>
+<li><p><strong>NISER, Bhubaneswar — PhD</strong> <em>&#40;ongoing&#41;</em> — School of Physical Sciences &#40;Cosmology&#41;.</p>
 </li>
-<li><p><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/">LinkedIn</a></p>
+<li><p><strong>NISER, Bhubaneswar — Junior Research Fellow</strong> <em>&#40;completed&#41;</em> — School of Earth and Planetary Sciences; worked on a project in collaboration with the Max Planck Society.</p>
 </li>
-<li><p><a href="https://www.instagram.com/azavzya/">Instragram</a></p>
+<li><p><strong>Cheenta Ganit Kendra, Kolkata — Mentor</strong> <em>&#40;former&#41;</em> — Physics teacher for the Physics Olympiad, and content creator on Cheenta&#39;s YouTube channel.</p>
 </li>
-<li><p><a href="https://www.facebook.com/K.A.Rousan/">Facebook</a></p>
+<li><p><strong>Chegg, Kolkata — Advanced Physics Expert</strong>.</p>
+</li>
+<li><p><strong>S. N. Bose National Centre for Basic Sciences — Summer Project Student</strong> — <em>Can the time-crystal nature arise naturally from Non-Commutative Quantum Mechanics?</em> &#40;under Prof. Archan S. Majumdar&#41;.</p>
+</li>
+<li><p><strong>Introduction to Astronomy Research — Summer School &#40;2023&#41;</strong> — Mentor for the course on using NumPy, SciPy and Astropy for data analysis.</p>
 </li>
 </ul>
-<p>Feel free to contact me. I am hyperactive.</p>
-<h1 id="some_of_my_works"><a href="#some_of_my_works" class="header-anchor">Some of my Works</a></h1>
-<p>Some of my works:</p>
+<h2 id="publications_selected_work"><a href="#publications_selected_work" class="header-anchor">Publications &amp; Selected Work</a></h2>
 <ul>
-<li><p>Recently, I am working on the Radiometric Calibration of VIR DAWN dataset .<a href="https://virdawnradiometrical.streamlit.app/">You can visit a webapp I have developed for the calibartion. Anyone can upload .lbl, .qub and other house-keeping data &amp; then download the calibrated .npy file</a></p>
+<li><p><a href="https://link.springer.com/article/10.1007/s12045-022-1398-y"><strong>Method of Images and its Relation to Optical Images</strong></a> — <em>Resonance</em> &#40;Springer&#41;. DOI: <a href="https://doi.org/10.1007/s12045-022-1398-y">10.1007/s12045-022-1398-y</a>. How optical lens formulas mirror the electrostatic method of images.</p>
 </li>
 </ul>
 
-<img src="/assets/radio_cal_1.webp" class="cv-img" style="max-width: 400px;">
+<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/361545877/figure/fig7/AS:1171982066429952@1656433707070/Here-you-see-the-fields-from-qred-to-qblue-The-field-is-symmetry-about-the-grounded_W640.jpg" class="cv-img" loading="lazy" decoding="async" style="max-width: 340px;">
 
 <ul>
-<li><p><a href="https://www.researchgate.net/publication/372221313_Time_Crystal_as_a_consequence_of_NonCommutative_Quantum_Mechanics_for_2D_Harmonic_Oscillator">Time Crystal as a consequence of NonCommutative Quantum Mechanics for 2D Harmonic Oscillator</a></p>
-</li>
-</ul>
-<p>
-<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/372221313/figure/fig1/AS:11431281173427597@1688888680920/Physical-Realisation-of-Time-Crystal_W640.jpg" class="cv-img" style="max-width: 400px;">
- This was done in the 2023 summer research project under the guidence of Prof. Archan S Majumdar under S. N. Bose National Centre for Basic Sciences.</p>
-<ul>
-<li><p><a href="https://www.researchgate.net/publication/376889659_Basic_Recombination_and_Formation_of_Neutral_Hydrogen_in_Early_Universe">Basic Recombination and Formation of Neutral Hydrogen in Early Universe</a></p>
-</li>
-</ul>
-<p>
-<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/376889659/figure/fig7/AS:11431281214834585@1703796954888/Comparison-of-Saha-Boltzmann-and-Peeble-Equation-Here-Boltzmann-Equation-means-the_W640.jpg" class="cv-img" style="max-width: 400px;">
- In this article I have discussed the mechanism of <strong>Recombination in the early universe</strong> and have discribed <strong>Peeble&#39;s Equation</strong>.</p>
-<ul>
-<li><p><a href="https://www.researchgate.net/publication/370161335_Extension_of_Gauss_circle_problem_Lattices_for_a_Triangular_grid">Extension of Gauss circle problem: Lattices for a Triangular grid and discovery of a new formula of \(\pi\)</a></p>
+<li><p><a href="https://www.researchgate.net/publication/356142815_Diffraction_patterns_by_different_orientation_of_rectangular_Apertures_Intuitive_understanding_of_Optical_Transformations"><strong>Diffraction patterns from different orientations of rectangular apertures</strong></a> — <em>submitted to Resonance</em>. Based on a TIFR problem; how diffraction patterns change with aperture configuration, simulated in Python.</p>
 </li>
 </ul>
 
-<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/370161335/figure/fig3/AS:11431281152663383@1682100177142/A-circle-of-Radius-7-has-18-lattice-points-on-it_Q320.jpg" class="cv-img" style="max-width: 400px;">
+<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/356142815/figure/fig2/AS:1098551824265217@1638926573534/Diffraction-pattern-of-the-aperture-in-Fig-2.ppm" class="cv-img" loading="lazy" decoding="async" style="max-width: 340px;">
 
-<p>Here I have tried to extend the <strong>Gauss&#39;s Circle Problem</strong> for a triangular grid and also found a new infinite series for \(\pi\).</p>
 <ul>
-<li><p><a href="https://www.researchgate.net/publication/356142815_Diffraction_patterns_by_different_orientation_of_rectangular_Apertures_Intuitive_understanding_of_Optical_Transformations">Diffraction patterns by different orientation of rectangular Apertures: Intuitive understanding of Optical Transformations</a></p>
+<li><p><strong>A new formula for \(\pi\)</strong> — discovered while <a href="https://www.researchgate.net/publication/370161335_Extension_of_Gauss_circle_problem_Lattices_for_a_Triangular_grid">extending the Gauss circle problem to a triangular grid</a>; published in <em>MSAST 2022</em>, Kolkata.</p>
 </li>
 </ul>
 
-<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/356142815/figure/fig2/AS:1098551824265217@1638926573534/Diffraction-pattern-of-the-aperture-in-Fig-2.ppm" class="cv-img" style="max-width: 400px;">
+<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/370161335/figure/fig3/AS:11431281152663383@1682100177142/A-circle-of-Radius-7-has-18-lattice-points-on-it_Q320.jpg" class="cv-img" loading="lazy" decoding="async" style="max-width: 340px;">
 
-<p>This article is based on a problem which came in tifr exam. Here, I have discussed how diffraction patterns can change depending upon different configuration of apertures and simulated the things using python.</p>
 <ul>
-<li><p><a href="https://link.springer.com/article/10.1007/s12045-022-1398-y">Method of Images and It&#39;s Relation to Optical Images</a></p>
+<li><p><a href="https://www.researchgate.net/publication/352641643_Introduction_to_Anyons_and_generalized_distribution_function"><strong>Introduction to Anyons and a Generalized Distribution Function</strong></a> — my B.Sc. project: a generalized distribution function for <strong>anyons</strong> that recovers the Bose–Einstein and Fermi–Dirac distributions as special cases.</p>
 </li>
-</ul>
-<p>
-<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/361545877/figure/fig7/AS:1171982066429952@1656433707070/Here-you-see-the-fields-from-qred-to-qblue-The-field-is-symmetry-about-the-grounded_W640.jpg" class="cv-img" style="max-width: 400px;">
- Here I have tried to show how <strong>Optical Lense</strong> formulas are similar to that of <strong>electrostatic method of images</strong>.</p>
-<ul>
-<li><p><a href="https://www.researchgate.net/publication/352641643_Introduction_to_Anyons_and_generalized_distribution_function">Introduction to Anyons and Generalized Distribution Function</a></p>
+<li><p><a href="https://www.researchgate.net/publication/372221313_Time_Crystal_as_a_consequence_of_NonCommutative_Quantum_Mechanics_for_2D_Harmonic_Oscillator"><strong>Time Crystal as a consequence of Non-Commutative Quantum Mechanics for a 2D Harmonic Oscillator</strong></a> — 2023 summer project at the S. N. Bose National Centre for Basic Sciences.</p>
 </li>
 </ul>
 
-<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/352641643/figure/fig3/AS:1040709511565313@1625135891075/The-reflection-operation-with-respect-to-one-axis-This-shows-ph-p-and-ph-p-are.ppm" class="cv-img" style="max-width: 400px;">
+<img src="https://www.researchgate.net/profile/Kazi-Abu-Rousan/publication/372221313/figure/fig1/AS:11431281173427597@1688888680920/Physical-Realisation-of-Time-Crystal_W640.jpg" class="cv-img" loading="lazy" decoding="async" style="max-width: 340px;">
 
-<p>This is my BSc. project, here I have tried to find a <strong>generalized distribution function</strong> which <strong>anyons</strong> follow. We can get <strong>Bosonic</strong> and <strong>Fermionic</strong> distribution function from that function as a special case.</p>
 <ul>
-<li><p><a href="https://github.com/aburousan/cosmic.jl">Cosmic.jl: A simple package for study of Cosmology</a></p>
+<li><p><a href="https://www.researchgate.net/publication/376889659_Basic_Recombination_and_Formation_of_Neutral_Hydrogen_in_Early_Universe"><strong>Basic Recombination and Formation of Neutral Hydrogen in the Early Universe</strong></a> — the mechanism of recombination, including a discussion of <strong>Peebles&#39; equation</strong>.</p>
+</li>
+<li><p><a href="http://www.ssmrmh.ro/2021/02/12/power-logarithmic-inequality/"><strong>Power Logarithmic Inequality</strong></a> — <em>Romanian Mathematical Magazine</em>.</p>
 </li>
 </ul>
-<p>This is a <strong>julia</strong> package I am developing in my free time for calculating some basic things of Cosmology. The goal of this package is to compute Cosmological Perturbations. Although for now, it can only do very basic things and is far from it&#39;s real goal.</p>
+<h2 id="software_tools"><a href="#software_tools" class="header-anchor">Software &amp; Tools</a></h2>
 <ul>
-<li><p>I also loves to make animation using <strong>manim</strong>– a python library build by Grant &#40;3blue1brown&#41; to make animation videos on different topics of maths and physics. Here is the <a href="https://youtube.com/playlist?list&#61;PLTDTcDkWcXuzwI6M1bGzNh6dDPCB9qZiu&amp;si&#61;I8vaX6GaIaK5jVei">playlist</a>.</p>
+<li><p><a href="https://github.com/aburousan/cosmic.jl"><strong>Cosmic.jl</strong></a> — a Julia package I&#39;m developing for basic cosmology computations, aimed eventually at cosmological perturbations.</p>
 </li>
-</ul>
-
-<iframe width="200" height="100" src="https://www.youtube.com/embed/videoseries?si=PXwPtqGFReU-ZJct&amp;list=PLTDTcDkWcXuzwI6M1bGzNh6dDPCB9qZiu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-<p>Some of my blogs on medium are,</p>
-<ul>
-<li><p><a href="https://medium.com/swlh/what-is-fourier-series-and-its-beauty-ce2410012329">What is Fourier Series? and It&#39;s Beauty</a>. You can also watch a <a href="https://youtu.be/0y8UsIFcvPs">video</a> on this.</p>
+<li><p><a href="https://github.com/samrit2442/astronomR"><strong>astronomR</strong></a> — an R package for astronomy and astrophysics, developed with <strong>Samrit Pramanik</strong>.</p>
+</li>
+<li><p><strong>Radiometric Calibration of the DAWN VIR dataset</strong> — I built a <a href="https://virdawnradiometrical.streamlit.app/">web app</a> for the calibration: upload <code>.lbl</code>, <code>.qub</code>, and house-keeping data, then download the calibrated <code>.npy</code> file.</p>
 </li>
 </ul>
 
-<img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*YkraGeZW9la2P7sDetBpFQ.png" alt="Joaquin Phoenix Joker using 6000 epicycles" class="cv-img" style="max-width: 400px;">
+<img src="/assets/radio_cal_1.webp" class="cv-img" loading="lazy" decoding="async" style="max-width: 340px;">
 
 <ul>
-<li><p><a href="https://www.cantorsparadise.com/trapezoidal-rule-a-method-of-numerical-integration-5772838657b3">Trapezoidal Rule: A Method of Numerical Integration</a></p>
+<li><p><strong>Mathematics &amp; physics animations</strong> with <a href="https://www.manim.community/">manim</a> — see the <a href="https://youtube.com/playlist?list&#61;PLTDTcDkWcXuzwI6M1bGzNh6dDPCB9qZiu&amp;si&#61;I8vaX6GaIaK5jVei">playlist</a>.</p>
 </li>
 </ul>
 
-<img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*2jcjgSAw_qoimpVm_2JNrg.png" class="cv-img" style="max-width: 400px;">
+<iframe width="220" height="124" loading="lazy" src="https://www.youtube.com/embed/videoseries?si=PXwPtqGFReU-ZJct&amp;list=PLTDTcDkWcXuzwI6M1bGzNh6dDPCB9qZiu" title="manim animations" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<h1 id="some_extra_mentorship"><a href="#some_extra_mentorship" class="header-anchor">Some extra Mentorship</a></h1>
+<h2 id="teaching_outreach"><a href="#teaching_outreach" class="header-anchor">Teaching &amp; Outreach</a></h2>
 <ul>
-<li><p>I have been a mentor for a Summer School of Astrophysics in 2023. For more visit their website <a href="https://sites.google.com/view/intro-2-astro/2023-course">here</a>. To access notes and assignment visit <a href="https://github.com/howardisaacson/Intro-to-Astro2023/tree/main/Week2_packages_plotting">here</a> &#40;The ones on matplotlib and numpy, Scipy and Astropy are made by me&#41;.</p>
+<li><p><strong>Olympiad mentoring</strong> — previously mentored students in Mathematics and Physics for the Olympiads at Cheenta Ganit Kendra.</p>
+</li>
+<li><p><strong>Mentor, Introduction to Astronomy Research — Summer School &#40;2023&#41;</strong>: authored the notes and assignments on Matplotlib, NumPy, SciPy and Astropy &#40;<a href="https://github.com/howardisaacson/Intro-to-Astro2023/tree/main/Week2_packages_plotting">materials</a>, <a href="https://sites.google.com/view/intro-2-astro/2023-course">course</a>&#41;.</p>
 </li>
 </ul>
 
-<iframe width="300" height="150" src="https://www.youtube.com/embed/0wXsGut5kYY" title="Intro2Astro: Numpy, Scipy &amp; Astropy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="220" height="124" loading="lazy" src="https://www.youtube.com/embed/0wXsGut5kYY" title="Intro2Astro: Numpy, Scipy & Astropy" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 <ul>
-<li><p>I am teaching the python part of a course <strong>Approaching Computational Thinking with R &#43; Python</strong> organised by <a href="https://cosmic-charade.netlify.app/">Cosmic Charade</a>.</p>
+<li><p><strong>Instructor &#40;Python&#41;</strong> for <em>Approaching Computational Thinking with R &#43; Python</em>, organised by <a href="https://cosmic-charade.netlify.app/">Cosmic Charade</a>.</p>
 </li>
-<li><p>I am writing a book on <a href="https://drive.google.com/file/d/1dD4zTXiz76PVD15ZdT4v-SawX2OkMIc8/view?usp&#61;drive_link">Number Theory</a>. You can check the draft.</p>
+<li><p><strong>Upcoming book</strong> on <a href="https://drive.google.com/file/d/1dD4zTXiz76PVD15ZdT4v-SawX2OkMIc8/view?usp&#61;drive_link">Number Theory</a> — the first chapter is linked.</p>
 </li>
-</ul>
-
-<img src="/assets/book.webp" alt="My Book" class="cv-img" style="max-width: 400px;">
-
-<ul>
-<li><p>Recently, I have started doing digital art. Here are some of them <a href="/Pages/art/">here</a>.</p>
+<li><p><strong>Expository articles on Medium:</strong> <a href="https://medium.com/swlh/what-is-fourier-series-and-its-beauty-ce2410012329">What is the Fourier Series? And its Beauty</a> &#40;with a <a href="https://youtu.be/0y8UsIFcvPs">video</a>&#41;, and <a href="https://www.cantorsparadise.com/trapezoidal-rule-a-method-of-numerical-integration-5772838657b3">Trapezoidal Rule: a method of numerical integration</a>.</p>
+</li>
+<li><p><strong>Digital art</strong> — see some of it <a href="/Pages/art/">here</a>.</p>
 </li>
 </ul>
+<h2 id="skills"><a href="#skills" class="header-anchor">Skills</a></h2>
+
+<div>
+  <div class="bar-row"><span class="blabel">Python</span><div class="track"><div class="fill" style="width:95%"></div></div><span class="bval">Expert</span></div>
+  <div class="bar-row"><span class="blabel">Julia</span><div class="track"><div class="fill" style="width:90%"></div></div><span class="bval">Expert</span></div>
+  <div class="bar-row"><span class="blabel">LaTeX</span><div class="track"><div class="fill" style="width:95%"></div></div><span class="bval">Expert</span></div>
+  <div class="bar-row"><span class="blabel">Mathematica</span><div class="track"><div class="fill" style="width:82%"></div></div><span class="bval">Advanced</span></div>
+  <div class="bar-row"><span class="blabel">R</span><div class="track"><div class="fill" style="width:75%"></div></div><span class="bval">Proficient</span></div>
+  <div class="bar-row"><span class="blabel">C++</span><div class="track"><div class="fill" style="width:70%"></div></div><span class="bval">Proficient</span></div>
+  <div class="bar-row"><span class="blabel">Qiskit (Quantum)</span><div class="track"><div class="fill" style="width:72%"></div></div><span class="bval">Proficient</span></div>
+  <div class="bar-row"><span class="blabel">Arduino &amp; ESP32</span><div class="track"><div class="fill" style="width:66%"></div></div><span class="bval">Working</span></div>
+</div>
+
+<h2 id="beyond_research"><a href="#beyond_research" class="header-anchor">Beyond Research</a></h2>
+<p>And of course, my cat — Mr. <strong>Gino</strong>&#33;</p>
+
+<img src="/assets/gino.webp" alt="Gino the cat" class="cv-img" loading="lazy" decoding="async" style="max-width: 320px;">
+
 
 <button onclick="window.history.back()">Go Back</button>
 
@@ -409,7 +538,7 @@
     </script>
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
 
     
         <script src="/libs/katex/katex.min.js"></script>
@@ -417,10 +546,6 @@
 <script>renderMathInElement(document.body)</script>
 
     
-    
-        <script src="/libs/highlight/highlight.min.js"></script>
-<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-
     
 
     <!-- Universal Lightbox -->
@@ -451,7 +576,7 @@
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=52" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=53" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
@@ -494,10 +619,12 @@
   </body>
 </html>
 
-
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
 <script>
   (function(){
-  
+
     // Get the elements.
     // - the 'pre' element.
     // - the 'div' with the 'paste-content' id.

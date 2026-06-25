@@ -9,6 +9,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS) -->
+  <link rel="preconnect" href="https://use.fontawesome.com">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
    <link rel="stylesheet" href="/libs/katex/katex.min.css">
      
    <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
@@ -146,7 +154,7 @@
       <div class="sidebar sticky">
         <div itemscope itemtype="https://schema.org/Person">
           <div class="author__avatar">
-            <img src="/assets/minimal-mistakes/Rousan.webp" alt="Septimia Zenobia" itemprop="image">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
           </div>
           <div class="author__content">
             <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
@@ -195,10 +203,8 @@
     };
   </script>
   
-
-
-  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#first_what_is_the_weak_force">First, What <em>Is</em> the Weak Force?</a></li><li><a href="#the_dirac_equation_and_weyl_spinors">The Dirac Equation and Weyl Spinors</a></li><li><a href="#chirality_gamma5">Chirality &#40;\(\gamma^5\)&#41;</a></li><li><a href="#helicity_h">Helicity &#40;\(h\)&#41;</a><ol><li><a href="#connecting_chirality_and_helicity">Connecting Chirality and Helicity</a></li><li><a href="#summary_of_values_every_case_spelled_out">Summary of values: every case spelled out</a></li><li><a href="#numerical_reality_check_why_chirality_approx_helicity">Numerical reality check: why chirality \(\approx\) helicity</a></li><li><a href="#the_smoking_gun_why_the_pion_shuns_the_electron">The smoking gun: why the pion shuns the electron</a></li></ol></li><li><a href="#parity_violation_and_the_weak_force">Parity Violation and the Weak Force</a><ol><li><a href="#the_weak_interaction_va_theory">The Weak Interaction &#40;V−A Theory&#41;</a></li><li><a href="#the_group-theory_argument_singlets_doublets_triplets">The Group-Theory Argument: Singlets, Doublets, Triplets</a></li><li><a href="#quantifying_maximal_violation">Quantifying &quot;maximal&quot; violation</a></li></ol></li><li><a href="#the_resolution_massive_neutrinos_and_parity">The Resolution: Massive Neutrinos and Parity</a></li><li><a href="#giving_the_neutrino_mass_dirac_vs_majorana">Giving the Neutrino Mass: Dirac vs Majorana</a><ol><li><a href="#step_0_why_a_mass_term_needs_both_chiralities">Step 0 — why a mass term needs <em>both</em> chiralities</a></li><li><a href="#option_a_dirac_mass_borrow_a_brand-new_partner">Option A — Dirac mass &#40;borrow a brand-new partner&#41;</a></li><li><a href="#option_b_majorana_mass_be_your_own_partner">Option B — Majorana mass &#40;be your own partner&#41;</a></li><li><a href="#best_of_both_the_seesaw_mechanism">Best of both — the seesaw mechanism</a></li></ol></li><li><a href="#experimental_reality_from_weyl_to_oscillations">Experimental Reality: From Weyl to Oscillations</a><ol><li><a href="#the_1964_picture_a_massless_one-handed_neutrino">The 1964 picture: a massless, one-handed neutrino</a></li><li><a href="#the_modern_picture_neutrinos_oscillate_so_they_have_mass">The modern picture: neutrinos oscillate, so they have mass</a></li></ol></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#sources_and_further_reading">Sources and further reading</a></li></ol></div>
+<div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#first_what_is_the_weak_force">First, What <em>Is</em> the Weak Force?</a></li><li><a href="#the_dirac_equation_and_weyl_spinors">The Dirac Equation and Weyl Spinors</a></li><li><a href="#chirality_gamma5">Chirality &#40;\(\gamma^5\)&#41;</a></li><li><a href="#helicity_h">Helicity &#40;\(h\)&#41;</a><ol><li><a href="#connecting_chirality_and_helicity">Connecting Chirality and Helicity</a></li><li><a href="#summary_of_values_every_case_spelled_out">Summary of values: every case spelled out</a></li><li><a href="#numerical_reality_check_why_chirality_approx_helicity">Numerical reality check: why chirality \(\approx\) helicity</a></li><li><a href="#the_decisive_measurement_why_the_pion_shuns_the_electron">The decisive measurement: why the pion shuns the electron</a></li></ol></li><li><a href="#parity_violation_and_the_weak_force">Parity Violation and the Weak Force</a><ol><li><a href="#the_weak_interaction_va_theory">The Weak Interaction &#40;V−A Theory&#41;</a></li><li><a href="#the_group-theory_argument_singlets_doublets_triplets">The Group-Theory Argument: Singlets, Doublets, Triplets</a></li><li><a href="#quantifying_maximal_violation">Quantifying &quot;maximal&quot; violation</a></li></ol></li><li><a href="#the_resolution_massive_neutrinos_and_parity">The Resolution: Massive Neutrinos and Parity</a></li><li><a href="#giving_the_neutrino_mass_dirac_vs_majorana">Giving the Neutrino Mass: Dirac vs Majorana</a><ol><li><a href="#step_0_why_a_mass_term_needs_both_chiralities">Step 0 — why a mass term needs <em>both</em> chiralities</a></li><li><a href="#option_a_dirac_mass_borrow_a_brand-new_partner">Option A — Dirac mass &#40;borrow a brand-new partner&#41;</a></li><li><a href="#option_b_majorana_mass_be_your_own_partner">Option B — Majorana mass &#40;be your own partner&#41;</a></li><li><a href="#best_of_both_the_seesaw_mechanism">Best of both — the seesaw mechanism</a></li></ol></li><li><a href="#experimental_reality_from_weyl_to_oscillations">Experimental Reality: From Weyl to Oscillations</a><ol><li><a href="#the_1964_picture_a_massless_one-handed_neutrino">The 1964 picture: a massless, one-handed neutrino</a></li><li><a href="#the_modern_picture_neutrinos_oscillate_so_they_have_mass">The modern picture: neutrinos oscillate, so they have mass</a></li></ol></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#sources_and_further_reading">Sources and further reading</a></li></ol></div>
 
 <script src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
@@ -312,7 +318,7 @@ h = \frac{\vec{\Sigma}\cdot\vec{p}}{2|\vec{p}|}, \qquad
 <p>Spin aligned with momentum gives \(h=+\tfrac12\) &#40;right-helical&#41;; anti-aligned gives \(h=-\tfrac12\) &#40;left-helical&#41;.</p>
 <p>
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/helicity.svg" alt="Right- and left-helical neutrinos" style="max-width:100%; height:auto; border-radius:8px;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/helicity.svg" alt="Right- and left-helical neutrinos" style="max-width:100%; height:auto; border-radius:8px;">
 </div>
  <em>Helicity is the projection of spin &#40;red&#41; onto momentum &#40;black&#41;: same direction \(\Rightarrow +\tfrac12\), opposite \(\Rightarrow -\tfrac12\).</em></p>
 <p>Here is the catch:</p>
@@ -323,7 +329,7 @@ h = \frac{\vec{\Sigma}\cdot\vec{p}}{2|\vec{p}|}, \qquad
   
 <p>
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/boost.svg" alt="Helicity flips under a boost that overtakes the neutrino" style="max-width:100%; height:auto; border-radius:8px;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/boost.svg" alt="Helicity flips under a boost that overtakes the neutrino" style="max-width:100%; height:auto; border-radius:8px;">
 </div>
  <em>An observer who outruns the neutrino sees its momentum reversed while the spin stays fixed, flipping the helicity. This overtaking is only possible because \(v<c\); for a massless particle nobody can outrun it, and helicity becomes frame-independent.</em></p>
 
@@ -484,7 +490,7 @@ KATRIN max   1.0e-13         1.0e-13         5.1e-14
 <p>Notice the accelerator row: the naive column reads a flat <strong><code>0.0</code></strong> &#40;all significant digits cancelled away&#41;, while the stable column correctly gives \(1.3\times10^{-21}\). The physics and the numerics teach the same lesson — the wrong-helicity rate is fantastically tiny, but it is not zero.</p>
 <p>
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/decomp.svg" alt="A left-chiral neutrino decomposed into helicity components" style="max-width:100%; height:auto; border-radius:8px;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/decomp.svg" alt="A left-chiral neutrino decomposed into helicity components" style="max-width:100%; height:auto; border-radius:8px;">
 </div>
  <em>A left-chiral massive neutrino is a superposition dominated by the left-helical component, with a right-helical admixture of probability \((m/2E)^2\). Drawn to scale the red sliver would be invisible — that is the quantitative meaning of &quot;chirality \(\approx\) helicity.&quot;</em></p>
 
@@ -522,7 +528,7 @@ window.addEventListener('load', function(){
 </script>
 
 <p>For a typical reactor neutrino \(v/c = 1 - 7.8\times10^{-17}\): it is slower than light by less than one part in \(10^{16}\). &#40;As an independent check, the SN1987A neutrinos crossed \(\sim168{,}000\) light-years and arrived within hours of the photons.&#41;</p>
-<h3 id="the_smoking_gun_why_the_pion_shuns_the_electron"><a href="#the_smoking_gun_why_the_pion_shuns_the_electron" class="header-anchor">The smoking gun: why the pion shuns the electron</a></h3>
+<h3 id="the_decisive_measurement_why_the_pion_shuns_the_electron"><a href="#the_decisive_measurement_why_the_pion_shuns_the_electron" class="header-anchor">The decisive measurement: why the pion shuns the electron</a></h3>
 <p>All of the above could feel like bookkeeping — a \((m/2E)^2\) that is real but unmeasurably small. So it is worth meeting the one everyday process where the tiny gap between chirality and helicity is not just visible but <em>spectacular</em>: the decay of the charged pion. A \(\pi^+\) can decay two ways,</p>
 \[
 \pi^+ \to \mu^+ + \nu_\mu, \qquad \pi^+ \to e^+ + \nu_e .
@@ -543,7 +549,7 @@ R_\pi \equiv \frac{\Gamma(\pi^+\to e^+\nu_e)}{\Gamma(\pi^+\to\mu^+\nu_\mu)}
 <p>A <strong>parity</strong> transformation \(P\) sends \(\vec{x}\to-\vec{x}\). It reverses momentum &#40;\(\vec{p}\to-\vec{p}\), a <em>polar</em> vector&#41; but leaves spin &#40;an <em>axial</em> vector&#41; unchanged. Therefore <strong>parity flips helicity</strong>:</p>
 <p>
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/parity.svg" alt="Parity flips the helicity of a neutrino" style="max-width:100%; height:auto; border-radius:8px;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/parity.svg" alt="Parity flips the helicity of a neutrino" style="max-width:100%; height:auto; border-radius:8px;">
 </div>
  <em>Parity reverses momentum but not spin, so the mirror-image neutrino is right-helical. The weak force couples only to the left-helical original, never its mirror image — that asymmetry <strong>is</strong> parity violation.</em></p>
 <p>On a Dirac spinor, parity is represented by \(\gamma^0\), i.e. \(\psi(t,\vec{x})\to\gamma^0\psi(t,-\vec{x})\). Acting on a left-chiral state,</p>
@@ -753,7 +759,7 @@ i\bar\sigma^\mu\partial_\mu\chi - i m\,\sigma^2\chi^* = 0 .
 <p>That last equation of motion is the <strong>Majorana equation</strong>: the massless Weyl equation \(i\bar\sigma^\mu\partial_\mu\chi=0\) plus a mass term built from \(\chi\)&#39;s <em>own</em> conjugate \(\sigma^2\chi^*\), which transforms as a right-handed spinor. So the &quot;right-handed partner&quot; demanded by Step 0 is supplied by the field itself — precisely the role \(\nu_L^c\) plays in the four-component language above. Squaring it recovers Klein–Gordon, \((\partial^2+m^2)\chi=0\), confirming it really is a particle of mass \(m\). 
   </fieldset>
   
-<p>Two dramatic consequences follow directly. First, because the term mixes \(\nu_L\) with its own conjugate, the mass eigenstate is the self-conjugate combination \(\nu_M=\nu_L+\nu_L^c\) obeying \(\nu_M^c=\nu_M\): the <strong>neutrino is its own antiparticle</strong> &#40;\(\nu=\bar\nu\)&#41;. Second, \(\nu_L\) carries lepton number \(L=+1\) while \(\nu_L^c\) carries \(L=-1\), so the term changes lepton number by <strong>two units</strong> &#40;\(\Delta L=2\)&#41;. The experimental smoking gun is <strong>neutrinoless double beta decay</strong> &#40;\(0\nu\beta\beta\)&#41;, currently bounding the effective mass \(\langle m_{\beta\beta}\rangle\lesssim 0.1\) eV.</p>
+<p>Two dramatic consequences follow directly. First, because the term mixes \(\nu_L\) with its own conjugate, the mass eigenstate is the self-conjugate combination \(\nu_M=\nu_L+\nu_L^c\) obeying \(\nu_M^c=\nu_M\): the <strong>neutrino is its own antiparticle</strong> &#40;\(\nu=\bar\nu\)&#41;. Second, \(\nu_L\) carries lepton number \(L=+1\) while \(\nu_L^c\) carries \(L=-1\), so the term changes lepton number by <strong>two units</strong> &#40;\(\Delta L=2\)&#41;. The experimental signature is <strong>neutrinoless double beta decay</strong> &#40;\(0\nu\beta\beta\)&#41;, currently bounding the effective mass \(\langle m_{\beta\beta}\rangle\lesssim 0.1\) eV.</p>
 <p>There is a catch: \(\nu_L\) is <em>not</em> a gauge singlet &#40;it carries weak isospin and \(Y=-\tfrac12\)&#41;, so \(m_M\,\overline{\nu_L^c}\nu_L\) is forbidden as a renormalizable term — its hypercharge does not cancel. It can only appear once two Higgs doublets soak up the quantum numbers, in the <strong>dimension-five Weinberg operator</strong></p>
 \[
 \mathcal{L}_5 = \frac{c}{\Lambda}\,\big(\bar L^c\,\tilde H^*\big)\big(\tilde H^\dagger L\big)
@@ -808,7 +814,7 @@ m_{\text{light}} \sim \frac{(100\ \text{GeV})^2}{10^{15}\ \text{GeV}}
 <p>That tidy massless story broke when neutrinos were seen to <strong>oscillate</strong> — to change flavour in flight — which is only possible if the mass eigenstates \(\nu_1,\nu_2,\nu_3\) have <em>different</em> &#40;hence nonzero&#41; masses. Oscillation experiments do not measure the masses themselves, but the <strong>mass-squared splittings</strong> and the flavour mixing:</p>
 <p>
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/mass_spectrum.svg" alt="Neutrino mass-squared spectrum, normal and inverted ordering" style="max-width:100%; height:auto;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/mass_spectrum.svg" alt="Neutrino mass-squared spectrum, normal and inverted ordering" style="max-width:100%; height:auto;">
 </div>
  <em>The two allowed orderings of the three neutrino mass states. Colours show each state&#39;s flavour content \(|U_{\alpha i}|^2\). The solar splitting \(\Delta m^2_{21}\approx7.5\times10^{-5}\,\text{eV}^2\) and the atmospheric splitting \(|\Delta m^2_{31}|\approx2.5\times10^{-3}\,\text{eV}^2\) are measured; whether the ordering is &quot;normal&quot; or &quot;inverted,&quot; and where the whole ladder sits in absolute mass, are still open.</em></p>
 <p><strong>How to read this diagram, piece by piece.</strong> It packs four separate facts into one picture:</p>
@@ -822,7 +828,7 @@ m_{\text{light}} \sim \frac{(100\ \text{GeV})^2}{10^{15}\ \text{GeV}}
 <li><p><strong>&quot;Normal&quot; vs &quot;inverted&quot; is one yes/no question.</strong> It is simply <em>where the odd-one-out state \(\nu_3\) sits</em>: at the <strong>top</strong> &#40;normal ordering, \(\nu_3\) heaviest&#41; or at the <strong>bottom</strong> &#40;inverted, \(\nu_3\) lightest&#41;. Experiments have not yet decided which. And because only the gaps are measured, the whole ladder can slide up or down — its absolute floor &#40;the lightest mass&#41; is unknown, pinned only from above by KATRIN &#40;\(m_\beta<0.45\) eV&#41; and cosmology &#40;\(\sum m_\nu<0.12\) eV&#41;.</p>
 </li>
 </ul>
-<p>The smoking gun for all of this is the <strong>disappearance</strong> pattern: start with a beam of one flavour and the survival probability oscillates with \(L/E\). For reactor antineutrinos,</p>
+<p>The direct evidence for all of this is the <strong>disappearance</strong> pattern: start with a beam of one flavour and the survival probability oscillates with \(L/E\). For reactor antineutrinos,</p>
 \[
 P(\bar\nu_e\to\bar\nu_e) = 1 - \sin^2 2\theta_{12}\,\sin^2\!\left(\frac{\Delta m^2_{21}\,L}{4E}\right),
 \]
@@ -834,7 +840,7 @@ P(\bar\nu_e\to\bar\nu_e) = 1 - \sin^2 2\theta_{12}\,\sin^2\!\left(\frac{\Delta m
 <p>which the KamLAND experiment observed beautifully as a function of \(L/E\):</p>
 <p>
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/oscillation.svg" alt="Reactor antineutrino survival probability versus L/E" style="max-width:100%; height:auto;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/oscillation.svg" alt="Reactor antineutrino survival probability versus L/E" style="max-width:100%; height:auto;">
 </div>
  <em>Reactor \(\bar\nu_e\) survival probability &#40;bold&#41;, with the idealised undamped oscillation shown faint for reference. The dips are direct evidence of interference between mass eigenstates of different mass — i.e. of neutrino mass itself. The dip depth fixes the mixing angle \(\theta_{12}\) and the spacing fixes \(\Delta m^2_{21}\), while the amplitude <strong>damps toward the average at large \(L/E\)</strong> once the finite energy resolution and spread of reactor baselines are folded in — exactly the shape KamLAND measured.</em></p>
 <p>Putting the experimental numbers in one place:</p>
@@ -951,7 +957,7 @@ P(\bar\nu_e\to\bar\nu_e) = 1 - \sin^2 2\theta_{12}\,\sin^2\!\left(\frac{\Delta m
     </script>
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
 
     
         <script src="/libs/katex/katex.min.js"></script>
@@ -993,7 +999,7 @@ P(\bar\nu_e\to\bar\nu_e) = 1 - \sin^2 2\theta_{12}\,\sin^2\!\left(\frac{\Delta m
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=52" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=53" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
@@ -1036,10 +1042,12 @@ P(\bar\nu_e\to\bar\nu_e) = 1 - \sin^2 2\theta_{12}\,\sin^2\!\left(\frac{\Delta m
   </body>
 </html>
 
-
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
 <script>
   (function(){
-  
+
     // Get the elements.
     // - the 'pre' element.
     // - the 'div' with the 'paste-content' id.

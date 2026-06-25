@@ -152,7 +152,7 @@ Spin aligned with momentum gives $h=+\tfrac12$ (right-helical); anti-aligned giv
 
 ~~~
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/helicity.svg" alt="Right- and left-helical neutrinos" style="max-width:100%; height:auto; border-radius:8px;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/helicity.svg" alt="Right- and left-helical neutrinos" style="max-width:100%; height:auto; border-radius:8px;">
 </div>
 ~~~
 *Helicity is the projection of spin (red) onto momentum (black): same direction $\Rightarrow +\tfrac12$, opposite $\Rightarrow -\tfrac12$.*
@@ -165,7 +165,7 @@ Here is the catch:
 
 ~~~
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/boost.svg" alt="Helicity flips under a boost that overtakes the neutrino" style="max-width:100%; height:auto; border-radius:8px;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/boost.svg" alt="Helicity flips under a boost that overtakes the neutrino" style="max-width:100%; height:auto; border-radius:8px;">
 </div>
 ~~~
 *An observer who outruns the neutrino sees its momentum reversed while the spin stays fixed, flipping the helicity. This overtaking is only possible because $v<c$; for a massless particle nobody can outrun it, and helicity becomes frame-independent.*
@@ -388,7 +388,7 @@ Notice the accelerator row: the naive column reads a flat **`0.0`** (all signifi
 
 ~~~
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/decomp.svg" alt="A left-chiral neutrino decomposed into helicity components" style="max-width:100%; height:auto; border-radius:8px;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/decomp.svg" alt="A left-chiral neutrino decomposed into helicity components" style="max-width:100%; height:auto; border-radius:8px;">
 </div>
 ~~~
 *A left-chiral massive neutrino is a superposition dominated by the left-helical component, with a right-helical admixture of probability $(m/2E)^2$. Drawn to scale the red sliver would be invisible — that is the quantitative meaning of "chirality $\approx$ helicity."*
@@ -429,7 +429,7 @@ window.addEventListener('load', function(){
 
 For a typical reactor neutrino $v/c = 1 - 7.8\times10^{-17}$: it is slower than light by less than one part in $10^{16}$. (As an independent check, the SN1987A neutrinos crossed $\sim168{,}000$ light-years and arrived within hours of the photons.)
 
-### The smoking gun: why the pion shuns the electron
+### The decisive measurement: why the pion shuns the electron
 
 All of the above could feel like bookkeeping — a $(m/2E)^2$ that is real but unmeasurably small. So it is worth meeting the one everyday process where the tiny gap between chirality and helicity is not just visible but *spectacular*: the decay of the charged pion. A $\pi^+$ can decay two ways,
 
@@ -457,7 +457,7 @@ A **parity** transformation $P$ sends $\vec{x}\to-\vec{x}$. It reverses momentum
 
 ~~~
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/parity.svg" alt="Parity flips the helicity of a neutrino" style="max-width:100%; height:auto; border-radius:8px;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/parity.svg" alt="Parity flips the helicity of a neutrino" style="max-width:100%; height:auto; border-radius:8px;">
 </div>
 ~~~
 *Parity reverses momentum but not spin, so the mirror-image neutrino is right-helical. The weak force couples only to the left-helical original, never its mirror image — that asymmetry **is** parity violation.*
@@ -725,7 +725,7 @@ $$
 That last equation of motion is the **Majorana equation**: the massless Weyl equation $i\bar\sigma^\mu\partial_\mu\chi=0$ plus a mass term built from $\chi$'s *own* conjugate $\sigma^2\chi^*$, which transforms as a right-handed spinor. So the "right-handed partner" demanded by Step 0 is supplied by the field itself — precisely the role $\nu_L^c$ plays in the four-component language above. Squaring it recovers Klein–Gordon, $(\partial^2+m^2)\chi=0$, confirming it really is a particle of mass $m$.
 }
 
-Two dramatic consequences follow directly. First, because the term mixes $\nu_L$ with its own conjugate, the mass eigenstate is the self-conjugate combination $\nu_M=\nu_L+\nu_L^c$ obeying $\nu_M^c=\nu_M$: the **neutrino is its own antiparticle** ($\nu=\bar\nu$). Second, $\nu_L$ carries lepton number $L=+1$ while $\nu_L^c$ carries $L=-1$, so the term changes lepton number by **two units** ($\Delta L=2$). The experimental smoking gun is **neutrinoless double beta decay** ($0\nu\beta\beta$), currently bounding the effective mass $\langle m_{\beta\beta}\rangle\lesssim 0.1$ eV.
+Two dramatic consequences follow directly. First, because the term mixes $\nu_L$ with its own conjugate, the mass eigenstate is the self-conjugate combination $\nu_M=\nu_L+\nu_L^c$ obeying $\nu_M^c=\nu_M$: the **neutrino is its own antiparticle** ($\nu=\bar\nu$). Second, $\nu_L$ carries lepton number $L=+1$ while $\nu_L^c$ carries $L=-1$, so the term changes lepton number by **two units** ($\Delta L=2$). The experimental signature is **neutrinoless double beta decay** ($0\nu\beta\beta$), currently bounding the effective mass $\langle m_{\beta\beta}\rangle\lesssim 0.1$ eV.
 
 There is a catch: $\nu_L$ is *not* a gauge singlet (it carries weak isospin and $Y=-\tfrac12$), so $m_M\,\overline{\nu_L^c}\nu_L$ is forbidden as a renormalizable term — its hypercharge does not cancel. It can only appear once two Higgs doublets soak up the quantum numbers, in the **dimension-five Weinberg operator**
 
@@ -800,7 +800,7 @@ That tidy massless story broke when neutrinos were seen to **oscillate** — to 
 
 ~~~
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/mass_spectrum.svg" alt="Neutrino mass-squared spectrum, normal and inverted ordering" style="max-width:100%; height:auto;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/mass_spectrum.svg" alt="Neutrino mass-squared spectrum, normal and inverted ordering" style="max-width:100%; height:auto;">
 </div>
 ~~~
 *The two allowed orderings of the three neutrino mass states. Colours show each state's flavour content $|U_{\alpha i}|^2$. The solar splitting $\Delta m^2_{21}\approx7.5\times10^{-5}\,\text{eV}^2$ and the atmospheric splitting $|\Delta m^2_{31}|\approx2.5\times10^{-3}\,\text{eV}^2$ are measured; whether the ordering is "normal" or "inverted," and where the whole ladder sits in absolute mass, are still open.*
@@ -812,7 +812,7 @@ That tidy massless story broke when neutrinos were seen to **oscillate** — to 
 * **The colours are the flavour content.** The blue/green/red widths of each bar are $|U_{ei}|^2,\,|U_{\mu i}|^2,\,|U_{\tau i}|^2$ — the probabilities that, if you caught that mass state in a detector, it would interact as a $\nu_e$, $\nu_\mu$, or $\nu_\tau$ (the $U_{\alpha i}$ are the entries of the PMNS mixing matrix). Notice $\nu_1$ is mostly $\nu_e$ (blue), $\nu_3$ has almost *no* $\nu_e$ — its blue sliver is $|U_{e3}|^2\approx\sin^2\theta_{13}\approx0.02$ — and is split between $\nu_\mu$ and $\nu_\tau$, while $\nu_2$ is a near-even mix. This very mismatch between mass states and flavour states is *what makes oscillation happen*: a $\nu_e$ born in the Sun is a particular blend of $\nu_1,\nu_2,\nu_3$ that drifts out of step as it travels, re-emerging partly as $\nu_\mu$ or $\nu_\tau$.
 * **"Normal" vs "inverted" is one yes/no question.** It is simply *where the odd-one-out state $\nu_3$ sits*: at the **top** (normal ordering, $\nu_3$ heaviest) or at the **bottom** (inverted, $\nu_3$ lightest). Experiments have not yet decided which. And because only the gaps are measured, the whole ladder can slide up or down — its absolute floor (the lightest mass) is unknown, pinned only from above by KATRIN ($m_\beta<0.45$ eV) and cosmology ($\sum m_\nu<0.12$ eV).
 
-The smoking gun for all of this is the **disappearance** pattern: start with a beam of one flavour and the survival probability oscillates with $L/E$. For reactor antineutrinos,
+The direct evidence for all of this is the **disappearance** pattern: start with a beam of one flavour and the survival probability oscillates with $L/E$. For reactor antineutrinos,
 
 $$
 P(\bar\nu_e\to\bar\nu_e) = 1 - \sin^2 2\theta_{12}\,\sin^2\!\left(\frac{\Delta m^2_{21}\,L}{4E}\right),
@@ -826,7 +826,7 @@ which the KamLAND experiment observed beautifully as a function of $L/E$:
 
 ~~~
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img class="cv-img math-diagram" src="/assets/Physics/blogs/neutrino_chirality/oscillation.svg" alt="Reactor antineutrino survival probability versus L/E" style="max-width:100%; height:auto;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/neutrino_chirality/oscillation.svg" alt="Reactor antineutrino survival probability versus L/E" style="max-width:100%; height:auto;">
 </div>
 ~~~
 *Reactor $\bar\nu_e$ survival probability (bold), with the idealised undamped oscillation shown faint for reference. The dips are direct evidence of interference between mass eigenstates of different mass — i.e. of neutrino mass itself. The dip depth fixes the mixing angle $\theta_{12}$ and the spacing fixes $\Delta m^2_{21}$, while the amplitude **damps toward the average at large $L/E$** once the finite energy resolution and spread of reactor baselines are folded in — exactly the shape KamLAND measured.*

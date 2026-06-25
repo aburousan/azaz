@@ -9,6 +9,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS) -->
+  <link rel="preconnect" href="https://use.fontawesome.com">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
    <link rel="stylesheet" href="/libs/katex/katex.min.css">
      
    <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
@@ -146,7 +154,7 @@
       <div class="sidebar sticky">
         <div itemscope itemtype="https://schema.org/Person">
           <div class="author__avatar">
-            <img src="/assets/minimal-mistakes/Rousan.webp" alt="Septimia Zenobia" itemprop="image">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
           </div>
           <div class="author__content">
             <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
@@ -195,9 +203,7 @@
     };
   </script>
   
-
-
-  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
+<div class="franklin-content">
 
 <div class="franklin-toc"><ol><li><a href="#introduction_to_the_problem">Introduction to the problem</a></li><li><a href="#prove">Prove</a></li><li><a href="#our_take_in_finding_the_period">Our take in finding The period</a></li></ol></div>
 <h1 id="the_period_of_reciprocals_of_primes_work_of_william_shanks"><a href="#the_period_of_reciprocals_of_primes_work_of_william_shanks" class="header-anchor">The Period of Reciprocals of Primes &#40;work of William Shanks&#41;</a></h1>
@@ -365,9 +371,9 @@ plot&#40;all_primes, periods, title&#61;&quot;Plot of Reciprocal of Primes vs Pe
 xlabel&#33;&#40;&quot;Primes&quot;&#41;
 ylabel&#33;&#40;&quot;Period of Reciprocals&quot;&#41;</code></pre>
 
-<p>This is create a plot like, <div id="fdpgzh" style=""></div>
+<p>This is create a plot like, <div id="fdpbgx" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpgzh");
+graphDiv = document.getElementById("fdpbgx");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Rec_of_prime/output/prime_rec.json');
 </script>
 </p>
@@ -465,7 +471,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Rec_of_prime/
     </script>
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
 
     
         <script src="/libs/katex/katex.min.js"></script>
@@ -507,7 +513,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Rec_of_prime/
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=52" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=53" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
@@ -550,10 +556,12 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Rec_of_prime/
   </body>
 </html>
 
-
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
 <script>
   (function(){
-  
+
     // Get the elements.
     // - the 'pre' element.
     // - the 'div' with the 'paste-content' id.

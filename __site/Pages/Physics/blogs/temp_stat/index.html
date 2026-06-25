@@ -9,6 +9,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS) -->
+  <link rel="preconnect" href="https://use.fontawesome.com">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
    <link rel="stylesheet" href="/libs/katex/katex.min.css">
      
    <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
@@ -146,7 +154,7 @@
       <div class="sidebar sticky">
         <div itemscope itemtype="https://schema.org/Person">
           <div class="author__avatar">
-            <img src="/assets/minimal-mistakes/Rousan.webp" alt="Septimia Zenobia" itemprop="image">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
           </div>
           <div class="author__content">
             <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
@@ -195,9 +203,7 @@
     };
   </script>
   
-
-
-  <script src="/libs/clipboard.min.js"></script><div class="franklin-content">
+<div class="franklin-content">
 <div class="franklin-toc"><ol><li><a href="#introduction_to_macrostates_and_microstates">Introduction to Macrostates and Microstates</a></li><li><a href="#temperature_as_a_statistical_artifact">Temperature as a Statistical Artifact</a><ol><li><a href="#building_the_system">Building the system</a></li></ol></li><li><a href="#simulation">Simulation</a></li></ol></div>
 <h1 id="what_exactly_is_temperature_a_statistical_picture"><a href="#what_exactly_is_temperature_a_statistical_picture" class="header-anchor">What exactly is Temperature ? A statistical picture</a></h1>
 <p>What exactly is <strong><span style="color: purple">temperature</span></strong>?, well, <em>Temperature is a physical quantity that quantitatively expresses the attribute of hotness or coldness. Temperature is measured with a thermometer</em>. It reflects the average kinetic energy of the vibrating and colliding atoms making up a substance.</p>
@@ -355,14 +361,14 @@ savefig&#40;p1, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat01.json&quot;&#41;&#4
 plot&#40;temperatures_1, lw&#61;2, label&#61;&quot;Temperature of Body 1 &#40;T1&#41;&quot;, xlabel&#61;&quot;Steps&quot;, ylabel&#61;&quot;Temperature&quot;, title&#61;&quot;Temperature Equilibration between Bodies&quot;&#41;
 p2 &#61; plot&#33;&#40;temperatures_2,lw&#61;2, label&#61;&quot;Temperature of Body 2 &#40;T2&#41;&quot;&#41;
 savefig&#40;p2, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat02.json&quot;&#41;&#41;</code></pre>
-<p>Let&#39;s see the plots: For the energy we can clearly see both bodies&#39;s energy are not equal in equilibrium as their specific heats are different &#40;verify that their specific heats are different&#41;. <div id="fdpeon" style=""></div>
+<p>Let&#39;s see the plots: For the energy we can clearly see both bodies&#39;s energy are not equal in equilibrium as their specific heats are different &#40;verify that their specific heats are different&#41;. <div id="fdpnhn" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpeon");
+graphDiv = document.getElementById("fdpnhn");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat01.json');
 </script>
- But as expected in their equilibrium, their temperatures are same. <div id="fdpwom" style=""></div>
+ But as expected in their equilibrium, their temperatures are same. <div id="fdpmxu" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwom");
+graphDiv = document.getElementById("fdpmxu");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat02.json');
 </script>
  
@@ -406,9 +412,9 @@ end</code></pre>
 <p>Now, let&#39;s plot this:</p>
 <pre><code class="language-julia">p &#61; plot_results&#40;50&#41;
 savefig&#40;p, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat1.json&quot;&#41;&#41;</code></pre>
-<p><div id="fdprlm" style=""></div>
+<p><div id="fdpdoe" style=""></div>
 <script>
-graphDiv = document.getElementById("fdprlm");
+graphDiv = document.getElementById("fdpdoe");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat1.json');
 </script>
  With this 
@@ -511,7 +517,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/c
     </script>
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
 
     
         <script src="/libs/katex/katex.min.js"></script>
@@ -553,7 +559,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/c
     </script>
 
     <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=52" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=53" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
@@ -596,10 +602,12 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/c
   </body>
 </html>
 
-
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
 <script>
   (function(){
-  
+
     // Get the elements.
     // - the 'pre' element.
     // - the 'div' with the 'paste-content' id.
