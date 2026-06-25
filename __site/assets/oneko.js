@@ -455,7 +455,25 @@
           }
       }
     });
-    
+
+    // Scrolling carries the cat with the page (so it can drift out of view off
+    // the top/bottom), instead of staying glued to the viewport. Its normal
+    // chase-the-cursor behaviour then walks it back into view.
+    let lastScrollY = window.scrollY || window.pageYOffset || 0;
+    window.addEventListener("scroll", function () {
+      const sy = window.scrollY || window.pageYOffset || 0;
+      const dy = sy - lastScrollY;
+      lastScrollY = sy;
+      // Skip when the cat is pinned to something that already tracks scroll
+      // (being held, dragging a slider, ducked behind/into an image).
+      if (isBeingCarried || state === "dragging" || state === "hidden" ||
+          state === "fleeing") return;
+      nekoPosY -= dy;
+      const h = window.innerHeight;
+      nekoPosY = Math.min(Math.max(-h, nekoPosY), 2 * h); // bound the drift
+      nekoEl.style.top = `${nekoPosY - 16}px`;
+    }, { passive: true });
+
     // Curious cat: when you select some text, it trots over and "reads" along it!
     const clampX = x => Math.min(Math.max(x, 24), window.innerWidth - 24);
     const clampY = y => Math.min(Math.max(y, 24), window.innerHeight - 24);
@@ -1745,6 +1763,10 @@
     }
 
     // Movement Behavior
+    // Always aim INTO the viewport, so the cat only ever leaves the screen by
+    // being scrolled away (handled on the scroll event) — never by wandering
+    // off on its own.
+    targetY = Math.min(Math.max(30, targetY), window.innerHeight - 30);
     const diffX = nekoPosX - targetX;
     const diffY = nekoPosY - targetY;
     const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
@@ -1909,10 +1931,12 @@
     nekoPosX -= (diffX / distance) * nekoSpeed;
     nekoPosY -= (diffY / distance) * nekoSpeed;
 
-    // Keep the whole (1.4x-scaled) sprite inside the viewport so it never
-    // clips through edges/borders.
+    // Keep the sprite within the viewport horizontally; vertically allow it to
+    // sit out of bounds (so a scroll can carry it off the top/bottom and it can
+    // walk smoothly back in, instead of snapping to the edge).
     nekoPosX = Math.min(Math.max(26, nekoPosX), window.innerWidth - 26);
-    nekoPosY = Math.min(Math.max(26, nekoPosY), window.innerHeight - 26);
+    const _vh = window.innerHeight;
+    nekoPosY = Math.min(Math.max(-_vh, nekoPosY), 2 * _vh);
 
     // Occasionally spring into a hop while wandering — looks like jumping over text
     if (jumpTicks <= 0 && state === "roaming" && Math.random() < 0.05) {
