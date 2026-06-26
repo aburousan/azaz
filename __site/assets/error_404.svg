@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 380" width="420" height="380" role="img" aria-label="A sheepish cat says: I tried.">
+  <defs>
+    <style>
+      .fur   { fill: #e6953c; }
+      .fur-d { fill: #d07f2c; }
+      .belly { fill: #f6dcae; }
+      .ink   { fill: #3a2c1a; }
+      .bub   { fill: #ffffff; stroke: #d9cdb0; stroke-width: 2.5; }
+      .bubtx { fill: #3a2c1a; font-family: 'Cormorant Garamond','Georgia',serif; font-weight: 700; }
+      .four  { fill: #9c7a3c; font-family: 'Cormorant Garamond','Georgia',serif; font-weight: 700; opacity: .25; }
+    </style>
+  </defs>
+
+  <!-- faded 404 behind the cat -->
+  <text class="four" x="210" y="150" font-size="170" text-anchor="middle">404</text>
+
+  <!-- speech bubble: "I tried." -->
+  <g>
+    <rect class="bub" x="232" y="40" width="150" height="74" rx="18"/>
+    <path class="bub" d="M252 110 L246 138 L286 112 Z" stroke="none" fill="#ffffff"/>
+    <path d="M252 110 L246 138 L286 112" fill="none" stroke="#d9cdb0" stroke-width="2.5"/>
+    <text class="bubtx" x="307" y="88" font-size="34" text-anchor="middle">I tried.</text>
+  </g>
+
+  <!-- tail -->
+  <path class="fur-d" d="M120 300 q-58 -6 -52 -64 q4 -34 30 -34 q14 0 14 14 q0 12 -12 12 q-8 0 -8 10 q-2 30 40 36 z"/>
+
+  <!-- sitting body -->
+  <path class="fur" d="M118 360 q-26 -120 92 -120 q118 0 92 120 z"/>
+  <ellipse class="belly" cx="210" cy="318" rx="46" ry="56"/>
+
+  <!-- front paws -->
+  <ellipse class="fur" cx="178" cy="356" rx="20" ry="14"/>
+  <ellipse class="fur" cx="242" cy="356" rx="20" ry="14"/>
+  <path class="fur-d" d="M170 358 h16 M234 358 h16" stroke="#d07f2c" stroke-width="2" fill="none"/>
+
+  <!-- head -->
+  <g>
+    <!-- ears -->
+    <path class="fur" d="M150 196 l-14 -46 l44 18 z"/>
+    <path class="fur" d="M270 196 l14 -46 l-44 18 z"/>
+    <path class="fur-d" d="M152 188 l-6 -22 l20 9 z"/>
+    <path class="fur-d" d="M268 188 l6 -22 l-20 9 z"/>
+    <!-- face -->
+    <circle class="fur" cx="210" cy="210" r="66"/>
+    <!-- stripes on head -->
+    <path class="fur-d" d="M210 146 v22 M188 150 l6 20 M232 150 l-6 20" stroke="#d07f2c" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <!-- sheepish eyes looking up -->
+    <ellipse cx="188" cy="206" rx="13" ry="15" fill="#fff"/>
+    <ellipse cx="232" cy="206" rx="13" ry="15" fill="#fff"/>
+    <circle class="ink" cx="188" cy="200" r="7"/>
+    <circle class="ink" cx="232" cy="200" r="7"/>
+    <circle cx="190.5" cy="197.5" r="2.2" fill="#fff"/>
+    <circle cx="234.5" cy="197.5" r="2.2" fill="#fff"/>
+    <!-- nose + guilty little frown -->
+    <path class="ink" d="M204 226 h12 l-6 7 z"/>
+    <path d="M210 233 q-9 9 -18 4 M210 233 q9 9 18 4" fill="none" stroke="#3a2c1a" stroke-width="3" stroke-linecap="round"/>
+    <!-- whiskers -->
+    <g stroke="#3a2c1a" stroke-width="2" stroke-linecap="round" opacity=".7">
+      <path d="M176 224 l-40 -8 M176 232 l-40 4"/>
+      <path d="M244 224 l40 -8 M244 232 l40 4"/>
+    </g>
+  </g>
+</svg>
