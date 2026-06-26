@@ -440,8 +440,14 @@
       });
     </script>
 
-    <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=55" data-cat="/assets/oneko.gif">    </script>
+    <!-- Oneko Cat — optional Pi "brain" over the Cloudflare tunnel (HTTPS, so it
+         works on the live Netlify site too). If the Pi is down, the cat falls
+         back to its built-in behaviour automatically. -->
+    <script>
+      window.CAT_BRAIN_URL = "https://catbrain.rousan.in";
+      window.CAT_BRAIN_KEY = "azcat_k7Qe93Lm2Wx8Rt5";   // low-value gate (see brain)
+    </script>
+    <script src="/assets/oneko.js?v=61" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {

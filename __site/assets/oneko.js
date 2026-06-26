@@ -248,6 +248,7 @@
     bookEl = mkAccessory("📖", 15);
     heartEl = mkAccessory("😻", 16);
     sparkleEl = mkAccessory("✨", 22);
+    giftEl = mkAccessory("🧶", 15);
 
     // A small speech bubble for the cat's reactions (e.g. on seeing Gino)
     speechEl = document.createElement("div");
@@ -444,11 +445,13 @@
     document.addEventListener("mousemove", function (e) {
       mousePosX = e.clientX;
       mousePosY = e.clientY;
-      
+      lastMoveFrame = frameCount;   // for the brain's idle estimate
+
       if (isBeingCarried) {
           if (Math.abs(e.clientX - carryStartX) > 5 || Math.abs(e.clientY - carryStartY) > 5) {
               wasDragged = true;
           }
+          carryStillFrames = 0;   // moving it -> not "held still"
           nekoPosX = e.clientX;
           nekoPosY = e.clientY;
           nekoEl.style.left = `${nekoPosX - 16}px`;
@@ -478,6 +481,11 @@
       const h = window.innerHeight;
       nekoPosY = Math.min(Math.max(-h, nekoPosY), 2 * h); // bound the drift
       nekoEl.style.top = `${nekoPosY - 16}px`;
+      // A sudden fast scroll startles the cat — a quick bristle and it perks up.
+      if (Math.abs(dy) > 220 && puffTicks <= 0 && puffCooldown <= 0) {
+        puffTicks = 4; puffCooldown = 30;
+        if (state === "sleeping" && !deepNap) state = "chasing";
+      }
     }, { passive: true });
 
     // Curious cat: when you select some text, it trots over and "reads" along it!
@@ -568,14 +576,20 @@
     const pickUpCat = function(e) {
         e.preventDefault();
 
-        // Count rapid clicks — 4 within 1.5s and the cat gets spooked and hides
+        // Count rapid clicks (within 1.5s):
+        //   3 clicks  -> the cat says something (this is the ONLY way it talks)
+        //   6 clicks  -> it gets spooked and hides behind an image
         const now = Date.now();
         clickTimes.push(now);
         clickTimes = clickTimes.filter(t => now - t < 1500);
-        if (clickTimes.length >= 4 && !isHidden) {
+        if (clickTimes.length >= 6 && !isHidden) {
             clickTimes = [];
             hideCat();
             return; // flee instead of being picked up
+        }
+        if (clickTimes.length === 3) {
+            catTalk();
+            return; // talk instead of being picked up on this click
         }
 
         carryStartX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
@@ -586,6 +600,23 @@
     };
     nekoEl.addEventListener("mousedown", pickUpCat);
     nekoEl.addEventListener("touchstart", pickUpCat, {passive: false});
+
+    // React when the human flips the dark-mode switch: a stretch in the new
+    // "light" with a little sparkle.
+    let _wasDark = document.documentElement.classList.contains("dark-mode");
+    const darkObs = new MutationObserver(function () {
+      const isDark = document.documentElement.classList.contains("dark-mode");
+      if (isDark === _wasDark) return;
+      _wasDark = isDark;
+      if (isBeingCarried || isHidden || carryingGift ||
+          ["fleeing", "dragging", "carried"].indexOf(state) !== -1) return;
+      state = "disturbed";
+      idleAnimation = "stretch";
+      idleAnimationFrame = 0;
+      stateTimer = 26;
+      showSparkle(nekoPosX, nekoPosY);
+    });
+    darkObs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 
     window.requestAnimationFrame(onAnimationFrame);
   }
@@ -698,7 +729,7 @@
   // center and the top of the head ~22px above center.
   function updateAccessories() {
     const reading = (idleAnimation === "reading");
-    const admiring = (idleAnimation === "admire");
+    const admiring = (idleAnimation === "admire" || idleAnimation === "rubbing" || petting);
     const head = HEAD[currentSprite];
     // Place accessories on any pose we know the head position for. While the
     // cat runs into the distance (depthScale<1) we SHRINK them with it instead
@@ -765,6 +796,15 @@
         placeAcc(heartEl, hx, hy - 14 * dsc + bob, 16);
       } else {
         heartEl.style.display = "none";
+      }
+    }
+    if (giftEl) {
+      if (carryingGift && visible) {
+        giftEl.style.zIndex = accZ;
+        giftEl.style.display = "block";
+        placeAcc(giftEl, hx, hy - 10 * dsc, 15);   // held just above the head
+      } else {
+        giftEl.style.display = "none";
       }
     }
   }
@@ -1318,6 +1358,12 @@
         // updateAccessories) and the cat alternates looking up (alert) and
         // down at its book (S), a slow studious nod.
         setSprite(Math.floor(idleAnimationFrame / 6) % 2 === 0 ? "S" : "alert", 0);
+        // Speak ONLY here — book open, settled in. This is the one place a
+        // brain quip is allowed to appear (never while moving/running).
+        if (idleAnimationFrame === 8 && pendingSpeech) {
+          showSpeech(pendingSpeech, 46);
+          pendingSpeech = null;
+        }
         if (idleAnimationFrame > 64) {
           resetIdleAnimation();
         }
@@ -1356,8 +1402,223 @@
     idleAnimationFrame += 1;
   }
 
+  // =====================================================================
+  //  OPTIONAL "BRAIN" on the Raspberry Pi
+  //  The cat consults a small context-aware service for its next goal and
+  //  occasional speech. If the Pi is unreachable/slow, nothing happens and the
+  //  built-in behaviour continues — the brain is a pure enhancement.
+  // =====================================================================
+  const BRAIN_URL = (function () {
+    if (typeof window !== "undefined" && window.CAT_BRAIN_URL) return window.CAT_BRAIN_URL;
+    const h = location.hostname;
+    // Only on local/LAN HTTP. The public HTTPS site can't reach a LAN HTTP Pi,
+    // and we must not trigger mixed-content errors there. To enable in
+    // production, expose the Pi over HTTPS (e.g. a Cloudflare Tunnel) and set
+    // window.CAT_BRAIN_URL = "https://your-pi-host".
+    if (location.protocol === "http:" &&
+        (h === "localhost" || h === "127.0.0.1" || /^192\.168\./.test(h) || /^10\./.test(h)))
+      return "http://192.168.0.100:8088";
+    return null;
+  })();
+  let lastMoveFrame = 0;
+  let brainNext = 80;       // frames until next consult (~8s)
+  let brainFails = 0;       // consecutive failures -> back off
+  let brainBusy = false;
+  let brainLastGoal = null;
+  let pendingSpeech = null; // a brain quip waiting to be said WHILE reading
+  let pendingSpeechTTL = 0; // frames the quip stays valid before it's dropped
+  let curSpeed = 0;         // eased speed (gives natural accel/decel)
+  const MEOWS = ["Meow!", "Mrrp!", "Nyaa~", "Hey!", "Stop poking!", "Prrt?", "Mrow!"];
+  let carryStillFrames = 0;  // frames the cat has been held still -> purr + hearts
+  let petting = false;
+  let blinkTicks = 0;        // quick blink (vertical squash)
+  let wagTicks = 0;          // happy tail-wag wobble
+  let carryingGift = false;  // rarely brings a little gift to the cursor
+  let giftTimeout = 0;       // gives up bringing it after a while
+  let giftEl = null;         // the gift held above the cat
+  let goingToCornerSleep = false;  // heading to a corner for a long nap
+  // Brain quips are stashed here and only spoken when the cat is CLICKED 3x —
+  // so it doesn't chatter on its own. Falls back to these if the queue is empty.
+  let recentQuips = [];
+  const FALLBACK_QUIPS = ["Meow?", "You rang?", "I was napping…", "*purr*",
+                          "What's up, human?", "Mrrp. Yes?", "I'm listening."];
+
+  function brainSection() {
+    if (typeof quantumCat !== "undefined" && quantumCat) return "quantum";
+    if (typeof artPage !== "undefined" && artPage) return "art";
+    const p = (location.pathname || "").toLowerCase();
+    if (p.includes("/maths")) return "maths";
+    if (p.includes("/physics")) return "physics";
+    if (p.includes("/blogs/")) return "blog";
+    if (p === "/" || p.includes("home")) return "home";
+    return "default";
+  }
+
+  function consultBrain() {
+    if (!BRAIN_URL || brainBusy) return;
+    brainBusy = true;
+    const cursorNear = Math.hypot(nekoPosX - mousePosX, nekoPosY - mousePosY) < 170;
+    const ctx = {
+      section: brainSection(),
+      idleSeconds: Math.round((frameCount - lastMoveFrame) / 10),
+      cursorNear: cursorNear,
+      darkMode: document.documentElement.classList.contains("dark-mode"),
+      hour: new Date().getHours(),
+      lastGoal: brainLastGoal,
+      recentPlays: (typeof sliderPlayStreak !== "undefined") ? sliderPlayStreak : 0,
+      scrollFrac: window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight)
+    };
+    const ac = new AbortController();
+    const to = setTimeout(function () { ac.abort(); }, 1300);
+    const headers = { "Content-Type": "application/json" };
+    if (typeof window !== "undefined" && window.CAT_BRAIN_KEY) headers["X-Cat-Key"] = window.CAT_BRAIN_KEY;
+    fetch(BRAIN_URL + "/brain", {
+      method: "POST", headers: headers,
+      body: JSON.stringify(ctx), signal: ac.signal, cache: "no-store"
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { brainFails = 0; applyBrain(d); })
+      .catch(function () { brainFails++; })
+      .finally(function () { clearTimeout(to); brainBusy = false; });
+  }
+
+  function applyBrain(d) {
+    if (!d || !d.goal) return;
+    // The cat does NOT chatter on its own. Brain quips are queued and only
+    // spoken when the reader CLICKS the cat three times (see catTalk).
+    if (d.speech) {
+      recentQuips.push(d.speech);
+      if (recentQuips.length > 6) recentQuips.shift();
+    }
+    // Never hijack active/critical states — only redirect when calm.
+    if (["chasing", "roaming", "sleeping"].indexOf(state) === -1) return;
+    brainLastGoal = d.goal;
+    let g = d.goal;
+    if (g === "jump") {
+      // AI-chosen hop: a playful double-bounce in place, stay engaged.
+      if (jumpTicks <= 0) jumpTicks = JUMP_LEN;
+      if (state === "sleeping") state = "chasing";
+    } else if (g === "nap") {
+      state = "sleeping"; targetElement = null;
+      stateTimer = 80 + Math.floor(Math.random() * 60);
+    } else if (g === "chase") {
+      state = "chasing"; targetElement = null;
+    } else if (g === "play") {
+      if (typeof pickRandomElementTarget === "function" && pickRandomElementTarget()) {
+        state = "roaming"; stateTimer = 200; nekoSpeed = 8;
+      }
+    } else if (g === "read" || g === "ponder" || g === "admire" || g === "wander") {
+      // Walk over to a visible paragraph (or just wander) and settle there; the
+      // existing idle/reading/admire pose logic takes it from there.
+      state = "roaming"; nekoSpeed = 7; stateTimer = 150 + Math.floor(Math.random() * 80);
+      const sel = ".franklin-content p, .page__content p, .franklin-content li";
+      const ps = Array.from(document.querySelectorAll(sel)).filter(function (e) {
+        const r = e.getBoundingClientRect();
+        return r.top > 50 && r.bottom < window.innerHeight - 30 && r.width > 80;
+      });
+      if ((g === "read" || g === "ponder") && ps.length) {
+        targetElement = ps[Math.floor(Math.random() * ps.length)];
+      } else {
+        targetElement = null;
+        targetX = nekoPosX + (Math.random() - 0.5) * window.innerWidth * 0.8;
+        targetY = nekoPosY + (Math.random() - 0.5) * window.innerHeight * 0.6;
+      }
+    }
+  }
+
+  // Clicked 3× — the cat sits up and says a line (a fresh AI quip if the brain
+  // gave us one, otherwise a friendly fallback). This is the ONLY way it talks.
+  function catTalk() {
+    isBeingCarried = false;          // a triple-tap talks, it doesn't carry
+    // ~35% of the time the cat is mildly annoyed at being prodded and meows;
+    // otherwise it says a fresh AI topic quip (or a friendly fallback).
+    const meow = Math.random() < 0.35;
+    const line = meow
+      ? MEOWS[Math.floor(Math.random() * MEOWS.length)]
+      : (recentQuips.length
+          ? recentQuips.pop()
+          : FALLBACK_QUIPS[Math.floor(Math.random() * FALLBACK_QUIPS.length)]);
+    if (["carried", "dragging", "hidden", "fleeing"].indexOf(state) === -1) {
+      state = "disturbed";
+      idleAnimation = "sit";
+      idleAnimationFrame = 0;
+      stateTimer = 38 + Math.floor(Math.random() * 18);
+    }
+    if (meow && puffTicks <= 0 && puffCooldown <= 0) puffTicks = 4;  // tiny startle bristle
+    showSpeech(line, 44);
+  }
+
+  // Drop a little gift where the cursor is — it settles, then fades away.
+  function dropGift(x, y) {
+    const g = document.createElement("div");
+    g.textContent = (Math.random() < 0.5) ? "🧶" : "🍃";
+    g.style.cssText = "position:fixed; z-index:" + Z_TOP + "; font-size:18px; " +
+      "left:" + (x - 9) + "px; top:" + (y - 18) + "px; pointer-events:none; " +
+      "transition: top 0.45s ease, opacity 1s ease 2.5s;";
+    document.body.appendChild(g);
+    void g.offsetWidth;
+    g.style.top = (y - 6) + "px";              // settle down a touch
+    setTimeout(function () { g.style.opacity = "0"; }, 60);
+    setTimeout(function () { g.remove(); }, 3700);
+    showSparkle(x, y);
+  }
+
+  // Walk to the nearest corner and curl up for a long nap.
+  function goSleepInCorner() {
+    targetElement = null;
+    targetX = (nekoPosX < window.innerWidth / 2) ? 42 : window.innerWidth - 42;
+    targetY = (nekoPosY < window.innerHeight / 2) ? 72 : window.innerHeight - 48;
+    state = "roaming"; nekoSpeed = 7; stateTimer = 240;
+    goingToCornerSleep = true;
+  }
+
   function frame() {
     frameCount += 1;
+
+    // Drop a parked brain quip if the cat never got around to reading it.
+    if (pendingSpeechTTL > 0) { pendingSpeechTTL--; if (pendingSpeechTTL === 0) pendingSpeech = null; }
+
+    // --- micro-life: occasional blink + a happy tail-wag ---
+    if (blinkTicks <= 0 && wagTicks <= 0 && Math.random() < 0.012) blinkTicks = 2;
+    const happyNow = (idleAnimation === "admire" || idleAnimation === "rubbing" ||
+                      idleAnimation === "reading" || petting);
+    if (happyNow && wagTicks <= 0 && Math.random() < 0.05) wagTicks = 8;
+
+    // --- rare: bring a little gift over to the human's cursor ---
+    if (carryingGift) {
+      if (giftTimeout > 0) giftTimeout--;
+      targetElement = null; targetX = mousePosX; targetY = mousePosY;
+      if (giftTimeout <= 0 || Math.hypot(nekoPosX - mousePosX, nekoPosY - mousePosY) < 44) {
+        dropGift(mousePosX, mousePosY);
+        carryingGift = false;
+        state = "disturbed"; idleAnimation = "sit"; idleAnimationFrame = 0; stateTimer = 22;
+      }
+    } else if (!isBeingCarried && !isHidden && giftEl && !goingToCornerSleep &&
+               (state === "chasing" || state === "roaming") && Math.random() < 0.0007) {
+      carryingGift = true; giftTimeout = 280; state = "roaming"; nekoSpeed = 8;
+      targetElement = null; targetX = mousePosX; targetY = mousePosY;
+    }
+
+    // --- after a long idle, curl up to sleep in the nearest corner ---
+    if (!isBeingCarried && !isHidden && !carryingGift && !goingToCornerSleep &&
+        (state === "chasing" || state === "roaming") &&
+        (frameCount - lastMoveFrame) > 360 && Math.random() < 0.02) {
+      goSleepInCorner();
+    }
+
+    // Consult the Pi brain on a relaxed cadence (only while calm; back off hard
+    // when it's failing so a down Pi costs almost nothing).
+    if (BRAIN_URL) {
+      if (brainNext > 0) brainNext--;
+      if (brainNext <= 0) {
+        if (["chasing", "roaming", "sleeping"].indexOf(state) !== -1) {
+          consultBrain();
+          brainNext = 170 + brainFails * 300;   // ~17s, much longer if down
+        } else {
+          brainNext = 60;
+        }
+      }
+    }
 
     // --- Tail-puff reaction (fake "bristling" via CSS, no sprite for it) ---
     if (puffCooldown > 0) puffCooldown--;
@@ -1367,9 +1628,23 @@
         // Arched back (taller) + slightly wider body = puffed-up look
         nekoEl.style.transformOrigin = "center";
         nekoEl.style.transform = `rotate(${jitter}deg) scale(${baseScale * 1.25}, ${baseScale * 1.55})`;
+    } else if (idleAnimation === "stretch") {
+        // Approximate a real cat's forward "downward-dog" stretch: the body
+        // elongates and the front dips low while the rear stays up. Pixel art
+        // can't draw the pose, but this transform reads like a proper stretch.
+        const p = Math.sin(Math.min(idleAnimationFrame, 20) / 20 * Math.PI); // 0→1→0
+        const sx = baseScale * depthScale * (1 + 0.45 * p);   // long body
+        const sy = baseScale * depthScale * (1 - 0.20 * p);   // lowered front
+        nekoEl.style.transformOrigin = "center bottom";
+        nekoEl.style.transform = `scale(${sx}, ${sy}) skewX(${-9 * p}deg)`;
     } else {
-        nekoEl.style.transformOrigin = "center";
-        nekoEl.style.transform = `scale(${baseScale * depthScale})`;
+        // Base transform, plus tiny life: a quick blink (vertical squash) and a
+        // gentle tail-wag wobble when the cat is happy.
+        let sx = baseScale * depthScale, sy = baseScale * depthScale, rot = 0;
+        if (blinkTicks > 0) { sy *= 0.78; blinkTicks--; }
+        if (wagTicks > 0) { rot = Math.sin(wagTicks * 0.9) * 3; wagTicks--; }
+        nekoEl.style.transformOrigin = "center bottom";
+        nekoEl.style.transform = `rotate(${rot}deg) scale(${sx}, ${sy})`;
     }
 
     // --- Hiding behind page content: keep z-index lowered, then pop back ---
@@ -1379,9 +1654,9 @@
         if (hideTicks <= 0) { nekoEl.style.zIndex = Z_TOP; zLow = false; }
     }
 
-    // Stop purring the moment we're not sleeping (or actively admiring art)
+    // Stop purring the moment we're not sleeping / admiring / being petted
     const admiringNow = (idleAnimation === "admire" && state === "disturbed");
-    if (state !== "sleeping" && !admiringNow && purrNodes) {
+    if (state !== "sleeping" && !admiringNow && !petting && purrNodes) {
         stopPurr();
     }
 
@@ -1420,6 +1695,13 @@
                 cupPhase = 1; // start falling!
                 state = "roaming";
                 targetElement = null;
+            } else if (state === "sleeping") {
+                // Waking up — have a big yawn-stretch before resuming.
+                state = "disturbed";
+                idleAnimation = "stretch";
+                idleAnimationFrame = 0;
+                stateTimer = 24;
+                deepNap = false;
             } else {
                 state = "chasing";
                 deepNap = false;   // the deep nap (if any) is over
@@ -1580,9 +1862,18 @@
     
     // Carried Behavior (Dangling!)
     if (state === "carried") {
-        setSprite("tired", 0); // Use tired sprite to look like it's dangling when held
+        // Held still for a moment -> the cat relaxes, purrs and floats hearts.
+        carryStillFrames++;
+        if (carryStillFrames > 8) {
+            petting = true;
+            startPurr();
+            setSprite("alert", 0);   // content, eyes open, being petted
+        } else {
+            setSprite("tired", 0);   // dangling while actively moved
+        }
         return;
     }
+    if (petting && !isBeingCarried) { petting = false; carryStillFrames = 0; }
 
     // Pestered too much -> dash to an image and duck behind it!
     if (state === "fleeing") {
@@ -1843,7 +2134,12 @@
               }
           } else {
               if (targetElement === null) {
-                  if (inspecting) {
+                  if (goingToCornerSleep) {
+                      // Reached the corner — curl up for a proper nap.
+                      goingToCornerSleep = false;
+                      state = "sleeping";
+                      stateTimer = 160 + Math.floor(Math.random() * 140);
+                  } else if (inspecting) {
                       if (inspectRect && inspectRect.phase === 0 && (inspectRect.r - inspectRect.l) > 40) {
                           // Reached the start of the selection — now stroll along it, "reading"
                           inspectRect.phase = 1;
@@ -1878,7 +2174,24 @@
                       (te.closest && te.closest('.content-card, .archive__item, .feature__item, .jxgbox, .colbox-blue, .poem-card'))
                   );
 
-                  if (isImg && teSrc.includes('gino')) {
+                  if (isAvatar) {
+                      // Reached the human's photo — nuzzle and rub its face
+                      // against the head, purring affectionately.
+                      state = "disturbed";
+                      idleAnimation = "rubbing";
+                      idleAnimationFrame = 0;
+                      stateTimer = 60 + Math.floor(Math.random() * 30);
+                      startPurr();             // heart floats up (updateAccessories)
+                      showSpeech("My human!", 40);
+                  } else if (isText && (pendingSpeech || brainLastGoal === "read" || brainLastGoal === "ponder")) {
+                      // Brain walked the cat here to READ — sit with the book open.
+                      // Its quip (if any) is shown from the reading pose below.
+                      state = "disturbed";
+                      idleAnimation = "reading";
+                      idleAnimationFrame = 0;
+                      stateTimer = 72 + Math.floor(Math.random() * 28);
+                      brainLastGoal = null;
+                  } else if (isImg && teSrc.includes('gino')) {
                       // Spotted a fellow feline (Gino) — sit, gaze, and proudly claim it
                       state = "disturbed";
                       idleAnimation = "admire";   // sit, heart, purr
@@ -1946,8 +2259,15 @@
     direction += diffX / distance < -0.5 ? "E" : "";
     setSprite(direction, frameCount);
 
-    nekoPosX -= (diffX / distance) * nekoSpeed;
-    nekoPosY -= (diffY / distance) * nekoSpeed;
+    // Ease the actual speed toward the target speed so starts/stops look
+    // natural (no instant teleport-to-full-speed), and don't overshoot the
+    // target on the last step. This is the main "running looks unnatural" fix.
+    const targetSpeed = Math.min(nekoSpeed, 14);   // cap the choppy top speed
+    curSpeed += (targetSpeed - curSpeed) * 0.28;
+    const step = Math.min(curSpeed, distance);     // never overshoot
+
+    nekoPosX -= (diffX / distance) * step;
+    nekoPosY -= (diffY / distance) * step;
 
     // Keep the sprite within the viewport horizontally; vertically allow it to
     // sit out of bounds (so a scroll can carry it off the top/bottom and it can

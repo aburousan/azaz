@@ -368,9 +368,9 @@ plot&#40;all_primes, periods, title&#61;&quot;Plot of Reciprocal of Primes vs Pe
 xlabel&#33;&#40;&quot;Primes&quot;&#41;
 ylabel&#33;&#40;&quot;Period of Reciprocals&quot;&#41;</code></pre>
 
-<p>This is create a plot like, <div id="fdptug" style=""></div>
+<p>This is create a plot like, <div id="fdpfbp" style=""></div>
 <script>
-graphDiv = document.getElementById("fdptug");
+graphDiv = document.getElementById("fdpfbp");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Rec_of_prime/output/prime_rec.json');
 </script>
 </p>
@@ -509,8 +509,14 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Rec_of_prime/
       });
     </script>
 
-    <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=55" data-cat="/assets/oneko.gif">    </script>
+    <!-- Oneko Cat — optional Pi "brain" over the Cloudflare tunnel (HTTPS, so it
+         works on the live Netlify site too). If the Pi is down, the cat falls
+         back to its built-in behaviour automatically. -->
+    <script>
+      window.CAT_BRAIN_URL = "https://catbrain.rousan.in";
+      window.CAT_BRAIN_KEY = "azcat_k7Qe93Lm2Wx8Rt5";   // low-value gate (see brain)
+    </script>
+    <script src="/assets/oneko.js?v=61" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {

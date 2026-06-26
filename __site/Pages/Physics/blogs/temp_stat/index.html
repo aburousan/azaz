@@ -358,14 +358,14 @@ savefig&#40;p1, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat01.json&quot;&#41;&#4
 plot&#40;temperatures_1, lw&#61;2, label&#61;&quot;Temperature of Body 1 &#40;T1&#41;&quot;, xlabel&#61;&quot;Steps&quot;, ylabel&#61;&quot;Temperature&quot;, title&#61;&quot;Temperature Equilibration between Bodies&quot;&#41;
 p2 &#61; plot&#33;&#40;temperatures_2,lw&#61;2, label&#61;&quot;Temperature of Body 2 &#40;T2&#41;&quot;&#41;
 savefig&#40;p2, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat02.json&quot;&#41;&#41;</code></pre>
-<p>Let&#39;s see the plots: For the energy we can clearly see both bodies&#39;s energy are not equal in equilibrium as their specific heats are different &#40;verify that their specific heats are different&#41;. <div id="fdphnr" style=""></div>
+<p>Let&#39;s see the plots: For the energy we can clearly see both bodies&#39;s energy are not equal in equilibrium as their specific heats are different &#40;verify that their specific heats are different&#41;. <div id="fdpprm" style=""></div>
 <script>
-graphDiv = document.getElementById("fdphnr");
+graphDiv = document.getElementById("fdpprm");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat01.json');
 </script>
- But as expected in their equilibrium, their temperatures are same. <div id="fdpayk" style=""></div>
+ But as expected in their equilibrium, their temperatures are same. <div id="fdpxfc" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpayk");
+graphDiv = document.getElementById("fdpxfc");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat02.json');
 </script>
  
@@ -409,9 +409,9 @@ end</code></pre>
 <p>Now, let&#39;s plot this:</p>
 <pre><code class="language-julia">p &#61; plot_results&#40;50&#41;
 savefig&#40;p, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat1.json&quot;&#41;&#41;</code></pre>
-<p><div id="fdpgnz" style=""></div>
+<p><div id="fdptej" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpgnz");
+graphDiv = document.getElementById("fdptej");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat1.json');
 </script>
  With this 
@@ -555,8 +555,14 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/c
       });
     </script>
 
-    <!-- Oneko Cat -->
-    <script src="/assets/oneko.js?v=55" data-cat="/assets/oneko.gif">    </script>
+    <!-- Oneko Cat — optional Pi "brain" over the Cloudflare tunnel (HTTPS, so it
+         works on the live Netlify site too). If the Pi is down, the cat falls
+         back to its built-in behaviour automatically. -->
+    <script>
+      window.CAT_BRAIN_URL = "https://catbrain.rousan.in";
+      window.CAT_BRAIN_KEY = "azcat_k7Qe93Lm2Wx8Rt5";   // low-value gate (see brain)
+    </script>
+    <script src="/assets/oneko.js?v=61" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
