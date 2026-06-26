@@ -80,7 +80,11 @@ html.dark-mode body::before {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  /* NOTE: do NOT add `will-change` here. It was forcing every paragraph/
+     heading/img/math onto its own permanent GPU layer, so toggling dark
+     mode re-composited hundreds of layers at once (~1s freeze). The fade is
+     a one-shot animation and the browser GPU-accelerates opacity/transform
+     transitions without the hint. */
 }
 .fade-up-element.is-visible {
   opacity: 1;

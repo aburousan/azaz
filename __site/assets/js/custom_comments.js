@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, query, where, orderBy, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // ==========================================
@@ -80,13 +80,43 @@ if (auth && loginBtn) {
       }
     });
 
+    // If we came back from a redirect-based login, finish it.
+    getRedirectResult(auth).catch((error) => {
+      if (error && error.code !== 'auth/no-auth-event') {
+        console.error("Redirect login failed", error);
+        showLoginError(error);
+      }
+    });
+
     // Login
     loginBtn.addEventListener('click', async () => {
       const provider = new GoogleAuthProvider();
+      const original = loginBtn.innerHTML;
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<i class="fab fa-google"></i> Signing in…';
       try {
         await signInWithPopup(auth, provider);
       } catch (error) {
-        console.error("Login failed", error);
+        console.error("Popup login failed", error);
+        // Popups are commonly blocked or unsupported (in-app browsers, some
+        // mobile setups). Fall back to a full-page redirect in those cases.
+        if (error && (error.code === 'auth/popup-blocked' ||
+                      error.code === 'auth/popup-closed-by-user' ||
+                      error.code === 'auth/cancelled-popup-request' ||
+                      error.code === 'auth/operation-not-supported-in-this-environment')) {
+          try {
+            await signInWithRedirect(auth, provider);
+            return; // page navigates away
+          } catch (e2) {
+            console.error("Redirect login failed", e2);
+            showLoginError(e2);
+          }
+        } else {
+          showLoginError(error);
+        }
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = original;
       }
     });
 
@@ -124,6 +154,44 @@ if (auth && loginBtn) {
       submitBtn.disabled = false;
       submitBtn.textContent = 'Post Comment';
     });
+}
+
+// Show a readable reason when Google sign-in fails, instead of failing
+// silently. The single most common cause on a freshly deployed site is the
+// live domain not being whitelisted in Firebase Auth → Settings →
+// Authorized domains.
+function showLoginError(error) {
+  const code = (error && error.code) || '';
+  let msg;
+  switch (code) {
+    case 'auth/unauthorized-domain':
+      msg = "This site's domain isn't authorized for login yet. " +
+            "Add it under Firebase Console → Authentication → Settings → " +
+            "Authorized domains.";
+      break;
+    case 'auth/operation-not-allowed':
+      msg = "Google sign-in isn't enabled. Turn it on under Firebase " +
+            "Console → Authentication → Sign-in method.";
+      break;
+    case 'auth/configuration-not-found':
+      msg = "Authentication isn't set up for this Firebase project yet. " +
+            "In the Firebase Console: open Authentication → Get started, " +
+            "then Sign-in method → enable Google, and add this site's " +
+            "domain under Settings → Authorized domains.";
+      break;
+    case 'auth/popup-blocked':
+      msg = "Your browser blocked the login popup. Please allow popups and " +
+            "try again.";
+      break;
+    case 'auth/network-request-failed':
+      msg = "Network error reaching Google sign-in. Check your connection " +
+            "and try again.";
+      break;
+    default:
+      msg = "Login failed" + (code ? " (" + code + ")" : "") +
+            ". See the browser console for details.";
+  }
+  alert(msg);
 }
 
 // Fetch Comments

@@ -84,7 +84,12 @@
           <span class="visually-hidden">Toggle menu</span>
           <div class="navicon"></div>
         </button>
-        <button id="theme-toggle" title="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
         <ul class="hidden-links hidden"></ul>
       </nav>
     </div>
@@ -93,22 +98,12 @@
 
 <script>
   const themeToggle = document.getElementById('theme-toggle');
-  
-  // Update button icon based on initial state
-  if (document.documentElement.classList.contains('dark-mode')) {
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-  }
-  
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
   themeToggle.addEventListener('click', () => {
-    document.documentElement.classList.toggle('dark-mode');
-    
-    if (document.documentElement.classList.contains('dark-mode')) {
-      localStorage.setItem('theme', 'dark');
-      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-    } else {
-      localStorage.setItem('theme', 'light');
-      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-    }
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
   // Reading Progress Bar
   window.onscroll = function() {
@@ -198,7 +193,9 @@
     </div>
 
     <script src="/libs/minimal-mistakes/main.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+    <!-- Font Awesome is loaded as a CSS webfont in <head> (head.html). The old
+         SVG-framework JS here rewrote <i> into <svg> and conflicted with the
+         CSS approach used everywhere else, so it was removed. -->
 
 </body>
 </html>

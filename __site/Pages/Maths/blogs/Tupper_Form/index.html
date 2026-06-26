@@ -14,9 +14,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
-  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS) -->
-  <link rel="preconnect" href="https://use.fontawesome.com">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
    <link rel="stylesheet" href="/libs/katex/katex.min.css">
      
    <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
@@ -111,7 +113,12 @@
           <span class="visually-hidden">Toggle menu</span>
           <div class="navicon"></div>
         </button>
-        <button id="theme-toggle" title="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
         <ul class="hidden-links hidden"></ul>
       </nav>
     </div>
@@ -120,22 +127,12 @@
 
 <script>
   const themeToggle = document.getElementById('theme-toggle');
-  
-  // Update button icon based on initial state
-  if (document.documentElement.classList.contains('dark-mode')) {
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-  }
-  
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
   themeToggle.addEventListener('click', () => {
-    document.documentElement.classList.toggle('dark-mode');
-    
-    if (document.documentElement.classList.contains('dark-mode')) {
-      localStorage.setItem('theme', 'dark');
-      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-    } else {
-      localStorage.setItem('theme', 'light');
-      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-    }
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
   // Reading Progress Bar
   window.onscroll = function() {
@@ -221,9 +218,9 @@
 \]
 <p>As we can see this is an <strong><span style="color: red">inequality</span></strong>. If we plot this for \(0 < x < 106\) and \(k < y < k + 17\), then we get the plot,</p>
 
-<div id="fdpvrx" style=""></div>
+<div id="fdpivk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpvrx");
+graphDiv = document.getElementById("fdpivk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp1.json');
 </script>
 
@@ -234,9 +231,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
 <pre><code class="language-julia">k_cheenta &#61; 15806189098778893000052913054993993567015366941292274179534053586295503647737517933409233769405785763940088519276398488552677297965783134336600594346427856575753581916591574206800450783605935534858246029155800031822984955455385598121139153589540046302557674614212697588833953815011872377415466312636343196950183648558632777828536170792550924288</code></pre>
 <p>we will get,</p>
 
-<p><div id="fdpnbx" style=""></div>
+<p><div id="fdpxnt" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpnbx");
+graphDiv = document.getElementById("fdpxnt");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp8.json');
 </script>
  This is the name where I teaches physics. Why not checkout the website of <a href="https://www.cheenta.com/">CHEENTA</a> and see my awesome colleagues and students.</p>
@@ -244,9 +241,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
 <pre><code class="language-julia">k_cosmic &#61;1271483917409047962504190716480820125972278621369534229771189155117893513117560028103293542766164054366623611185886118600739414120455650913109912110581287743239969847780541636461645780364303397660529613100638803746819131463964363046325228418810374936998088829255027447274810308302244558096667122081824157031726139625219810246859835932683694862411835356166461473745281741462375240388909870117619294905778805095592609024873542546088290387587421750247353346676976414510740261093361230273514384628199351519546799586984946538836015942052347904</code></pre>
 <p>we will get, </p>
 
-<div id="fdpbcb" style=""></div>
+<div id="fdpejv" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpbcb");
+graphDiv = document.getElementById("fdpejv");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp2.json');
 </script>
 
@@ -327,40 +324,40 @@ p &#61; plot_tupper&#40;k&#41;</code></pre>
 <p>Here are few more plots.</p>
 <pre><code class="language-julia">k_pac &#61; 144520248970897582847942537337194567481277782215150702479718813968549088735682987348888251320905766438178883231976923440016667764749242125128995265907053708020473915320841631792025549005418004768657201699730466383394901601374319715520996181145249781945019068359500510657804325640801197867556863142280259694206254096081665642417367403946384170774537427319606443899923010379398938675025786929455234476319291860957618345432248004921728033349419816206749854472038193939738513848960476759782673313437697051994580681869819330446336774047268864</code></pre>
 
-<div id="fdpoza" style=""></div>
+<div id="fdpahb" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpoza");
+graphDiv = document.getElementById("fdpahb");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp3.json');
 </script>
 
 <pre><code class="language-julia">k_euler &#61;2352035939949658122140829649197960929306974813625028263292934781954073595495544614140648457342461564887325223455620804204796011434955111022376601635853210476633318991990462192687999109308209472315419713652238185967518731354596984676698288025582563654632501009155760415054499960</code></pre>
 
-<p><div id="fdpwax" style=""></div>
+<p><div id="fdpgsn" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwax");
+graphDiv = document.getElementById("fdpgsn");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp4.json');
 </script>
  Why not try making \(E=mc^2\) ?</p>
 <pre><code class="language-julia">k_spand &#61;270887593047695068902177512637039315790870805545237574209083294224566348164515629454108026611013012827103306726993631111616993188494955886640992666873946363041693530171313017819263864013685045445247668181602663772762348140363360641126220335131367302996818140888926115019048960218133602241808439634450714519167159218935381199001214374043071404065825421114593354638235539762000889521529816363996094790128255258340071055083759359335933136601088</code></pre>
 
-<div id="fdpzvo" style=""></div>
+<div id="fdpega" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpzvo");
+graphDiv = document.getElementById("fdpega");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp5.json');
 </script>
 
 <p>Not going to give you k value for this one</p>
 
-<div id="fdpkyv" style=""></div>
+<div id="fdpstt" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpkyv");
+graphDiv = document.getElementById("fdpstt");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp6.json');
 </script>
 
 
-<p><div id="fdphpb" style=""></div>
+<p><div id="fdpzbr" style=""></div>
 <script>
-graphDiv = document.getElementById("fdphpb");
+graphDiv = document.getElementById("fdpzbr");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp7.json');
 </script>
  Calculate \(\sigma\) for \(e^- + e^+ \to \mu^- + \mu^+\) &#40;use feynman&#39;s diagram drawn above&#41;</p>
@@ -370,8 +367,8 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
 <button onclick="window.history.back()">Go Back</button>
 </p>
 <div id="custom-comments-container"></div>
-<link rel="stylesheet" href="/assets/css/custom_comments.css">
-<script type="module" src="/assets/js/custom_comments.js"></script>
+<link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+<script type="module" src="/assets/js/custom_comments.js?v=3"></script>
 
 <div class="page-foot">
     <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: June 25, 2026.

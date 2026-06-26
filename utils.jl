@@ -96,7 +96,7 @@ end
 function hfun_comments()
     return """
     <div id="custom-comments-container"></div>
-    <link rel="stylesheet" href="/assets/css/custom_comments.css">
-    <script type="module" src="/assets/js/custom_comments.js"></script>
+    <link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+    <script type="module" src="/assets/js/custom_comments.js?v=3"></script>
     """
 end

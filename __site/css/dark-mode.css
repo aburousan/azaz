@@ -119,10 +119,18 @@ html.dark-mode .page__footer a:hover { color: var(--d-gold-hi); }
   margin-left: 1rem;
   transition: transform 0.2s ease;
   color: #2f6d78;            /* visible in light mode */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 #theme-toggle:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(-12deg);
 }
+#theme-toggle svg { display: block; }
+/* Light mode: show the moon (offer dark). Dark mode: show the sun. */
+#theme-toggle .icon-sun  { display: none; }
+html.dark-mode #theme-toggle .icon-moon { display: none; }
+html.dark-mode #theme-toggle .icon-sun  { display: block; }
 html.dark-mode #theme-toggle { color: #f0c97e; }   /* gold sun on dark */
 
 /* ---- syntax highlighting in dark mode ----------------------------------
