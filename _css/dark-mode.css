@@ -46,6 +46,25 @@ html.dark-mode body .author__name {
   color: var(--d-head);
 }
 
+/* Franklin wraps heading text in an anchor <a>, and adjust.css forces
+   `h1 a … { color:#1c1c1c !important }`. That near-black wins over the rule
+   above and makes titles invisible in dark mode — so override the anchor
+   colour (incl. :visited) with matching !important. */
+html.dark-mode body h1 a,
+html.dark-mode body h2 a,
+html.dark-mode body h3 a,
+html.dark-mode body h4 a,
+html.dark-mode body h5 a,
+html.dark-mode body h6 a,
+html.dark-mode body h1 a:visited,
+html.dark-mode body h2 a:visited,
+html.dark-mode body h3 a:visited,
+html.dark-mode body h4 a:visited,
+html.dark-mode body h5 a:visited,
+html.dark-mode body h6 a:visited {
+  color: var(--d-head) !important;
+}
+
 html.dark-mode body a:not(.btn) { color: var(--d-gold); }
 html.dark-mode body a:not(.btn):hover { color: var(--d-gold-hi); }
 

@@ -135,24 +135,37 @@ if (auth && loginBtn) {
       
       submitBtn.disabled = true;
       submitBtn.textContent = 'Posting...';
-      
+
       try {
-        await addDoc(collection(db, "comments"), {
+        // If Firestore is unreachable (database not created / API disabled),
+        // the SDK retries silently and addDoc never settles, leaving the button
+        // stuck on "Posting...". Race it against a timeout so the UI recovers.
+        const write = addDoc(collection(db, "comments"), {
           path: currentPath,
           author: user.displayName,
           uid: user.uid,
           text: text,
           timestamp: serverTimestamp()
         });
+        const timeout = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("timeout")), 12000));
+        await Promise.race([write, timeout]);
         commentText.value = '';
         fetchComments(); // Reload comments
       } catch (e) {
         console.error("Error adding document: ", e);
-        alert("Failed to post comment. Ensure Firestore Security Rules allow writing.");
+        if (e && (e.code === 'permission-denied' || e.message === 'timeout')) {
+          alert("Couldn't reach the comments database. Make sure Firestore is " +
+                "created and enabled in the Firebase Console (Databases & " +
+                "Storage → Firestore Database → Create database) and that its " +
+                "rules allow signed-in users to write.");
+        } else {
+          alert("Failed to post comment. See the browser console for details.");
+        }
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Post Comment';
       }
-      
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Post Comment';
     });
 }
 
@@ -199,19 +212,31 @@ async function fetchComments() {
     if (!db || !commentsList) return;
     
     try {
-        const q = query(collection(db, "comments"), where("path", "==", currentPath), orderBy("timestamp", "desc"));
+        // Only filter by path (single field → uses Firestore's automatic
+        // single-field index; NO composite index needed). Sorting is done in
+        // JS below, which avoids the where+orderBy composite-index requirement.
+        const q = query(collection(db, "comments"), where("path", "==", currentPath));
         const querySnapshot = await getDocs(q);
-        
+
         commentsList.innerHTML = '';
         if (querySnapshot.empty) {
             commentsList.innerHTML = '<p>No comments yet. Be the first to start the discussion!</p>';
             return;
         }
-        
-        querySnapshot.forEach((doc) => {
+
+        // Sort newest-first client-side (a page has few comments).
+        const docs = querySnapshot.docs.slice().sort((a, b) => {
+            const ta = a.data().timestamp;
+            const tb = b.data().timestamp;
+            const ma = ta && ta.toMillis ? ta.toMillis() : 0;
+            const mb = tb && tb.toMillis ? tb.toMillis() : 0;
+            return mb - ma;
+        });
+
+        docs.forEach((doc) => {
             const data = doc.data();
             const date = data.timestamp ? data.timestamp.toDate().toLocaleDateString() : 'Just now';
-            
+
             const commentDiv = document.createElement('div');
             commentDiv.className = 'comment-item';
             
