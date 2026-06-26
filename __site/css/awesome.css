@@ -112,7 +112,8 @@ html.dark-mode body::before {
 }
 .progress-bar {
   height: 4px;
-  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  /* Cool teal→blue reading-progress bar (calmer than the old orange→pink). */
+  background: linear-gradient(90deg, var(--pastel-link), var(--cool-blue), var(--cool-blue-hi));
   width: 0%;
   border-radius: 0 2px 2px 0;
 }
@@ -339,12 +340,27 @@ html, body {
   --pastel-link: #2f6d78;      /* Restrained deep teal (one accent) */
   --pastel-link-hover: #234f58;
   --ornament-gold: #9c7a3c;    /* Antique gold for rules & fleurons */
+  --cool-blue: #3a6ea5;        /* Calm cool blue (secondary accent, easy on eyes) */
+  --cool-blue-hi: #5b8cc4;     /* Lighter blue for gradients / hovers */
+  --cool-blue-soft: #eaf1f8;   /* Faint blue wash for backgrounds */
 }
 
 body:not(.dark-mode) {
   background-color: var(--pastel-bg);
   color: var(--pastel-text);
 }
+
+/* Cool-blue secondary accent woven into the reading flow (calming, easy on the
+   eyes) — blockquotes get a blue rule + faint blue wash in light mode. */
+html:not(.dark-mode) .franklin-content blockquote {
+  border-left-color: var(--cool-blue) !important;
+  background: var(--cool-blue-soft) !important;
+}
+html.dark-mode .franklin-content blockquote {
+  border-left-color: var(--cool-blue-hi) !important;
+}
+/* A touch of blue on section-heading underlines, tying the accent together. */
+.franklin-content h2 { border-bottom-color: var(--cool-blue) !important; }
 
 body:not(.dark-mode) .page__content {
   color: var(--pastel-text);
@@ -819,3 +835,4 @@ html.dark-mode .franklin-content :not(pre) > code {
   background: #2a2419;
   color: #e0c489;
 }
+.franklin-content pre.code-output { white-space: pre-wrap; word-wrap: break-word; }

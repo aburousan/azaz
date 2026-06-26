@@ -23,6 +23,25 @@
 
 <item>
   <title>
+    <![CDATA[  Grassmann Algebra: Multiplying with Area and Orientation  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/grassmann_algebra/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/grassmann_algebra/index.html </guid>
+  <description>
+    <![CDATA[  A friendly, visual introduction to Grassmann &#40;exterior&#41; algebra: the wedge product, bivectors, orientation, multivector grades, and the tensor-algebra quotient definition — with runnable SageMath and SymPy code. The first part of a mini-series leading to Clifford algebras and spinors.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 26 Jun 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  A Pedestrian&#39;s Guide to FORM for Particle Physics &#40;via Julia&#41;  ]]>
   </title>
   <link> https://rousan.netlify.app/Pages/Physics/blogs/form_pedestrian_qft_blog/index.html </link>

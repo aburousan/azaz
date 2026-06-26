@@ -35,6 +35,21 @@ html.dark-mode body blockquote {
   color: var(--d-text);
 }
 
+/* Blockquotes kept their LIGHT --block-background in dark mode, so cream text
+   was rendering on a near-white panel = unreadable. Give them a dark surface. */
+html.dark-mode .franklin-content blockquote,
+html.dark-mode body blockquote {
+  background: var(--d-panel) !important;
+  border-left-color: var(--d-gold) !important;
+  color: var(--d-text) !important;
+}
+html.dark-mode .franklin-content blockquote p,
+html.dark-mode .franklin-content blockquote li,
+html.dark-mode .franklin-content blockquote em,
+html.dark-mode .franklin-content blockquote i { color: var(--d-text) !important; }
+html.dark-mode .franklin-content blockquote strong { color: var(--d-head) !important; }
+html.dark-mode .franklin-content blockquote a { color: var(--d-gold) !important; }
+
 html.dark-mode body h1,
 html.dark-mode body h2,
 html.dark-mode body h3,

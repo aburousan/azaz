@@ -50,7 +50,7 @@ Question: Is the number $c=\mathbb{i}$ inside Mandelbrot set?
 @@
 
 Let's see a code for checking if a number is inside the set. Here we will check the iteration outputs upto $1000^{th}$ iteration as in code we can't check upto infinite iteration.
-```julia:./mandel.jl
+```julia:mandel1
 function mandel_check(c,max_ita=1000)
     z = 0
     for i in 1:max_ita
@@ -68,13 +68,13 @@ end
 mandel_check(1)
 ```
 The output is:
-\output{./mandel.jl}
+\output{mandel1}
 For $c = 0.3 + 0.2\mathbb{i}$,
 
-```julia:./mandel.jl
+```julia:mandel2
 mandel_check(0.3+0.2im)
 ```
-\output{./mandel.jl}
+\output{mandel2}
 Here is a image. You can zoom and change iteration number and also save the image.
 
 ~~~
@@ -118,7 +118,7 @@ Let's see the table for this $c = 0.25 + \epsilon$.
 Again, we see the same pattern but only for $\epsilon = 10^{-2n}$ where $n$ is some positive integer including $0$.
 
 Let's write a code to verify this:
-```julia:./mandel_pi.jl
+```julia:mandel_pi1
 function cal_pi(epsilon)
     setprecision(300)
     c = BigFloat(0.25) + BigFloat(epsilon)
@@ -132,21 +132,21 @@ function cal_pi(epsilon)
 end
 ```
 Here the function takes $\epsilon$ as input.
-```julia:./mandel_pi.jl
+```julia:mandel_pi2
 epsilon = 0.01
 print("For epsilon = ",epsilon," irter needed = ",cal_pi(epsilon))
 ```
 The output is
-\output{./mandel_pi.jl}
+\output{mandel_pi2}
 
 If we needs $n$ digits of $\pi$, we can write the code as,
-```julia:./mandel_pi.jl
+```julia:mandel_pi3
 n=7
 epsilon = BigFloat(1/10^(2*n))
 print("Approx n = ",n," correct digits of pi = ",cal_pi(epsilon))
 ```
 which gives,
-\output{./mandel_pi.jl}
+\output{mandel_pi3}
 
 But why does it works?, let's try to find that out!...
 

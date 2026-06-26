@@ -57,6 +57,11 @@
   let carryStartY = 0;
   let lastInteractedGraph = null;
 
+  // Slider play: count consecutive plays so the cat takes a long nap after 3,
+  // and a flag for an uninterruptible "deep nap".
+  let sliderPlayStreak = 0;
+  let deepNap = false;
+
   // --- Extra personality state ---
   let grabFromBelow = false;   // hold the slider from underneath sometimes
   let jumpTicks = 0;           // frames remaining in a hop arc
@@ -299,8 +304,8 @@
         if (isInteractingWithGraph) {
             isInteractingWithGraph = false;
             
-            // 55% chance for the cat to say "My turn!" and run over to play with the slider
-            if (Math.random() < 0.55 && lastInteractedGraph) {
+            // 35% chance for the cat to say "My turn!" and run over to play with the slider
+            if (Math.random() < 0.35 && lastInteractedGraph) {
                 state = "roaming";
                 
                 let grabTarget = lastInteractedGraph;
@@ -449,8 +454,9 @@
           nekoEl.style.left = `${nekoPosX - 16}px`;
           nekoEl.style.top = `${nekoPosY - 16}px`;
       } else {
-          // If the user moves the mouse a lot, the cat should wake up!
-          if (state === "sleeping" && Math.random() > 0.95) {
+          // If the user moves the mouse a lot, the cat should wake up — unless
+          // it's in a forced deep nap (after 3 slider plays).
+          if (state === "sleeping" && !deepNap && Math.random() > 0.95) {
               state = "chasing";
           }
       }
@@ -618,8 +624,9 @@
       sliders = sliders.filter(isVisible);
       general = general.filter(isVisible);
       
-      // 55% chance to pick a specific slider dot if one is visible!
-      if (sliders.length > 0 && Math.random() < 0.55) {
+      // 30% chance to pick a specific slider dot if one is visible (kept low so
+      // the cat doesn't constantly maul the sliders).
+      if (sliders.length > 0 && Math.random() < 0.30) {
           targetElement = sliders[Math.floor(Math.random() * sliders.length)];
           return true;
       } else if (general.length > 0) {
@@ -1415,6 +1422,7 @@
                 targetElement = null;
             } else {
                 state = "chasing";
+                deepNap = false;   // the deep nap (if any) is over
             }
             nekoSpeed = 10;
         }
@@ -1425,6 +1433,7 @@
     if (state === "chasing" && Math.random() < 0.001) {
         state = "sleeping";
         stateTimer = 50 + Math.floor(Math.random() * 100);
+        sliderPlayStreak = 0;   // a spontaneous nap breaks the play streak
     }
     
     // Roaming/exploration (kept fairly calm so it rests more than it wanders)
@@ -1757,7 +1766,15 @@
             dragTarget = null;
             dragSliderObj = null;
             state = "sleeping";
-            stateTimer = 100 + Math.floor(Math.random() * 100);
+            if (sliderPlayStreak >= 3) {
+                // Played three times in a row — take a solid ~10s deep nap that
+                // mouse movement can't cut short, then reset the streak.
+                stateTimer = 100;     // ~10 s at the ~10 fps loop
+                deepNap = true;
+                sliderPlayStreak = 0;
+            } else {
+                stateTimer = 100 + Math.floor(Math.random() * 100);
+            }
         }
         return;
     }
@@ -1800,6 +1817,7 @@
           if (isDraggable) {
               // GRAB THE SLIDER!
               state = "dragging";
+              sliderPlayStreak++;   // count this play (for the after-3 nap)
               // Randomly drag between 4 and 8 seconds (40 to 80 frames)
               stateTimer = 40 + Math.floor(Math.random() * 40);
               dragTarget = targetElement;

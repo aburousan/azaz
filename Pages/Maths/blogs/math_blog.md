@@ -17,6 +17,7 @@ This contains some interesting things related to Mathematics :\\
 3. [Playing with Tupper's Formula in Julia](/Pages/Maths/blogs/Tupper_Form/) --> Just for fun.
 4. [Hidden Pi inside Mandelbrot Set](/Pages/Maths/blogs/Pi_in_Mandel/) --> Just for fun.
 5. [Fast and Curious: A speed comparison of different languages](/Pages/Maths/blogs/fast_and_curious/) --> Not exactly a math blog.
+6. [Grassmann Algebra: Multiplying with Area and Orientation](/Pages/Maths/blogs/grassmann_algebra/) --> Geometric algebra, Part 1.
 ~~~
 <button onclick="window.history.back()">Go Back</button>
 ~~~
