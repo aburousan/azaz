@@ -105,61 +105,39 @@
   const JUMP_LEN = 6;          // hop length in frames (~0.6s at 10fps)
   const JUMP_HEIGHT = 26;      // hop arc height in px
   const Z_TOP = 2147483647;    // normal (on top of everything) z-index
+  // --- Audio for purr, hiss, and meow ---
+  const purrAudio = new Audio("/assets/audio/purr.webm");
+  purrAudio.loop = true;
+  purrAudio.volume = 0.5;
 
-  // --- Synthesized purr (Web Audio) — reliable, no asset/CORS/format issues ---
-  let purrCtx = null;
-  let purrNodes = null;
-  let audioUnlocked = false;
+  const hissAudio = new Audio("/assets/audio/hiss.webm");
+  hissAudio.volume = 0.5;
 
-  const unlockAudio = () => {
-      if (audioUnlocked) return;
-      audioUnlocked = true;
-      try {
-          purrCtx = new (window.AudioContext || window.webkitAudioContext)();
-          if (purrCtx.state === "suspended") purrCtx.resume();
-      } catch (e) { purrCtx = null; }
-      document.removeEventListener("mousedown", unlockAudio, true);
-      document.removeEventListener("touchstart", unlockAudio, true);
-  };
-  document.addEventListener("mousedown", unlockAudio, true);
-  document.addEventListener("touchstart", unlockAudio, true);
-
+  const meowAudio = new Audio("/assets/audio/meow.webm");
+  meowAudio.volume = 0.2;
+  
+  let isPurring = false;
   function startPurr() {
-      if (!purrCtx || purrNodes) return;
-      try {
-          if (purrCtx.state === "suspended") purrCtx.resume();
-          const ctx = purrCtx, now = ctx.currentTime;
-          // brown-noise buffer = the low rumble body of the purr
-          const len = ctx.sampleRate * 2;
-          const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-          const d = buf.getChannelData(0);
-          let last = 0;
-          for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1; last = (last + 0.02 * w) / 1.02; d[i] = last * 3.2; }
-          const noise = ctx.createBufferSource(); noise.buffer = buf; noise.loop = true;
-          const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 300;
-          // tremolo at ~22 Hz gives the "rrr-rrr" purr pulsing
-          const lfo = ctx.createOscillator(); lfo.type = "sine"; lfo.frequency.value = 22;
-          const lfoGain = ctx.createGain(); lfoGain.gain.value = 0.6;
-          const amp = ctx.createGain(); amp.gain.value = 0.5;
-          lfo.connect(lfoGain); lfoGain.connect(amp.gain);
-          const master = ctx.createGain(); master.gain.value = 0;
-          master.gain.linearRampToValueAtTime(0.10, now + 0.5); // gentle fade-in
-          noise.connect(lp); lp.connect(amp); amp.connect(master); master.connect(ctx.destination);
-          noise.start(); lfo.start();
-          purrNodes = { noise, lfo, master };
-      } catch (e) { purrNodes = null; }
+      if (isPurring) return;
+      isPurring = true;
+      purrAudio.play().catch(e => {});
   }
-
+  
   function stopPurr() {
-      if (!purrNodes || !purrCtx) { purrNodes = null; return; }
-      try {
-          const now = purrCtx.currentTime, n = purrNodes;
-          n.master.gain.cancelScheduledValues(now);
-          n.master.gain.setValueAtTime(n.master.gain.value, now);
-          n.master.gain.linearRampToValueAtTime(0, now + 0.3);
-          setTimeout(() => { try { n.noise.stop(); n.lfo.stop(); } catch (e) {} }, 350);
-      } catch (e) {}
-      purrNodes = null;
+      if (!isPurring) return;
+      isPurring = false;
+      purrAudio.pause();
+      purrAudio.currentTime = 0;
+  }
+  
+  function playHiss() {
+      hissAudio.currentTime = 0;
+      hissAudio.play().catch(e => {});
+  }
+  
+  function playMeow() {
+      meowAudio.currentTime = 0;
+      meowAudio.play().catch(e => {});
   }
 
   const spriteSets = {
@@ -551,6 +529,7 @@
     // Run off and hide when poked too many times in quick succession
     let clickTimes = [];
     const hideCat = function() {
+        playHiss();
         isBeingCarried = false;
         isHidden = true;
         inspecting = false;
@@ -615,6 +594,7 @@
       idleAnimationFrame = 0;
       stateTimer = 26;
       showSparkle(nekoPosX, nekoPosY);
+      if (Math.random() < 0.2) playMeow();
     });
     darkObs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 
@@ -1271,7 +1251,7 @@
       case "sleeping":
         if (idleAnimationFrame === 0) {
           // Decide ONCE per sleep whether this nap gets a purr
-          purrThisSleep = Math.random() < 0.4;
+          purrThisSleep = Math.random() < 0.28;
         }
         if (idleAnimationFrame < 8) {
           setSprite("tired", 0);
@@ -1279,7 +1259,7 @@
         }
         setSprite("sleeping", Math.floor(idleAnimationFrame / 4));
         if (purrThisSleep) startPurr();
-        else if (purrNodes) stopPurr();
+        else if (isPurring) stopPurr();
         if (idleAnimationFrame > 192) {
           resetIdleAnimation();
         }
@@ -1656,7 +1636,7 @@
 
     // Stop purring the moment we're not sleeping / admiring / being petted
     const admiringNow = (idleAnimation === "admire" && state === "disturbed");
-    if (state !== "sleeping" && !admiringNow && !petting && purrNodes) {
+    if (state !== "sleeping" && !admiringNow && !petting && isPurring) {
         stopPurr();
     }
 
