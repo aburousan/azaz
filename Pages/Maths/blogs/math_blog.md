@@ -18,6 +18,7 @@ This contains some interesting things related to Mathematics :\\
 4. [Hidden Pi inside Mandelbrot Set](/Pages/Maths/blogs/Pi_in_Mandel/) --> Just for fun.
 5. [Fast and Curious: A speed comparison of different languages](/Pages/Maths/blogs/fast_and_curious/) --> Not exactly a math blog.
 6. [Grassmann Algebra: Multiplying with Area and Orientation](/Pages/Maths/blogs/grassmann_algebra/) --> Geometric algebra, Part 1.
+7. [Minkowski Functionals: Measuring the Shape of the Universe](/Pages/Maths/blogs/minkowski_functionals/) --> Geometry, topology & cosmology.
 ~~~
 <button onclick="window.history.back()">Go Back</button>
 ~~~

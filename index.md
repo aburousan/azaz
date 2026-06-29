@@ -1,4 +1,4 @@
-@def title = "Azazaya"
+@def title = "Rousan"
 @def tags = ["syntax", "code"]
 
 # Idea behind this website

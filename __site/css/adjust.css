@@ -1,1 +1,125 @@
-@charset "utf-8";@media (min-width:940px){.franklin-content{width:100%}}@media (min-width:1024px){.franklin-content{width:75%;padding-left:20%;padding-right:5%}}pre{font-size:17px}.franklin-content code{font-size:14px}.franklin-content .hljs{font-size:14px}blockquote{font-size:90%}.fndef-content{line-height:1.5em}.franklin-content h1{padding-bottom:.5em;margin-top:1.5em;margin-bottom:1em}.franklin-content a{text-decoration:none}h1 a{color:#1c1c1c !important}h2 a{color:#1c1c1c !important}h3 a{color:#1c1c1c !important}h4 a{color:#1c1c1c !important}h5 a{color:#1c1c1c !important}h1 a:visited{color:#1c1c1c !important}h2 a:visited{color:#1c1c1c !important}h3 a:visited{color:#1c1c1c !important}h4 a:visited{color:#1c1c1c !important}h5 a:visited{color:#1c1c1c !important}
+/* on narrow device, reduce margins */
+@media (min-width: 940px) {
+  .franklin-content {
+    width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .franklin-content {
+    width: 75%;
+    padding-left: 20%;
+    padding-right: 5%;
+  }
+}
+
+pre {
+  font-size: 17px;
+}
+
+.franklin-content code {
+  font-size: 14px;
+}
+
+.franklin-content .hljs {
+  font-size: 14px;
+}
+
+blockquote {
+  font-size: 90%;
+}
+
+.fndef-content {
+  line-height: 1.5em;
+}
+
+.franklin-content h1 {
+  padding-bottom: 0.5em;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+}
+
+.franklin-content a {
+  text-decoration: none;
+}
+
+/* For some reason,
+ * `h1, h2, h3 { a { color: ... } a:visited { color: ... } }` didn't work.
+ */
+h1 a { color: #1c1c1c !important; }
+h2 a { color: #1c1c1c !important; }
+h3 a { color: #1c1c1c !important; }
+h4 a { color: #1c1c1c !important; }
+h5 a { color: #1c1c1c !important; }
+
+h1 a:visited { color: #1c1c1c !important; }
+h2 a:visited { color: #1c1c1c !important; }
+h3 a:visited { color: #1c1c1c !important; }
+h4 a:visited { color: #1c1c1c !important; }
+h5 a:visited { color: #1c1c1c !important; }
+
+/* ===========================================================
+   Wide vector figures (SVG diagrams) that may break out of the
+   fixed 705px text column so they render large and legible.
+   Usage: <div class="mfig" style="--w:900px"> … </div>
+          <div class="mrow" style="--w:1040px"> img img <p class="cap">…</p> </div>
+   =========================================================== */
+.mfig {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(94vw, var(--w, 860px));
+  margin: 1.6rem 0;
+  text-align: center;
+}
+.mfig img { width: 100%; height: auto; margin: 0 auto !important; }
+
+.mrow {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(95vw, var(--w, 1060px));
+  margin: 1.6rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+.mrow > img { flex: 1 1 340px; height: auto; margin: 0 !important; }
+
+.mfig p, .mrow p, .mrow .cap {
+  flex-basis: 100%;
+  font-size: 0.9em;
+  font-style: italic;
+  color: #666;
+  text-align: center;
+  margin: 0.4rem auto 0;
+}
+
+/* ===========================================================
+   Author profile card alignment.
+   Desktop: the avatar used to sit a few px right of the name/bio
+   because of its ring (5px padding + 1px border); pull it back so
+   its photo lines up flush-left with the text below it.
+   Mobile: the profile stacks at the top of the page, so replace the
+   cramped 36px table-cell row with a tidy centered column.
+   =========================================================== */
+@media (min-width: 64em) {
+  .sidebar .author__avatar img { margin-left: -6px; }
+}
+@media (max-width: 63.99em) {
+  .sidebar .author__avatar,
+  .sidebar .author__content,
+  .sidebar .author__urls-wrapper {
+    display: block;
+    width: auto;
+    height: auto;          /* base rule pins the avatar box to 36px, which makes the 110px image overflow and collide with the name */
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .sidebar .author__avatar img { max-width: 110px; margin: 0 auto; display: inline-block; }
+  .sidebar .author__name, .sidebar .author__bio { text-align: center; }
+  .sidebar .author__urls li { text-align: center; }
+}

@@ -9,7 +9,7 @@
 
   <channel>
     <title>
-      <![CDATA[  Azazaya  ]]>
+      <![CDATA[  Rousan  ]]>
     </title>
     <link> https://rousan.netlify.app/ </link>
     <description>
@@ -20,6 +20,25 @@
       rel="self"
       type="application/rss+xml" />
 
+
+<item>
+  <title>
+    <![CDATA[  Minkowski Functionals: Measuring the Shape of the Universe  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/minkowski_functionals/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/minkowski_functionals/index.html </guid>
+  <description>
+    <![CDATA[  A first-principles guide to Minkowski functionals: from &#39;what is shape?&#39; through Hadwiger&#39;s theorem, curvature, the Steiner inflation formula, and the Hermite-ladder Gaussian predictions, to measuring non-Gaussianity in cosmology. Physical analogies &#40;a flooding landscape&#41;, full derivations, symbolic checks in SymPy and WolframScript, numerical checks in Python and Julia, and an interactive 3D water-level widget.  ]]>
+  </description>  
+    
+  <pubDate>Mon, 29 Jun 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
 
 <item>
   <title>
