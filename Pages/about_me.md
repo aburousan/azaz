@@ -192,6 +192,7 @@ My current research is on **primordial gravitational waves** and **inflation**, 
 
 ## Software & Tools
 
+* [**Hilbert**](https://rousan.netlify.app/hilbert/) — a scientific-writing IDE for [Typst](https://typst.app) I built (in Tauri and Electron), aimed at newcomers who'd rather *build* the maths than memorise the syntax: visual builders for equations, matrices, plots, Feynman and commutative diagrams, a flowchart-to-code-to-run tool, live PDF preview, and Python/Julia/Mathematica execution. [Source](https://github.com/aburousan/hilbert-editor).
 * [**Cosmic.jl**](https://github.com/aburousan/cosmic.jl) — a Julia package I'm developing for basic cosmology computations, aimed eventually at cosmological perturbations.
 * [**astronomR**](https://github.com/samrit2442/astronomR) — an R package for astronomy and astrophysics, developed with **Samrit Pramanik**.
 * **Radiometric Calibration of the DAWN VIR dataset** — I built a [web app](https://virdawnradiometrical.streamlit.app/) for the calibration: upload `.lbl`, `.qub`, and house-keeping data, then download the calibrated `.npy` file.
