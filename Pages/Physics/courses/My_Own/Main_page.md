@@ -18,6 +18,7 @@ This are the links for courses taken by me:
 
 (*This part will be updated as new courses are added*)
 1. [Introduction to Quantum Field Theory with Canonical Quanlization](/Pages/Physics/courses/Intro_to_QFT/Course_Page/).
+2. [The Expanding Universe — a hands-on cosmology mini-course with Cosmic.jl](/Pages/Physics/courses/Cosmology/Main_page/) --> Reading Baumann's Chapter 2, checking every result in Julia.
 
 ~~~
 <button onclick="window.history.back()">Go Back</button>

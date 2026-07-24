@@ -50,6 +50,32 @@ html.dark-mode .franklin-content blockquote i { color: var(--d-text) !important;
 html.dark-mode .franklin-content blockquote strong { color: var(--d-head) !important; }
 html.dark-mode .franklin-content blockquote a { color: var(--d-gold) !important; }
 
+/* Callout boxes (@@colbox-blue / @@colbox-red / .julia-help) hardcode LIGHT
+   backgrounds, so cream dark-mode text landed on a near-white panel = unreadable
+   (the same trap the blockquotes fell into). Give each a dark, tinted surface
+   that keeps its accent colour. */
+html.dark-mode .franklin-content .colbox-blue {
+  background-color: #172533 !important;   /* deep blue-charcoal */
+  border-left-color: #4c9cf1 !important;
+  color: var(--d-text) !important;
+}
+html.dark-mode .franklin-content .colbox-red {
+  background-color: #331f1b !important;   /* deep warm red */
+  border-left-color: #e0685c !important;
+  color: var(--d-text) !important;
+}
+html.dark-mode .franklin-content .julia-help {
+  background-color: var(--d-panel) !important;
+  border-color: var(--d-border) !important;
+  color: var(--d-text) !important;
+}
+html.dark-mode .franklin-content .colbox-blue strong,
+html.dark-mode .franklin-content .colbox-red strong,
+html.dark-mode .franklin-content .julia-help strong { color: var(--d-head) !important; }
+html.dark-mode .franklin-content .colbox-blue a,
+html.dark-mode .franklin-content .colbox-red a,
+html.dark-mode .franklin-content .julia-help a { color: var(--d-gold) !important; }
+
 html.dark-mode body h1,
 html.dark-mode body h2,
 html.dark-mode body h3,

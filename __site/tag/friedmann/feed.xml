@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Rousan  ]]>
+    </title>
+    <link> https://rousan.netlify.app/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://rousan.netlify.app/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  The Expanding Universe III — Dynamics  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Dynamics/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Dynamics/index.html </guid>
+  <description>
+    <![CDATA[  Part 3 of The Expanding Universe. Deriving the continuity equation, the Friedmann equations and the exact radiation/matter/Λ solutions — with the density eras, the expansion history, and the fate of flat, open and closed universes all computed in Cosmic.jl.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>

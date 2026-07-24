@@ -1,0 +1,635 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>The Expanding Universe I — Geometry</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#the_cosmological_principle">The cosmological principle</a></li><li><a href="#symmetric_three-spaces_derived_from_an_embedding">Symmetric three-spaces — derived from an embedding</a></li><li><a href="#the_robertsonwalker_metric">The Robertson–Walker metric</a><ol><li><a href="#deriving_s_kchi_the_metric_distance">Deriving \(S_k(\chi)\): the metric distance</a></li><li><a href="#conformal_time">Conformal time</a></li></ol></li><li><a href="#verifying_with_cosmicjl">Verifying with Cosmic.jl</a></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
+<h1 id="the_expanding_universe_i_geometry"><a href="#the_expanding_universe_i_geometry" class="header-anchor">The Expanding Universe I — Geometry</a></h1>
+<blockquote>
+<p><em>Part 1 of a four-part reading of Baumann&#39;s Chapter 2. Before we can ask how fast the universe expands, we have to ask what its <strong>shape</strong> is. We will derive — not just quote — the metric of the cosmos, and find that two symmetry assumptions leave essentially no freedom at all.</em></p>
+</blockquote>
+<p>This is the first of five connected posts — <a href="/Pages/Physics/courses/Cosmology/Geometry/">Geometry</a>, <a href="/Pages/Physics/courses/Cosmology/Kinematics/">Kinematics</a>, <a href="/Pages/Physics/courses/Cosmology/Dynamics/">Dynamics</a>, <a href="/Pages/Physics/courses/Cosmology/Our_Universe/">Our Universe</a>, <a href="/Pages/Physics/courses/Cosmology/Perturbations/">Perturbations</a> — that build the universe from the ground up, from perfect homogeneity to the structure that grows on top of it, and check every result against my Julia package <a href="https://github.com/aburousan/Cosmic.jl"><strong>Cosmic.jl</strong></a>.</p>
+<h2 id="the_cosmological_principle"><a href="#the_cosmological_principle" class="header-anchor">The cosmological principle</a></h2>
+<p>Cosmology becomes a science once we make one bold simplification, promoted to a principle:</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>The cosmological principle.</strong> On large enough scales &#40;above \(\sim100\,\mathrm{Mpc}\)&#41; the universe is <strong>homogeneous</strong> &#40;the same at every point&#41; and <strong>isotropic</strong> &#40;the same in every direction&#41;. 
+  </fieldset>
+  
+<p>Isotropy about <em>every</em> point already implies homogeneity, and the two together are a severe constraint. A general spacetime needs ten functions \(g_{\mu\nu}(x)\) of four coordinates; we are about to see homogeneity and isotropy grind that down to <strong>one function of time</strong> and <strong>one constant</strong>.</p>
+<p>In GR the geometry lives in the line element \(\mathrm d s^2 = g_{\mu\nu}\mathrm d x^\mu\mathrm d x^\nu\), and proper time follows from \(c^2\mathrm d\tau^2=-\mathrm d s^2\). Because the universe can be sliced into homogeneous &quot;now&quot; surfaces stacked along a cosmic time \(t\), the metric must take the form</p>
+\[ \mathrm d s^2 = -c^2\mathrm d t^2 + a^2(t)\,\mathrm d\ell^2 ,\]
+<p>with \(a(t)\) the <strong>scale factor</strong> and \(\mathrm d\ell^2\) the metric of a fixed, maximally symmetric 3-space. Finding \(\mathrm d\ell^2\) is the whole geometric problem, so let us derive it.</p>
+<h2 id="symmetric_three-spaces_derived_from_an_embedding"><a href="#symmetric_three-spaces_derived_from_an_embedding" class="header-anchor">Symmetric three-spaces — derived from an embedding</a></h2>
+<p>What are the homogeneous, isotropic 3-geometries? The trick is to realise a curved 3-space as a surface inside a flat 4-space. Take Euclidean coordinates \((\mathbf x,u)=(x_1,x_2,x_3,u)\) and impose</p>
+\[ \mathbf x^2 \pm u^2 = \pm R_0^2 , \qquad \mathrm d\ell^2 = \mathrm d\mathbf x^2 \pm \mathrm d u^2 ,\]
+<p>where the <strong>upper</strong> sign carves out a 3-sphere &#40;radius \(R_0\), positive curvature&#41; and the <strong>lower</strong> sign a 3-hyperboloid &#40;negative curvature&#41;. The flat case is the limit \(R_0\to\infty\).</p>
+<p>We want to eliminate the auxiliary coordinate \(u\). Differentiate the constraint:</p>
+\[ 2\,\mathbf x\cdot\mathrm d\mathbf x \pm 2u\,\mathrm d u = 0 \;\Longrightarrow\; \mathrm d u = \mp\frac{\mathbf x\cdot\mathrm d\mathbf x}{u}, \qquad \mathrm d u^2 = \frac{(\mathbf x\cdot\mathrm d\mathbf x)^2}{u^2}. \]
+<p>From the constraint \(u^2 = \pm(R_0^2 - \mathbf x^2)\cdot(\pm1)=\,\)… more usefully, \(\pm u^2 = \pm R_0^2 - \mathbf x^2\), i.e. \(u^2 = R_0^2 \mp \mathbf x^2\) for the two cases. Substituting,</p>
+\[ \pm\mathrm d u^2 = \pm\frac{(\mathbf x\cdot\mathrm d\mathbf x)^2}{R_0^2 \mp \mathbf x^2}. \]
+<p>Introduce \(k=+1\) for the sphere and \(k=-1\) for the hyperboloid so the two signs merge. Then \(\mathrm d\ell^2 = \mathrm d\mathbf x^2 \pm\mathrm d u^2\) becomes the single formula</p>
+\[ \boxed{\;\mathrm d\ell^2 = \mathrm d\mathbf x^2 + k\,\frac{(\mathbf x\cdot\mathrm d\mathbf x)^2}{R_0^2 - k\,\mathbf x^2}\;}, \qquad k=\begin{cases}+1 & \mathrm S^3 \text{ (closed)}\\ \ 0 & \mathrm E^3 \text{ (flat)}\\ -1 & \mathrm H^3 \text{ (open)}\end{cases}\]
+<p>with \(k=0\) &#40;flat&#41; recovered as the \(R_0\to\infty\) limit. Now switch to spherical polar coordinates \((r,\theta,\phi)\). Using</p>
+\[ \mathrm d\mathbf x^2 = \mathrm d r^2 + r^2\mathrm d\Omega^2, \qquad \mathbf x\cdot\mathrm d\mathbf x = r\,\mathrm d r, \qquad \mathbf x^2 = r^2, \]
+<p>&#40;with \(\mathrm d\Omega^2\equiv\mathrm d\theta^2+\sin^2\theta\,\mathrm d\phi^2\)&#41; the messy term collapses and</p>
+\[ \boxed{\;\mathrm d\ell^2 = \frac{\mathrm d r^2}{1 - k\,r^2/R_0^2} + r^2\,\mathrm d\Omega^2.\;}\]
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      Two things are worth pausing on. First, \(R_0\) is the <strong>curvature scale</strong> — literally the radius of the 3-sphere when \(k=+1\). Second, \(r=0\) is <em>not</em> a special point: nothing in the metric singles it out, so there is <strong>no centre</strong> to the universe. Every point is equivalent to every other. That is homogeneity made visible. 
+  </fieldset>
+  
+<h2 id="the_robertsonwalker_metric"><a href="#the_robertsonwalker_metric" class="header-anchor">The Robertson–Walker metric</a></h2>
+<p>Substituting this spatial metric back into the spacetime line element gives the <strong>Robertson–Walker &#40;RW&#41; metric</strong>, the geometry of <em>any</em> homogeneous, isotropic universe:</p>
+\[ \boxed{\;\mathrm d s^2 = -c^2\mathrm d t^2 + a^2(t)\left[\frac{\mathrm d r^2}{1 - k\,r^2/R_0^2} + r^2\mathrm d\Omega^2\right].\;}\]
+<p>Ten functions have become <strong>one function of time</strong> \(a(t)\) and <strong>one constant</strong> \(R_0\) &#40;with \(k\) its sign&#41;. That is the complete geometric content of the cosmos — symmetry did the rest.</p>
+<p><strong>A rescaling freedom.</strong> The line element is invariant under \(a\to\lambda a,\ r\to r/\lambda,\ R_0\to R_0/\lambda\). We spend this freedom to set \(a(t_0)\equiv1\) today; then \(R_0\) is the physical curvature radius <em>now</em>, justifying its subscript.</p>
+<p><strong>Comoving versus physical.</strong> The coordinate \(r\) is <em>comoving</em>: it labels a galaxy and does not change as space stretches. The physical distance is \(r_{\rm phys}=a(t)\,r\). Differentiate to get the velocity of a galaxy at fixed comoving position plus a peculiar drift \(\dot{\mathbf r}\):</p>
+\[ \mathbf v_{\rm phys} = \frac{\mathrm d\mathbf r_{\rm phys}}{\mathrm d t} = \dot a\,\mathbf r + a\,\dot{\mathbf r} = \underbrace{\frac{\dot a}{a}\,\mathbf r_{\rm phys}}_{\text{Hubble flow}} + \underbrace{a\,\dot{\mathbf r}}_{\text{peculiar}} ,\]
+<p>which <em>defines</em> the <strong>Hubble parameter</strong></p>
+\[ \boxed{\;H \equiv \frac{\dot a}{a}.\;}\]
+<p>The first term is pure recession from the stretching of space; the second is the galaxy&#39;s own motion. A comoving observer has \(\dot{\mathbf r}=0\), and cosmic time \(t\) is the time on their clock.</p>
+<h3 id="deriving_s_kchi_the_metric_distance"><a href="#deriving_s_kchi_the_metric_distance" class="header-anchor">Deriving \(S_k(\chi)\): the metric distance</a></h3>
+<p>The factor \(1/(1-kr^2/R_0^2)\) is inconvenient, so define a new radial coordinate that absorbs it:</p>
+\[ \mathrm d\chi \equiv \frac{\mathrm d r}{\sqrt{1 - k\,r^2/R_0^2}} . \]
+<p>Integrating for each sign of \(k\) inverts to give \(r\) as a function of \(\chi\). For \(k=+1\), \(\int\mathrm d r/\sqrt{1-r^2/R_0^2}=R_0\arcsin(r/R_0)=\chi\), so \(r=R_0\sin(\chi/R_0)\); for \(k=-1\) the arcsine becomes \(\mathrm{arcsinh}\); for \(k=0\), \(r=\chi\). Collecting all three, the metric becomes</p>
+\[ \mathrm d s^2 = -c^2\mathrm d t^2 + a^2(t)\big[\mathrm d\chi^2 + S_k^2(\chi)\,\mathrm d\Omega^2\big], \qquad
+S_k(\chi) = R_0\begin{cases}\sin(\chi/R_0) & k=+1\\ \chi/R_0 & k=0\\ \sinh(\chi/R_0) & k=-1\end{cases}\]
+<p>The <strong>metric distance</strong> \(S_k(\chi)\) is what carries the curvature into every observable in the next post. Its three shapes are the entire freedom the geometry has:</p>
+
+<div class="mfig" style="--w:640px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/Cosmology/geometries.svg" alt="Metric distance S_k as a function of comoving radius for the closed, flat and open geometries">
+  <p>The metric distance \(S_k(\chi)\) for the three geometries. In a <b>closed</b> universe (\(k=+1\)) distances grow more slowly than \(\chi\) and eventually turn back on themselves (\(\sin\)); in a <b>flat</b> one they grow linearly; in an <b>open</b> one they run away (\(\sinh\)). We will feed these three cases straight into Cosmic.jl in Parts 2 and 3 and watch them reshape the observable distances and the fate of the universe.</p>
+</div>
+
+<h3 id="conformal_time"><a href="#conformal_time" class="header-anchor">Conformal time</a></h3>
+<p>One last change of variables. Define <strong>conformal time</strong> \(\eta\) by</p>
+\[ \boxed{\;\mathrm d\eta = \frac{\mathrm d t}{a(t)}\;} \quad\Longrightarrow\quad \mathrm d s^2 = a^2(\eta)\big[-c^2\mathrm d\eta^2 + \mathrm d\chi^2 + S_k^2(\chi)\mathrm d\Omega^2\big].\]
+<p>The metric factorises into a static piece times an overall \(a^2(\eta)\). The reason this is so useful: radial light rays &#40;\(\mathrm d s^2=0\), \(\mathrm d\Omega=0\)&#41; obey \(\mathrm d\chi = \pm c\,\mathrm d\eta\) — <strong>straight 45° lines in the \((\chi,\eta)\) plane</strong>, exactly as in special relativity. The comoving distance a photon covers is simply the elapsed conformal time. Every causal question — horizons, how far light has travelled since the Bang — is read off most cleanly in \(\eta\).</p>
+<h2 id="verifying_with_cosmicjl"><a href="#verifying_with_cosmicjl" class="header-anchor">Verifying with Cosmic.jl</a></h2>
+<p>Geometry alone does not fix \(a(t)\); that waits for the Friedmann equations in <a href="/Pages/Physics/courses/Cosmology/Dynamics/">Part 3</a>. But once Cosmic.jl has the expansion history of our real universe, the two functions we just introduced — \(a(t)\) and \(\eta(a)\) — are one call each.</p>
+<pre><code class="language-julia-repl">julia&gt; using Cosmic
+
+julia&gt; c &#61; cosmology&#40;&#41;;          # Planck 2018 ΛCDM, spatially flat
+
+julia&gt; age&#40;c&#41;                    # the age of the universe, in billions of years
+13.787
+
+julia&gt; scale_factor_of_time&#40;c, age&#40;c&#41;&#41;   # a is 1 today, by our convention
+1.0
+
+julia&gt; conformal_time_today&#40;c&#41;   # the comoving horizon today, in Mpc
+14165.2
+
+julia&gt; hubble_distance&#40;c&#41;        # the Hubble distance c/H₀, in Mpc
+4430.87</code></pre>
+
+<div class="mfig" style="--w:680px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/Cosmology/expansion_a_of_t.svg" alt="Scale factor versus cosmic time from Cosmic.jl">
+  <p>The scale factor of our universe, integrated by Cosmic.jl. It starts at \(a=0\) (the Big Bang), rises with a decelerating slope while matter pulls back, then inflects upward in the last few billion years as dark energy takes over. By the rescaling freedom, \(a=1\) at the present age — and Cosmic returns exactly that.</p>
+</div>
+
+<p><strong>The comoving horizon.</strong> Conformal time is not just a coordinate trick — \(\eta(a)\) measured in Mpc <em>is</em> the comoving distance light has travelled since \(a'=0\), the <strong>particle horizon</strong>. Because it is dominated by early times, most of the horizon was laid down long ago and late-time expansion adds little:</p>
+<pre><code class="language-julia-repl">julia&gt; conformal_time&#40;c, 1e-3&#41;   # comoving horizon back near recombination, in Mpc
+299.5
+
+julia&gt; conformal_time&#40;c, 1.0&#41;    # comoving horizon today, in Mpc
+14165.2</code></pre>
+<p>So the comoving size of the observable universe has grown by roughly \(14165/300 \approx 47\) times since last scattering.</p>
+
+<div class="mfig" style="--w:680px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/Cosmology/conformal_time.svg" alt="Conformal time as a function of scale factor from Cosmic.jl">
+  <p>The comoving horizon \(\eta(a)=\int_0^a \dd a'/(a'^2H)\) accumulating as the universe expands (log–log). The curve flattens: once dark energy dominates, the comoving horizon barely grows, and distant galaxies slip permanently out of causal reach. Computed with <code>conformal_time(c, a)</code>.</p>
+</div>
+
+<p><strong>The curvature radius.</strong> For a <em>curved</em> universe, \(R_0\) is finite and Cosmic carries it through the curvature parameter \(\Omega_k\equiv-kc^2/(R_0H_0)^2\). We can read off the physical curvature radius today directly:</p>
+<pre><code class="language-julia-repl">julia&gt; c_open &#61; cosmology&#40;Ω_c &#61; 0.25, Ω_k &#61; 0.05&#41;;   # a mildly open universe
+
+julia&gt; Ω_k&#40;c_open&#41;               # the curvature density parameter
+0.05
+
+julia&gt; hubble_distance&#40;c_open&#41; / sqrt&#40;abs&#40;Ω_k&#40;c_open&#41;&#41;&#41;   # curvature radius R₀, in Mpc
+19815.8</code></pre>
+<p>We will put \(\Omega_k\) to real work in <a href="/Pages/Physics/courses/Cosmology/Kinematics/">Part 2</a>, where the sign of \(k\) — the choice of \(\sin\), \(\chi\) or \(\sinh\) in \(S_k\) — visibly bends the distance–redshift relation, and again in <a href="/Pages/Physics/courses/Cosmology/Dynamics/">Part 3</a>, where it decides whether the universe expands forever or recollapses.</p>
+<h2 id="where_we_are"><a href="#where_we_are" class="header-anchor">Where we are</a></h2>
+<p>Two symmetry assumptions, one embedding, and a couple of coordinate changes gave us the Robertson–Walker metric: a single scale factor \(a(t)\), a curvature constant \(k\), and the tools \(\chi\), \(S_k(\chi)\) and \(\eta\). We have the stage. In <a href="/Pages/Physics/courses/Cosmology/Kinematics/"><strong>Part 2 — Kinematics</strong></a> we release light and free particles onto it and derive redshift and the several distances of cosmology.</p>
+
+<button onclick="window.history.back()">Go Back</button>
+
+<div id="custom-comments-container"></div>
+<link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+<script type="module" src="/assets/js/custom_comments.js?v=5"></script>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: July 24, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Floating Back Button -->
+    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
+    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

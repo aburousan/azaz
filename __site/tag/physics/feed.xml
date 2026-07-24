@@ -23,6 +23,120 @@
 
 <item>
   <title>
+    <![CDATA[  The Expanding Universe I — Geometry  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Geometry/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Geometry/index.html </guid>
+  <description>
+    <![CDATA[  Part 1 of The Expanding Universe. Deriving the Robertson–Walker metric from scratch — the embedding of the symmetric three-spaces, the reduction to a&#40;t&#41; and k, the S_k&#40;χ&#41; curvature function and conformal time — with the expansion history, horizon and curvature radius computed in Cosmic.jl.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  The Expanding Universe II — Kinematics  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Kinematics/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Kinematics/index.html </guid>
+  <description>
+    <![CDATA[  Part 2 of The Expanding Universe. Deriving the geodesic equation, the E ∝ 1/a redshift, the Hubble–Lemaître law, and the luminosity and angular-diameter distances from first principles — with distances for flat, open and closed universes all computed in Cosmic.jl.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  The Expanding Universe with Cosmic.jl  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Main_page/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Main_page/index.html </guid>
+  <description>
+    <![CDATA[  A five-part tour through cosmology &#40;Baumann, Chapters 2, 5 and 6&#41;: the homogeneous universe&#39;s geometry, kinematics, dynamics and thermal history, then how tiny perturbations grow into galaxies — with every result checked numerically against my Julia package Cosmic.jl.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  The Expanding Universe V — Perturbations  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Perturbations/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Perturbations/index.html </guid>
+  <description>
+    <![CDATA[  Part 5 of The Expanding Universe. Deriving the growth of structure — the Newtonian fluid equations, the relativistic generalisation in the conformal Newtonian gauge, gauge freedom, and the Mészáros effect — with the growth factor, the perturbation hierarchy and the matter power spectrum all computed in Cosmic.jl.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  The Expanding Universe IV — Our Universe  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Our_Universe/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Our_Universe/index.html </guid>
+  <description>
+    <![CDATA[  Part 4 of The Expanding Universe. The measured cosmic budget, the age, matter–radiation equality, and the thermal history — deriving the photon density and the Saha recombination equation, with the ionization history, last scattering and the BAO sound horizon computed in Cosmic.jl against Baumann&#39;s Table 2.1.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  The Expanding Universe III — Dynamics  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Dynamics/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Dynamics/index.html </guid>
+  <description>
+    <![CDATA[  Part 3 of The Expanding Universe. Deriving the continuity equation, the Friedmann equations and the exact radiation/matter/Λ solutions — with the density eras, the expansion history, and the fate of flat, open and closed universes all computed in Cosmic.jl.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  Courses by Me  ]]>
   </title>
   <link> https://rousan.netlify.app/Pages/Physics/courses/My_Own/Main_page/index.html </link>
@@ -99,12 +213,12 @@
 
 <item>
   <title>
-    <![CDATA[  Books<em>Lecture</em>QFT1  ]]>
+    <![CDATA[  Lecture<em>Notes</em>and<em>Assignment</em>QFT1  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </guid>
   <description>
-    <![CDATA[  List of Books and Lecture Notes for the QFT1 course taken by Kazi Abu Rousan  ]]>
+    <![CDATA[  Lecture Notes and Assignment for the QFT1 course taken by Kazi Abu Rousan  ]]>
   </description>  
     
   <pubDate>Sat, 31 Aug 2024 00:00:00 +0000</pubDate>  
@@ -118,12 +232,12 @@
 
 <item>
   <title>
-    <![CDATA[  Lecture<em>Notes</em>and<em>Assignment</em>QFT1  ]]>
+    <![CDATA[  Books<em>Lecture</em>QFT1  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Lectures_Books/index.html </guid>
   <description>
-    <![CDATA[  Lecture Notes and Assignment for the QFT1 course taken by Kazi Abu Rousan  ]]>
+    <![CDATA[  List of Books and Lecture Notes for the QFT1 course taken by Kazi Abu Rousan  ]]>
   </description>  
     
   <pubDate>Sat, 31 Aug 2024 00:00:00 +0000</pubDate>  

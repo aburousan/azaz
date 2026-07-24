@@ -23,6 +23,25 @@
 
 <item>
   <title>
+    <![CDATA[  The Expanding Universe I — Geometry  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Geometry/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Geometry/index.html </guid>
+  <description>
+    <![CDATA[  Part 1 of The Expanding Universe. Deriving the Robertson–Walker metric from scratch — the embedding of the symmetric three-spaces, the reduction to a&#40;t&#41; and k, the S_k&#40;χ&#41; curvature function and conformal time — with the expansion history, horizon and curvature radius computed in Cosmic.jl.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 24 Jul 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  Minkowski Functionals: Measuring the Shape of the Universe  ]]>
   </title>
   <link> https://rousan.netlify.app/Pages/Maths/blogs/minkowski_functionals/index.html </link>

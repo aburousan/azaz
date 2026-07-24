@@ -23,15 +23,34 @@
 
 <item>
   <title>
-    <![CDATA[  A Pedestrian&#39;s Guide to FORM for Particle Physics &#40;via Julia&#41;  ]]>
+    <![CDATA[  What exactly is Temperature  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Physics/blogs/form_pedestrian_qft_blog/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/blogs/form_pedestrian_qft_blog/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/temp_stat/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/temp_stat/index.html </guid>
   <description>
-    <![CDATA[  Tutorial for learning FORM.  ]]>
+    <![CDATA[  A visual understanding on how we can visualize Time Dilation as a simple result of coordinate transformation.  ]]>
   </description>  
     
-  <pubDate>Tue, 23 Jun 2026 00:00:00 +0000</pubDate>  
+  <pubDate>Tue, 15 Oct 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Time Dilation as Coordinate Transformation  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/TD_as_CT/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/TD_as_CT/index.html </guid>
+  <description>
+    <![CDATA[  A visual understanding on how we can visualize Time Dilation as a simple result of coordinate transformation.  ]]>
+  </description>  
+    
+  <pubDate>Sun, 02 Jul 2023 00:00:00 +0000</pubDate>  
   
   
   <atom:author>
