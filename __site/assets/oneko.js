@@ -1388,18 +1388,10 @@
   //  occasional speech. If the Pi is unreachable/slow, nothing happens and the
   //  built-in behaviour continues — the brain is a pure enhancement.
   // =====================================================================
-  const BRAIN_URL = (function () {
-    if (typeof window !== "undefined" && window.CAT_BRAIN_URL) return window.CAT_BRAIN_URL;
-    const h = location.hostname;
-    // Only on local/LAN HTTP. The public HTTPS site can't reach a LAN HTTP Pi,
-    // and we must not trigger mixed-content errors there. To enable in
-    // production, expose the Pi over HTTPS (e.g. a Cloudflare Tunnel) and set
-    // window.CAT_BRAIN_URL = "https://your-pi-host".
-    if (location.protocol === "http:" &&
-        (h === "localhost" || h === "127.0.0.1" || /^192\.168\./.test(h) || /^10\./.test(h)))
-      return "http://192.168.0.100:8088";
-    return null;
-  })();
+  // The remote "brain" is retired — the cat runs purely on its built-in
+  // behaviour and never phones home. Leaving BRAIN_URL null keeps every consult
+  // path dormant without touching the rest of the animation logic.
+  const BRAIN_URL = null;
   let lastMoveFrame = 0;
   let brainNext = 80;       // frames until next consult (~8s)
   let brainFails = 0;       // consecutive failures -> back off
