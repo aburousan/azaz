@@ -84,11 +84,35 @@ $$ \ddot\delta_m^{(\tau)} + \HH\dot\delta_m^{(\tau)} + k^2\Psi = 0 \;\xrightarro
 
 exactly the Newtonian equation derived above. The relativistic machinery isn't a different theory of structure growth — it's the same physics, extended to scales and eras where the Newtonian shortcut isn't valid, and it has to reduce to Newton wherever Newton is supposed to work. That it does, term for term, is the derivation's own check.
 
+### Superhorizon: the potential remembers the equation of state
+
+Before getting to the Mészáros effect, one clean result falls out of the constraint equation on scales *outside* the horizon ($k\ll\HH$), where the $k^2\Phi$ term in the relativistic Poisson equation is negligible next to the others. Working through the algebra for adiabatic perturbations shows $\Phi$ is exactly **constant** whenever the equation of state $w$ is constant — frozen during pure radiation domination, frozen again during pure matter domination, but forced to *move* while $w$ is changing, i.e. through equality. The net drop works out to a clean factor:
+
+$$ \frac{\Phi_{\rm matter}}{\Phi_{\rm radiation}} = \frac{9}{10} . $$
+
+~~~
+<div class="mfig" style="--w:700px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/Cosmology/potential_transition.svg" alt="Superhorizon evolution of the gravitational potential through matter-radiation equality, computed with Cosmic.jl">
+  <p>Superhorizon evolution of \(\Phi\) for a fixed \(k=10^{-4}\,\mathrm{Mpc^{-1}}\) mode that never enters the horizon (Baumann Fig. 6.3). Constant deep in radiation domination, constant again deep in matter domination, and dropping by exactly the predicted \(9/10\) through the transition at \(a_{\rm eq}\).</p>
+</div>
+~~~
+
+That $9/10$, computed by nothing more than reading off `Φ(p, a)` at early and late times, is the whole content of the "curvature perturbation is conserved on superhorizon scales" statement often quoted without the caveat — it's conserved *between* constant-$w$ eras, not straight through a transition.
+
 ### Radiation domination and the Mészáros effect
 
 Before equality, radiation — not matter — dominates $\bar\rho$ and hence $H$ and $\Psi$. A CDM mode that enters the horizon during radiation domination still obeys $\ddot\delta_c+2H\dot\delta_c=4\pi G\bar\rho_m\delta_m\big|_{\rm source}$, but now the friction term $2H\dot\delta_c$ is enormous (radiation-era $H$ is much larger than matter alone would give) while the *source* on the right is small (CDM is a minority species, and the majority radiation component doesn't clump — it just oscillates as an acoustic wave, stabilised by its own pressure). Friction wins: subhorizon CDM growth nearly stalls, growing only *logarithmically* in $a$ instead of linearly — the **Mészáros effect**. Once the universe crosses into matter domination at $a_{\rm eq}$, the source term catches up, friction and gravity rebalance, and $\delta_c\propto a$ resumes.
 
-The net effect is a permanent **suppression** of small-scale power relative to large scales: modes that entered the horizon early (small $k^{-1}$, deep in radiation domination) spent longer being stalled than modes that entered late (large $k^{-1}$, near or after equality). That is precisely what builds the characteristic bend in the matter power spectrum at the scale corresponding to the horizon size at equality, $k_{\rm eq}=\HH(a_{\rm eq})$ — plotted below, straight out of Cosmic.jl.
+The mechanism is visible directly in the potential itself: unlike the superhorizon case above, a mode that *enters the horizon* during radiation domination doesn't just sit at a new constant value — the $k^2\Phi$ term switches on, $\Phi$ starts oscillating with the acoustic wave, and its amplitude decays as $a^{-2}$. That collapsing potential is exactly the "source" that goes missing from the CDM growth equation above:
+
+~~~
+<div class="mfig" style="--w:740px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/Cosmology/potential_evolution.svg" alt="Gravitational potential evolution for three Fourier modes, computed with Cosmic.jl">
+  <p>\(\Phi(a)\) for three modes (Baumann Fig. 6.5). The super-horizon mode barely moves before today; the \(k\sim k_{\rm eq}\) mode drops partway through horizon crossing near equality; the deeply sub-horizon mode enters during radiation domination and collapses almost to zero, oscillating and decaying as \(a^{-2}\) along the way — precisely the mechanism starving CDM growth of its source term in the Mészáros effect.</p>
+</div>
+~~~
+
+The net effect on matter is a permanent **suppression** of small-scale clustering relative to large scales: modes that entered the horizon early (small $k^{-1}$, deep in radiation domination) spent longer being starved than modes that entered late (large $k^{-1}$, near or after equality). That is precisely what builds the characteristic bend in the matter power spectrum at the scale corresponding to the horizon size at equality, $k_{\rm eq}=\HH(a_{\rm eq})$ — plotted below, straight out of Cosmic.jl.
 
 ## Verifying with Cosmic.jl
 
@@ -110,7 +134,16 @@ Two things worth noticing already: both are large and negative (this mode has be
 ~~~
 <div class="mfig" style="--w:760px">
   <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/Cosmology/delta_evolution.svg" alt="Growth of the CDM density contrast for three Fourier modes, computed with Cosmic.jl">
-  <p>The CDM density contrast \(\delta_c(a)\) for three Fourier modes, all normalised to the same primordial curvature perturbation. The large-scale mode (still outside the horizon today) barely grows at all; the two smaller-scale modes, already sub-horizon well before equality, grow at a measurably <i>reduced</i> rate near \(a_{\rm eq}\) (locally \(\delta\propto a^{0.7}\), not \(a^1\)) — the Mészáros suppression — before both settle onto the full \(\delta\propto a\) growing-mode <i>slope</i> through the bulk of matter domination. The curves stay offset from each other throughout (smaller scales carry more power, not the same value), and all three growth rates fall again once dark energy takes over near \(a\sim0.5\).</p>
+  <p>The CDM density contrast \(\delta_c(a)\) for three Fourier modes (Baumann Fig. 6.6), all normalised to the same primordial curvature perturbation. The large-scale mode (still outside the horizon today) barely grows at all; the two smaller-scale modes, already sub-horizon well before equality, grow at a measurably <i>reduced</i> rate near \(a_{\rm eq}\) (locally \(\delta\propto a^{0.7}\), not \(a^1\)) — the Mészáros suppression — before both settle onto the full \(\delta\propto a\) growing-mode <i>slope</i> through the bulk of matter domination. The curves stay offset from each other throughout (smaller scales carry more power, not the same value), and all three growth rates fall again once dark energy takes over near \(a\sim0.5\).</p>
+</div>
+~~~
+
+**Adding baryons and photons.** Follow one representative sub-horizon mode a step further and track *all three* species at once — dark matter, baryons and photons — rather than dark matter alone:
+
+~~~
+<div class="mfig" style="--w:760px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/Cosmology/species_perturbations.svg" alt="Density contrast of dark matter, baryons and photons for one Fourier mode, computed with Cosmic.jl">
+  <p>\(|\delta_c|\), \(|\delta_b|\), \(|\delta_\gamma|\) for one sub-horizon mode (Baumann Fig. 6.8). All three start comparable in size. Before decoupling the baryons are Thomson-coupled to the photons and oscillate in lock-step with them — the baryon acoustic oscillations of <a href="/Pages/Physics/courses/Cosmology/Our_Universe/">Part 4</a>, seen here in the density contrast itself rather than in the CMB. Dark matter, immune to photon pressure, ignores the oscillation entirely and grows smoothly (with the Mészáros-suppressed slope derived above). The instant photons decouple, baryons lose their pressure support, stop oscillating, and fall straight into the potential wells CDM had a head start building — the dip-and-recovery right at \(a_\star\) — catching back up to \(\delta_c\) by today.</p>
 </div>
 ~~~
 
@@ -154,6 +187,17 @@ $\sigma_8=0.814$ is within a percent of Planck's measured $0.811\pm0.006$ — fr
 <div class="mfig" style="--w:760px">
   <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/Cosmology/power_spectrum.svg" alt="Linear matter power spectrum from Cosmic.jl, showing the turnover at the equality scale">
   <p>The linear matter power spectrum \(P(k)\) from Cosmic.jl. Large scales (\(k\ll k_{\rm eq}\)) preserve the primordial slope; small scales (\(k\gg k_{\rm eq}\)) are suppressed by the Mészáros effect derived above, bending the spectrum over at \(k_{\rm eq}\) — the comoving horizon scale at matter–radiation equality. (This grid is coarse enough to miss them, but a finer one shows baryon acoustic oscillations riding on top — the same sound waves whose frozen imprint set \(r_{\rm drag}\) in <a href="/Pages/Physics/courses/Cosmology/Our_Universe/">Part 4</a>.)</p>
+</div>
+~~~
+
+Where does that headline $\sigma_8$ number actually come from? Not from $P(k)$ directly — from the *dimensionless* spectrum $\Delta^2(k)\equiv k^3P(k)/2\pi^2$, the power per logarithmic interval in $k$, smoothed with a top-hat window of comoving radius $R$ and integrated:
+
+$$ \sigma^2(R) = \int \dd\ln k\;\Delta^2(k)\,W^2(kR) . $$
+
+~~~
+<div class="mfig" style="--w:900px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/Cosmology/dimensionless_power.svg" alt="Dimensionless matter power spectrum and the smoothed density variance, computed with Cosmic.jl">
+  <p><b>Left:</b> \(\Delta^2(k)\) (Baumann Fig. 5.5) — the same bend at \(k_{\rm eq}\), now per logarithmic interval. <b>Right:</b> \(\sigma(R)\), monotonically falling as the smoothing scale grows — bigger spheres average over more structure and fluctuate less. \(\sigma_8\) is just this curve read off at \(R=8\,h^{-1}\,\mathrm{Mpc}\) (dashed), which is why the two panels are really one calculation: <code>σ8(P)</code> is <code>σ_R(P, 8/h)</code> under the hood.</p>
 </div>
 ~~~
 
