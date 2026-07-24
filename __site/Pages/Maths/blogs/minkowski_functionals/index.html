@@ -19,16 +19,16 @@
        existing fa-* class names so nothing breaks. -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-   <link rel="stylesheet" href="/azazaya/libs/katex/katex.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
      
-   <link rel="stylesheet" href="/azazaya/libs/highlight/styles/github.min.css">
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
    
-  <link rel="stylesheet" href="/azazaya/css/franklin.css">
-<link rel="stylesheet" href="/azazaya/css/minimal-mistakes.css">
-<link rel="stylesheet" href="/azazaya/css/adjust.css">
-<link rel="stylesheet" href="/azazaya/css/dark-mode.css">
-<link rel="stylesheet" href="/azazaya/css/awesome.css">
-<link rel="icon" href="/azazaya/assets/favicon.webp">
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
 <!--[if IE ]>
 <style>
   /* old IE unsupported flexbox fixes */
@@ -91,23 +91,23 @@
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
-        <a class="site-title" href="/azazaya/">Rousan</a>
+        <a class="site-title" href="/">Rousan</a>
         <ul class="visible-links">
-          <li class="masthead__menu-item"><a href="/azazaya/home_page/" ><i class="fas fa-home"></i> Home</a></li>
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
           
           <!-- Dropdown Menu for Blogs -->
           <li class="masthead__menu-item dropdown">
-            <a href="/azazaya/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
             <div class="dropdown-content">
-              <a href="/azazaya/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
-              <a href="/azazaya/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
             </div>
           </li>
           
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
         </ul>
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
@@ -151,7 +151,7 @@
       <div class="sidebar sticky">
         <div itemscope itemtype="https://schema.org/Person">
           <div class="author__avatar">
-            <img src="/azazaya/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
           </div>
           <div class="author__content">
             <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
@@ -228,7 +228,7 @@
 <!-- Content appended here -->
 
 
-  <script src="/azazaya/libs/plotly/plotly.min.js"></script> 
+  <script src="/libs/plotly/plotly.min.js"></script> 
   <script>
     // This function is used when calling `\fig{...}` See # Using \fig{...} below
     const PlotlyJS_json = async (div, url) => {
@@ -302,7 +302,7 @@
 <p>Mean curvature \(H\) answers <em>&quot;which way, and how strongly, does it bend on average?&quot;</em> It separates outward lumps &#40;\(H>0\)&#41; from inward necks &#40;\(H<0\)&#41;. Gaussian curvature \(K_G\) answers <em>&quot;what kind of point is this?&quot;</em>:</p>
 
 <div class="mfig" style="--w:820px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/curvature_surfaces.webp" alt="Four canonical surfaces: flat plane, sphere dome, cylinder, saddle, labelled by mean and Gaussian curvature">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/curvature_surfaces.webp" alt="Four canonical surfaces: flat plane, sphere dome, cylinder, saddle, labelled by mean and Gaussian curvature">
   <p>A flat plane (both curvatures zero), a sphere (both positive), a cylinder (one direction flat, K=0), and a saddle (opposite signs, K&lt;0). Gauss's <i>Theorema Egregium</i> says K is intrinsic: an ant living on the surface could measure it from internal distances alone, with no reference to the surrounding 3D space.</p>
 </div>
 
@@ -330,7 +330,7 @@
 <p>The Steiner polynomial literally sorts a body&#39;s geometry by how strongly each feature responds to inflation. Reading off the coefficients hands you the functionals one by one. Watch it on a square:</p>
 
 <div class="mfig" style="--w:520px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/steiner_square.svg" alt="A square inflated by epsilon: bulk square, four edge slabs, four corner quarter-discs">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/steiner_square.svg" alt="A square inflated by epsilon: bulk square, four edge slabs, four corner quarter-discs">
   <p>Inflating a square by ε. The added area splits into four flat slabs (orange, proportional to perimeter, the ε¹ term) and four corner quarter-discs that assemble into one full disc (green, πε², the ε² term, carrying the Euler characteristic χ=1). Each power of ε isolates one functional.</p>
 </div>
 
@@ -356,7 +356,7 @@ V_2=\tfrac1{2\pi}\!\int_{\partial Q}\!\kappa\,d\ell=\chi.
 <p>Because \(V_2\) &#40;2D&#41; and \(V_3\) &#40;3D&#41; are purely topological, they deserve a careful picture. They are what distinguishes a <strong>meatball</strong> from a <strong>sponge</strong>:</p>
 
 <div class="mfig" style="--w:760px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/meatball_sponge.svg" alt="Left: five isolated clumps, chi positive. Right: one connected body riddled with five holes, chi negative.">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/meatball_sponge.svg" alt="Left: five isolated clumps, chi positive. Right: one connected body riddled with five holes, chi negative.">
   <p>Count pieces, subtract holes. Left (meatball): 5 isolated clumps, no holes, so χ = +5. Right (sponge): one connected body riddled with 5 holes, so χ = 1−5 = −4. Two fields can have the same power spectrum and opposite topology; only χ can tell them apart.</p>
 </div>
 
@@ -369,13 +369,13 @@ V_2=\tfrac1{2\pi}\!\int_{\partial Q}\!\kappa\,d\ell=\chi.
 <p>and the <strong>coastline</strong> is the level set \(\partial Q_\nu=\{u=\nu\}\).</p>
 
 <div class="mfig" style="--w:900px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/excursion_def.svg" alt="Left: a 1D slice of the field crossing the threshold four times; right: the 2D excursion set as two blobs with their boundary">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/excursion_def.svg" alt="Left: a 1D slice of the field crossing the threshold four times; right: the 2D excursion set as two blobs with their boundary">
   <p>Left: along a 1D slice the field crosses ν four times, so Q<sub>ν</sub> is two intervals and ∂Q<sub>ν</sub> is four points. Right: in 2D, Q<sub>ν</sub> is the orange land where u&gt;ν and ∂Q<sub>ν</sub> is the red coastline. The three functionals measure its area (V₀), boundary length (V₁), and integrated geodesic curvature (V₂).</p>
 </div>
 
 <p>At <em>each</em> water level we photograph the dry land and measure its \(d+1\) Minkowski functionals; sweeping \(\nu\) from \(+\infty\) down to \(-\infty\) turns each functional into a <strong>curve</strong> \(V_k(\nu)\). Drag the slider and watch the land, the coastline, and all three functionals move together:</p>
 
-<script src="/azazaya/assets/Maths/blogs/minkowski_functionals/mf_widget_data.js"></script>
+<script src="/assets/Maths/blogs/minkowski_functionals/mf_widget_data.js"></script>
 <div id="mf-widget" style="max-width:860px; margin:1.5rem auto; border:1px solid #d9cdb0; border-radius:10px; padding:0.9rem 1rem; background:rgba(58,110,165,0.045);">
   <div id="mf3d" style="width:100%; height:420px;"></div>
   <div style="margin:0.5rem 0.2rem 0.2rem;">
@@ -436,7 +436,7 @@ V_2=\tfrac1{2\pi}\!\int_{\partial Q}\!\kappa\,d\ell=\chi.
 <p>As the slider sweeps you pass through three regimes, and they drive the shape of every MF curve:</p>
 
 <div class="mfig" style="--w:760px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/excursion_regimes.webp" alt="Three thresholds of a Gaussian field: isolated hot spots, percolation, isolated holes">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/excursion_regimes.webp" alt="Three thresholds of a Gaussian field: isolated hot spots, percolation, isolated holes">
   <p>The same field flooded to three levels. Orange = land (Q<sub>ν</sub>), red = coastline. Left: high water, isolated islands (χ&gt;0, short coastline). Middle: percolation, one lacy continent (longest coastline, χ≈0). Right: low water, isolated lakes (χ&lt;0).</p>
 </div>
 
@@ -451,7 +451,7 @@ V_2=\tfrac1{2\pi}\!\int_{\partial Q}\!\kappa\,d\ell=\chi.
 \[ \sigma_0^2=\left\langle  u^2 \right\rangle\ \ (\text{field variance}),\qquad \sigma_1^2=\left\langle  |\nabla u|^2 \right\rangle\ \ (\text{gradient variance}). \]
 
 <div class="mfig" style="--w:680px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/spectral_moments.svg" alt="Power spectrum P(k) and its k-squared weighted version, with shaded areas equal to sigma0 squared and sigma1 squared">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/spectral_moments.svg" alt="Power spectrum P(k) and its k-squared weighted version, with shaded areas equal to sigma0 squared and sigma1 squared">
   <p>A gradient brings down one power of k (∂ → ik in Fourier space), so σ₁² carries a k² weight and σ₀² none. The ratio σ₁/σ₀ is an inverse coherence length: large for a wiggly small-scale field, small for a smooth one.</p>
 </div>
 
@@ -469,7 +469,7 @@ V_2=\tfrac1{2\pi}\!\int_{\partial Q}\!\kappa\,d\ell=\chi.
 <p>It is worth deriving honestly, because the same machinery returns for \(V_2\). Picture the map as a <strong>topographic chart</strong>: \(u(\mathbf x)\) is altitude, the threshold \(\nu\) is a fixed contour line &#40;say 1000 m&#41;, and the gradient \(\nabla u\) points up the steepest slope, perpendicular to the contour. Where the terrain is steep the contours bunch; where it is gentle they spread.</p>
 
 <div class="mfig" style="--w:920px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/coarea_topo.svg" alt="Topographic contour map with the gradient perpendicular to the contours, bunched where steep and spread where gentle">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/coarea_topo.svg" alt="Topographic contour map with the gradient perpendicular to the contours, bunched where steep and spread where gentle">
   <p>Concentric contours {u=ν}, {u=ν+Δν}, … The gradient ∇u points perpendicular to each contour. Steep terrain means contours close together; gentle terrain means contours spread apart.</p>
 </div>
 
@@ -479,8 +479,8 @@ V_2=\tfrac1{2\pi}\!\int_{\partial Q}\!\kappa\,d\ell=\chi.
 <p>across the contour. That is the local thickness of the strip between the \(\nu\) and \(\nu+\Delta\nu\) contours: thin where steep, wide where gentle.</p>
 
 <div class="mrow" style="--w:940px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/coarea_local.svg" alt="Local zoom: two parallel contour lines a distance Delta-nu over grad-u apart">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/coarea_sideview.svg" alt="Side view: altitude versus distance walked uphill, slope equals grad-u">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/coarea_local.svg" alt="Local zoom: two parallel contour lines a distance Delta-nu over grad-u apart">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/coarea_sideview.svg" alt="Side view: altitude versus distance walked uphill, slope equals grad-u">
   <p class="cap">Left: the two contours are locally parallel, separated by Δν/|∇u| in the η direction. Right: the 1D ramp has slope |∇u|, so a rise Δν needs a step Δη = Δν/|∇u|.</p>
 </div>
 
@@ -488,7 +488,7 @@ V_2=\tfrac1{2\pi}\!\int_{\partial Q}\!\kappa\,d\ell=\chi.
 \[ \mathrm{Area}(S_{\Delta\nu})=\int_{\partial Q_\nu}\frac{\Delta\nu}{|\nabla u|}\,d\ell+O(\Delta\nu^2). \]
 
 <div class="mfig" style="--w:680px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/coarea_ribbon.svg" alt="The slab as a thin ribbon hugging the contour, thinner where steep">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/coarea_ribbon.svg" alt="The slab as a thin ribbon hugging the contour, thinner where steep">
   <p>The slab S<sub>Δν</sub> is a ribbon hugging ∂Q<sub>ν</sub>, of local width Δν/|∇u|: thin where steep, wider where gentle. Its area is ∫(Δν/|∇u|) dℓ along the contour.</p>
 </div>
 
@@ -508,7 +508,7 @@ V_2=\tfrac1{2\pi}\!\int_{\partial Q}\!\kappa\,d\ell=\chi.
 \[ \kappa\,|\nabla u| \;=\; \frac{2\,u_x u_y\,u_{xy}-u_x^2\,u_{yy}-u_y^2\,u_{xx}}{u_x^2+u_y^2}. \]
 
 <div class="mfig" style="--w:540px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/geodesic_curvature.svg" alt="Geodesic curvature: tangent and normal at a contour point, with the osculating circle of radius 1/kappa">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/geodesic_curvature.svg" alt="Geodesic curvature: tangent and normal at a contour point, with the osculating circle of radius 1/kappa">
   <p>Geodesic curvature κ is the turning rate of the tangent, the inverse radius of the osculating circle. It is positive when the contour curves away from ∇u (a convex hot spot, V₂&gt;0) and negative when it curves toward ∇u (a concave hole, V₂&lt;0).</p>
 </div>
 
@@ -523,7 +523,7 @@ V_2=\tfrac1{2\pi}\!\int_{\partial Q}\!\kappa\,d\ell=\chi.
 <p>This is the clean Hermite rung \(H_1\) &#40;no spurious \(\sqrt2\)&#41;: positive above the mean &#40;the excursion set is convex hot spots, the contour curves one way&#41;, negative below it &#40;the excursion set is the sea around concave holes, the contour curves the other way&#41;, crossing zero exactly at percolation \(\nu=\mu\). That sign flip <em>is</em> the Euler characteristic changing sign, the hot-spot to cold-hole duality.</p>
 
 <div class="mfig" style="--w:760px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/v2_hotspot_vs_hole.svg" alt="Left: convex hot spot with kappa positive giving V2 positive; right: concave cold hole with kappa negative giving V2 negative">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/v2_hotspot_vs_hole.svg" alt="Left: convex hot spot with kappa positive giving V2 positive; right: concave cold hole with kappa negative giving V2 negative">
   <p>Why V₂ is antisymmetric. At high ν the excursion set is convex hot spots: walking the boundary with land on the left, the tangent turns through +2π, so ∮κ dℓ &gt; 0 and V₂ &gt; 0. At low ν it is the sea around cold holes: the tangent turns through −2π, so V₂ &lt; 0. The crossover is percolation at ν = μ.</p>
 </div>
 
@@ -560,7 +560,7 @@ zeros of the 3D genus &#40;H2&#61;0&#41;: &#91;-1, 1&#93;</code></pre>
 <p>So the 2D Euler curve crosses zero at the mean, and the 3D genus crosses at \(\nu=\pm1\sigma\). These are universal predictions for <em>any</em> Gaussian field. Here are the shapes on one axis:</p>
 
 <div class="mfig" style="--w:760px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/hermite_ladder.svg" alt="V1 proportional to H0, V2 to H1, V3 to H2, all times a Gaussian, on one plot">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/hermite_ladder.svg" alt="V1 proportional to H0, V2 to H1, V3 to H2, all times a Gaussian, on one plot">
   <p>The Hermite ladder. V₁ (contour length) is a centred bump; V₂ (2D Euler) is odd, zero at ν=0; V₃ (3D genus) is even, dipping to −1 in the "sponge" regime and recovering in both tails, with zeros at ν=±1σ.</p>
 </div>
 
@@ -619,7 +619,7 @@ v0       &#61; &#40;N - idx&#41; / N                          # fraction above e
 <p>Worked example: six pixels \((0.5,0.1,0.7,0.3,0.9,0.2)\) at \(\nu=0.4\). Sorting gives \((0.1,0.2,0.3,0.5,0.7,0.9)\); <code>searchsorted</code> finds \(\nu=0.4\) slots in at index \(3\) &#40;three values below it&#41;, so \(v_0=(6-3)/6=0.5\).</p>
 
 <div class="mfig" style="--w:620px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/v0_searchsorted.svg" alt="Sorted array of six pixel values with the threshold 0.4 inserting at index 3, splitting three below from three above">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/v0_searchsorted.svg" alt="Sorted array of six pixel values with the threshold 0.4 inserting at index 3, splitting three below from three above">
   <p>searchsorted on the sorted array: ν=0.4 splits 3 values below from 3 above, so v₀=3/6. Because a pixel is strictly above or below, with no "partial credit", v₀ has no bin-width bias; it is the exact empirical complementary CDF.</p>
 </div>
 
@@ -627,16 +627,16 @@ v0       &#61; &#40;N - idx&#41; / N                          # fraction above e
 <p>For \(v_1,v_2\) the integrand carries a \(\delta(u-\nu)\), which a finite grid cannot represent. Replace it by a <strong>top-hat</strong> of width \(\Delta\nu\) and height \(1/\Delta\nu\) &#40;unit area preserved&#41;: every pixel whose value lands in bin \(k\) contributes its local invariant with weight \(1/\Delta\nu\). The discrete estimators are then \(v_1(\nu_k)=\tfrac1{4N\Delta\nu}\sum_{i\in k}G_i\) and \(v_2(\nu_k)=\tfrac1{2\pi N\Delta\nu}\sum_{i\in k}H_i\).</p>
 
 <div class="mrow" style="--w:1060px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/tophat.svg" alt="Dirac delta replaced by a finite-width top-hat of unit area">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/thresh_grid.svg" alt="The grid of 31 sample thresholds, each surrounded by a bin of width Delta-nu">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/tophat.svg" alt="Dirac delta replaced by a finite-width top-hat of unit area">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/thresh_grid.svg" alt="The grid of 31 sample thresholds, each surrounded by a bin of width Delta-nu">
   <p class="cap">Left: the Dirac δ becomes a finite top-hat of width Δν, height 1/Δν. Right: 31 sample thresholds over μ ± 3.5√σ; each pixel value drops into one bin and adds its gradient (for v₁) or curvature invariant (for v₂).</p>
 </div>
 
 <p>Choosing \(\Delta\nu\) is the histogram-bin dilemma. Make the bins too narrow and each catches too few pixels: the expected count is \(n_{\rm bin}=N\,p(\nu_k)\,\Delta\nu\), so the shot noise is \(\sim1/\sqrt{n_{\rm bin}}\), worst in the tails where \(p(\nu_k)\) is tiny. Make them too wide and the top-hat averages the curve over a window broader than its own features, a binning bias \(\sim\Delta\nu/\sqrt\tau\).</p>
 
 <div class="mrow" style="--w:1060px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/one_point_pdf.svg" alt="One-point Gaussian PDF with a central bin holding many pixels and a tail bin holding few">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/bin_tradeoff.svg" alt="Three binnings of the same data: too few bins biased, Goldilocks, too many bins noisy">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/one_point_pdf.svg" alt="One-point Gaussian PDF with a central bin holding many pixels and a tail bin holding few">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/bin_tradeoff.svg" alt="Three binnings of the same data: too few bins biased, Goldilocks, too many bins noisy">
   <p class="cap">Left: near the mean a bin holds many pixels (low shot noise); in the tail it holds few. Right: too few bins miss the peak (bias), too many bounce around it (shot noise); 31 bins (≈0.23√σ) keep both sub-percent.</p>
 </div>
 
@@ -700,7 +700,7 @@ chi2_chi &#61; 5.6e-05</code></pre>
 <p>Two numbers, \(\sigma\) and \(\tau\), measured straight from the pixels, and <em>all four</em> closed-form curves drop on top of the data with nothing else fitted:</p>
 
 <div class="mfig" style="--w:1000px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/mf_fit_fourpanel.svg" alt="Four panels: measured v0, v1, v2, chi (orange points) overlaid on the Gaussian Tomita curves (blue), with fractional-residual strips beneath">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/mf_fit_fourpanel.svg" alt="Four panels: measured v0, v1, v2, chi (orange points) overlaid on the Gaussian Tomita curves (blue), with fractional-residual strips beneath">
   <p>The fit, functional by functional. <b>Top:</b> measured (orange) on the Tomita Gaussian expectation (blue) for the four curves; <b>bottom:</b> the fractional residual, with the grey band at ±5%. Built from the gold-standard Schmalzing-Górski estimator on the sphere, the same code that runs on Planck maps.</p>
 </div>
 
@@ -741,7 +741,7 @@ chi2_chi &#61; 5.6e-05</code></pre>
 </ul>
 
 <div class="mfig" style="--w:760px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/fnl_deviation.svg" alt="V2 Gaussian curve with positive and negative fNL deviations shaded">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/fnl_deviation.svg" alt="V2 Gaussian curve with positive and negative fNL deviations shaded">
   <p>Schematic non-Gaussian deviation of the 2D Euler curve. Because the Gaussian shape is predicted exactly, any systematic departure is an unambiguous morphological detection of non-Gaussianity, independent of the power spectrum.</p>
 </div>
 
@@ -758,7 +758,7 @@ chi2_chi &#61; 5.6e-05</code></pre>
 <p>Two unrelated \(\chi\)&#39;s collide here: the <em>curve</em> \(\chi(\nu)\) is the Euler characteristic, while the <em>score</em> \(\chi^2_j\) is one number per map per functional. A score of \(\chi^2_j=0.01\) would mean the curve typically misses Gaussian by \(\sqrt{0.01}=10\%\) of its height. Nine maps &#40;three frequencies times three \(\mathrm{HI}\)-column masks&#41; give nine times four such scores:</p>
 
 <div class="mfig" style="--w:840px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/mf_chi2_results.svg" alt="Peak-normalised chi-squared non-Gaussianity scores for the four functionals across nine residual maps, on a log axis, all far below the f_NL~100 reference band">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/mf_chi2_results.svg" alt="Peak-normalised chi-squared non-Gaussianity scores for the four functionals across nine residual maps, on a log axis, all far below the f_NL~100 reference band">
   <p>Every residual map is morphologically Gaussian. The four functionals climb a clean sensitivity ladder (χ²<sub>v₀</sub> &lt; χ²<sub>v₁</sub> &lt; χ²<sub>v₂</sub>≈χ²<sub>χ</sub>), and even the most sensitive curve sits 1.5 to 4 orders of magnitude below where an injected f<sub>NL</sub>∼100 non-Gaussianity would land.</p>
 </div>
 
@@ -779,7 +779,7 @@ chi2_chi &#61; 5.6e-05</code></pre>
 </ul>
 
 <div class="mfig" style="--w:760px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/minkowski_functionals/genus_journey.svg" alt="3D genus curve annotated with isolated voids, sponge phase, isolated clusters">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/minkowski_functionals/genus_journey.svg" alt="3D genus curve annotated with isolated voids, sponge phase, isolated clusters">
   <p>The genus journey, V₃ ∝ (ν²−1)e^(−ν²/2): isolated clusters at high ν (χ&gt;0), a multiply-connected sponge for |ν|&lt;1σ (χ&lt;0), and isolated voids at low ν (χ&gt;0). The zeros at ν=±1σ are predicted for <i>any</i> Gaussian field.</p>
 </div>
 
@@ -813,8 +813,8 @@ chi2_chi &#61; 5.6e-05</code></pre>
 <button onclick="window.history.back()">Go Back</button>
 
 <div id="custom-comments-container"></div>
-<link rel="stylesheet" href="/azazaya/assets/css/custom_comments.css?v=2">
-<script type="module" src="/azazaya/assets/js/custom_comments.js?v=5"></script>
+<link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+<script type="module" src="/assets/js/custom_comments.js?v=5"></script>
 
 <div class="page-foot">
     <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: June 29, 2026.
@@ -900,17 +900,17 @@ chi2_chi &#61; 5.6e-05</code></pre>
       });
     </script>
 
-    <script src="/azazaya/libs/minimal-mistakes/main.min.js"></script>
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
     <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
 
     
-        <script src="/azazaya/libs/katex/katex.min.js"></script>
-<script src="/azazaya/libs/katex/contrib/auto-render.min.js"></script>
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
 <script>renderMathInElement(document.body)</script>
 
     
     
-        <script src="/azazaya/libs/highlight/highlight.min.js"></script>
+        <script src="/libs/highlight/highlight.min.js"></script>
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
 
     
@@ -943,7 +943,7 @@ chi2_chi &#61; 5.6e-05</code></pre>
     </script>
 
     <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
-    <script src="/azazaya/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
@@ -988,7 +988,7 @@ chi2_chi &#61; 5.6e-05</code></pre>
 
 <!-- clipboard.js moved out of the render-blocking <head>; loaded here just
      before the copy-button setup that needs it -->
-<script src="/azazaya/libs/clipboard.min.js"></script>
+<script src="/libs/clipboard.min.js"></script>
 <script>
   (function(){
 

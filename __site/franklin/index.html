@@ -19,16 +19,16 @@
        existing fa-* class names so nothing breaks. -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-   <link rel="stylesheet" href="/azazaya/libs/katex/katex.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
      
-   <link rel="stylesheet" href="/azazaya/libs/highlight/styles/github.min.css">
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
    
-  <link rel="stylesheet" href="/azazaya/css/franklin.css">
-<link rel="stylesheet" href="/azazaya/css/minimal-mistakes.css">
-<link rel="stylesheet" href="/azazaya/css/adjust.css">
-<link rel="stylesheet" href="/azazaya/css/dark-mode.css">
-<link rel="stylesheet" href="/azazaya/css/awesome.css">
-<link rel="icon" href="/azazaya/assets/favicon.webp">
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
 <!--[if IE ]>
 <style>
   /* old IE unsupported flexbox fixes */
@@ -91,23 +91,23 @@
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
-        <a class="site-title" href="/azazaya/">Rousan</a>
+        <a class="site-title" href="/">Rousan</a>
         <ul class="visible-links">
-          <li class="masthead__menu-item"><a href="/azazaya/home_page/" ><i class="fas fa-home"></i> Home</a></li>
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
           
           <!-- Dropdown Menu for Blogs -->
           <li class="masthead__menu-item dropdown">
-            <a href="/azazaya/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
             <div class="dropdown-content">
-              <a href="/azazaya/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
-              <a href="/azazaya/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
             </div>
           </li>
           
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
         </ul>
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
@@ -151,7 +151,7 @@
       <div class="sidebar sticky">
         <div itemscope itemtype="https://schema.org/Person">
           <div class="author__avatar">
-            <img src="/azazaya/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
           </div>
           <div class="author__content">
             <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
@@ -228,7 +228,7 @@
 <!-- Content appended here -->
 
 
-  <script src="/azazaya/libs/plotly/plotly.min.js"></script> 
+  <script src="/libs/plotly/plotly.min.js"></script> 
   <script>
     // This function is used when calling `\fig{...}` See # Using \fig{...} below
     const PlotlyJS_json = async (div, url) => {
@@ -350,7 +350,7 @@ end</code></pre>
 
 <div class="row">
   <div class="container">
-    <img class="left" src="/azazaya/assets/rndimg.webp">
+    <img class="left" src="/assets/rndimg.webp">
     <p>
     Marine iguanas are truly splendid creatures. They're found on the Gálapagos islands, have skin that basically acts as a solar panel, can swim and may have the ability to adapt their body size depending on whether there's food or not.
     </p>
@@ -363,18 +363,18 @@ end</code></pre>
 
 <p><strong>Note 1</strong>: again, entire such blocks can be made into latex-like commands via <code>\newcommand&#123;\mynewblock&#125;&#91;1&#93;&#123;...&#125;</code>.</p>
 <p><strong>Note 2</strong>: whatever is in a raw HTML block is <em>not</em> further processed &#40;so you can&#39;t have LaTeX in there for instance&#41;. A partial way around this is to use <code>@@...</code> blocks which <em>will</em> be recursively parsed. The following code gives the same result as above with the small difference that there is LaTeX being processed in the inner div.</p>
-<div class="row"><div class="container"><div class="left"><img src="/azazaya/assets/rndimg.webp" alt="" /></div></div>
+<div class="row"><div class="container"><div class="left"><img src="/assets/rndimg.webp" alt="" /></div></div>
 <p>Marine iguanas are <strong>truly splendid</strong> creatures. They&#39;re not found in equations like \(\exp(-i\pi)+1\). But they&#39;re still quite cool. 
 <div style="clear: both"></div>
 </p></div>
 <h2 id="pages_and_structure"><a href="#pages_and_structure" class="header-anchor">Pages and structure</a></h2>
 <p>Here are a few empty pages connecting to the menu links to show where files can go and the resulting paths. &#40;It&#39;s probably best if you look at the source folder for this&#41;.</p>
 <ul>
-<li><p><a href="/azazaya/menu1/">menu 1</a></p>
+<li><p><a href="/menu1/">menu 1</a></p>
 </li>
-<li><p><a href="/azazaya/menu2/">menu 2</a></p>
+<li><p><a href="/menu2/">menu 2</a></p>
 </li>
-<li><p><a href="/azazaya/menu3/">menu 3</a></p>
+<li><p><a href="/menu3/">menu 3</a></p>
 </li>
 </ul>
 <h2 id="references_not_really"><a href="#references_not_really" class="header-anchor">References &#40;not really&#41;</a></h2>
@@ -473,17 +473,17 @@ end</code></pre>
       });
     </script>
 
-    <script src="/azazaya/libs/minimal-mistakes/main.min.js"></script>
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
     <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
 
     
-        <script src="/azazaya/libs/katex/katex.min.js"></script>
-<script src="/azazaya/libs/katex/contrib/auto-render.min.js"></script>
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
 <script>renderMathInElement(document.body)</script>
 
     
     
-        <script src="/azazaya/libs/highlight/highlight.min.js"></script>
+        <script src="/libs/highlight/highlight.min.js"></script>
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
 
     
@@ -516,7 +516,7 @@ end</code></pre>
     </script>
 
     <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
-    <script src="/azazaya/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
@@ -561,7 +561,7 @@ end</code></pre>
 
 <!-- clipboard.js moved out of the render-blocking <head>; loaded here just
      before the copy-button setup that needs it -->
-<script src="/azazaya/libs/clipboard.min.js"></script>
+<script src="/libs/clipboard.min.js"></script>
 <script>
   (function(){
 

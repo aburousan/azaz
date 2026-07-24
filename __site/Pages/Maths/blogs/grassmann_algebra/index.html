@@ -19,16 +19,16 @@
        existing fa-* class names so nothing breaks. -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-   <link rel="stylesheet" href="/azazaya/libs/katex/katex.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
      
-   <link rel="stylesheet" href="/azazaya/libs/highlight/styles/github.min.css">
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
    
-  <link rel="stylesheet" href="/azazaya/css/franklin.css">
-<link rel="stylesheet" href="/azazaya/css/minimal-mistakes.css">
-<link rel="stylesheet" href="/azazaya/css/adjust.css">
-<link rel="stylesheet" href="/azazaya/css/dark-mode.css">
-<link rel="stylesheet" href="/azazaya/css/awesome.css">
-<link rel="icon" href="/azazaya/assets/favicon.webp">
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
 <!--[if IE ]>
 <style>
   /* old IE unsupported flexbox fixes */
@@ -91,23 +91,23 @@
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
-        <a class="site-title" href="/azazaya/">Rousan</a>
+        <a class="site-title" href="/">Rousan</a>
         <ul class="visible-links">
-          <li class="masthead__menu-item"><a href="/azazaya/home_page/" ><i class="fas fa-home"></i> Home</a></li>
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
           
           <!-- Dropdown Menu for Blogs -->
           <li class="masthead__menu-item dropdown">
-            <a href="/azazaya/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
             <div class="dropdown-content">
-              <a href="/azazaya/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
-              <a href="/azazaya/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
             </div>
           </li>
           
-          <li class="masthead__menu-item"><a href="/azazaya/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
         </ul>
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
@@ -151,7 +151,7 @@
       <div class="sidebar sticky">
         <div itemscope itemtype="https://schema.org/Person">
           <div class="author__avatar">
-            <img src="/azazaya/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
           </div>
           <div class="author__content">
             <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
@@ -228,7 +228,7 @@
 <!-- Content appended here -->
 
 
-  <script src="/azazaya/libs/plotly/plotly.min.js"></script> 
+  <script src="/libs/plotly/plotly.min.js"></script> 
   <script>
     // This function is used when calling `\fig{...}` See # Using \fig{...} below
     const PlotlyJS_json = async (div, url) => {
@@ -260,7 +260,7 @@
 <div class="franklin-toc"><ol><li><a href="#the_one_idea_oriented_area">The one idea: oriented area</a></li><li><a href="#the_rules_of_the_game">The rules of the game</a><ol><li><a href="#lets_actually_compute_one">Let&#39;s actually compute one</a></li><li><a href="#the_same_computation_in_three_systems">The same computation in three systems</a></li></ol></li><li><a href="#components_of_a_bivector">Components of a bivector</a><ol><li><a href="#play_with_it_an_interactive_bivector">🕹️ Play with it: an interactive bivector</a></li><li><a href="#a_fully_worked_example_area_is_a_determinant">A fully worked example: area <em>is</em> a determinant</a></li></ol></li><li><a href="#physical_intuition_angular_momentum_is_really_a_bivector">Physical intuition: angular momentum is <em>really</em> a bivector</a><ol><li><a href="#the_mirror_test_that_exposes_the_impostor">The mirror test that exposes the impostor</a></li><li><a href="#orientation_from_the_boundary_a_stokes-shaped_hint">Orientation from the boundary &#40;a Stokes-shaped hint&#41;</a></li></ol></li><li><a href="#climbing_the_grades_vectors_bivectors_trivectors">Climbing the grades: vectors → bivectors → trivectors → …</a><ol><li><a href="#orientation_all_the_way_up">Orientation, all the way up</a></li></ol></li><li><a href="#the_grown-up_definition_tensor_algebra_a_rule">The grown-up definition &#40;tensor algebra ÷ a rule&#41;</a></li><li><a href="#where_this_is_heading_differential_forms_and_a_cameo_in_qft">Where this is heading: differential forms, and a cameo in QFT</a></li><li><a href="#recap">Recap</a></li></ol></div>
 <h1 id="grassmann_algebra_multiplying_with_area_and_orientation"><a href="#grassmann_algebra_multiplying_with_area_and_orientation" class="header-anchor">Grassmann Algebra: Multiplying with Area and Orientation</a></h1>
 <blockquote>
-<p><em>This is <strong>Part 1</strong> of a little mini-series. Here we build <strong>Grassmann algebra</strong> &#40;a.k.a. <strong>exterior algebra</strong>&#41; — the gentle stepping stone. In <a href="/azazaya/Pages/Maths/blogs/clifford_algebra/">Part 2</a> we upgrade it to <strong>Clifford &#40;geometric&#41; algebra</strong>, the machinery behind spinors in any dimension.</em></p>
+<p><em>This is <strong>Part 1</strong> of a little mini-series. Here we build <strong>Grassmann algebra</strong> &#40;a.k.a. <strong>exterior algebra</strong>&#41; — the gentle stepping stone. In <a href="/Pages/Maths/blogs/clifford_algebra/">Part 2</a> we upgrade it to <strong>Clifford &#40;geometric&#41; algebra</strong>, the machinery behind spinors in any dimension.</em></p>
 </blockquote>
 <p>Hi again&#33;<br/> You already know how to <em>add</em> vectors. You know two ways to <em>multiply</em> them — the dot product &#40;which eats two vectors and spits out a number&#41; and the cross product &#40;which... only works in 3D, and secretly lies to you about being a vector&#41;. </p>
 <p>What if there were a <em>single, honest</em> multiplication of vectors that worked in <strong>every</strong> dimension, remembered <strong>orientation</strong>, and built up <strong>areas</strong>, <strong>volumes</strong>, and beyond? That is the <strong>wedge product</strong>, and the algebra it generates is <strong>Grassmann algebra</strong>.</p>
@@ -274,7 +274,7 @@
 \[ \mathbf{v}\wedge\mathbf{u} = -\,\mathbf{u}\wedge\mathbf{v}. \]
 
 <div style="text-align:center; margin: 1.2rem auto;">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/grassmann_algebra/bivector_3d.svg" alt="Bivector u wedge v in 3D, with coordinate axes, shown for both orderings" style="max-width:min(100%,460px); height:auto;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/grassmann_algebra/bivector_3d.svg" alt="Bivector u wedge v in 3D, with coordinate axes, shown for both orderings" style="max-width:min(100%,460px); height:auto;">
   <p style="font-size:0.9em;font-style:italic;color:#666;">The same parallelogram in 3D space (note the x, y, z axes) — only the <b>circulation</b> reverses when you swap the order. That's why <b>u ∧ v = −(v ∧ u)</b>.</p>
 </div>
 
@@ -432,7 +432,7 @@ cross product             &#61; &#91;u_y*v_z - u_z*v_y, -u_x*v_z &#43; u_z*v_x, 
 <p><span style="color: Crimson">Look familiar?</span> Those are the <strong>same three numbers</strong> as the cross product &#40;just relabeled and re-signed&#41;. The cross product is a 3D-only <em>accident</em> — the shadow that the honest, dimension-agnostic <strong>bivector</strong> casts when you&#39;re lucky enough to live in three dimensions. This is also why the cross product behaves so strangely in a mirror: it&#39;s secretly a bivector wearing a vector costume.</p>
 
 <div style="text-align:center; margin: 1.2rem auto;">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/grassmann_algebra/cross_dual_3d.svg" alt="The cross product u x v is the normal vector dual to the bivector plane u wedge v" style="max-width:min(100%,340px); height:auto;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/grassmann_algebra/cross_dual_3d.svg" alt="The cross product u x v is the normal vector dual to the bivector plane u wedge v" style="max-width:min(100%,340px); height:auto;">
   <p style="font-size:0.9em;font-style:italic;color:#666;">In 3D, the bivector <b>u ∧ v</b> (the shaded plane) has exactly one perpendicular direction. The cross product <b>u × v</b> just points along it. The plane is the real object; the arrow is its <i>dual</i>.</p>
 </div>
 
@@ -576,7 +576,7 @@ print&#40;&quot;L &#61; r ∧ p &#61;&quot;, r*p&#41;</code></pre>
 <p>Here <code>r</code> points along \(x\) and <code>p</code> along \(y\), so <code>r*p</code> \(=2\cdot3\,(e_1\wedge e_2)=6\,e_1e_2\) — a <strong>pure bivector lying in the \(xy\)-plane</strong>, which is exactly the plane the particle orbits in. The coefficient \(6\) is the magnitude \(|\mathbf r||\mathbf p|\sin\theta = 2\cdot 3\cdot\sin 90^\circ\). No right hand required. The plane of rotation <em>is</em> the answer, and its orientation &#40;which way it circulates&#41; is built in.</p>
 
 <div style="text-align:center; margin: 1.2rem auto;">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/grassmann_algebra/angmom_3d.svg" alt="Angular momentum as a bivector in the plane of rotation, versus the axial-vector arrow" style="max-width:min(100%,340px); height:auto;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/grassmann_algebra/angmom_3d.svg" alt="Angular momentum as a bivector in the plane of rotation, versus the axial-vector arrow" style="max-width:min(100%,340px); height:auto;">
   <p style="font-size:0.9em;font-style:italic;color:#666;">The honest object is the shaded <b>plane of rotation</b> (the bivector r ∧ p). The familiar "angular-momentum arrow" (dashed, up the z-axis) is just the perpendicular stand-in — and it's the one that misbehaves in a mirror.</p>
 </div>
 
@@ -616,7 +616,7 @@ print&#40;&quot;L &#61; r ∧ p &#61;&quot;, r*p&#41;</code></pre>
 <p>Build a bivector by laying vectors tip-to-tail around the rim of a patch; the patch inherits the rim&#39;s circulation. Build a trivector from bivector faces of a little cube, with the rule that <strong>neighbouring faces must circulate oppositely across a shared edge</strong> — then &quot;reversing the volume&quot; just means reversing every face.</p>
 
 <div style="text-align:center; margin: 1.2rem auto;">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/grassmann_algebra/trivector_3d.svg" alt="Trivector a wedge b wedge c as an oriented parallelepiped with x,y,z axes" style="max-width:min(100%,340px); height:auto;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/grassmann_algebra/trivector_3d.svg" alt="Trivector a wedge b wedge c as an oriented parallelepiped with x,y,z axes" style="max-width:min(100%,340px); height:auto;">
   <p style="font-size:0.9em;font-style:italic;color:#666;">A trivector <b>a ∧ b ∧ c</b> is an oriented parallelepiped — a chunk of <i>signed volume</i>. Reverse the orientation of its boundary faces and you negate the whole volume.</p>
 </div>
 
@@ -639,7 +639,7 @@ n&#61;5:  grades &#91;1, 5, 10, 10, 5, 1&#93; total 2^5 &#61; 32</code></pre>
 <p><code>binomial&#40;n, k&#41;</code> is &quot;\(n\) choose \(k\)&quot; \(=\binom{n}{k}\) — the number of ways to pick \(k\) distinct axes out of \(n\), which is exactly how many independent basis \(k\)-vectors exist. The list comprehension <code>&#91;binomial&#40;n,k&#41; for k in range&#40;n&#43;1&#41;&#93;</code> sweeps the grade \(k\) from \(0\) &#40;scalars&#41; up to \(n\) &#40;the top volume&#41;. Each row is a <strong>row of Pascal&#39;s triangle</strong>, and <code>sum&#40;grades&#41;</code> \(=\sum_k\binom{n}{k}=2^n\) by the binomial theorem — so an \(n\)-dimensional space has a \(2^n\)-dimensional exterior algebra. &#40;Notice the rows are palindromes: grade \(k\) and grade \(n-k\) always have the same dimension — a hint of <strong>Hodge duality</strong>, the pairing that turns the cross product&#39;s bivector back into a vector in 3D.&#41;</p>
 
 <div style="text-align:center; margin: 1.4rem auto;">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/azazaya/assets/Maths/blogs/grassmann_algebra/grade_diamond.svg" alt="Grade lattice of the 3D exterior algebra: scalar, vectors, bivectors, trivector" style="max-width:min(100%,440px); height:auto;">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Maths/blogs/grassmann_algebra/grade_diamond.svg" alt="Grade lattice of the 3D exterior algebra: scalar, vectors, bivectors, trivector" style="max-width:min(100%,440px); height:auto;">
   <p style="font-size:0.9em;font-style:italic;color:#666;">The exterior algebra of 3D space, drawn as a lattice: each line means "is contained in." Dimensions <b>1, 3, 3, 1</b> — a Pascal row summing to <b>2³ = 8</b>. The scalar sits at the bottom, the single oriented volume at the top.</p>
 </div>
 
@@ -678,13 +678,13 @@ n&#61;5:  grades &#91;1, 5, 10, 10, 5, 1&#93; total 2^5 &#61; 32</code></pre>
 </li>
 </ul>
 <p>Next time we flip that last rule and meet the algebra that makes spinors stop looking like accidents.</p>
-<p>➡️ <strong>Continue to <a href="/azazaya/Pages/Maths/blogs/clifford_algebra/">Part 2 — Clifford &#40;Geometric&#41; Algebra</a>.</strong></p>
+<p>➡️ <strong>Continue to <a href="/Pages/Maths/blogs/clifford_algebra/">Part 2 — Clifford &#40;Geometric&#41; Algebra</a>.</strong></p>
 
 <button onclick="window.history.back()">Go Back</button>
 
 <div id="custom-comments-container"></div>
-<link rel="stylesheet" href="/azazaya/assets/css/custom_comments.css?v=2">
-<script type="module" src="/azazaya/assets/js/custom_comments.js?v=5"></script>
+<link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+<script type="module" src="/assets/js/custom_comments.js?v=5"></script>
 
 <div class="page-foot">
     <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: June 26, 2026.
@@ -770,17 +770,17 @@ n&#61;5:  grades &#91;1, 5, 10, 10, 5, 1&#93; total 2^5 &#61; 32</code></pre>
       });
     </script>
 
-    <script src="/azazaya/libs/minimal-mistakes/main.min.js"></script>
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
     <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
 
     
-        <script src="/azazaya/libs/katex/katex.min.js"></script>
-<script src="/azazaya/libs/katex/contrib/auto-render.min.js"></script>
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
 <script>renderMathInElement(document.body)</script>
 
     
     
-        <script src="/azazaya/libs/highlight/highlight.min.js"></script>
+        <script src="/libs/highlight/highlight.min.js"></script>
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
 
     
@@ -813,7 +813,7 @@ n&#61;5:  grades &#91;1, 5, 10, 10, 5, 1&#93; total 2^5 &#61; 32</code></pre>
     </script>
 
     <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
-    <script src="/azazaya/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
@@ -858,7 +858,7 @@ n&#61;5:  grades &#91;1, 5, 10, 10, 5, 1&#93; total 2^5 &#61; 32</code></pre>
 
 <!-- clipboard.js moved out of the render-blocking <head>; loaded here just
      before the copy-button setup that needs it -->
-<script src="/azazaya/libs/clipboard.min.js"></script>
+<script src="/libs/clipboard.min.js"></script>
 <script>
   (function(){
 
