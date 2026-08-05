@@ -11,9 +11,7 @@ tags = ["Julia", "physics", "papers", "N-body", "gravity", "astrophysics", "simu
 
 # Performance Characteristics of Tree Codes
 
-In our class our sir asked like this.
-
-He was doing the **virial theorem** on the board. Take a system that is not periodic but is in equilibrium, or approaching it — an $N$-body system. Then the moment of inertia stops changing, $I \to$ constant, so averaged over times much longer than the crossing time,
+In our class(NISER, Astronomy & Astrophysics course) our sir asked was doing the **virial theorem** on the board and discussing about the stablility of self gravitating configurations. Take a system that is not periodic but is in equilibrium or approaching it i.e., an $N$-body system. Then the moment of inertia stops changing, $I \to$ constant, so averaged over times much longer than the crossing time,
 
 $$
 \left\langle \frac{d^2I}{dt^2}\right\rangle = 0 \quad\Longrightarrow\quad 2\langle K\rangle + \langle U\rangle = 0 \quad\Longrightarrow\quad \langle E\rangle = \frac{1}{2}\langle U\rangle
@@ -27,11 +25,11 @@ Then he drew a box on one side of the board:
 > Poisson equation $\to \nabla^2\phi = 4\pi G\rho$\\
 > Current algorithms $\to$ Mem, $\log(n)$
 
-and on the other side wrote **Plummer Profile Problem**: you are given initial conditions $\{\vec r_i\}, \{\vec v_i\}$, and you want to evolve them under gravity only. Then he derived the integrator, starting from two Taylor expansions and ending with the leapfrog scheme.
+and on the other side wrote **Plummer Profile Problem**: you are given initial conditions $\{\vec r_i\}, \{\vec v_i\}$ and you want to evolve them under gravity only. Then he derived the integrator starting from two Taylor expansions and ending with the leapfrog scheme.
 
 So the assignment was: do that. Take a blob of particles set up as a Plummer sphere, give them the right positions and velocities, push them forward with leapfrog, and check the virial theorem holds.
 
-That is the part I started with. But once the particles were moving I could not stop, because the paper behind sir's box is really about a much better question: **how do you compute the forces at all without waiting till next year?** So I ended up recreating the whole of Hernquist's paper in **Julia**, and this is what came out.
+That is the part I started with. But once the particles were moving I could not stop, because the paper behind sir's box is really about a much better question: **how do you compute the forces at all without waiting till next year?** So I ended up recreating the whole of Hernquist's paper in **Julia** and this is what came out.
 
 \fig{/assets/Physics/papers/hernquist1987/plummer_3d}
 
@@ -39,7 +37,7 @@ That is the object we are going to torture. 4000 particles, held together by not
 
 ## The problem, honestly stated
 
-Gravity is a $1/r^2$ force, and it never switches off. So if I have $N$ particles, every single one of them pulls on every other one. Writing $\vec{a}_i$ for the acceleration of particle $i$,
+Gravity is a $1/r^2$ force and it never switches off. So if I have $N$ particles, every single one of them pulls on every other one. Writing $\vec{a}_i$ for the acceleration of particle $i$,
 
 $$
 \vec{a}_i = -G\sum_{j \neq i} m_j \frac{\vec{r}_i - \vec{r}_j}{|\vec{r}_i - \vec{r}_j|^3}
@@ -47,13 +45,13 @@ $$
 
 There are $N$ particles and each sum has $N-1$ terms, so one force evaluation costs $\sim N^2$ operations. And I need to do this *every single time step*, thousands of times.
 
-Let's put numbers on that. For $N = 1000$ it is a million operations per step — fine. For $N = 10^6$ it is $10^{12}$ per step, and a galaxy has $N \sim 10^{11}$ stars. The $O(N^2)$ road ends very quickly.
+Let's put numbers on that. For $N = 1000$ it is a million operations per step (looks fine ?). For $N = 10^6$ it is $10^{12}$ per step and a galaxy has $N \sim 10^{11}$ stars. The $O(N^2)$ road ends very quickly.
 
 \note{
     This is why sir wrote **$\log(n)$** in a box on the board next to the paper reference. The whole point of a tree code is to replace that $N^2$ with $N\log N$.
 }
 
-The idea behind the fix is one you already use without thinking. When you compute the pull of the Sun on the Earth, you do not add up the force from every atom in the Sun. You treat the Sun as a single point of mass $M_\odot$ sitting at its centre. That is legal because the Sun is *far away compared to its own size*.
+The idea behind the fix is one you already use without thinking. **When you compute the pull of the Sun on the Earth, you do not add up the force from every atom in the Sun**. You treat the Sun as a single point of mass $M_\odot$ sitting at its centre. That is legal because the Sun is *far away compared to its own size*.
 
 A tree code does exactly this, but it decides for itself, particle by particle, which clumps are far enough away to be squashed into a single point — and when a point is not good enough, it adds a correction term for the *shape* of the clump. That correction is the **multipole expansion**, and it is the mathematical heart of the whole method.
 
@@ -73,9 +71,9 @@ A tree code does exactly this, but it decides for itself, particle by particle, 
 
 ## Did it work?
 
-Before anything else, here is my recreation next to the paper. These are numbers I did not tune — they came out of the code the first time it ran correctly.
+Before anything else, here is my recreation next to the paper. These are numbers I did not tune. They came out of the code the first time it ran correctly.
 
-**Every entry in this table is read straight out of a production run on the departmental server** (256 cores, $N$ up to $32768$). My laptop was only ever used for small-$N$ checks while developing; nothing in this table comes from it.
+**Every entry in this table is read straight out of a production run on the departmental server** ($N$ up to $32768$). My laptop was only ever used for small-$N$ checks while developing. Nothing in this table comes from it.
 
 | Quantity | Hernquist (1987) | My Julia code |
 | --- | --- | --- |
@@ -95,7 +93,7 @@ Before anything else, here is my recreation next to the paper. These are numbers
 | Multipole truncation error, monopole / quadrupole | $(s/d)^2$ / $(s/d)^3$ | slopes $2.00$ / $3.03$ |
 | $-2K/W$ across $\varepsilon/\lambda = 1/16 \to 4$ | — | $1.000 \pm 0.003$ |
 
-Where I quote a $\pm$, it is the standard deviation over **eight independent random realisations** of the Plummer sphere, not a single run.
+Where I quote a $\pm$, it is the standard deviation over **eight independent random realisations** of the Plummer sphere & not a single run.
 
 \note{
     **This table is deliberately matched, not optimised.** Every row runs at the paper's own settings, so the force-error rows are not "the best I can do" — they are the same thing, done again. If I had tuned my code to look good, the comparison would mean nothing.

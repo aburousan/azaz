@@ -259,8 +259,7 @@
 <div class="franklin-content">
 <div class="franklin-toc"><ol><li><a href="#the_problem_honestly_stated">The problem, honestly stated</a></li><li><a href="#what_is_in_each_part">What is in each part</a></li><li><a href="#did_it_work">Did it work?</a><ol><li><a href="#why_is_my_force_error_not_smaller_than_a_1987_papers">Why is my force error not <em>smaller</em> than a 1987 paper&#39;s?</a></li><li><a href="#how_much_of_this_is_noise">How much of this is noise?</a></li><li><a href="#so_why_are_the_numbers_different_at_all">So why are the numbers different at all?</a></li></ol></li><li><a href="#a_note_on_how_i_did_this">A note on how I did this</a></li></ol></div>
 <h1 id="performance_characteristics_of_tree_codes"><a href="#performance_characteristics_of_tree_codes" class="header-anchor">Performance Characteristics of Tree Codes</a></h1>
-<p>In our class our sir asked like this.</p>
-<p>He was doing the <strong>virial theorem</strong> on the board. Take a system that is not periodic but is in equilibrium, or approaching it — an \(N\)-body system. Then the moment of inertia stops changing, \(I \to\) constant, so averaged over times much longer than the crossing time,</p>
+<p>In our class&#40;NISER, Astronomy &amp; Astrophysics course&#41; our sir asked was doing the <strong>virial theorem</strong> on the board and discussing about the stablility of self gravitating configurations. Take a system that is not periodic but is in equilibrium or approaching it i.e., an \(N\)-body system. Then the moment of inertia stops changing, \(I \to\) constant, so averaged over times much longer than the crossing time,</p>
 \[
 \left\langle \frac{d^2I}{dt^2}\right\rangle = 0 \quad\Longrightarrow\quad 2\langle K\rangle + \langle U\rangle = 0 \quad\Longrightarrow\quad \langle E\rangle = \frac{1}{2}\langle U\rangle
 \]
@@ -269,29 +268,29 @@
 <blockquote>
 <p><strong>1987 ApJS 64, 715H</strong> — <em>Performance Characteristics of Tree Codes</em><br/> Poisson equation \(\to \nabla^2\phi = 4\pi G\rho\)<br/> Current algorithms \(\to\) Mem, \(\log(n)\)</p>
 </blockquote>
-<p>and on the other side wrote <strong>Plummer Profile Problem</strong>: you are given initial conditions \(\{\vec r_i\}, \{\vec v_i\}\), and you want to evolve them under gravity only. Then he derived the integrator, starting from two Taylor expansions and ending with the leapfrog scheme.</p>
+<p>and on the other side wrote <strong>Plummer Profile Problem</strong>: you are given initial conditions \(\{\vec r_i\}, \{\vec v_i\}\) and you want to evolve them under gravity only. Then he derived the integrator starting from two Taylor expansions and ending with the leapfrog scheme.</p>
 <p>So the assignment was: do that. Take a blob of particles set up as a Plummer sphere, give them the right positions and velocities, push them forward with leapfrog, and check the virial theorem holds.</p>
-<p>That is the part I started with. But once the particles were moving I could not stop, because the paper behind sir&#39;s box is really about a much better question: <strong>how do you compute the forces at all without waiting till next year?</strong> So I ended up recreating the whole of Hernquist&#39;s paper in <strong>Julia</strong>, and this is what came out.</p>
-<div id="fdpytk" style=""></div>
+<p>That is the part I started with. But once the particles were moving I could not stop, because the paper behind sir&#39;s box is really about a much better question: <strong>how do you compute the forces at all without waiting till next year?</strong> So I ended up recreating the whole of Hernquist&#39;s paper in <strong>Julia</strong> and this is what came out.</p>
+<div id="fdpemk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpytk");
+graphDiv = document.getElementById("fdpemk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_3d.json');
 </script>
 
 <p>That is the object we are going to torture. 4000 particles, held together by nothing but their own gravity. Drag it around.</p>
 <h2 id="the_problem_honestly_stated"><a href="#the_problem_honestly_stated" class="header-anchor">The problem, honestly stated</a></h2>
-<p>Gravity is a \(1/r^2\) force, and it never switches off. So if I have \(N\) particles, every single one of them pulls on every other one. Writing \(\vec{a}_i\) for the acceleration of particle \(i\),</p>
+<p>Gravity is a \(1/r^2\) force and it never switches off. So if I have \(N\) particles, every single one of them pulls on every other one. Writing \(\vec{a}_i\) for the acceleration of particle \(i\),</p>
 \[
 \vec{a}_i = -G\sum_{j \neq i} m_j \frac{\vec{r}_i - \vec{r}_j}{|\vec{r}_i - \vec{r}_j|^3}
 \]
 <p>There are \(N\) particles and each sum has \(N-1\) terms, so one force evaluation costs \(\sim N^2\) operations. And I need to do this <em>every single time step</em>, thousands of times.</p>
-<p>Let&#39;s put numbers on that. For \(N = 1000\) it is a million operations per step — fine. For \(N = 10^6\) it is \(10^{12}\) per step, and a galaxy has \(N \sim 10^{11}\) stars. The \(O(N^2)\) road ends very quickly.</p>
+<p>Let&#39;s put numbers on that. For \(N = 1000\) it is a million operations per step &#40;looks fine ?&#41;. For \(N = 10^6\) it is \(10^{12}\) per step and a galaxy has \(N \sim 10^{11}\) stars. The \(O(N^2)\) road ends very quickly.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       This is why sir wrote <strong>\(\log(n)\)</strong> in a box on the board next to the paper reference. The whole point of a tree code is to replace that \(N^2\) with \(N\log N\). 
   </fieldset>
   
-<p>The idea behind the fix is one you already use without thinking. When you compute the pull of the Sun on the Earth, you do not add up the force from every atom in the Sun. You treat the Sun as a single point of mass \(M_\odot\) sitting at its centre. That is legal because the Sun is <em>far away compared to its own size</em>.</p>
+<p>The idea behind the fix is one you already use without thinking. <strong>When you compute the pull of the Sun on the Earth, you do not add up the force from every atom in the Sun</strong>. You treat the Sun as a single point of mass \(M_\odot\) sitting at its centre. That is legal because the Sun is <em>far away compared to its own size</em>.</p>
 <p>A tree code does exactly this, but it decides for itself, particle by particle, which clumps are far enough away to be squashed into a single point — and when a point is not good enough, it adds a correction term for the <em>shape</em> of the clump. That correction is the <strong>multipole expansion</strong>, and it is the mathematical heart of the whole method.</p>
 <h2 id="what_is_in_each_part"><a href="#what_is_in_each_part" class="header-anchor">What is in each part</a></h2>
 <ol>
@@ -309,10 +308,10 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/pl
 </li>
 </ol>
 <h2 id="did_it_work"><a href="#did_it_work" class="header-anchor">Did it work?</a></h2>
-<p>Before anything else, here is my recreation next to the paper. These are numbers I did not tune — they came out of the code the first time it ran correctly.</p>
-<p><strong>Every entry in this table is read straight out of a production run on the departmental server</strong> &#40;256 cores, \(N\) up to \(32768\)&#41;. My laptop was only ever used for small-\(N\) checks while developing; nothing in this table comes from it.</p>
+<p>Before anything else, here is my recreation next to the paper. These are numbers I did not tune. They came out of the code the first time it ran correctly.</p>
+<p><strong>Every entry in this table is read straight out of a production run on the departmental server</strong> &#40;\(N\) up to \(32768\)&#41;. My laptop was only ever used for small-\(N\) checks while developing. Nothing in this table comes from it.</p>
 <table><tr><th align="right">Quantity</th><th align="right">Hernquist &#40;1987&#41;</th><th align="right">My Julia code</th></tr><tr><td align="right">\(\langle n_\text{terms}\rangle\), Plummer, \(N=32768\), \(\theta=1\)</td><td align="right">\(\approx 221\)</td><td align="right">\(217.6\)</td></tr><tr><td align="right">\(\langle n_\text{terms}\rangle\), uniform sphere, same</td><td align="right">\(\approx 121\)</td><td align="right">\(122.2\)</td></tr><tr><td align="right">\(\langle n_\text{terms}\rangle\), Plummer, \(N=1024\), \(\theta=1\)</td><td align="right">\(\approx 130\)</td><td align="right">\(124.0\)</td></tr><tr><td align="right">\(\langle n_\text{terms}\rangle\), Plummer, \(N=32768\), \(\theta=0.5\)</td><td align="right">\(\approx 1060\)</td><td align="right">\(1053.2\)</td></tr><tr><td align="right">Force error, \(N=32768\), \(\theta=1\)</td><td align="right">\(\approx1.4\)–\(1.6\%\) &#40;Fig. 6&#41;</td><td align="right">\(1.548 \pm 0.013\%\)</td></tr><tr><td align="right">Force error, \(N=32768\), \(\theta=0.5\)</td><td align="right">\(\approx0.2\%\) &#40;Fig. 6&#41;</td><td align="right">\(0.182 \pm 0.003\%\)</td></tr><tr><td align="right">Error scaling with \(N\)</td><td align="right">\(\sim N^{-1/5}\)</td><td align="right">\(\sim N^{-1/5}\)</td></tr><tr><td align="right">\(N\) where tree beats direct sum, \(\theta=1\)</td><td align="right">\(\approx 1700\)</td><td align="right">\(\approx 1700\)</td></tr><tr><td align="right">Speed-up at \(N=32768\), \(\theta=1\)</td><td align="right">—</td><td align="right">\(23.8\times\)</td></tr><tr><td align="right">\(\Delta E/E\), 1000 steps, direct sum</td><td align="right">\(0.20\%\)</td><td align="right">\(0.22 \pm 0.10\%\)</td></tr><tr><td align="right">\(\Delta E/E\), 1000 steps, \(\theta = 0.5\)</td><td align="right">\(0.32\%\)</td><td align="right">\(0.26 \pm 0.10\%\)</td></tr><tr><td align="right">\(\Delta E/E\), 1000 steps, \(\theta = 1\)</td><td align="right">\(0.68\%\)</td><td align="right">\(0.96 \pm 0.14\%\)</td></tr><tr><td align="right">Relaxation time, \(\theta \lesssim 1\)</td><td align="right">same as direct</td><td align="right">same as direct</td></tr><tr><td align="right">Multipole truncation error, monopole / quadrupole</td><td align="right">\((s/d)^2\) / \((s/d)^3\)</td><td align="right">slopes \(2.00\) / \(3.03\)</td></tr><tr><td align="right">\(-2K/W\) across \(\varepsilon/\lambda = 1/16 \to 4\)</td><td align="right">—</td><td align="right">\(1.000 \pm 0.003\)</td></tr></table>
-<p>Where I quote a \(\pm\), it is the standard deviation over <strong>eight independent random realisations</strong> of the Plummer sphere, not a single run.</p>
+<p>Where I quote a \(\pm\), it is the standard deviation over <strong>eight independent random realisations</strong> of the Plummer sphere &amp; not a single run.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       <strong>This table is deliberately matched, not optimised.</strong> Every row runs at the paper&#39;s own settings, so the force-error rows are not &quot;the best I can do&quot; — they are the same thing, done again. If I had tuned my code to look good, the comparison would mean nothing. 
@@ -371,9 +370,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/pl
 <p>approximately 170–175 for small \(t\), but increased slowly to 195–200 during the first 50 time steps</p>
 </blockquote>
 <p><strong>\(\langle n_\text{terms}\rangle\) is not a property of the model at all — it drifts as the cluster relaxes.</strong> Every number I had been quoting was measured on the initial conditions. So I measured it as a function of time for exactly that setup:</p>
-<div id="fdpvsy" style=""></div>
+<div id="fdpcqi" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpvsy");
+graphDiv = document.getElementById("fdpcqi");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_of_time.json');
 </script>
 
@@ -388,9 +387,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nt
   </fieldset>
   
 <p>I also tested the other suspect, since the paper flags it as a possible trap. My walk always opens a cell containing the particle itself, to stop a particle attracting itself; the standard Barnes-Hut code does not:</p>
-<div id="fdpwey" style=""></div>
+<div id="fdptrz" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwey");
+graphDiv = document.getElementById("fdptrz");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/forced_subdivision.json');
 </script>
 
@@ -441,7 +440,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/fo
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 04, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 05, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
