@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Rousan  ]]>
+    </title>
+    <link> https://rousan.netlify.app/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://rousan.netlify.app/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  Tree Codes 4: Results  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/04_results/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/04_results/index.html </guid>
+  <description>
+    <![CDATA[  Part 4 of recreating Hernquist &#40;1987&#41;: the evolving cluster, timing against N and theta, force errors, softening, conservation laws and relaxation, all measured with my own Julia code.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Tree Codes 3: The Tree and the Multipole Expansion  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/03_treecode/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/03_treecode/index.html </guid>
+  <description>
+    <![CDATA[  Part 3 of recreating Hernquist &#40;1987&#41;: building an octree, the opening criterion, and the multipole expansion derived term by term from the Legendre generating function.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>

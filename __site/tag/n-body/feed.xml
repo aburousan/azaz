@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Rousan  ]]>
+    </title>
+    <link> https://rousan.netlify.app/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://rousan.netlify.app/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  Tree Codes 4: Results  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/04_results/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/04_results/index.html </guid>
+  <description>
+    <![CDATA[  Part 4 of recreating Hernquist &#40;1987&#41;: the evolving cluster, timing against N and theta, force errors, softening, conservation laws and relaxation, all measured with my own Julia code.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Tree Codes 3: The Tree and the Multipole Expansion  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/03_treecode/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/03_treecode/index.html </guid>
+  <description>
+    <![CDATA[  Part 3 of recreating Hernquist &#40;1987&#41;: building an octree, the opening criterion, and the multipole expansion derived term by term from the Legendre generating function.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Tree Codes 6: Doing Better Than 1987  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/06_beyond/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/06_beyond/index.html </guid>
+  <description>
+    <![CDATA[  Part 6 of recreating Hernquist &#40;1987&#41;: going past the paper with octupole multipoles, a fourth-order symplectic integrator, and a million particles.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Tree Codes: Recreating Hernquist &#40;1987&#41;  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/index.html </guid>
+  <description>
+    <![CDATA[  Recreating Hernquist&#39;s 1987 paper on the performance of Barnes-Hut tree codes, from scratch in Julia: the Plummer model, the leapfrog integrator, the multipole expansion, and every timing and error test in the paper.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Tree Codes 2: Moving the Particles  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/02_leapfrog/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/02_leapfrog/index.html </guid>
+  <description>
+    <![CDATA[  Part 2 of recreating Hernquist &#40;1987&#41;: deriving the leapfrog integrator from Taylor expansions, and why this second-order scheme beats Runge-Kutta 4 for gravitational N-body work.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Tree Codes 1: The Problem and the Model  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/01_setup/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/01_setup/index.html </guid>
+  <description>
+    <![CDATA[  Part 1 of recreating Hernquist &#40;1987&#41;: Poisson&#39;s equation, the Plummer sphere, sampling initial conditions from a distribution function, and the virial theorem.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Tree Codes 5: The Code  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/05_code/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/05_code/index.html </guid>
+  <description>
+    <![CDATA[  Part 5 of recreating Hernquist &#40;1987&#41;: the complete Julia source for the Barnes-Hut tree code, the test suite, and how to run everything yourself.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>

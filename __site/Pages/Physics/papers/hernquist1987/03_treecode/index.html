@@ -1,0 +1,1069 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Tree Codes 3: The Tree and the Multipole Expansion</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#the_idea_in_one_picture">The idea, in one picture</a></li><li><a href="#building_the_tree">Building the tree</a></li><li><a href="#walking_the_tree">Walking the tree</a></li><li><a href="#the_multipole_expansion">The multipole expansion</a><ol><li><a href="#the_setup">The setup</a></li><li><a href="#expanding_1vec_d_-_vec_s">Expanding \(1/|\vec d - \vec s|\)</a></li><li><a href="#term_by_term">Term by term</a></li><li><a href="#what_these_terms_actually_mean">What these terms actually mean</a></li><li><a href="#why_the_error_is_second_order_intuitively">Why the error is second order, intuitively</a></li><li><a href="#what_the_quadrupole_tensor_means">What the quadrupole tensor means</a></li><li><a href="#the_result">The result</a></li><li><a href="#how_good_is_it">How good is it?</a></li></ol></li><li><a href="#building_mathbfq_for_every_cell_cheaply">Building \(\mathbf{Q}\) for every cell, cheaply</a></li><li><a href="#why_this_gives_nlog_n">Why this gives \(N\log N\)</a></li><li><a href="#what_one_particle_actually_sees">What one particle actually sees</a></li><li><a href="#one_trap_a_particle_pulling_on_itself">One trap: a particle pulling on itself</a></li><li><a href="#the_walk_in_full">The walk, in full</a></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
+<h1 id="ol_start3_the_tree_and_the_multipole_expansion"><a href="#ol_start3_the_tree_and_the_multipole_expansion" class="header-anchor"><ol start="3">
+<li><p>The tree and the multipole expansion</p>
+</li>
+</ol>
+</a></h1>
+<p>Part 3 of my recreation of <a href="/Pages/Physics/papers/hernquist1987/">Hernquist &#40;1987&#41;</a>. This is the long one, and the one that actually contains the physics of the method. Everything so far was setup.</p>
+<p>The question: <strong>how do I compute the force on \(N\) particles without doing \(N^2\) work?</strong></p>
+<h2 id="the_idea_in_one_picture"><a href="#the_idea_in_one_picture" class="header-anchor">The idea, in one picture</a></h2>
+<p>Suppose I want the force on one particular star, and there is a globular cluster of ten thousand stars sitting a long way away. Do I need all ten thousand terms?</p>
+<p>Obviously not. From far enough away the cluster is just a lump of mass \(M\) at a particular place. One term instead of ten thousand.</p>
+<p>The question is: <strong>how far is far enough?</strong> And the answer must be relative — a cluster of size \(s\) seen from distance \(d\) looks compact if \(s \ll d\). So the natural thing to compare is the ratio \(s/d\), and that is exactly the paper&#39;s eq. &#40;1.1&#41;:</p>
+\[
+\frac{s}{d} < \theta
+\]
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>Opening angle \(\theta\)</strong>: the tolerance parameter of the method. A cell of size \(s\) whose centre of mass is at distance \(d\) from the particle is treated as a single lump if \(s/d < \theta\); otherwise it is &quot;opened&quot; and we look at its subcells instead. Small \(\theta\) &#61; fussy &#61; accurate &#61; slow. Large \(\theta\) &#61; relaxed &#61; approximate &#61; fast. \(\theta = 0\) means never approximate anything, which recovers the direct sum exactly. 
+  </fieldset>
+  
+<p>Notice that \(s/d\) is roughly the angle the cell subtends on the sky. So \(\theta\) is literally &quot;how big is a clump allowed to look before I stop treating it as a point&quot;.</p>
+<p>Here is the picture. A cell of width \(s\) sitting at distance \(d\) covers an angle of roughly \(s/d\) on your sky. The test asks whether that angle is small enough to ignore what is inside it.</p>
+
+<div style="max-width:660px;margin:1.5rem auto">
+<svg viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#8A8F98"/>
+    </marker>
+  </defs>
+  <!-- observer particle -->
+  <circle cx="60" cy="150" r="7" fill="#4C8DF6"/>
+  <text x="60" y="182" fill="#8A8F98" font-size="13" text-anchor="middle">the particle</text>
+
+  <!-- NEAR cell: big angle -> opened -->
+  <rect x="215" y="96" width="108" height="108" fill="none" stroke="#E5646E" stroke-width="2"/>
+  <line x1="60" y1="150" x2="215" y2="96" stroke="#E5646E" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <line x1="60" y1="150" x2="215" y2="204" stroke="#E5646E" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <path d="M100 135 A 45 45 0 0 1 100 165" fill="none" stroke="#E5646E" stroke-width="1.6"/>
+  <text x="127" y="155" fill="#E5646E" font-size="14">big angle</text>
+  <text x="269" y="86" fill="#E5646E" font-size="13" text-anchor="middle">s/d &gt; &#952;</text>
+  <text x="269" y="228" fill="#E5646E" font-size="14" text-anchor="middle" font-weight="bold">OPEN it</text>
+  <text x="269" y="248" fill="#8A8F98" font-size="12" text-anchor="middle">look at the 8 children</text>
+
+  <!-- FAR cell: small angle -> accepted -->
+  <rect x="520" y="126" width="52" height="52" fill="none" stroke="#3FBF8F" stroke-width="2"/>
+  <line x1="60" y1="150" x2="520" y2="126" stroke="#3FBF8F" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <line x1="60" y1="150" x2="520" y2="178" stroke="#3FBF8F" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <circle cx="546" cy="152" r="4" fill="#3FBF8F"/>
+  <text x="546" y="116" fill="#3FBF8F" font-size="13" text-anchor="middle">s/d &lt; &#952;</text>
+  <text x="546" y="202" fill="#3FBF8F" font-size="14" text-anchor="middle" font-weight="bold">ACCEPT it</text>
+  <text x="546" y="222" fill="#8A8F98" font-size="12" text-anchor="middle">one term, use its multipoles</text>
+</svg>
+</div>
+
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      So \(\theta\) is really a rule about <strong>eyesight</strong>. Small \(\theta\) is sharp eyes — you insist on resolving individuals until they are very far away, which is accurate and slow. Large \(\theta\) is squinting — you lump things together aggressively, which is fast and crude. 
+  </fieldset>
+  
+<p>Notice the criterion is an <em>angle</em>, not a distance. A clump twice as wide may be treated as one lump only if it is also twice as far away. That is exactly how vision works, and it is why \(s/d\) — rather than \(s\) or \(d\) on its own — is the right thing to test.</p>
+<p>To turn this into an algorithm I need two things: a way to organise the particles into nested clumps of every size &#40;<strong>the tree</strong>&#41;, and a way to describe a clump by more than just its total mass &#40;<strong>the multipole expansion</strong>&#41;. Let me do the tree first, because it is the easy half.</p>
+<h2 id="building_the_tree"><a href="#building_the_tree" class="header-anchor">Building the tree</a></h2>
+<p>The Barnes-Hut recipe is a recursive subdivision of space:</p>
+<ol>
+<li><p>Put a cube around all the particles. This is the <strong>root</strong>.</p>
+</li>
+<li><p>If a cell has more than one particle in it, cut it into 8 equal sub-cubes &#40;in 3D — an <strong>octree</strong>&#41; and hand each particle to whichever sub-cube contains it.</p>
+</li>
+<li><p>Repeat until every cell has at most one particle.</p>
+</li>
+</ol>
+<p>The result is a hierarchy of cells: one enormous cell containing everything, eight cells of half the size, sixty-four of a quarter, and so on down to individual particles. Cells in dense regions get subdivided many times; cells in empty regions stop early.</p>
+<p>Here is what that looks like in 2D &#40;a <strong>quadtree</strong>, four children per cell instead of eight — same logic, just easier to look at&#41;. 500 particles drawn from the Plummer sphere:</p>
+<div id="fdphkc" style=""></div>
+<script>
+graphDiv = document.getElementById("fdphkc");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/quadtree_cells.json');
+</script>
+
+<p>You can see the structure immediately: the tree is deep and finely divided in the dense middle, and shallow out in the sparse halo. That is exactly the behaviour you want — the subdivision automatically follows the density, with nobody having to tell it where the interesting regions are. This is what makes tree codes so much more flexible than grid methods, which have to pick a resolution in advance.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      Empty cells are never stored. So the number of nodes stays proportional to \(N\), not to the volume. For my \(N = 32768\) Plummer model the tree has \(48515\) nodes and is 14 levels deep; the uniform sphere with the same \(N\) has \(49061\) nodes but only 11 levels, because it has no dense core to keep subdividing. 
+  </fieldset>
+  
+<p>The Julia is a straightforward insert-one-particle-at-a-time loop. The one subtlety is that when a particle arrives at a cell that already holds one, the sitting particle has to be pushed down a level first:</p>
+<pre><code class="language-julia">function insert&#33;&#40;t::Octree, pos::AbstractMatrix, i::Integer&#41;
+    node &#61; 1
+    while true
+        if t.leafpart&#91;node&#93; &#61;&#61; 0 &amp;&amp; all&#40;t.child&#91;k, node&#93; &#61;&#61; 0 for k in 1:8&#41;
+            t.leafpart&#91;node&#93; &#61; i          # empty cell: park it here
+            return
+        elseif t.leafpart&#91;node&#93; &#33;&#61; 0
+            # occupied leaf: push the sitting tenant down one level first
+            j &#61; t.leafpart&#91;node&#93;
+            t.leafpart&#91;node&#93; &#61; 0
+            oj &#61; octant&#40;t, node, pos&#91;1, j&#93;, pos&#91;2, j&#93;, pos&#91;3, j&#93;&#41;
+            c &#61; newnode&#33;&#40;t, child_center&#40;t, node, oj&#41;..., 0.5 * t.size&#91;node&#93;&#41;
+            t.child&#91;oj, node&#93; &#61; c
+            t.leafpart&#91;c&#93; &#61; j
+            # ... and carry on with particle i in the same cell
+        else
+            o &#61; octant&#40;t, node, pos&#91;1,i&#93;, pos&#91;2,i&#93;, pos&#91;3,i&#93;&#41;
+            if t.child&#91;o, node&#93; &#61;&#61; 0
+                c &#61; newnode&#33;&#40;t, child_center&#40;t, node, o&#41;..., 0.5 * t.size&#91;node&#93;&#41;
+                t.child&#91;o, node&#93; &#61; c
+                t.leafpart&#91;c&#93; &#61; i
+                return
+            end
+            node &#61; t.child&#91;o, node&#93;
+        end
+    end
+end</code></pre>
+<p>Building the tree costs \(O(N\log N)\), and in practice it is a small fraction of the total time — Hernquist quotes under 10&#37;, and I find the same.</p>
+<h2 id="walking_the_tree"><a href="#walking_the_tree" class="header-anchor">Walking the tree</a></h2>
+<p>With the tree built, computing the force on particle \(i\) is a walk from the root:</p>
+<ul>
+<li><p>If the cell is <strong>empty</strong>, skip it.</p>
+</li>
+<li><p>If the cell holds a <strong>single particle</strong>, add the ordinary pairwise force &#40;and skip it if it is particle \(i\) itself&#41;.</p>
+</li>
+<li><p>Otherwise compute \(s/d\). If \(s/d < \theta\), <strong>accept</strong> the cell — add one term for the whole thing and do not look inside. If not, <strong>open</strong> it and put its eight children on the stack.</p>
+</li>
+</ul>
+<p>Here is that walk, made visible. This is the same 500-particle quadtree, and the star marks the particle we are computing the force on. Orange boxes are cells that got swallowed whole; red dots are particles that had to be summed one by one. <strong>Drag the slider to change \(\theta\)</strong>:</p>
+<div id="fdpeqm" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpeqm");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/treewalk_theta.json');
+</script>
+
+<p>Watch what happens as \(\theta\) grows. At \(\theta = 0.2\) the walk is fussy: 161 terms, and it descends nearly to individual particles even quite far away. At \(\theta = 1.5\) it is 15 terms — one enormous box covers the whole far side of the cluster.</p>
+<p>Also notice the <em>spatial pattern</em>: nearby particles are always handled individually, and the cells used get bigger the further away they are. The method automatically spends its effort where the force is largest and the geometry matters most.</p>
+<h2 id="the_multipole_expansion"><a href="#the_multipole_expansion" class="header-anchor">The multipole expansion</a></h2>
+<p>Now the real content. When we &quot;accept&quot; a cell, what exactly do we replace it with?</p>
+<p>The crude answer is: a point mass at its centre of mass. That is the <strong>monopole</strong> approximation, and it is what the original Barnes-Hut paper used. But we can do better, and doing better is what Hernquist&#39;s paper is largely about. Let me derive the whole thing carefully, because this is the part sir wanted understood properly.</p>
+<h3 id="the_setup"><a href="#the_setup" class="header-anchor">The setup</a></h3>
+<p>Take one cell. Put the origin at its <strong>centre of mass</strong>. The cell contains particles of mass \(m_k\) at positions \(\vec s_k\) &#40;these are small — of order the cell size \(s\)&#41;. We want the potential at a field point \(\vec d\) which is far away &#40;\(d \gg s\)&#41;. Let \(\gamma_k\) be the angle between \(\vec d\) and \(\vec s_k\).</p>
+<p>The exact potential is just the sum over particles:</p>
+\[
+\varphi(\vec d) = -G\sum_k \frac{m_k}{\left|\vec d - \vec s_k\right|}
+\]
+<p>Everything now comes from expanding that denominator.</p>
+<h3 id="expanding_1vec_d_-_vec_s"><a href="#expanding_1vec_d_-_vec_s" class="header-anchor">Expanding \(1/|\vec d - \vec s|\)</a></h3>
+<p>Write the distance out using the cosine rule:</p>
+\[
+\left|\vec d - \vec s\right| = \sqrt{d^2 - 2ds\cos\gamma + s^2}
+\]
+<p>so</p>
+\[
+\frac{1}{|\vec d - \vec s|} = \frac{1}{d}\,\frac{1}{\sqrt{1 - 2\left(\frac{s}{d}\right)\cos\gamma + \left(\frac{s}{d}\right)^2}}
+\]
+<p>Now — and this is the moment where the whole thing becomes beautiful — that square root is <em>exactly</em> the generating function of the <strong>Legendre polynomials</strong>:</p>
+\[
+\frac{1}{\sqrt{1-2xt+t^2}} = \sum_{n=0}^{\infty}P_n(x)\,t^n, \qquad |t|<1
+\]
+<p>Rather than assert that, let me get the first few terms by hand, because it takes four lines and it makes the structure concrete. Write the thing under the root as \(1 + A\) with</p>
+\[
+A = -2xt + t^2
+\]
+<p>and use the binomial series \((1+A)^{-1/2} = 1 - \tfrac{1}{2}A + \tfrac{3}{8}A^2 - \tfrac{5}{16}A^3 + \dots\). We want everything up to \(t^2\), so we need \(A\) in full and \(A^2\) only to leading order:</p>
+\[
+A = -2xt + t^2, \qquad A^2 = 4x^2t^2 + \mathcal{O}(t^3)
+\]
+<p>Substituting:</p>
+\[
+(1+A)^{-1/2} = 1 - \frac{1}{2}\left(-2xt + t^2\right) + \frac{3}{8}\left(4x^2t^2\right) + \mathcal{O}(t^3)
+= 1 + xt + \left(\frac{3x^2}{2} - \frac{1}{2}\right)t^2 + \mathcal{O}(t^3)
+\]
+<p>and reading off the coefficients:</p>
+\[
+P_0(x) = 1, \qquad P_1(x) = x, \qquad P_2(x) = \frac{3x^2-1}{2}
+\]
+<p>which are exactly the first three Legendre polynomials. Setting \(t = s/d\) and \(x = \cos\gamma\):</p>
+\[
+\boxed{\;\frac{1}{|\vec d - \vec s|} = \frac{1}{d}\sum_{n=0}^{\infty}\left(\frac{s}{d}\right)^n P_n(\cos\gamma)\;}
+\]
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      This is why Legendre polynomials turn up everywhere in electrostatics and gravity. They are not imposed on the problem — they <em>are</em> the expansion of \(1/r\), and every multipole expansion you have seen is this one identity in disguise. 
+  </fieldset>
+  
+<p>Note also the convergence condition \(|t| < 1\), that is \(s < d\). The series simply <strong>does not converge</strong> if the field point is inside the cell. That is not a technicality to wave away — it is why \(\theta\) has to be kept below about 1, and it shows up later as a measured effect.</p>
+<p>I checked the general term in Mathematica rather than trusting my memory beyond \(n=2\):</p>
+<pre><code class="language-mathematica">&#36;Assumptions &#61; d &gt; 0 &amp;&amp; s &gt; 0 &amp;&amp; -1 &lt;&#61; ct &lt;&#61; 1;
+Table&#91;FullSimplify&#91;SeriesCoefficient&#91;1/Sqrt&#91;d^2 - 2 d s ct &#43; s^2&#93;, &#123;s, 0, n&#125;&#93;
+                   - LegendreP&#91;n, ct&#93;/d^&#40;n &#43; 1&#41;&#93;, &#123;n, 0, 4&#125;&#93;
+&#40;* -&gt; &#123;0, 0, 0, 0, 0&#125; *&#41;</code></pre>
+<h3 id="term_by_term"><a href="#term_by_term" class="header-anchor">Term by term</a></h3>
+<p>Substituting back into the potential:</p>
+\[
+\varphi(\vec d) = -\frac{G}{d}\left[\underbrace{\sum_k m_k}_{n=0} + \frac{1}{d}\underbrace{\sum_k m_k s_k\cos\gamma_k}_{n=1} + \frac{1}{d^2}\underbrace{\sum_k m_k s_k^2\,\frac{3\cos^2\gamma_k-1}{2}}_{n=2} + \dots\right]
+\]
+<p>Let me take these one at a time.</p>
+<p><strong>\(n=0\), the monopole.</strong> This one is trivial:</p>
+\[
+\sum_k m_k = M
+\]
+<p>the total mass of the cell. This gives \(-GM/d\) — the cell treated as a point. Nothing about the shape of the cell survives here.</p>
+<p><strong>\(n=1\), the dipole.</strong> Write \(\hat n = \vec d/d\) for the direction to the field point. Then \(s_k\cos\gamma_k = \hat n\cdot\vec s_k\), so</p>
+\[
+\sum_k m_k s_k\cos\gamma_k = \hat n\cdot\sum_k m_k\vec s_k
+\]
+<p>And now the payoff for a decision made way back at the start. We put the origin <strong>at the centre of mass</strong>, which is defined by precisely \(\sum_k m_k\vec s_k = 0\).</p>
+\[
+\boxed{\text{The dipole term vanishes identically.}}
+\]
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      This is the single most important structural fact about the whole method, and it is easy to skate past. Because we expand about the centre of mass, the first correction to &quot;treat it as a point&quot; is not of order \(s/d\) — it is of order \((s/d)^2\). We get an entire order of accuracy for <strong>free</strong>, just by choosing the expansion centre sensibly. If we had expanded about the geometric centre of the cell instead, there would be a dipole term and the method would be far worse. 
+  </fieldset>
+  
+<p><strong>\(n=2\), the quadrupole.</strong> This is the first term that actually survives, so it deserves care. Again using \(s_k\cos\gamma_k = \hat n\cdot\vec s_k\):</p>
+\[
+s_k^2\,\frac{3\cos^2\gamma_k - 1}{2} = \frac{3(\hat n\cdot\vec s_k)^2 - s_k^2}{2}
+\]
+<p>Write it in index notation, with \(\hat n\cdot\vec s_k = \hat n_i s_{k,i}\) &#40;summing over repeated indices&#41; and using \(\hat n_i\hat n_j\delta_{ij} = |\hat n|^2 = 1\):</p>
+\[
+\frac{3(\hat n_i s_{k,i})(\hat n_j s_{k,j}) - s_k^2}{2} = \frac{1}{2}\hat n_i\hat n_j\left(3s_{k,i}s_{k,j} - s_k^2\delta_{ij}\right)
+\]
+<p>Summing over the particles in the cell, everything that depends on the cell&#39;s internal arrangement collects into a single object:</p>
+\[
+\boxed{\;Q_{ij} = \sum_k m_k\left(3\,s_{k,i}\,s_{k,j} - s_k^2\,\delta_{ij}\right)\;}
+\]
+<p>which is exactly the paper&#39;s eq. &#40;2.3&#41;. The \(n=2\) term is then \(\tfrac{1}{2}\hat n\cdot\mathbf{Q}\cdot\hat n\).</p>
+<p>I verified this collapse symbolically too, since it is easy to drop a factor:</p>
+<pre><code class="language-mathematica">nh &#61; &#123;n1, n2, n3&#125;; xk &#61; &#123;a1, a2, a3&#125;; s2 &#61; xk . xk;
+legTerm &#61; s2 LegendreP&#91;2, &#40;xk . nh&#41;/Sqrt&#91;s2&#93;&#93;;
+Qk &#61; Table&#91;mk &#40;3 xk&#91;&#91;i&#93;&#93; xk&#91;&#91;j&#93;&#93; - s2 KroneckerDelta&#91;i, j&#93;&#41;, &#123;i, 3&#125;, &#123;j, 3&#125;&#93;;
+FullSimplify&#91;&#40;mk legTerm - &#40;1/2&#41; nh . Qk . nh&#41; /. n3 -&gt; Sqrt&#91;1 - n1^2 - n2^2&#93;&#93;
+&#40;* -&gt; 0 *&#41;</code></pre>
+<h3 id="what_these_terms_actually_mean"><a href="#what_these_terms_actually_mean" class="header-anchor">What these terms actually mean</a></h3>
+<p>Before pushing on, it is worth stopping to ask what we have just built, because the algebra hides a very simple physical picture.</p>
+<p><strong>The multipole expansion is a way of describing a lump of matter by progressively finer features</strong>, in the same way you might describe a person from further and further away:</p>
+<table><tr><th align="right">term</th><th align="right">what it measures</th><th align="right">what you would say</th></tr><tr><td align="right">\(n=0\), monopole</td><td align="right">total mass \(M\)</td><td align="right">&quot;there is something there, and this is how heavy it is&quot;</td></tr><tr><td align="right">\(n=1\), dipole</td><td align="right">where the mass sits</td><td align="right">&quot;and it is over <em>there</em>, not where you said&quot;</td></tr><tr><td align="right">\(n=2\), quadrupole</td><td align="right">is it a cigar or a pancake?</td><td align="right">&quot;and it is squashed this way&quot;</td></tr><tr><td align="right">\(n=3\), octupole</td><td align="right">is it lopsided?</td><td align="right">&quot;and it is fatter at one end than the other&quot;</td></tr></table>
+<p>Each term is a finer detail than the last, and each matters less the further away you stand. That is precisely what the factors of \((s/d)^n\) are saying: <strong>detail costs distance.</strong> From far enough away, everything is a point.</p>
+<p>You have met this ladder before, probably several times without it being labelled:</p>
+<ul>
+<li><p><strong>The Earth&#39;s gravity field.</strong> The Earth bulges at the equator, and that bulge is exactly a quadrupole — satellite people call its coefficient \(J_2\), and every GPS orbit accounts for it.</p>
+</li>
+<li><p><strong>Tides.</strong> The Moon pulls harder on the near side of the Earth than the far side. Subtract the average and what is left <em>is</em> the quadrupole field.</p>
+</li>
+<li><p><strong>The CMB.</strong> Decomposing the microwave sky into \(\ell = 0, 1, 2, \dots\) is this same Legendre expansion on a sphere. \(\ell=1\) is the dipole from our own motion.</p>
+</li>
+<li><p><strong>Nuclear physics.</strong> Deformed nuclei are catalogued by their electric quadrupole moment — same tensor, different force.</p>
+</li>
+</ul>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      It is the same mathematics every time, because it is really a statement about \(1/r\) and the Laplacian rather than about gravity specifically. 
+  </fieldset>
+  
+<h3 id="why_the_error_is_second_order_intuitively"><a href="#why_the_error_is_second_order_intuitively" class="header-anchor">Why the error is second order, intuitively</a></h3>
+<p>The \((s/d)^2\) law deserves a picture rather than just a derivation.</p>
+<p>Treating a cell as a point mass at its centre gets the <em>average</em> distance right but nothing else. Now ask what you got wrong. Particles on the near side of the cell are closer than you assumed, so they pull <strong>more</strong> than your point-mass estimate; particles on the far side are further, so they pull <strong>less</strong>.</p>
+<p>To first order in the cell size, those two errors are equal and opposite, and they <strong>cancel</strong> — because the centre of mass sits exactly at the balance point. That is the dipole vanishing, seen from the other side.</p>
+<p>What does <em>not</em> cancel is that \(1/r\) is <strong>curved</strong>. The extra pull you gain by moving a bit closer is bigger than the pull you lose by moving the same bit further away. So the near side wins by a little, and that residue — the <em>curvature</em> of \(1/r\), not its slope — is the quadrupole.</p>
+\[
+\underbrace{\text{slope of } 1/r}_{\text{cancels: dipole} = 0} \qquad
+\underbrace{\text{curvature of } 1/r}_{\text{survives: quadrupole} \sim (s/d)^2}
+\]
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      This is why a spherical cell has \(\mathbf{Q} = 0\) exactly: for a sphere, the &quot;near side wins&quot; effect in one direction is cancelled by an identical effect in every other direction. There is nothing left over. That is Newton&#39;s shell theorem, arrived at by thinking about cancellation rather than by doing an integral. 
+  </fieldset>
+  
+<h3 id="what_the_quadrupole_tensor_means"><a href="#what_the_quadrupole_tensor_means" class="header-anchor">What the quadrupole tensor means</a></h3>
+<p>\(\mathbf{Q}\) is a symmetric \(3\times3\) matrix, so it has six independent components. It is also <strong>traceless</strong>:</p>
+\[
+\text{tr}\,\mathbf{Q} = \sum_k m_k\left(3s_k^2 - 3s_k^2\right) = 0
+\]
+<p>&#40;the \(\delta_{ii} = 3\) in three dimensions&#41;, which knocks it down to five.</p>
+<p>Physically, \(\mathbf{Q}\) measures <strong>how far from spherical the cell is</strong>. Here is the cleanest way to see it: if the particles in a cell are distributed with perfect spherical symmetry, then by symmetry \(\sum_k m_k s_{k,i}s_{k,j} = \tfrac{1}{3}\delta_{ij}\sum_k m_k s_k^2\), and substituting gives \(Q_{ij} = 0\) exactly.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      So for a spherical clump, the monopole approximation is not an approximation at all — it is <strong>exact</strong>. That is Newton&#39;s shell theorem, falling out of the multipole expansion as the statement \(\mathbf{Q}=0\). The quadrupole is precisely the leading correction for the fact that a real cubical cell full of particles is <em>lumpy and not round</em>. 
+  </fieldset>
+  
+<h3 id="the_result"><a href="#the_result" class="header-anchor">The result</a></h3>
+<p>Putting the surviving terms together, and using \(\hat n\cdot\mathbf{Q}\cdot\hat n = \vec d\cdot\mathbf{Q}\cdot\vec d / d^2\):</p>
+\[
+\boxed{\;\varphi(\vec d) = -\frac{GM}{d} - \frac{1}{2}\frac{G}{d^5}\,\vec d\cdot\mathbf{Q}\cdot\vec d\;}
+\]
+<p>which is the paper&#39;s eq. &#40;2.2&#41;. And the acceleration follows by \(\vec a = -\nabla\varphi\). Let me do that gradient properly in index notation, since it is the sort of thing that is easy to get wrong by a factor of two.</p>
+<p>We need \(\partial_k\) of \(S/d^5\), where \(S \equiv d_iQ_{ij}d_j\). Two ingredients. First, the derivative of the distance itself:</p>
+\[
+d = \sqrt{d_ld_l} \;\Longrightarrow\; \partial_k d = \frac{d_k}{d} \;\Longrightarrow\; \partial_k\left(d^{-5}\right) = -5d^{-6}\cdot\frac{d_k}{d} = -\frac{5d_k}{d^7}
+\]
+<p>Second, the derivative of the quadratic form. Using \(\partial_k d_i = \delta_{ki}\) and the symmetry \(Q_{ij}=Q_{ji}\):</p>
+\[
+\partial_k S = \partial_k\left(d_iQ_{ij}d_j\right) = \delta_{ki}Q_{ij}d_j + d_iQ_{ij}\delta_{kj} = Q_{kj}d_j + d_iQ_{ik} = 2Q_{kj}d_j
+\]
+<p>The two terms are equal <em>because</em> \(\mathbf{Q}\) is symmetric — that is where the factor of 2 comes from. Now the product rule:</p>
+\[
+\partial_k\left(\frac{S}{d^5}\right) = \frac{\partial_k S}{d^5} + S\,\partial_k\left(d^{-5}\right)
+= \frac{2Q_{kj}d_j}{d^5} - \frac{5\,S\,d_k}{d^7}
+\]
+<p>Therefore, remembering the \(-\tfrac12 G\) prefactor in \(\varphi\) and the overall minus in \(\vec a = -\nabla\varphi\), the two signs cancel and the \(\tfrac12\) eats the 2:</p>
+\[
+a_k^{\text{quad}} = -\partial_k\left(-\frac{G}{2}\frac{S}{d^5}\right) = \frac{G}{2}\left(\frac{2Q_{kj}d_j}{d^5} - \frac{5Sd_k}{d^7}\right) = \frac{G\,Q_{kj}d_j}{d^5} - \frac{5G}{2}\frac{S\,d_k}{d^7}
+\]
+<p>The monopole part is the familiar \(-GMd_k/d^3\). Putting them together and pulling out unit vectors with \(\hat r = \vec d/d\) &#40;so \(Q_{kj}d_j/d^5 = Q_{kj}\hat r_j/d^4\) and \(Sd_k/d^7 = (\hat r\cdot\mathbf{Q}\cdot\hat r)\hat r_k/d^4\)&#41;,</p>
+\[
+\boxed{\;\vec a = -\frac{GM}{d^2}\hat r + \frac{G}{d^4}\mathbf{Q}\cdot\hat r - \frac{5G}{2}\left(\hat r\cdot\mathbf{Q}\cdot\hat r\right)\frac{\hat r}{d^4}\;}
+\]
+<p>which is the paper&#39;s eq. &#40;2.4&#41;. I checked that this really is minus the gradient of the potential above, rather than taking it on trust:</p>
+<pre><code class="language-mathematica">Qm &#61; &#123;&#123;q11, q12, q13&#125;, &#123;q12, q22, q23&#125;, &#123;q13, q23, q33&#125;&#125;;
+rv &#61; &#123;x, y, z&#125;; rr &#61; Sqrt&#91;x^2 &#43; y^2 &#43; z^2&#93;;
+phi &#61; -Mc/rr - &#40;1/2&#41; &#40;rv . Qm . rv&#41;/rr^5;
+accelPaper &#61; -Mc rv/rr^3 &#43; &#40;Qm . rv&#41;/rr^5 - &#40;5/2&#41; &#40;rv . Qm . rv&#41; rv/rr^7;
+FullSimplify&#91;-Grad&#91;phi, &#123;x, y, z&#125;&#93; - accelPaper&#93;
+&#40;* -&gt; &#123;0, 0, 0&#125; *&#41;</code></pre>
+<p>Good. The paper&#39;s equations are consistent.</p>
+<h3 id="how_good_is_it"><a href="#how_good_is_it" class="header-anchor">How good is it?</a></h3>
+<p>The expansion is a power series in \(s/d\). Since the dipole vanishes, the leading term we throw away is:</p>
+<ul>
+<li><p><strong>monopole only</strong> — we drop the \(n=2\) term, so the error is \(\mathcal{O}\!\left((s/d)^2\right)\)</p>
+</li>
+<li><p><strong>through quadrupole</strong> — we drop the \(n=3\) term, so the error is \(\mathcal{O}\!\left((s/d)^3\right)\)</p>
+</li>
+</ul>
+<p>That is a <em>prediction</em>, so let me test it. I took a cloud of 200 particles packed into a cube of side \(s\), computed the acceleration it produces at distance \(d\) exactly, and compared against both approximations, averaging over 400 directions:</p>
+<div id="fdpmks" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpmks");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/multipole_error.json');
+</script>
+
+<p>Fitting slopes on the small-\(s/d\) end gives <strong>2.00</strong> for the monopole and <strong>3.03</strong> for the quadrupole. Exactly as derived. I was pleased with this one — it is a clean case of theory predicting a number and the computer producing it.</p>
+<p>You can also see <em>why</em> \(\theta\) has to be kept below about 1. The expansion parameter is \(s/d\), and the series is only guaranteed to converge for \(s/d < 1\). Push \(\theta\) past that and you are asking a divergent series for an answer, so adding more terms need not help — which is exactly what the paper finds, and what I will show <a href="/Pages/Physics/papers/hernquist1987/04_results/">in the results</a>.</p>
+<h2 id="building_mathbfq_for_every_cell_cheaply"><a href="#building_mathbfq_for_every_cell_cheaply" class="header-anchor">Building \(\mathbf{Q}\) for every cell, cheaply</a></h2>
+<p>There is a practical problem left. Every cell in the tree needs its own \(\mathbf{Q}\), and computing each one directly from its particles would cost \(O(N\log N)\) per level. Wasteful.</p>
+<p>The fix is a <strong>parallel-axis theorem</strong> for the quadrupole. A parent cell&#39;s \(\mathbf{Q}\) can be assembled from its children&#39;s, and the paper gives it as eq. &#40;2.5&#41;:</p>
+\[
+\mathbf{Q} = \sum_{l}\mathbf{Q}_l + \sum_{l}m_l\left(3\vec R_l\vec R_l - R_l^2\mathbf{1}\right)
+\]
+<p>where \(l\) runs over the subcells, \(m_l\) is the subcell&#39;s mass, and \(\vec R_l\) is the offset of subcell \(l\)&#39;s centre of mass from the parent&#39;s.</p>
+<p>Let me derive it, since the cancellation that makes it work is the same one that killed the dipole. Take a particle \(k\) in subcell \(l\). Its position relative to the <em>parent&#39;s</em> centre of mass is</p>
+\[
+\vec s_k = \vec R_l + \vec y_k
+\]
+<p>where \(\vec y_k\) is measured from the <em>subcell&#39;s</em> own centre of mass. Substituting into the definition of \(\mathbf{Q}\) and summing over the particles of that one subcell:</p>
+\[
+\sum_{k\in l} m_k\Big[3\left(R_{l,i}+y_{k,i}\right)\left(R_{l,j}+y_{k,j}\right) - \left|\vec R_l + \vec y_k\right|^2\delta_{ij}\Big]
+\]
+<p>Expand both pieces. The first:</p>
+\[
+3\left(R_{l,i}+y_{k,i}\right)\left(R_{l,j}+y_{k,j}\right) = 3R_{l,i}R_{l,j} + 3R_{l,i}y_{k,j} + 3y_{k,i}R_{l,j} + 3y_{k,i}y_{k,j}
+\]
+<p>and the second, using \(|\vec R_l+\vec y_k|^2 = R_l^2 + 2\vec R_l\cdot\vec y_k + y_k^2\):</p>
+\[
+-\left(R_l^2 + 2\vec R_l\cdot\vec y_k + y_k^2\right)\delta_{ij}
+\]
+<p>Now sort the seven terms by how many powers of \(\vec y_k\) they carry, and sum over \(k\in l\):</p>
+<ul>
+<li><p><strong>No \(\vec y\)</strong>: \(\;\sum_k m_k\left(3R_{l,i}R_{l,j} - R_l^2\delta_{ij}\right) = m_l\left(3R_{l,i}R_{l,j} - R_l^2\delta_{ij}\right)\), since \(\sum_{k\in l}m_k = m_l\).</p>
+</li>
+<li><p><strong>Linear in \(\vec y\)</strong>: \(\;3R_{l,i}\sum_k m_ky_{k,j} + 3R_{l,j}\sum_k m_ky_{k,i} - 2R_{l,m}\delta_{ij}\sum_k m_ky_{k,m}\). Every one of these contains \(\sum_{k\in l}m_k\vec y_k\), which is <strong>zero by the definition of the subcell&#39;s centre of mass</strong>. All three vanish.</p>
+</li>
+<li><p><strong>Quadratic in \(\vec y\)</strong>: \(\;\sum_k m_k\left(3y_{k,i}y_{k,j} - y_k^2\delta_{ij}\right)\), which is precisely \(\mathbf{Q}_l\), the subcell&#39;s own quadrupole about its own centre of mass.</p>
+</li>
+</ul>
+<p>So the whole subcell contributes</p>
+\[
+\underbrace{m_l\left(3R_{l,i}R_{l,j} - R_l^2\delta_{ij}\right)}_{\text{subcell treated as a point mass}} \;+\; \underbrace{\mathbf{Q}_l}_{\text{its own internal shape}}
+\]
+<p>and summing over the eight subcells gives eq. &#40;2.5&#41;.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      Notice this is the <em>same</em> cancellation that killed the dipole: the linear moment \(\sum m\vec y\) vanishes when measured from a centre of mass. It does double duty — once to buy an extra order of accuracy, once here to make the recursion clean. If the tree stored geometric cell centres instead, neither would work. 
+  </fieldset>
+  
+<p>It is also exactly the parallel-axis theorem you met for moments of inertia in mechanics, \(I = I_{\text{cm}} + Md^2\): a &quot;shape about its own centre&quot; piece plus a &quot;point mass displaced&quot; piece. Same algebra, same reason. So the whole tree&#39;s moments are filled in with a single bottom-up sweep, costing \(O(N)\) in total:</p>
+<pre><code class="language-julia">for o in 1:8
+    c &#61; t.child&#91;o, node&#93;
+    c &#61;&#61; 0 &amp;&amp; continue
+    mc &#61; t.mass&#91;c&#93;
+    Rx &#61; t.com&#91;1, c&#93; - t.com&#91;1, node&#93;
+    Ry &#61; t.com&#91;2, c&#93; - t.com&#91;2, node&#93;
+    Rz &#61; t.com&#91;3, c&#93; - t.com&#91;3, node&#93;
+    R2 &#61; Rx*Rx &#43; Ry*Ry &#43; Rz*Rz
+    # the child&#39;s own shape ...
+    qxx &#43;&#61; t.quad&#91;1, c&#93;; qxy &#43;&#61; t.quad&#91;2, c&#93;; qxz &#43;&#61; t.quad&#91;3, c&#93;
+    qyy &#43;&#61; t.quad&#91;4, c&#93;; qyz &#43;&#61; t.quad&#91;5, c&#93;; qzz &#43;&#61; t.quad&#91;6, c&#93;
+    # ... plus the shape it acquires by sitting off-centre
+    qxx &#43;&#61; mc * &#40;3Rx*Rx - R2&#41;;  qxy &#43;&#61; mc * &#40;3Rx*Ry&#41;
+    qxz &#43;&#61; mc * &#40;3Rx*Rz&#41;;       qyy &#43;&#61; mc * &#40;3Ry*Ry - R2&#41;
+    qyz &#43;&#61; mc * &#40;3Ry*Rz&#41;;       qzz &#43;&#61; mc * &#40;3Rz*Rz - R2&#41;
+end</code></pre>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      This recursion is the easiest place in the whole code to make a silent mistake, because a wrong \(\mathbf{Q}\) still produces plausible-looking forces. My test suite checks it by building the tree and then comparing the <strong>root</strong> node&#39;s quadrupole against a brute-force sum over all \(N\) particles. The root never sees a particle directly — it only ever adds up its eight children — so if the recursion is wrong at any level, the root will be wrong. It agrees to \(10^{-10}\), and the trace comes out zero to the same precision. 
+  </fieldset>
+  
+<h2 id="why_this_gives_nlog_n"><a href="#why_this_gives_nlog_n" class="header-anchor">Why this gives \(N\log N\)</a></h2>
+<p>Stand on a rooftop and look at a city. The houses on your own street you see one by one; a few streets away you see blocks; further out, neighbourhoods; on the horizon, one smudge. Now count how many <em>things</em> you are looking at in each of those bands — roughly the same number in each, because things further away are bigger but subtend the same angle.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      A tree walk is exactly this. Each level of the tree is one band of distance, and each contributes about the same number of terms. Making the city ten times bigger does not multiply your work by ten, it just adds a couple more bands on the horizon — and that is the whole reason the method is \(N\log N\) instead of \(N^2\). 
+  </fieldset>
+  
+<p>Here is the counting argument, which I found less obvious than the textbooks make it sound. Let me do it carefully.</p>
+<p>Fix one particle and walk down the tree level by level. At level \(\ell\), cells have size</p>
+\[
+s_\ell = \frac{L}{2^\ell}
+\]
+<p>where \(L\) is the size of the root cell. A cell at that level is <strong>accepted</strong> when \(s_\ell/d < \theta\), i.e. when its distance satisfies \(d > s_\ell/\theta\), and it is <strong>opened</strong> otherwise. So the cells actually used at level \(\ell\) are those which are accepted while their parent was not — parents live at level \(\ell-1\) with size \(2s_\ell\), and were opened when \(d < 2s_\ell/\theta\). The cells contributing terms at level \(\ell\) therefore sit in the spherical shell</p>
+\[
+\frac{s_\ell}{\theta} < d < \frac{2s_\ell}{\theta}
+\]
+<p>Now count how many cells of size \(s_\ell\) fit into that shell. The shell&#39;s volume is</p>
+\[
+V_\ell = \frac{4\pi}{3}\left[\left(\frac{2s_\ell}{\theta}\right)^3 - \left(\frac{s_\ell}{\theta}\right)^3\right] = \frac{4\pi}{3}\cdot\frac{7s_\ell^3}{\theta^3}
+\]
+<p>and each cell occupies volume \(s_\ell^3\), so the number of them is</p>
+\[
+n_\ell \approx \frac{V_\ell}{s_\ell^3} = \frac{28\pi}{3\theta^3}
+\]
+<p><strong>The \(s_\ell\) has cancelled completely.</strong> Every level of the tree contributes the same number of terms, controlled only by \(\theta\). That is the crux: doubling the resolution adds one more level, and one more level costs a constant.</p>
+<p>The tree has \(\sim\log_8 N\) levels, so</p>
+\[
+n_{\text{terms}} \sim \frac{28\pi}{3\theta^3}\log_8 N = C(\theta)\log N \quad\Longrightarrow\quad \text{total cost} \sim N\log N
+\]
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      The estimate also predicts the <em>strength</em> of the \(\theta\) dependence: \(n_\text{terms}\propto\theta^{-3}\). Testing that on my data at \(N=32768\): going from \(\theta=1\) to \(\theta=0.5\) should cost a factor \(2^3 = 8\), and I measure \(1053/218 = 4.8\). The right order, but not exact — which is fair, since real cells are not uniformly distributed in a shell and the innermost levels are not full. The scaling <em>with \(N\)</em> is the part the argument gets right, and that is what the timing curves confirm. 
+  </fieldset>
+  
+<p>That is the entire promise of the method. And it makes a sharp prediction I can test: <strong>doubling \(N\) should add a constant amount to \(n_{\text{terms}}\), not double it.</strong> Here is my measurement, at \(\theta = 1\):</p>
+<table><tr><th align="right">\(N\)</th><th align="right">\(\langle n_\text{terms}\rangle\)</th><th align="right">change</th></tr><tr><td align="right">1024</td><td align="right">124.0</td><td align="right">—</td></tr><tr><td align="right">2048</td><td align="right">150.8</td><td align="right">&#43;26.8</td></tr><tr><td align="right">4096</td><td align="right">171.5</td><td align="right">&#43;20.7</td></tr><tr><td align="right">8192</td><td align="right">191.5</td><td align="right">&#43;20.0</td></tr><tr><td align="right">16384</td><td align="right">205.3</td><td align="right">&#43;13.8</td></tr><tr><td align="right">32768</td><td align="right">217.6</td><td align="right">&#43;12.3</td></tr></table>
+<p>Compare with the direct sum, where the same column would read 1023, 2047, 4095, 8191, 16383, 32767. Thirty-two times more particles cost me 1.75 times more work per particle. That is the whole game.</p>
+<h2 id="what_one_particle_actually_sees"><a href="#what_one_particle_actually_sees" class="header-anchor">What one particle actually sees</a></h2>
+<p>The average hides a lot of structure. Here is the full distribution of \(n_\text{terms}\) across all 32768 particles, for the Plummer model and for a uniform sphere with the same \(N\) — this is the paper&#39;s Fig. 5:</p>
+<div id="fdpqyg" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpqyg");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_hist.json');
+</script>
+
+<p>Two things stand out, and both are physics rather than numerics.</p>
+<p>The uniform sphere gives a <strong>tight, symmetric</strong> distribution centred on 122. Every particle sits in a similar neighbourhood, so every particle does a similar amount of work.</p>
+<p>The Plummer model is centred higher &#40;218&#41; and has a long <strong>tail towards smaller values</strong>. The reason becomes obvious when you plot \(n_\text{terms}\) against radius:</p>
+<div id="fdpplh" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpplh");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_radius.json');
+</script>
+
+<p>Particles out in the sparse halo need far fewer terms — the tree above them is shallow, and the whole cluster is far away, so a handful of big cells covers everything. Particles in the dense core need the most, because there are many levels of subdivision right next to them. The tree spends its effort where the structure is, without being told to.</p>
+<p>My numbers here are \(217.6\) and \(122.2\); the paper reports \(221\) and \(121\). Given that this is a completely independent implementation from a written description, I am happy with that.</p>
+<h2 id="one_trap_a_particle_pulling_on_itself"><a href="#one_trap_a_particle_pulling_on_itself" class="header-anchor">One trap: a particle pulling on itself</a></h2>
+<p>There is a subtle bug that the paper warns about in section II, and it is worth knowing because it is invisible unless you look for it.</p>
+<p>Consider a particle sitting near the <strong>edge</strong> of a large cell that it is itself inside. The cell&#39;s centre of mass could be at the far edge, so \(d\) is large-ish and \(s/d < \theta\) might be satisfied — for \(\theta \gtrsim 1\) this really can happen. The walk then accepts the cell as a single lump... but the particle&#39;s own mass is part of that lump. <strong>The particle exerts a force on itself.</strong></p>
+<p>The fix is a geometric check: if the particle lies inside the cell, always open it, regardless of \(s/d\).</p>
+<pre><code class="language-julia">opened &#61; d2 &lt;&#61; 0 || s * s &gt;&#61; theta2 * d2
+if &#33;opened &amp;&amp; forced_subdivision
+    opened &#61; inside_cell&#40;t, node, pos&#91;1, i&#93;, pos&#91;2, i&#93;, pos&#91;3, i&#93;&#41;
+end</code></pre>
+<p>I have this on by default. The paper investigates it and finds the effect negligible for \(\theta \lesssim 1.2\), which matches what I see, but it costs almost nothing to be correct.</p>
+<h2 id="the_walk_in_full"><a href="#the_walk_in_full" class="header-anchor">The walk, in full</a></h2>
+<p>Putting it all together, here is the complete force calculation for one particle — the piece of code that dominates the entire runtime:</p>
+<pre><code class="language-julia">function tree_accel&#40;t::Octree, pos, i, theta, eps; quadrupole &#61; false,
+                    forced_subdivision &#61; true, stack &#61; Int32&#91;&#93;&#41;
+    empty&#33;&#40;stack&#41;; push&#33;&#40;stack, Int32&#40;1&#41;&#41;
+    ax &#61; ay &#61; az &#61; 0.0
+    nterms &#61; 0
+    eps2 &#61; eps * eps; theta2 &#61; theta * theta
+
+    while &#33;isempty&#40;stack&#41;
+        node &#61; pop&#33;&#40;stack&#41;
+        m &#61; t.mass&#91;node&#93;
+        m &#61;&#61; 0 &amp;&amp; continue
+
+        dx &#61; pos&#91;1,i&#93; - t.com&#91;1,node&#93;
+        dy &#61; pos&#91;2,i&#93; - t.com&#91;2,node&#93;
+        dz &#61; pos&#91;3,i&#93; - t.com&#91;3,node&#93;
+        d2 &#61; dx*dx &#43; dy*dy &#43; dz*dz
+
+        p &#61; t.leafpart&#91;node&#93;
+        if p &#33;&#61; 0
+            p &#61;&#61; i &amp;&amp; continue           # a particle feels no force from itself
+            r2 &#61; d2 &#43; eps2
+            f &#61; m / &#40;r2 * sqrt&#40;r2&#41;&#41;
+            ax -&#61; f*dx; ay -&#61; f*dy; az -&#61; f*dz
+            nterms &#43;&#61; 1
+            continue
+        end
+
+        s &#61; t.size&#91;node&#93;
+        opened &#61; d2 &lt;&#61; 0 || s*s &gt;&#61; theta2 * d2
+        if &#33;opened &amp;&amp; forced_subdivision
+            opened &#61; inside_cell&#40;t, node, pos&#91;1,i&#93;, pos&#91;2,i&#93;, pos&#91;3,i&#93;&#41;
+        end
+        if opened
+            for o in 1:8
+                c &#61; t.child&#91;o, node&#93;
+                c &#33;&#61; 0 &amp;&amp; push&#33;&#40;stack, c&#41;
+            end
+            continue
+        end
+
+        # far enough away: replace the cell by its multipoles
+        r2 &#61; d2 &#43; eps2; r &#61; sqrt&#40;r2&#41;
+        f &#61; m / &#40;r2 * r&#41;
+        ax -&#61; f*dx; ay -&#61; f*dy; az -&#61; f*dz
+
+        if quadrupole
+            qxx &#61; t.quad&#91;1,node&#93;; qxy &#61; t.quad&#91;2,node&#93;; qxz &#61; t.quad&#91;3,node&#93;
+            qyy &#61; t.quad&#91;4,node&#93;; qyz &#61; t.quad&#91;5,node&#93;; qzz &#61; t.quad&#91;6,node&#93;
+            qdx &#61; qxx*dx &#43; qxy*dy &#43; qxz*dz      # Q . d
+            qdy &#61; qxy*dx &#43; qyy*dy &#43; qyz*dz
+            qdz &#61; qxz*dx &#43; qyz*dy &#43; qzz*dz
+            dQd &#61; dx*qdx &#43; dy*qdy &#43; dz*qdz      # d . Q . d
+            r5 &#61; r2*r2*r
+            c1 &#61; 1 / r5
+            c2 &#61; 2.5 * dQd / &#40;r5 * r2&#41;
+            ax &#43;&#61; c1*qdx - c2*dx
+            ay &#43;&#61; c1*qdy - c2*dy
+            az &#43;&#61; c1*qdz - c2*dz
+        end
+        nterms &#43;&#61; 1
+    end
+    return ax, ay, az, nterms
+end</code></pre>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>The one test that matters.</strong> Set \(\theta = 0\). Then \(s^2 \ge 0 = \theta^2 d^2\) is true for every cell, so <em>nothing</em> is ever accepted and the walk descends all the way to individual particles — it must reproduce the direct \(O(N^2)\) sum exactly. My test suite checks this for \(N = 2000\) and gets agreement to \(10^{-10}\) of the largest acceleration. If a tree code passes this, the tree structure and the walk logic are both correct, and only the multipole terms remain to be checked separately. 
+  </fieldset>
+  
+<p>Note also the softening in the quadrupole terms. The paper applies an ad hoc substitution \(r^4 \to (r^2+\varepsilon^2)^2\); I instead use \(r^n \to (r^2+\varepsilon^2)^{n/2}\) throughout, which has the advantage of being exactly \(-\nabla\) of a consistently softened quadrupole potential. The two agree when \(\varepsilon = 0\) and differ only in how they behave at large softening, which is <a href="/Pages/Physics/papers/hernquist1987/04_results/#softening_fights_the_expansion">one of the things I test</a>.</p>
+<h2 id="where_we_are"><a href="#where_we_are" class="header-anchor">Where we are</a></h2>
+<p>We now have the complete method:</p>
+<ol>
+<li><p>Build an octree over the particles — \(O(N\log N)\), done once per step.</p>
+</li>
+<li><p>Fill in mass, centre of mass and quadrupole for every cell by a bottom-up sweep — \(O(N)\).</p>
+</li>
+<li><p>For each particle, walk the tree accepting cells with \(s/d < \theta\) — \(O(\log N)\) each.</p>
+</li>
+<li><p>Push everything forward with leapfrog.</p>
+</li>
+</ol>
+<p>The next part is the payoff: does it actually behave the way the counting argument says, and how wrong are the forces?</p>
+<hr />
+<p><strong>Previous:</strong> <a href="/Pages/Physics/papers/hernquist1987/02_leapfrog/">Part 2 — Moving the particles</a><br/> <strong>Next:</strong> <a href="/Pages/Physics/papers/hernquist1987/04_results/">Part 4 — Results</a></p>
+<p>Hope this helps you in some way. If you like it then share with others if possible.</p>
+<p>If you have some queries, do let me know in the comments or contact me using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
+
+<button onclick="window.history.back()">Go Back</button>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 04, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Floating Back Button -->
+    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
+    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

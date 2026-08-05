@@ -1,0 +1,763 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Tree Codes 6: Doing Better Than 1987</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#the_gap_in_hardware">The gap in hardware</a></li><li><a href="#going_one_order_further_the_octupole">Going one order further: the octupole</a><ol><li><a href="#the_n3_term">The \(n=3\) term</a></li><li><a href="#the_force">The force</a></li><li><a href="#shifting_it_up_the_tree">Shifting it up the tree</a></li></ol></li><li><a href="#does_it_work">Does it work?</a></li><li><a href="#but_is_it_worth_it">But is it worth it?</a></li><li><a href="#a_better_integrator_not_so_fast">A better integrator? Not so fast</a><ol><li><a href="#why_more_accuracy_is_not_always_buyable">Why more accuracy is not always buyable</a></li><li><a href="#mapping_the_floor">Mapping the floor</a></li></ol></li><li><a href="#a_million_particles">A million particles</a><ol><li><a href="#where_the_papers_error_law_runs_out">Where the paper&#39;s error law runs out</a></li></ol></li></ol></div>
+<h1 id="ol_start6_doing_better_than_1987"><a href="#ol_start6_doing_better_than_1987" class="header-anchor"><ol start="6">
+<li><p>Doing better than 1987</p>
+</li>
+</ol>
+</a></h1>
+<p>Part 6 of my recreation of <a href="/Pages/Physics/papers/hernquist1987/">Hernquist &#40;1987&#41;</a>. Everything up to here was reproducing what sir&#39;s paper did. This part is about what it <em>could not</em> do.</p>
+<h2 id="the_gap_in_hardware"><a href="#the_gap_in_hardware" class="header-anchor">The gap in hardware</a></h2>
+<p>The paper&#39;s timings are for a <strong>CRAY X-MP</strong>, one of the fastest machines on Earth in 1987. Hernquist quotes a rate for his largest run of \(7.3\times10^{-4}\) CPU seconds per particle per step. My code, on <strong>one</strong> core, single-threaded, at the same \(N = 32768\) and \(\theta = 1\) with monopoles only, runs at \(5.2\times10^{-6}\).</p>
+\[
+\frac{7.3\times10^{-4}}{5.2\times10^{-6}} \approx 140
+\]
+<table><tr><th align="right"></th><th align="right">Hernquist&#39;s simulation</th><th align="right">on one of my cores</th></tr><tr><td align="right">\(N = 32768\), 300 steps</td><td align="right"><strong>2.0 CRAY X-MP CPU hours</strong></td><td align="right"><strong>51 seconds</strong></td></tr></table>
+<p>A run that consumed two hours of the world&#39;s fastest supercomputer takes under a minute on a single modern core — and I have 48 of them to hand. So the interesting question is not &quot;can I reproduce it&quot; but <strong>&quot;what would I do differently, given the compute?&quot;</strong></p>
+<p>Three things: carry the multipole expansion one order further, try a better integrator, and go to a million particles.</p>
+<h2 id="going_one_order_further_the_octupole"><a href="#going_one_order_further_the_octupole" class="header-anchor">Going one order further: the octupole</a></h2>
+<p>The paper stops at the quadrupole. But nothing forces that — the Legendre series <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#expanding_1_vec_d_vec_s">derived in part 3</a> goes on forever, and we left it at \(n=2\) only because \(n=3\) costs more arithmetic. Arithmetic is exactly what has got cheaper.</p>
+<h3 id="the_n3_term"><a href="#the_n3_term" class="header-anchor">The \(n=3\) term</a></h3>
+<p>Picking up the expansion where part 3 left it, the next Legendre polynomial is</p>
+\[
+P_3(x) = \frac{5x^3 - 3x}{2}
+\]
+<p>so the \(n=3\) contribution to the potential is</p>
+\[
+\varphi_3 = -\frac{G}{d^4}\sum_\alpha m_\alpha\,s_\alpha^3\,P_3(\cos\gamma_\alpha)
+= -\frac{G}{d^4}\sum_\alpha m_\alpha\,\frac{5(\hat n\cdot\vec s_\alpha)^3 - 3s_\alpha^2(\hat n\cdot\vec s_\alpha)}{2}
+\]
+<p>using \(s_\alpha\cos\gamma_\alpha = \hat n\cdot\vec s_\alpha\) again &#40;and dropping the \(\alpha\) on the components to keep the indices readable&#41;. Now write it in index notation. The cube gives \((\hat n\cdot\vec s)^3 = \hat n_i\hat n_j\hat n_k\,s_is_js_k\), and for the second piece we need something symmetric in \(ijk\) to contract against \(\hat n_i\hat n_j\hat n_k\). Using \(\hat n\cdot\hat n = 1\),</p>
+\[
+\hat n_i\hat n_j\hat n_k\left(s_i\delta_{jk} + s_j\delta_{ik} + s_k\delta_{ij}\right) = 3\,(\hat n\cdot\vec s)
+\]
+<p>— three identical terms, which is exactly the factor of 3 we need. So the whole bracket collapses into one tensor contraction:</p>
+\[
+\boxed{\;O_{ijk} = \sum_\alpha m_\alpha\left[5\,s_is_js_k - s^2\left(s_i\delta_{jk} + s_j\delta_{ik} + s_k\delta_{ij}\right)\right]\;}
+\]
+<p>and</p>
+\[
+\varphi_3 = -\frac{G}{2}\,\frac{O_{ijk}\,d_id_jd_k}{d^7}
+\]
+<p>Like the quadrupole, this tensor is <strong>traceless</strong> — contract any pair of indices:</p>
+\[
+O_{ill} = \sum_\alpha m_\alpha\left[5s_i\,s^2 - s^2\big(\underbrace{3s_i}_{\delta_{ll}=3} + s_i + s_i\big)\right] = \sum_\alpha m_\alpha\left[5s^2s_i - 5s^2s_i\right] = 0
+\]
+<p>A symmetric rank-3 tensor has 10 independent components; tracelessness removes 3, leaving <strong>7 numbers per cell</strong>.</p>
+<h3 id="the_force"><a href="#the_force" class="header-anchor">The force</a></h3>
+<p>Differentiating exactly as we did for the quadrupole, with \(S_3 \equiv O_{ijk}d_id_jd_k\) and using \(\partial_l S_3 = 3O_{ljk}d_jd_k\) &#40;three equal terms, by the symmetry of \(O\)&#41;:</p>
+\[
+\boxed{\;a_l^{(3)} = \frac{3G}{2}\,\frac{O_{ljk}d_jd_k}{d^7} \;-\; \frac{7G}{2}\,\frac{S_3\,d_l}{d^9}\;}
+\]
+<p>I checked all three claims in Mathematica before writing a line of Julia — that the \(P_3\) term really equals \(\tfrac12\hat n_i\hat n_j\hat n_k O_{ijk}\), that \(O\) is traceless, and that the acceleration is \(-\nabla\varphi_3\):</p>
+<pre><code class="language-mathematica">legTerm3 &#61; s2^&#40;3/2&#41; LegendreP&#91;3, &#40;xk . nh&#41;/Sqrt&#91;s2&#93;&#93;;
+O3 &#61; Table&#91;mk &#40;5 xk&#91;&#91;i&#93;&#93; xk&#91;&#91;j&#93;&#93; xk&#91;&#91;k&#93;&#93;
+        - s2 &#40;xk&#91;&#91;i&#93;&#93; KroneckerDelta&#91;j, k&#93; &#43; xk&#91;&#91;j&#93;&#93; KroneckerDelta&#91;i, k&#93;
+              &#43; xk&#91;&#91;k&#93;&#93; KroneckerDelta&#91;i, j&#93;&#41;&#41;, &#123;i, 3&#125;, &#123;j, 3&#125;, &#123;k, 3&#125;&#93;;
+FullSimplify&#91;&#40;mk legTerm3 - contract3/2&#41; /. n3 -&gt; Sqrt&#91;1 - n1^2 - n2^2&#93;&#93;   &#40;* 0 *&#41;
+FullSimplify&#91;Table&#91;Sum&#91;O3&#91;&#91;i, l, l&#93;&#93;, &#123;l, 3&#125;&#93;, &#123;i, 3&#125;&#93;&#93;                    &#40;* &#123;0,0,0&#125; *&#41;
+FullSimplify&#91;-Grad&#91;phi3, &#123;x, y, z&#125;&#93; - accel3&#93;                              &#40;* &#123;0,0,0&#125; *&#41;</code></pre>
+<h3 id="shifting_it_up_the_tree"><a href="#shifting_it_up_the_tree" class="header-anchor">Shifting it up the tree</a></h3>
+<p>Now a practical problem, and it is worth being clear about why it exists at all.</p>
+<p>Every cell needs its moments measured <strong>about its own centre of mass</strong> — that is the whole reason the dipole vanished and the expansion is as accurate as it is. But a parent cell has a <em>different</em> centre of mass from each of its children. So the children&#39;s moments, which are correct about their own centres, are the wrong numbers for the parent. They have to be translated onto the parent&#39;s centre before they can be added up. That translation is the &quot;axis shift&quot;.</p>
+<p>You could of course skip it and recompute each cell&#39;s moments directly from its particles. The reason nobody does is cost: a cell holding \(n\) particles costs \(\mathcal{O}(n)\) to do that way, and summing over every cell at every level gives \(\mathcal{O}(N\log N)\) for the moments alone — as expensive as the force calculation it was meant to accelerate. With a shifting rule, each parent is built from just its eight children in constant time, and the whole tree is filled in \(\mathcal{O}(N)\).</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      You already know the simplest case of this. The parallel-axis theorem for moments of inertia, \(I = I_{\text{cm}} + Md^2\), is exactly the same statement one rank lower: a shape&#39;s moment about its own centre, plus a correction for that centre being displaced. Here we need the same thing for rank 2 and rank 3. 
+  </fieldset>
+  
+<p>And that is where it gets unpleasant. The theorem for the traceless quadrupole was already fiddly; for a rank-3 traceless tensor with all those Kronecker deltas it is a genuine mess.</p>
+<p>The fix is to stop shifting the <em>traceless</em> tensors and shift the <strong>raw</strong> moments instead:</p>
+\[
+M^{(2)}_{ij} = \sum_\alpha m_\alpha s_is_j, \qquad M^{(3)}_{ijk} = \sum_\alpha m_\alpha s_is_js_k
+\]
+<p>These have a clean binomial rule. Substituting \(\vec s = \vec R_l + \vec y\) and expanding, every term linear in \(\vec y\) dies by \(\sum m\vec y = 0\) — the same cancellation as always — leaving</p>
+\[
+\begin{aligned}
+M^{(2)}_{ij} &= \sum_l\left[M^{(2),l}_{ij} + m_lR_iR_j\right]\\
+M^{(3)}_{ijk} &= \sum_l\left[M^{(3),l}_{ijk} + R_iM^{(2),l}_{jk} + R_jM^{(2),l}_{ik} + R_kM^{(2),l}_{ij} + m_lR_iR_jR_k\right]
+\end{aligned}
+\]
+<p>No deltas anywhere. Then \(\mathbf{Q}\) and \(\mathbf{O}\) are reconstructed from the raw moments only when a cell is actually used in a force calculation:</p>
+\[
+Q_{ij} = 3M^{(2)}_{ij} - \delta_{ij}\,\mathrm{tr}\,M^{(2)}, \qquad
+O_{ijk} = 5M^{(3)}_{ijk} - \left(\delta_{jk}T_i + \delta_{ik}T_j + \delta_{ij}T_k\right)
+\]
+<p>with \(T_i = M^{(3)}_{ill}\).</p>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      The general lesson for implementing multipole methods: <strong>do the bookkeeping in the raw moments, and take traces at the last possible moment.</strong> Raw moments shift like binomial coefficients, which is easy to get right and easy to test. Traceless tensors do not. 
+  </fieldset>
+  
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      The test that caught my sign errors: build the tree, then compare the <strong>root</strong> node&#39;s raw third moment against a brute-force \(\sum m\,s_is_js_k\) over all \(N\) particles. The root never touches a particle — it only ever adds up its eight children — so any mistake in the recursion at any depth shows up there. It agrees to \(10^{-9}\). 
+  </fieldset>
+  
+<h2 id="does_it_work"><a href="#does_it_work" class="header-anchor">Does it work?</a></h2>
+<p>First the clean test, on a single cell, exactly as <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#how_good_is_it">in part 3</a> but with the third curve added. The prediction is that the errors should fall as \((s/d)^2\), \((s/d)^3\) and \((s/d)^4\):</p>
+<div id="fdplrp" style=""></div>
+<script>
+graphDiv = document.getElementById("fdplrp");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/multipole_error_3.json');
+</script>
+
+<p>Fitted slopes: <strong>1.99, 3.01, 4.00</strong>. The theory says 2, 3, 4.</p>
+<p>Now in the real tree, at \(N = 32768\), averaged over three realisations:</p>
+<div id="fdpshy" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpshy");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_theta_3.json');
+</script>
+
+<table><tr><th align="right">\(\theta\)</th><th align="right">monopole</th><th align="right">quadrupole</th><th align="right">octupole</th></tr><tr><td align="right">0.2</td><td align="right">\(0.0159\%\)</td><td align="right">\(0.0014\%\)</td><td align="right">\(0.0003\%\)</td></tr><tr><td align="right">0.3</td><td align="right">\(0.0482\%\)</td><td align="right">\(0.0068\%\)</td><td align="right">\(0.0018\%\)</td></tr><tr><td align="right">0.5</td><td align="right">\(0.1847\%\)</td><td align="right">\(0.0488\%\)</td><td align="right">\(0.0184\%\)</td></tr><tr><td align="right">0.7</td><td align="right">\(0.4673\%\)</td><td align="right">\(0.1960\%\)</td><td align="right">\(0.0988\%\)</td></tr><tr><td align="right">1.0</td><td align="right">\(1.5507\%\)</td><td align="right">\(1.0322\%\)</td><td align="right">\(0.6778\%\)</td></tr></table>
+<p>At \(\theta = 0.5\) the octupole is <strong>10 times more accurate than the monopole</strong> and 2.7 times better than the quadrupole. At \(\theta = 0.2\) it is <strong>50 times</strong> better than the monopole. The gain grows as \(\theta\) shrinks, exactly as the \((s/d)^4\) law demands.</p>
+<h2 id="but_is_it_worth_it"><a href="#but_is_it_worth_it" class="header-anchor">But is it worth it?</a></h2>
+<p>Accuracy alone is the wrong question. The octupole costs more per cell, so the honest comparison is <strong>error against cost</strong>. If I can reach the same accuracy more cheaply by just lowering \(\theta\) with cheaper cells, the octupole is a waste of effort.</p>
+<div id="fdpxax" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpxax");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/pareto.json');
+</script>
+
+<p>Down and to the left is better. Reading off the frontier — the set of settings that are not beaten on both counts at once:</p>
+<table><tr><th align="right">cost &#40;s&#41;</th><th align="right">best choice</th><th align="right">error</th></tr><tr><td align="right">\(0.064\)</td><td align="right">monopole, \(\theta=1.0\)</td><td align="right">\(1.55\%\)</td></tr><tr><td align="right">\(0.068\)</td><td align="right"><strong>quadrupole</strong>, \(\theta=0.9\)</td><td align="right">\(0.61\%\)</td></tr><tr><td align="right">\(0.073\)</td><td align="right"><strong>quadrupole</strong>, \(\theta=0.7\)</td><td align="right">\(0.196\%\)</td></tr><tr><td align="right">\(0.090\)</td><td align="right"><strong>quadrupole</strong>, \(\theta=0.5\)</td><td align="right">\(0.049\%\)</td></tr><tr><td align="right">\(0.117\)</td><td align="right"><strong>octupole</strong>, \(\theta=0.5\)</td><td align="right">\(0.018\%\)</td></tr><tr><td align="right">\(0.191\)</td><td align="right"><strong>octupole</strong>, \(\theta=0.3\)</td><td align="right">\(0.0018\%\)</td></tr><tr><td align="right">\(0.313\)</td><td align="right"><strong>octupole</strong>, \(\theta=0.2\)</td><td align="right">\(0.0003\%\)</td></tr></table>
+<p>And here is the answer, which is not the one I was hoping for when I started writing the octupole code:</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>The quadrupole owns the middle of the range.</strong> For any accuracy between about \(1\%\) and \(0.02\%\) — where essentially every astrophysical simulation actually lives — the cheapest route is a quadrupole tree with \(\theta\) tuned to suit. The monopole only wins at the crude end, and the octupole only starts paying for itself below \(0.02\%\). 
+  </fieldset>
+  
+<p>In other words, <strong>Hernquist stopped at exactly the right order for the problems he was solving.</strong> Adding the next term was not an oversight and not a limitation of 1987 hardware; it was the correct engineering call, and it still is for most work. Modern hardware does not make the octupole better — it makes the regime where the octupole is better <em>reachable</em>.</p>
+<h2 id="a_better_integrator_not_so_fast"><a href="#a_better_integrator_not_so_fast" class="header-anchor">A better integrator? Not so fast</a></h2>
+<p>The second obvious modernisation is the integrator. Leapfrog is second order; Yoshida &#40;1990&#41; showed you can compose <strong>three</strong> leapfrog steps with weights</p>
+\[
+w_1 = \frac{1}{2-2^{1/3}}, \qquad w_0 = -\frac{2^{1/3}}{2-2^{1/3}}
+\]
+<p>to cancel the \(\delta t^2\) term of the <a href="/Pages/Physics/papers/hernquist1987/02_leapfrog/#the_deeper_reason_a_shadow_hamiltonian">shadow Hamiltonian</a>, leaving a <strong>fourth-order</strong> scheme that is still symmetric, still time-reversible, still symplectic.</p>
+<p>Note \(w_0 < 0\): the middle sub-step runs <em>backwards in time</em>. That looks alarming but it is precisely what makes the cancellation work.</p>
+<pre><code class="language-julia">const YOSHIDA_W1 &#61; 1 / &#40;2 - 2^&#40;1 / 3&#41;&#41;
+const YOSHIDA_W0 &#61; -2^&#40;1 / 3&#41; / &#40;2 - 2^&#40;1 / 3&#41;&#41;
+
+function yoshida4_step&#33;&#40;pos, vel, acc, tree, mass, dt, cfg&#41;
+    leapfrog_step&#33;&#40;pos, vel, acc, tree, mass, YOSHIDA_W1 * dt, cfg&#41;
+    leapfrog_step&#33;&#40;pos, vel, acc, tree, mass, YOSHIDA_W0 * dt, cfg&#41;
+    leapfrog_step&#33;&#40;pos, vel, acc, tree, mass, YOSHIDA_W1 * dt, cfg&#41;
+end</code></pre>
+<p>On a two-body orbit it behaves exactly as advertised: halving \(\delta t\) cuts the energy error by about sixteen, confirming fourth order.</p>
+<p>But it costs <strong>three force evaluations per step</strong>. So the fair comparison holds the number of force evaluations fixed — Yoshida gets to take steps three times longer:</p>
+<div id="fdpghj" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpghj");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_equal_cost.json');
+</script>
+
+<p>\(N = 4096\), \(\theta = 0.5\), integrated to \(t = 25\):</p>
+<table><tr><th align="right">force evaluations</th><th align="right">leapfrog</th><th align="right">Yoshida 4th order</th></tr><tr><td align="right">500</td><td align="right">\(4.2\times10^{-2}\)</td><td align="right">\(4.8\times10^{-1}\)</td></tr><tr><td align="right">1000</td><td align="right">\(1.9\times10^{-3}\)</td><td align="right">\(2.0\times10^{-1}\)</td></tr><tr><td align="right">2000</td><td align="right">\(1.8\times10^{-4}\)</td><td align="right">\(3.7\times10^{-2}\)</td></tr><tr><td align="right">5000</td><td align="right">\(1.8\times10^{-4}\)</td><td align="right">\(5.3\times10^{-4}\)</td></tr><tr><td align="right">10000</td><td align="right">\(3.2\times10^{-4}\)</td><td align="right">\(2.3\times10^{-4}\)</td></tr><tr><td align="right">20000</td><td align="right">\(2.7\times10^{-4}\)</td><td align="right">\(2.2\times10^{-4}\)</td></tr></table>
+<p>At every budget a working astronomer would actually use, <strong>leapfrog wins, often by two orders of magnitude</strong>. Yoshida only draws level once you spend ten thousand force evaluations — and by then both have stopped improving anyway.</p>
+<p>That &quot;stopped improving&quot; is the interesting part.</p>
+<h3 id="why_more_accuracy_is_not_always_buyable"><a href="#why_more_accuracy_is_not_always_buyable" class="header-anchor">Why more accuracy is not always buyable</a></h3>
+<p>Look at the leapfrog column again. From 2000 evaluations onwards it sits at \(\approx 2\times10^{-4}\) and simply <strong>refuses to get better</strong>. Halving the step does nothing.</p>
+<p>That is not a bug, and it is not the integrator. It is the <strong>tree</strong>. Here is the same experiment with the force approximation removed:</p>
+<table><tr><th align="right">\(\delta t\)</th><th align="right">exact forces &#40;direct sum&#41;</th><th align="right">tree, \(\theta = 0.5\)</th></tr><tr><td align="right">0.0200</td><td align="right">\(5.07\times10^{-4}\)</td><td align="right">\(4.25\times10^{-4}\)</td></tr><tr><td align="right">0.0100</td><td align="right">\(8.03\times10^{-5}\) &#40;\(\div 6.3\)&#41;</td><td align="right">\(1.14\times10^{-4}\) &#40;\(\div 3.8\)&#41;</td></tr><tr><td align="right">0.0050</td><td align="right">\(1.98\times10^{-5}\) &#40;\(\div 4.05\)&#41;</td><td align="right">\(1.42\times10^{-4}\) &#40;\(\times 1.25\)&#41;</td></tr><tr><td align="right">0.0025</td><td align="right">\(4.94\times10^{-6}\) &#40;\(\div 4.01\)&#41;</td><td align="right">\(1.62\times10^{-4}\) &#40;\(\times 1.14\)&#41;</td></tr></table>
+<p>With exact forces, leapfrog shows textbook \(\delta t^2\) behaviour forever — dividing by four every time the step is halved, all the way down. With the tree, the error falls once and then <strong>hits a wall and stops</strong>. Shrinking \(\delta t\) past that point makes things very slightly <em>worse</em>, because you are doing more arithmetic on forces that were already the limiting factor.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>The error budget has a floor, set by whichever term is worst.</strong> You are timing a race with a stopwatch good to a tenth of a second, and measuring the track with a tape marked in metres. Buying a microsecond stopwatch will not improve your speed at all — the tape is the problem. 
+  </fieldset>
+  
+<p>At \(\theta = 0.5\) the tree <em>is</em> the tape. Its \(0.18\%\) force error injects energy error at a level no time step can undo, so a fourth-order integrator is wasted effort, and so is any \(\delta t < 0.0125\). The only thing that helps is a more accurate force.</p>
+<p>This is why production \(N\)-body codes still use leapfrog nearly forty years on, despite fourth-order symplectic schemes being well known. It is not conservatism — the force is approximate by design, so a better integrator has nothing to bite on, and leapfrog is the cheapest scheme giving the one property you cannot do without: no secular energy drift.</p>
+<h3 id="mapping_the_floor"><a href="#mapping_the_floor" class="header-anchor">Mapping the floor</a></h3>
+<p>So I went and measured the floor for every \(\theta\). \(N = 4096\), integrated to \(t = 12.5\), shrinking \(\delta t\) by factors of two:</p>
+<div id="fdpoew" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpoew");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_budget.json');
+</script>
+
+<p>The dashed grey line is the direct sum. It never stops improving — it falls by four every halving, all the way down to \(10^{-6}\), exactly as a second-order symplectic scheme should. Every tree curve peels away from it and goes flat.</p>
+<table><tr><th align="right"></th><th align="right">force error</th><th align="right">energy floor</th><th align="right">floor / force error</th></tr><tr><td align="right">direct</td><td align="right">\(0\)</td><td align="right">none &#40;\(10^{-6}\) and still falling&#41;</td><td align="right">—</td></tr><tr><td align="right">\(\theta = 0.3\)</td><td align="right">\(0.048\%\)</td><td align="right">\(2.1\times10^{-5}\)</td><td align="right">\(0.04\)</td></tr><tr><td align="right">\(\theta = 0.5\)</td><td align="right">\(0.185\%\)</td><td align="right">\(1.2\times10^{-4}\)</td><td align="right">\(0.06\)</td></tr><tr><td align="right">\(\theta = 0.7\)</td><td align="right">\(0.467\%\)</td><td align="right">\(3.1\times10^{-4}\)</td><td align="right">\(0.07\)</td></tr><tr><td align="right">\(\theta = 1.0\)</td><td align="right">\(1.551\%\)</td><td align="right">\(2.7\times10^{-3}\)</td><td align="right">\(0.18\)</td></tr></table>
+<p>The prediction was that the floor should track the force error, and it does — the last column is roughly constant. As a rule of thumb,</p>
+\[
+\left|\frac{\Delta E}{E}\right|_{\text{floor}} \;\approx\; \frac{1}{10}\times\left(\text{fractional force error}\right)
+\]
+<p>which is good to a factor of two across a thirty-fold range in \(\theta\).</p>
+<p>Every tree curve reaches its floor at around \(\delta t \approx 0.01\), regardless of \(\theta\). Three things follow:</p>
+<ul>
+<li><p>There is <strong>no point</strong> running below \(\delta t \approx 0.01\) at any \(\theta \gtrsim 0.3\) — you are buying nothing.</p>
+</li>
+<li><p>At the paper&#39;s \(\delta t = 0.025\) the integrator and the tree contribute comparably at \(\theta = 0.5\), and the tree dominates at \(\theta = 1\). Hernquist&#39;s step size was well chosen.</p>
+</li>
+<li><p>If you want better energy conservation, <strong>lower \(\theta\) first</strong>, then lower \(\delta t\) to match.</p>
+</li>
+</ul>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      This is the thing I would most want to have known before starting. The three error sources are usually presented as independent dials. They are not — they have a pecking order, and the force error sits at the top of it. 
+  </fieldset>
+  
+<h2 id="a_million_particles"><a href="#a_million_particles" class="header-anchor">A million particles</a></h2>
+<p>The paper&#39;s largest run was \(N = 32768\). Going to \(2^{20} \approx 10^6\) extends the lever arm on both scaling laws by more than a decade, which is the only honest way to check that \(N\log N\) is a real law and not a fit over too short a range.</p>
+<div id="fdpokt" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpokt");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_timing.json');
+</script>
+
+<p>The counting argument from <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#why_this_gives_n_log_n">part 3</a> predicted that each level of the tree contributes a constant number of terms, so \(\langle n_\text{terms}\rangle\) should be <strong>linear in \(\log N\)</strong>. Over five doublings that was suggestive; over seven it is a straight line:</p>
+<div id="fdpclg" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpclg");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_nterms.json');
+</script>
+
+<p>And it is quantitative, not just qualitative. That argument gave \(28\pi/3\theta^3\) terms per level, and since one doubling of \(N\) adds \(1/3\) of a level in an octree, it predicts</p>
+\[
+\Delta\langle n_\text{terms}\rangle = \frac{28\pi}{9\theta^3} \approx 9.8 \quad\text{per doubling of } N \text{ at } \theta = 1
+\]
+<p>Measured, at \(\theta = 1\):</p>
+<table><tr><th align="right">\(N\)</th><th align="right">\(\langle n_\text{terms}\rangle\)</th><th align="right">gain</th></tr><tr><td align="right">32768</td><td align="right">217.6</td><td align="right">—</td></tr><tr><td align="right">65536</td><td align="right">232.6</td><td align="right">\(+15.1\)</td></tr><tr><td align="right">131072</td><td align="right">243.5</td><td align="right">\(+10.9\)</td></tr><tr><td align="right">262144</td><td align="right">253.9</td><td align="right">\(+10.4\)</td></tr><tr><td align="right">524288</td><td align="right">264.4</td><td align="right">\(+10.5\)</td></tr><tr><td align="right">1048576</td><td align="right">274.4</td><td align="right">\(+10.0\)</td></tr></table>
+<p>Predicted \(9.8\), measured \(10.0\)–\(10.9\) once the first transient has passed. I was not expecting a back-of-the-envelope volume argument to land within \(5\%\).</p>
+<h3 id="where_the_papers_error_law_runs_out"><a href="#where_the_papers_error_law_runs_out" class="header-anchor">Where the paper&#39;s error law runs out</a></h3>
+<p>Now the one that genuinely revises something. The paper reports that the force error decays as \(\sim N^{-1/5}\), fitted over its range of \(1024 \le N \le 32768\). Over exactly that range I reproduce it — my exponent is \(-0.18\), which is \(-1/5\) to the accuracy anyone could ask.</p>
+<p>But push it further:</p>
+<div id="fdpkgt" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpkgt");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_error.json');
+</script>
+
+<table><tr><th align="right">range</th><th align="right">monopole</th><th align="right">quadrupole</th><th align="right">octupole</th></tr><tr><td align="right">\(1024 \to 32768\) &#40;paper&#39;s range&#41;</td><td align="right">\(-0.18\)</td><td align="right"></td><td align="right"></td></tr><tr><td align="right">\(32768 \to 65536\)</td><td align="right">\(-0.135\)</td><td align="right">\(-0.082\)</td><td align="right">\(-0.063\)</td></tr><tr><td align="right">\(131072 \to 262144\)</td><td align="right">\(-0.065\)</td><td align="right">\(-0.040\)</td><td align="right">\(-0.022\)</td></tr><tr><td align="right">\(262144 \to 524288\)</td><td align="right">\(-0.053\)</td><td align="right">\(-0.024\)</td><td align="right">\(-0.027\)</td></tr></table>
+<p>The exponent is not constant — it <strong>flattens steadily towards zero</strong>. Over \(32768 \to 524288\) the effective exponent is only \(-0.095\), half the quoted value, and still shrinking.</p>
+<p>This is not a contradiction of the paper. Over the range Hernquist measured, \(N^{-1/5}\) is a perfectly good description and I get the same. It is a warning against <strong>extrapolating</strong> it — and the physics says it must fail.</p>
+<p>Think about fixed \(\theta\) as \(N\to\infty\). Around any given particle the arrangement of accepted cells becomes <em>scale-free</em>: nearby small cells, distant big ones, in the same proportions however many particles there are. Each contributes a fractional error set by \((s/d)^2 \le \theta^2\), which does not care about \(N\) at all.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      So the force error must approach a <strong>constant floor set by \(\theta\) alone</strong>. It cannot decay to zero, because the truncation error of each individual cell does not decay. The apparent \(N^{-1/5}\) is a finite-\(N\) transient, visible only because \(32768\) is not yet large enough to be asymptotic. 
+  </fieldset>
+  
+<p>The practical statement is the one from part 4, only stronger: <strong>you cannot fix a tree code by adding particles.</strong> Not slowly — not at all. The only knobs that touch the force error are \(\theta\) and the multipole order.</p>
+<hr />
+<p><strong>Previous:</strong> <a href="/Pages/Physics/papers/hernquist1987/05_code/">Part 5 — The code</a><br/> <strong>Back to:</strong> <a href="/Pages/Physics/papers/hernquist1987/">the front page</a></p>
+<p>Hope this helps you in some way. If you like it then share with others if possible.</p>
+<p>If you have some queries, do let me know in the comments or contact me using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
+
+<button onclick="window.history.back()">Go Back</button>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 04, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Floating Back Button -->
+    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
+    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

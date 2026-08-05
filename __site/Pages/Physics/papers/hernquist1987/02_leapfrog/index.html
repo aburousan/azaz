@@ -1,0 +1,733 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Tree Codes 2: Moving the Particles</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#starting_from_taylor">Starting from Taylor</a></li><li><a href="#sirs_trick_evaluate_the_velocity_half_a_step_out">Sir&#39;s trick: evaluate the velocity half a step out</a></li><li><a href="#the_form_i_actually_use_kick-drift-kick">The form I actually use: kick-drift-kick</a></li><li><a href="#why_not_something_fancier">Why not something fancier?</a></li><li><a href="#time-reversibility_proved">Time-reversibility, proved</a><ol><li><a href="#the_deeper_reason_a_shadow_hamiltonian">The deeper reason: a shadow Hamiltonian</a></li></ol></li><li><a href="#choosing_the_step_size">Choosing the step size</a></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
+<h1 id="ol_start2_moving_the_particles_the_leapfrog"><a href="#ol_start2_moving_the_particles_the_leapfrog" class="header-anchor"><ol start="2">
+<li><p>Moving the particles: the leapfrog</p>
+</li>
+</ol>
+</a></h1>
+<p>Part 2 of my recreation of <a href="/Pages/Physics/papers/hernquist1987/">Hernquist &#40;1987&#41;</a>. In <a href="/Pages/Physics/papers/hernquist1987/01_setup/">part 1</a> we built a cluster of particles with the right positions and velocities. Now we have to push them forward in time.</p>
+<p>This is the derivation sir did on the board, so I will follow it step by step.</p>
+<h2 id="starting_from_taylor"><a href="#starting_from_taylor" class="header-anchor">Starting from Taylor</a></h2>
+<p>We know where every particle is and how fast it is going at time \(t_0\), and from the positions we can compute every acceleration. Taylor expansion is the obvious first move:</p>
+\[
+\begin{aligned}
+r(t_0+\delta t) &= r(t_0) + \delta t\, v(t_0) + \frac{\delta t^2}{2}a(t_0) + \mathcal{O}(\delta t^3)\\
+v(t_0+\delta t) &= v(t_0) + \delta t\, a(t_0) + \frac{\delta t^2}{2}j(t_0) + \mathcal{O}(\delta t^3)
+\end{aligned}
+\]
+<p>where \(j = \dot a\) is the <strong>jerk</strong>. Let me write \(r_0 = r(t_0)\), \(r_1 = r(t_0+\delta t)\), and so on:</p>
+\[
+r_1 = r_0 + \delta t\, v_0 + \frac{\delta t^2}{2}a_0 + \mathcal{O}(\delta t^3), \qquad
+v_1 = v_0 + \delta t\, a_0 + \frac{\delta t^2}{2}j_0 + \mathcal{O}(\delta t^3)
+\]
+<p>Here is the problem. The position update is fine — I know \(v_0\) and \(a_0\). But the velocity update needs the <strong>jerk</strong> \(j_0\), and computing \(\dot a\) means differentiating a sum over all \(N\) particles. That is extra work I would rather not do, and if I just drop the jerk term I am left with a first-order scheme, which is bad.</p>
+<h2 id="sirs_trick_evaluate_the_velocity_half_a_step_out"><a href="#sirs_trick_evaluate_the_velocity_half_a_step_out" class="header-anchor">Sir&#39;s trick: evaluate the velocity half a step out</a></h2>
+<p>Now the clever bit. Instead of asking for the velocity at \(t_0 + \delta t\), ask for it at \(t_0 + \delta t/2\):</p>
+\[
+v_{1/2} = v_0 + \frac{\delta t}{2}a_0 + \frac{\delta t^2}{8}j_0 + \dots = v_0 + \left(\frac{\delta t}{2}\right)a_0 + \mathcal{O}(\delta t^2)
+\]
+<p>Look at what that buys us. Substitute this into the position update:</p>
+\[
+r_0 + \delta t\, v_{1/2} = r_0 + \delta t\left(v_0 + \frac{\delta t}{2}a_0\right) = r_0 + \delta t\, v_0 + \frac{\delta t^2}{2}a_0
+\]
+<p>which is <strong>exactly</strong> the Taylor expansion of \(r_1\) up to \(\mathcal{O}(\delta t^3)\). So</p>
+\[
+\boxed{\;\vec r_1 = \vec r_0 + \vec v_{1/2}\,\delta t + \mathcal{O}(\delta t^3)\;}
+\]
+<p>and by the same argument, using the acceleration at the half step,</p>
+\[
+\boxed{\;\vec v_1 = \vec v_0 + \vec a_{1/2}\,\delta t + \mathcal{O}(\delta t^3)\;}
+\]
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      This is the whole idea. By evaluating things at the <strong>midpoint</strong> of the interval instead of the start, we get accuracy of order \(\delta t^3\) per step out of a scheme that only ever uses positions and accelerations. No jerk required. The midpoint quietly does the job the second-order term was doing. 
+  </fieldset>
+  
+<p>Forget gravity for a moment. You are in a car that is steadily speeding up, and you want to know how far you went in the last minute.</p>
+<ul>
+<li><p>Use the speed at the <strong>start</strong>: you were slower then than on average, so you <strong>underestimate</strong>.</p>
+</li>
+<li><p>Use the speed at the <strong>end</strong>: you were faster than average, so you <strong>overestimate</strong>.</p>
+</li>
+<li><p>Use the speed at the <strong>middle</strong>: the amount you were too slow in the first half is exactly the amount you were too fast in the second. The errors <strong>cancel</strong>.</p>
+</li>
+</ul>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      That cancellation is the whole trick, and it is the same reason the midpoint rule beats the endpoint rules for integrals. Leapfrog just does it twice over — position updated from the mid-step velocity, velocity from the mid-step acceleration — so each is right to one order better than you paid for. 
+  </fieldset>
+  
+<p>The positions and velocities are now offset from each other by half a step, and they hop over each other as the simulation runs — position, velocity, position, velocity. That is why it is called <strong>leapfrog</strong>.</p>
+\[
+\underbrace{v_{-1/2}}_{\text{}}\;\longrightarrow\;\underbrace{r_0,\,a_0}_{\text{}}\;\longrightarrow\;\underbrace{v_{1/2}}_{\text{}}\;\longrightarrow\;\underbrace{r_1,\,a_1}_{\text{}}\;\longrightarrow\;\underbrace{v_{3/2}}_{\text{}}\;\longrightarrow \cdots
+\]
+<p>Written as the recurrence that actually runs in code:</p>
+\[
+v_{n+1/2} = v_{n-1/2} + \delta t\, a_n, \qquad r_{n+1} = r_n + \delta t\, v_{n+1/2}
+\]
+<h2 id="the_form_i_actually_use_kick-drift-kick"><a href="#the_form_i_actually_use_kick-drift-kick" class="header-anchor">The form I actually use: kick-drift-kick</a></h2>
+<p>The staggered form above is annoying in practice, because positions and velocities are never known at the same time — which matters if you want to compute the energy. The fix is to split the velocity update into two halves:</p>
+\[
+\begin{aligned}
+&\textbf{kick:}  &&v \leftarrow v + \tfrac{1}{2}\delta t\, a(r) \\
+&\textbf{drift:} &&r \leftarrow r + \delta t\, v \\
+&\textbf{kick:}  &&v \leftarrow v + \tfrac{1}{2}\delta t\, a(r_{\text{new}})
+\end{aligned}
+\]
+<p>Let me check that this really is the same scheme. Write out one step explicitly, from \((r_n, v_n)\):</p>
+\[
+v_{n+1/2} = v_n + \tfrac{\delta t}{2}a_n, \qquad
+r_{n+1} = r_n + \delta t\,v_{n+1/2}, \qquad
+v_{n+1} = v_{n+1/2} + \tfrac{\delta t}{2}a_{n+1}
+\]
+<p>The middle equation is exactly the staggered position update. And the last kick of step \(n\) followed by the first kick of step \(n+1\) gives</p>
+\[
+v_{n+3/2} = \underbrace{v_{n+1/2} + \tfrac{\delta t}{2}a_{n+1}}_{\text{last kick of step }n} + \underbrace{\tfrac{\delta t}{2}a_{n+1}}_{\text{first kick of step }n+1} = v_{n+1/2} + \delta t\,a_{n+1}
+\]
+<p>which is the staggered velocity update. So the two forms generate the <em>same sequence of positions</em>; kick-drift-kick just also hands you a synchronised velocity at every whole step, for free.</p>
+<p>And crucially it still needs <strong>only one force evaluation per step</strong>, because \(a_{n+1}\) computed for the final kick is reused as the first kick of the next step.</p>
+<p>Here is the whole integrator:</p>
+<pre><code class="language-julia">function leapfrog_step&#33;&#40;pos, vel, acc, tree, mass, dt, cfg&#41;
+    N &#61; length&#40;mass&#41;
+    half &#61; 0.5 * dt
+    @inbounds for i in 1:N, k in 1:3
+        vel&#91;k, i&#93; &#43;&#61; half * acc&#91;k, i&#93;      # kick
+    end
+    @inbounds for i in 1:N, k in 1:3
+        pos&#91;k, i&#93; &#43;&#61; dt * vel&#91;k, i&#93;        # drift
+    end
+    compute_forces&#33;&#40;acc, tree, pos, mass, cfg&#41;
+    @inbounds for i in 1:N, k in 1:3
+        vel&#91;k, i&#93; &#43;&#61; half * acc&#91;k, i&#93;      # kick
+    end
+end</code></pre>
+<p>That is genuinely it. Eleven lines, one force call.</p>
+<h2 id="why_not_something_fancier"><a href="#why_not_something_fancier" class="header-anchor">Why not something fancier?</a></h2>
+<p>Here is the question that bothered me. Leapfrog is only <strong>second order</strong>. Runge-Kutta 4 is fourth order and everybody learns it first. Why does every serious \(N\)-body code use the &quot;worse&quot; method?</p>
+<p>So I tested it. One particle on an eccentric Kepler orbit around a fixed mass, integrated four ways with the same step size, for 200 orbits.</p>
+<div id="fdpjcp" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpjcp");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_orbits.json');
+</script>
+
+<p>Forward Euler &#40;red&#41; spirals outward and is hopeless. But look at the energy, which is the thing that matters:</p>
+<div id="fdpyuc" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpyuc");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_energy.json');
+</script>
+
+<p>Read that plot carefully, because the punchline is in the <em>shape</em> of the curves, not their height.</p>
+<ul>
+<li><p><strong>Forward Euler</strong> climbs steadily. After 200 orbits it has gained more than 100&#37; of its energy. Dead.</p>
+</li>
+<li><p><strong>Runge-Kutta 4</strong> has the <em>smallest</em> error early on, as advertised. But it is a straight line on this plot — it <strong>drifts</strong>, steadily and forever. Over my run it went from \(1.9\times10^{-5}\) at 20 orbits to \(1.9\times10^{-4}\) at 200. Ten times longer, ten times worse.</p>
+</li>
+<li><p><strong>Leapfrog</strong> oscillates and never grows. The energy wobbles by \(0.26\%\) within each orbit — bigger than RK4&#39;s error — but after 200 complete orbits the net drift is \(8\times 10^{-9}\). It comes back.</p>
+</li>
+</ul>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      This is the entire argument. Leapfrog is <strong>symplectic</strong>: it exactly conserves a slightly-wrong energy, so the true energy oscillates around the right value but never wanders off. RK4 conserves nothing, so its small errors accumulate. For a simulation run for \(10^3\) steps, RK4 might win. For \(10^6\) steps, leapfrog wins by a mile — and \(N\)-body simulations are always the second kind. 
+  </fieldset>
+  
+<p>There is a second reason, and for an \(N\)-body code it may be the bigger one: <strong>cost</strong>. RK4 needs <em>four</em> force evaluations per step. In a tree code, a force evaluation is essentially the entire cost of the simulation. So at fixed compute budget, leapfrog can take four times as many steps — and its error is \(\mathcal{O}(\delta t^2)\), so four times smaller steps means sixteen times better accuracy. The &quot;worse&quot; method wins on both counts.</p>
+<p>To confirm the methods are behaving as advertised, here is the error against step size:</p>
+<div id="fdpbta" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpbta");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_order.json');
+</script>
+
+<p>The fitted slopes come out as \(1.02\) for symplectic Euler, \(1.98\) for leapfrog and \(4.81\) for RK4 — first, second and fourth order, just as they should be. So leapfrog really is &quot;only&quot; second order. It just does not matter.</p>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      Notice that <strong>symplectic Euler</strong> &#40;orange&#41; is only first-order accurate, yet its energy error is also bounded rather than drifting. The magic is not the order of the method, it is the symplectic structure. Leapfrog is essentially symplectic Euler done symmetrically, which buys the extra order. 
+  </fieldset>
+  
+<h2 id="time-reversibility_proved"><a href="#time-reversibility_proved" class="header-anchor">Time-reversibility, proved</a></h2>
+<p>The claim above — that the error stays bounded because the method is symplectic — has a cousin that is easy to prove outright, and it is the cleanest way to <em>see</em> why leapfrog behaves. Let me actually do it.</p>
+<p><strong>Claim.</strong> Take one KDK step from \((r_0,v_0)\) to \((r_1,v_1)\). Now reverse the velocity and take another KDK step from \((r_1,-v_1)\). You land exactly on \((r_0,-v_0)\).</p>
+<p><strong>Proof.</strong> The forward step was</p>
+\[
+v_{1/2} = v_0 + \tfrac{\delta t}{2}a(r_0),\qquad r_1 = r_0 + \delta t\,v_{1/2},\qquad v_1 = v_{1/2} + \tfrac{\delta t}{2}a(r_1)
+\]
+<p>Now run KDK starting from \((r_1, -v_1)\), calling the new intermediates \(w\):</p>
+\[
+w_{1/2} = -v_1 + \tfrac{\delta t}{2}a(r_1) = -\left(v_{1/2} + \tfrac{\delta t}{2}a(r_1)\right) + \tfrac{\delta t}{2}a(r_1) = -v_{1/2}
+\]
+<p>The first kick undoes the last kick of the forward step exactly, because it uses the <em>same</em> acceleration \(a(r_1)\). Then the drift:</p>
+\[
+r_{\text{new}} = r_1 + \delta t\,w_{1/2} = r_1 - \delta t\,v_{1/2} = r_0
+\]
+<p>We are back at the starting position. And the final kick, now using \(a(r_0)\):</p>
+\[
+w_{\text{new}} = w_{1/2} + \tfrac{\delta t}{2}a(r_0) = -v_{1/2} + \tfrac{\delta t}{2}a(r_0) = -\left(v_{1/2} - \tfrac{\delta t}{2}a(r_0)\right) = -v_0 \qquad\blacksquare
+\]
+<p>Exactly \((r_0,-v_0)\), with no error terms anywhere. The whole thing worked because the scheme is <strong>symmetric</strong>: it applies \(a\) at the same points on the way back as on the way out.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      Now the consequence. Suppose leapfrog gained \(\Delta E\) per step. Reversing the velocities does not change the kinetic energy and the reversed run uses the <em>same algorithm</em>, so it would have to gain \(\Delta E\) too — but it retraces the forward path exactly, so it must <em>lose</em> what the forward run gained. The only number that is both \(+\Delta E\) and \(-\Delta E\) is zero. RK4 is not time-symmetric, so nothing forbids it from drifting. 
+  </fieldset>
+  
+<h3 id="the_deeper_reason_a_shadow_hamiltonian"><a href="#the_deeper_reason_a_shadow_hamiltonian" class="header-anchor">The deeper reason: a shadow Hamiltonian</a></h3>
+<p>The reversibility argument rules out secular drift but does not say how big the wobble is. For that, the standard result is worth quoting even without proving it.</p>
+<p>Leapfrog can be written as a product of three exact flows: a half-step of the potential part \(V\), a full step of the kinetic part \(T\), another half-step of \(V\). Writing these as exponentials of the corresponding operators,</p>
+\[
+\text{KDK} = e^{\frac{\delta t}{2}\mathcal{L}_V}\;e^{\delta t\,\mathcal{L}_T}\;e^{\frac{\delta t}{2}\mathcal{L}_V}
+\]
+<p>Each factor is the <em>exact</em> solution of a solvable problem — a pure drift, or a pure kick — so each conserves phase-space volume exactly. Their product therefore does too. Combining them with the Baker-Campbell-Hausdorff formula gives a single exponential,</p>
+\[
+\text{KDK} = e^{\delta t\,\mathcal{L}_{\tilde H}}, \qquad \tilde H = H + \delta t^2 H_2 + \delta t^4 H_4 + \dots
+\]
+<p>The symmetric ordering kills every odd power. So leapfrog is the <strong>exact</strong> solution of a nearby &quot;shadow&quot; Hamiltonian \(\tilde H\) that differs from the true \(H\) at order \(\delta t^2\). Since it solves that problem exactly, it conserves \(\tilde H\) forever — and because \(\tilde H = H + \mathcal{O}(\delta t^2)\), the true energy \(H\) can never wander more than \(\mathcal{O}(\delta t^2)\) away.</p>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      That is the whole story in one line: <strong>leapfrog does not approximately solve your problem, it exactly solves a slightly different one.</strong> RK4 approximately solves your problem, and there is no nearby problem it is solving exactly, so there is nothing to stop its errors accumulating. My measurements bear this out — leapfrog&#39;s wobble is \(2.6\times10^{-3}\) and stays there after 200 orbits, while RK4&#39;s drift grew by exactly a factor of ten when I ran ten times longer. 
+  </fieldset>
+  
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      Picture a guitar string tuned very slightly flat. It is not the note you asked for, but it is a <em>real</em> note — the string sits on it forever, humming steadily, rather than gradually going silent. Leapfrog is that string: it obeys \(\tilde H\) exactly, and \(\tilde H\) is only \(\mathcal{O}(\delta t^2)\) out of tune with the \(H\) you wanted, so your energy is pinned within that detuning forever. Runge-Kutta has no note of its own to sit on, so nothing anchors it. 
+  </fieldset>
+  
+<p>That also tells you what to expect on a plot. Leapfrog gives a <strong>band</strong> — noisy, but flat and level no matter how long you run. RK4 gives a <strong>line with a slope</strong>. A band you can live with; a slope will eventually eat your simulation.</p>
+<h2 id="choosing_the_step_size"><a href="#choosing_the_step_size" class="header-anchor">Choosing the step size</a></h2>
+<p>The paper uses \(\delta t = 0.025\) in units where \(G = M = R = 1\), and notes this is about \(5\%\) of the core crossing time. That is the relevant scale: the time it takes a typical particle to cross the dense central region,</p>
+\[
+t_{\text{cross}} \sim \frac{r_0}{\sigma_0}, \qquad \sigma_0 = \sqrt{\frac{GM}{6r_0}}
+\]
+<p>With \(r_0 = 0.2\) and \(M = 1\) this gives \(\sigma_0 \approx 0.91\) and \(t_{\text{cross}} \approx 0.22\), so \(\delta t = 0.025\) resolves a crossing with about nine steps. I use the same value throughout so my results can be compared with the paper&#39;s directly.</p>
+
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      A real production code would not use one step size for everybody. A particle in the dense core needs a much smaller \(\delta t\) than one drifting in the halo. Try modifying the integrator to give each particle its own step size, chosen from something like \(\delta t_i \propto \sqrt{\varepsilon / |a_i|}\), and check whether the energy conservation improves at fixed total cost. &#40;The paper mentions this — &quot;multiple time scales&quot; — as one of the obvious refinements.&#41; 
+  </fieldset>
+  
+<h2 id="where_we_are"><a href="#where_we_are" class="header-anchor">Where we are</a></h2>
+<p>We can now move particles forward in time cheaply and stably. What we still cannot do is compute \(a_i\) for all \(N\) particles without \(O(N^2)\) work.</p>
+<p>That is the next part, and it is the real content of the paper.</p>
+<hr />
+<p><strong>Previous:</strong> <a href="/Pages/Physics/papers/hernquist1987/01_setup/">Part 1 — The problem and the model</a><br/> <strong>Next:</strong> <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">Part 3 — The tree and the multipole expansion</a></p>
+<p>Hope this helps you in some way. If you like it then share with others if possible.</p>
+<p>If you have some queries, do let me know in the comments or contact me using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
+
+<button onclick="window.history.back()">Go Back</button>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 04, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Floating Back Button -->
+    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
+    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

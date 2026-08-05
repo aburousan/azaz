@@ -1,0 +1,701 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Tree Codes: Recreating Hernquist (1987)</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#the_problem_honestly_stated">The problem, honestly stated</a></li><li><a href="#what_is_in_each_part">What is in each part</a></li><li><a href="#did_it_work">Did it work?</a><ol><li><a href="#why_is_my_force_error_not_smaller_than_a_1987_papers">Why is my force error not <em>smaller</em> than a 1987 paper&#39;s?</a></li><li><a href="#how_much_of_this_is_noise">How much of this is noise?</a></li><li><a href="#so_why_are_the_numbers_different_at_all">So why are the numbers different at all?</a></li></ol></li><li><a href="#a_note_on_how_i_did_this">A note on how I did this</a></li></ol></div>
+<h1 id="performance_characteristics_of_tree_codes"><a href="#performance_characteristics_of_tree_codes" class="header-anchor">Performance Characteristics of Tree Codes</a></h1>
+<p>In our class our sir asked like this.</p>
+<p>He was doing the <strong>virial theorem</strong> on the board. Take a system that is not periodic but is in equilibrium, or approaching it — an \(N\)-body system. Then the moment of inertia stops changing, \(I \to\) constant, so averaged over times much longer than the crossing time,</p>
+\[
+\left\langle \frac{d^2I}{dt^2}\right\rangle = 0 \quad\Longrightarrow\quad 2\langle K\rangle + \langle U\rangle = 0 \quad\Longrightarrow\quad \langle E\rangle = \frac{1}{2}\langle U\rangle
+\]
+<p>and that is the virial theorem for a self-gravitating system.</p>
+<p>Then he drew a box on one side of the board:</p>
+<blockquote>
+<p><strong>1987 ApJS 64, 715H</strong> — <em>Performance Characteristics of Tree Codes</em><br/> Poisson equation \(\to \nabla^2\phi = 4\pi G\rho\)<br/> Current algorithms \(\to\) Mem, \(\log(n)\)</p>
+</blockquote>
+<p>and on the other side wrote <strong>Plummer Profile Problem</strong>: you are given initial conditions \(\{\vec r_i\}, \{\vec v_i\}\), and you want to evolve them under gravity only. Then he derived the integrator, starting from two Taylor expansions and ending with the leapfrog scheme.</p>
+<p>So the assignment was: do that. Take a blob of particles set up as a Plummer sphere, give them the right positions and velocities, push them forward with leapfrog, and check the virial theorem holds.</p>
+<p>That is the part I started with. But once the particles were moving I could not stop, because the paper behind sir&#39;s box is really about a much better question: <strong>how do you compute the forces at all without waiting till next year?</strong> So I ended up recreating the whole of Hernquist&#39;s paper in <strong>Julia</strong>, and this is what came out.</p>
+<div id="fdpytk" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpytk");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_3d.json');
+</script>
+
+<p>That is the object we are going to torture. 4000 particles, held together by nothing but their own gravity. Drag it around.</p>
+<h2 id="the_problem_honestly_stated"><a href="#the_problem_honestly_stated" class="header-anchor">The problem, honestly stated</a></h2>
+<p>Gravity is a \(1/r^2\) force, and it never switches off. So if I have \(N\) particles, every single one of them pulls on every other one. Writing \(\vec{a}_i\) for the acceleration of particle \(i\),</p>
+\[
+\vec{a}_i = -G\sum_{j \neq i} m_j \frac{\vec{r}_i - \vec{r}_j}{|\vec{r}_i - \vec{r}_j|^3}
+\]
+<p>There are \(N\) particles and each sum has \(N-1\) terms, so one force evaluation costs \(\sim N^2\) operations. And I need to do this <em>every single time step</em>, thousands of times.</p>
+<p>Let&#39;s put numbers on that. For \(N = 1000\) it is a million operations per step — fine. For \(N = 10^6\) it is \(10^{12}\) per step, and a galaxy has \(N \sim 10^{11}\) stars. The \(O(N^2)\) road ends very quickly.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      This is why sir wrote <strong>\(\log(n)\)</strong> in a box on the board next to the paper reference. The whole point of a tree code is to replace that \(N^2\) with \(N\log N\). 
+  </fieldset>
+  
+<p>The idea behind the fix is one you already use without thinking. When you compute the pull of the Sun on the Earth, you do not add up the force from every atom in the Sun. You treat the Sun as a single point of mass \(M_\odot\) sitting at its centre. That is legal because the Sun is <em>far away compared to its own size</em>.</p>
+<p>A tree code does exactly this, but it decides for itself, particle by particle, which clumps are far enough away to be squashed into a single point — and when a point is not good enough, it adds a correction term for the <em>shape</em> of the clump. That correction is the <strong>multipole expansion</strong>, and it is the mathematical heart of the whole method.</p>
+<h2 id="what_is_in_each_part"><a href="#what_is_in_each_part" class="header-anchor">What is in each part</a></h2>
+<ol>
+<li><p><strong><a href="/Pages/Physics/papers/hernquist1987/01_setup/">The problem and the model</a></strong> — Poisson&#39;s equation, the Plummer sphere, where the initial positions and velocities actually come from, and the virial theorem that sir started from.</p>
+</li>
+<li><p><strong><a href="/Pages/Physics/papers/hernquist1987/02_leapfrog/">Moving the particles</a></strong> — the leapfrog integrator, derived the way sir did it on the board, and why this clumsy-looking scheme beats Runge-Kutta 4 for this job.</p>
+</li>
+<li><p><strong><a href="/Pages/Physics/papers/hernquist1987/03_treecode/">The tree and the multipole expansion</a></strong> — the long one. Building an octree, the opening criterion \(s/d < \theta\), and the multipole expansion worked out term by term with nothing skipped.</p>
+</li>
+<li><p><strong><a href="/Pages/Physics/papers/hernquist1987/04_results/">Results</a></strong> — every timing curve, error curve and conservation test from the paper, recreated.</p>
+</li>
+<li><p><strong><a href="/Pages/Physics/papers/hernquist1987/05_code/">The code</a></strong> — the full Julia source, and how to run it yourself.</p>
+</li>
+<li><p><strong><a href="/Pages/Physics/papers/hernquist1987/06_beyond/">Doing better than 1987</a></strong> — what the paper could not afford. Octupole multipoles, a fourth-order symplectic integrator, and a million particles.</p>
+</li>
+</ol>
+<h2 id="did_it_work"><a href="#did_it_work" class="header-anchor">Did it work?</a></h2>
+<p>Before anything else, here is my recreation next to the paper. These are numbers I did not tune — they came out of the code the first time it ran correctly.</p>
+<p><strong>Every entry in this table is read straight out of a production run on the departmental server</strong> &#40;256 cores, \(N\) up to \(32768\)&#41;. My laptop was only ever used for small-\(N\) checks while developing; nothing in this table comes from it.</p>
+<table><tr><th align="right">Quantity</th><th align="right">Hernquist &#40;1987&#41;</th><th align="right">My Julia code</th></tr><tr><td align="right">\(\langle n_\text{terms}\rangle\), Plummer, \(N=32768\), \(\theta=1\)</td><td align="right">\(\approx 221\)</td><td align="right">\(217.6\)</td></tr><tr><td align="right">\(\langle n_\text{terms}\rangle\), uniform sphere, same</td><td align="right">\(\approx 121\)</td><td align="right">\(122.2\)</td></tr><tr><td align="right">\(\langle n_\text{terms}\rangle\), Plummer, \(N=1024\), \(\theta=1\)</td><td align="right">\(\approx 130\)</td><td align="right">\(124.0\)</td></tr><tr><td align="right">\(\langle n_\text{terms}\rangle\), Plummer, \(N=32768\), \(\theta=0.5\)</td><td align="right">\(\approx 1060\)</td><td align="right">\(1053.2\)</td></tr><tr><td align="right">Force error, \(N=32768\), \(\theta=1\)</td><td align="right">\(\approx1.4\)–\(1.6\%\) &#40;Fig. 6&#41;</td><td align="right">\(1.548 \pm 0.013\%\)</td></tr><tr><td align="right">Force error, \(N=32768\), \(\theta=0.5\)</td><td align="right">\(\approx0.2\%\) &#40;Fig. 6&#41;</td><td align="right">\(0.182 \pm 0.003\%\)</td></tr><tr><td align="right">Error scaling with \(N\)</td><td align="right">\(\sim N^{-1/5}\)</td><td align="right">\(\sim N^{-1/5}\)</td></tr><tr><td align="right">\(N\) where tree beats direct sum, \(\theta=1\)</td><td align="right">\(\approx 1700\)</td><td align="right">\(\approx 1700\)</td></tr><tr><td align="right">Speed-up at \(N=32768\), \(\theta=1\)</td><td align="right">—</td><td align="right">\(23.8\times\)</td></tr><tr><td align="right">\(\Delta E/E\), 1000 steps, direct sum</td><td align="right">\(0.20\%\)</td><td align="right">\(0.22 \pm 0.10\%\)</td></tr><tr><td align="right">\(\Delta E/E\), 1000 steps, \(\theta = 0.5\)</td><td align="right">\(0.32\%\)</td><td align="right">\(0.26 \pm 0.10\%\)</td></tr><tr><td align="right">\(\Delta E/E\), 1000 steps, \(\theta = 1\)</td><td align="right">\(0.68\%\)</td><td align="right">\(0.96 \pm 0.14\%\)</td></tr><tr><td align="right">Relaxation time, \(\theta \lesssim 1\)</td><td align="right">same as direct</td><td align="right">same as direct</td></tr><tr><td align="right">Multipole truncation error, monopole / quadrupole</td><td align="right">\((s/d)^2\) / \((s/d)^3\)</td><td align="right">slopes \(2.00\) / \(3.03\)</td></tr><tr><td align="right">\(-2K/W\) across \(\varepsilon/\lambda = 1/16 \to 4\)</td><td align="right">—</td><td align="right">\(1.000 \pm 0.003\)</td></tr></table>
+<p>Where I quote a \(\pm\), it is the standard deviation over <strong>eight independent random realisations</strong> of the Plummer sphere, not a single run.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>This table is deliberately matched, not optimised.</strong> Every row runs at the paper&#39;s own settings, so the force-error rows are not &quot;the best I can do&quot; — they are the same thing, done again. If I had tuned my code to look good, the comparison would mean nothing. 
+  </fieldset>
+  
+<p><a href="/Pages/Physics/papers/hernquist1987/06_beyond/">Part 6</a> is where I stop matching and start improving.</p>
+<h3 id="why_is_my_force_error_not_smaller_than_a_1987_papers"><a href="#why_is_my_force_error_not_smaller_than_a_1987_papers" class="header-anchor">Why is my force error not <em>smaller</em> than a 1987 paper&#39;s?</a></h3>
+<p>This was the first thing that bothered me about the table above, so it is worth answering directly.</p>
+<p>At \(\theta = 0.5\) my error is actually slightly <strong>lower</strong> than the paper&#39;s &#40;\(0.182\%\) against \(\approx0.2\%\)&#41;. At \(\theta = 1\) it is slightly higher. Both differences are within how accurately I can read a log-scale figure from 1987, and neither means anything.</p>
+<p>But the deeper point is that <strong>a faster computer cannot make this number smaller</strong>, and expecting it to is a misunderstanding of where the error comes from:</p>
+\[
+\text{force error at fixed }\theta \;=\; \text{a property of the algorithm, not of the machine}
+\]
+<p>The error is the multipole series truncated at \((s/d)^2\). That truncation is mathematics. Two correct Barnes-Hut codes, at the same \(\theta\), same multipole order, on the same particle distribution, <strong>must</strong> agree to within realisation noise — and mine agrees with the paper&#39;s to about 1&#37;, which is the strongest evidence I have that the implementation is right. If my error had come out ten times smaller, that would not have been a triumph; it would have been a bug.</p>
+<p>So how <em>do</em> you get a better answer? Only by changing the algorithm, and there are exactly three knobs:</p>
+<ol>
+<li><p><strong>Lower \(\theta\)</strong> — open more cells</p>
+</li>
+<li><p><strong>Higher multipole order</strong> — describe each cell better</p>
+</li>
+<li><p><strong>Both</strong></p>
+</li>
+</ol>
+<p>Which is precisely what modern hardware buys. Not accuracy directly, but the ability to <strong>afford settings the paper could not run in production</strong>:</p>
+<table><tr><th align="right">setting</th><th align="right">force error</th><th align="right">vs. the paper&#39;s run</th><th align="right">cost</th></tr><tr><td align="right">monopole, \(\theta=1\)<em>&#40;the paper&#39;s production setting&#41;</em></td><td align="right">\(1.551\%\)</td><td align="right">—</td><td align="right">\(1\times\)</td></tr><tr><td align="right">quadrupole, \(\theta=0.5\)</td><td align="right">\(0.049\%\)</td><td align="right">\(32\times\) better</td><td align="right">\(1.4\times\)</td></tr><tr><td align="right">octupole, \(\theta=0.5\)</td><td align="right">\(0.018\%\)</td><td align="right">\(84\times\) better</td><td align="right">\(1.8\times\)</td></tr><tr><td align="right">octupole, \(\theta=0.3\)</td><td align="right">\(0.0018\%\)</td><td align="right">\(871\times\) better</td><td align="right">\(3.0\times\)</td></tr><tr><td align="right"><strong>octupole, \(\theta=0.2\)</strong></td><td align="right">\(\mathbf{0.0003\%}\)</td><td align="right">\(\mathbf{5300\times}\)<strong>better</strong></td><td align="right">\(4.9\times\)</td></tr></table>
+<p>And here is the part I like. One force evaluation at \(N = 32768\):</p>
+<table><tr><th align="right"></th><th align="right">seconds</th></tr><tr><td align="right">Hernquist&#39;s CRAY X-MP, monopole \(\theta=1\)</td><td align="right">\(23.9\)</td></tr><tr><td align="right">my single core, monopole \(\theta=1\)</td><td align="right">\(0.17\)</td></tr><tr><td align="right">my single core, <strong>octupole \(\theta = 0.2\)</strong></td><td align="right">\(0.84\)</td></tr></table>
+<p><strong>My most accurate setting is still 29 times faster than his crudest one, while being 5300 times more accurate.</strong> That is what forty years bought — not a better formula, but the freedom to run the formula somewhere it was never affordable before.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      There is one caveat, and <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">part 6</a> makes it carefully: <strong>wanting more accuracy and needing it are different things.</strong> On an accuracy-per-cost basis the quadrupole beats the octupole across the whole range anyone normally works in. The octupole earns its keep only below about \(0.02\%\) error — a regime that exists now, but that almost no astrophysical problem actually requires. 
+  </fieldset>
+  
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      A paper from 1987 written for a <strong>CRAY X-MP</strong>, recreated on a laptop and a departmental server, agreeing to a few percent on quantities nobody was aiming at. I find that genuinely satisfying. The numbers that describe the <em>algorithm</em> — how many terms, how big the error — do not care what machine you are on, and they came out right. 
+  </fieldset>
+  
+<h3 id="how_much_of_this_is_noise"><a href="#how_much_of_this_is_noise" class="header-anchor">How much of this is noise?</a></h3>
+<p>A table like that invites the question &quot;how close is close enough?&quot;, so I measured it instead of guessing. I re-ran everything for eight different random seeds, changing nothing but the realisation of the sphere.</p>
+<table><tr><th align="right">Quantity</th><th align="right">mean over 8 seeds</th><th align="right">scatter</th></tr><tr><td align="right">\(\langle n_\text{terms}\rangle\), \(\theta=1\)</td><td align="right">\(218.4\)</td><td align="right">\(0.57\%\)</td></tr><tr><td align="right">\(\langle n_\text{terms}\rangle\), \(\theta=0.5\)</td><td align="right">\(1049.9\)</td><td align="right">\(0.39\%\)</td></tr><tr><td align="right">Force error, \(\theta=1\)</td><td align="right">\(1.548\%\)</td><td align="right">\(0.85\%\)</td></tr><tr><td align="right">Force error, \(\theta=0.5\)</td><td align="right">\(0.182\%\)</td><td align="right">\(1.68\%\)</td></tr><tr><td align="right">\(\Delta E/E\), direct</td><td align="right">\(0.222\%\)</td><td align="right">\(43\%\)</td></tr><tr><td align="right">\(\Delta E/E\), \(\theta=1\)</td><td align="right">\(0.962\%\)</td><td align="right">\(14\%\)</td></tr></table>
+<p>Two things fall out of this, and the first one corrected a guess I had made.</p>
+<p><strong>The force quantities are far more reproducible than I expected</strong> — under \(2\%\) scatter. So the \(\sim1\%\) gaps against the paper in \(\langle n_\text{terms}\rangle\) are <em>not</em> explained by the luck of the draw. I had assumed they were, and I was wrong.</p>
+<p>Chasing that down, the culprit turned out to be the <strong>root cell</strong>. My tree wraps the particles in their tight bounding cube; nothing says it has to. Padding that cube changes where every subdivision plane falls, and therefore which cells get accepted:</p>
+<table><tr><th align="right">root cell padding</th><th align="right">\(\langle n_\text{terms}\rangle\)</th><th align="right">force error</th></tr><tr><td align="right">\(1.0001\) &#40;tight&#41;</td><td align="right">\(218.5\)</td><td align="right">\(1.551\%\)</td></tr><tr><td align="right">\(1.25\)</td><td align="right">\(228.9\)</td><td align="right">\(1.555\%\)</td></tr><tr><td align="right">\(1.5\)</td><td align="right">\(225.2\)</td><td align="right">\(1.555\%\)</td></tr><tr><td align="right">\(2.0\)</td><td align="right">\(219.8\)</td><td align="right">\(1.550\%\)</td></tr><tr><td align="right">\(4.0\)</td><td align="right">\(219.8\)</td><td align="right">\(1.550\%\)</td></tr></table>
+<p>\(\langle n_\text{terms}\rangle\) swings over a \(\pm2.4\%\) range purely from that arbitrary choice, and the paper&#39;s \(221\) sits comfortably inside it. Meanwhile the <strong>force error does not move at all</strong> — \(1.550\) to \(1.555\%\) across the whole range.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      That is a reassuring pair of facts to have separated. How <em>many</em> cells you end up summing is partly an accident of where you happened to draw the box; how <em>accurate</em> the answer is, is not. So \(\langle n_\text{terms}\rangle\) is the wrong thing to compare implementations on, and the error is the right thing. 
+  </fieldset>
+  
+<h3 id="so_why_are_the_numbers_different_at_all"><a href="#so_why_are_the_numbers_different_at_all" class="header-anchor">So why are the numbers different at all?</a></h3>
+<p>Once I had that, the honest question became: if the code passes every mathematical check exactly, why does it not land exactly on the paper?</p>
+<p>The biggest reason is one the paper tells you itself, and I had walked past it. Discussing the \(N=4096\), \(\theta=1\) run, Hernquist writes that \(\langle n_\text{terms}\rangle\) was</p>
+<blockquote>
+<p>approximately 170–175 for small \(t\), but increased slowly to 195–200 during the first 50 time steps</p>
+</blockquote>
+<p><strong>\(\langle n_\text{terms}\rangle\) is not a property of the model at all — it drifts as the cluster relaxes.</strong> Every number I had been quoting was measured on the initial conditions. So I measured it as a function of time for exactly that setup:</p>
+<div id="fdpvsy" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpvsy");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_of_time.json');
+</script>
+
+<table><tr><th align="right"></th><th align="right">mine</th><th align="right">paper</th></tr><tr><td align="right">\(t = 0\)</td><td align="right">\(171.5\)</td><td align="right">\(170\)–\(175\)</td></tr><tr><td align="right">after 50 steps</td><td align="right">\(188.9\)</td><td align="right">\(195\)–\(200\)</td></tr><tr><td align="right">late-time mean</td><td align="right">\(193.1\)</td><td align="right">\(195\)–\(200\)</td></tr></table>
+<p>My initial value lands <strong>inside</strong> the paper&#39;s stated range, and the drift has the same size and shape. But look at the magnitude of that drift: \(171.5 \to 193\), a <strong>13&#37; rise</strong>. That is an order of magnitude larger than the \(1.2\%\) gap I was trying to explain. So &quot;why is my 218.4 not 221?&quot; partly reduces to &quot;at which moment did Hernquist take that snapshot?&quot; — a question the paper does not answer, and does not need to.</p>
+<p>So what is actually rising? From the same run:</p>
+<table><tr><th align="right">\(t\)</th><th align="right">10&#37; radius</th><th align="right">90&#37; radius</th><th align="right">max \(\lvert r\rvert\)</th><th align="right">particles beyond \(r=1\)</th><th align="right">\(\langle n_\text{terms}\rangle\)</th></tr><tr><td align="right">0</td><td align="right">0.103</td><td align="right">0.586</td><td align="right">1.00</td><td align="right">2</td><td align="right">171.5</td></tr><tr><td align="right">2</td><td align="right">0.106</td><td align="right">0.614</td><td align="right">1.93</td><td align="right">85</td><td align="right">191.5</td></tr><tr><td align="right">10</td><td align="right">0.104</td><td align="right">0.602</td><td align="right">5.30</td><td align="right">61</td><td align="right">194.4</td></tr><tr><td align="right">25</td><td align="right">0.108</td><td align="right">0.610</td><td align="right">5.50</td><td align="right">73</td><td align="right">199.0</td></tr></table>
+<p>The cluster itself does not move. The radii holding 10&#37; and 90&#37; of the mass stay flat to a percent — that is the equilibrium checked in part 1. What changes is that the model, cut off at \(R=1\), sheds a thin halo in the first crossing time and a few dozen particles wander out to \(r\sim5\).</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      Escapers are expensive. A particle alone in empty space cannot be lumped in with anything, so every other particle has to count it as a separate term. Sixty-odd stragglers is what lifts \(\langle n_\text{terms}\rangle\) by about twenty — the drift is not the tree misbehaving and not deep physics, it is the truncated initial condition relaxing. 
+  </fieldset>
+  
+<p>I also tested the other suspect, since the paper flags it as a possible trap. My walk always opens a cell containing the particle itself, to stop a particle attracting itself; the standard Barnes-Hut code does not:</p>
+<div id="fdpwey" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpwey");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/forced_subdivision.json');
+</script>
+
+<table><tr><th align="right">\(\theta\)</th><th align="right">error, forced on</th><th align="right">forced off</th></tr><tr><td align="right">0.5</td><td align="right">\(0.1847\%\)</td><td align="right">\(0.1847\%\)</td></tr><tr><td align="right">1.0</td><td align="right">\(1.5507\%\)</td><td align="right">\(1.5508\%\)</td></tr><tr><td align="right">1.2</td><td align="right">\(3.302\%\)</td><td align="right">\(3.318\%\)</td></tr><tr><td align="right">1.5</td><td align="right">\(7.445\%\)</td><td align="right">\(8.073\%\)</td></tr></table>
+<p>Identical to four decimal places until \(\theta = 1.2\), then it starts to bite. So this is <em>not</em> the explanation either — but it does independently reproduce the paper&#39;s own conclusion that the effect &quot;was completely negligible for \(\theta \le 1.2\)&quot;, which is a pleasing thing to be able to confirm from the outside.</p>
+<p>So the differences come down to:</p>
+<ol>
+<li><p><strong>When the snapshot is taken</strong> — worth up to 13&#37; on \(\langle n_\text{terms}\rangle\), and by far the largest effect.</p>
+</li>
+<li><p><strong>Root cell geometry</strong> — an arbitrary choice worth \(\pm2.4\%\).</p>
+</li>
+<li><p><strong>Reading a log-scale figure</strong> — the force-error comparison cannot be done better than \(\pm20\%\) by eye.</p>
+</li>
+<li><p><strong>The random realisation</strong> — worth \(0.4\)–\(1.7\%\).</p>
+</li>
+<li><p><strong>Everything else about an independent reimplementation</strong> — my sampler is not their sampler, my \(\varepsilon = 0.0314\) is not their \(0.032\).</p>
+</li>
+</ol>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      So \(\langle n_\text{terms}\rangle\) and \(\Delta E/E\) are not physical constants. They belong to one realisation, meshed one way, measured at one instant, and two correct codes will not agree on them better than a few percent. 
+  </fieldset>
+  
+<p>The quantities that <strong>are</strong> universal come from the mathematics, and those matched exactly: the tree reproducing the direct sum to \(10^{-10}\) at \(\theta=0\), the multipole slopes \(2.00\) and \(3.03\) against the derived \(2\) and \(3\), the leapfrog order \(1.98\) against \(2\). Those have no free parameters and no snapshot ambiguity, and they are what establish that the code is right.</p>
+<p><strong>Energy drift is the opposite case</strong> — genuinely noisy, \(43\%\) scatter for the direct sum. My original table quoted a single run that happened to give \(0.12\%\), which turned out to be the <em>lowest</em> of the eight. The honest number is \(0.22\pm0.10\%\), which sits right on the paper&#39;s \(0.20\%\). Quoting one run there was misleading and I have replaced it with the mean.</p>
+<p>The one row that does not fully reconcile is \(\Delta E/E\) at \(\theta=1\): I get \(0.96\pm0.14\%\) against the paper&#39;s \(0.68\%\), about two standard deviations low. It is consistent in sign with my force error at \(\theta=1\) being a touch higher than theirs, so I suspect a small difference in the opening test rather than an error — but I have not tracked it down, and I would rather say so than paper over it.</p>
+<p>I also found one thing in the paper that does not survive checking: <strong>equation &#40;3.2&#41;</strong>, the distribution function of the Plummer model, has an inconsistent power of \(G\). It is harmless, because the whole paper works in units where \(G=1\), but the printed formula does not reduce to the correct one if you restore \(G\). I show the derivation and the check <a href="/Pages/Physics/papers/hernquist1987/01_setup/#the_distribution_function">on the setup page</a>.</p>
+<h2 id="a_note_on_how_i_did_this"><a href="#a_note_on_how_i_did_this" class="header-anchor">A note on how I did this</a></h2>
+<p>Everything here I wrote myself and checked in at least two ways, because a simulation that is quietly wrong looks exactly like a simulation that is right.</p>
+<ul>
+<li><p>The <strong>tree walk</strong> is checked against a brute-force \(O(N^2)\) sum. At \(\theta = 0\) every cell must be opened, so the tree is forced to give the direct answer — and it does, to \(10^{-10}\).</p>
+</li>
+<li><p>The <strong>multipole algebra</strong> was checked symbolically in Mathematica: the Legendre expansion, the claim that the quoted acceleration really is \(-\nabla\varphi\) of the quoted potential, and the parallel-axis recursion.</p>
+</li>
+<li><p>The <strong>integrator</strong> is checked on a two-body orbit, where I know the answer exactly.</p>
+</li>
+<li><p>The <strong>initial conditions</strong> are checked by integrating the distribution function back up to the density it came from.</p>
+</li>
+</ul>
+<p>The heavy runs &#40;\(N\) up to \(32768\), the timing sweeps, the relaxation measurements&#41; were done on a departmental machine; the small ones ran on my laptop.</p>
+<hr />
+<p><strong>Reference:</strong> Hernquist, L. 1987, <em>The Astrophysical Journal Supplement Series</em>, <strong>64</strong>, 715. <a href="https://ui.adsabs.harvard.edu/abs/1987ApJS...64..715H">ADS link</a></p>
+<p>The original algorithm is from Barnes, J. &amp; Hut, P. 1986, <em>Nature</em>, <strong>324</strong>, 446.</p>
+<hr />
+<p>Hope this helps you in some way. If you like it then share with others if possible.</p>
+<p>If you have some queries, do let me know in the comments or contact me using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
+
+<button onclick="window.history.back()">Go Back</button>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 04, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Floating Back Button -->
+    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
+    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

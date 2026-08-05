@@ -1,0 +1,77 @@
+
+======================================================================
+cost per particle against N, single-threaded tree walk
+======================================================================
+  N =    32768  theta = 0.5   2.3223e-06 s/particle   <n> =   1053.2   nodes =     48515  depth = 14
+  N =    32768  theta = 0.7   2.0497e-06 s/particle   <n> =    474.5   nodes =     48515  depth = 14
+  N =    32768  theta = 1.0   1.9332e-06 s/particle   <n> =    217.6   nodes =     48515  depth = 14
+  N =    65536  theta = 0.5   2.6066e-06 s/particle   <n> =   1156.9   nodes =     97169  depth = 15
+  N =    65536  theta = 0.7   2.0997e-06 s/particle   <n> =    512.0   nodes =     97169  depth = 15
+  N =    65536  theta = 1.0   1.9533e-06 s/particle   <n> =    232.6   nodes =     97169  depth = 15
+  N =   131072  theta = 0.5   2.6462e-06 s/particle   <n> =   1253.1   nodes =    194145  depth = 15
+  N =   131072  theta = 0.7   2.2202e-06 s/particle   <n> =    545.7   nodes =    194145  depth = 15
+  N =   131072  theta = 1.0   2.0489e-06 s/particle   <n> =    243.5   nodes =    194145  depth = 15
+  N =   262144  theta = 0.5   3.4126e-06 s/particle   <n> =   1344.9   nodes =    388447  depth = 15
+  N =   262144  theta = 0.7   2.5301e-06 s/particle   <n> =    577.1   nodes =    388447  depth = 15
+  N =   262144  theta = 1.0   2.3657e-06 s/particle   <n> =    253.9   nodes =    388447  depth = 15
+  N =   524288  theta = 0.5   3.6306e-06 s/particle   <n> =   1436.0   nodes =    776531  depth = 16
+  N =   524288  theta = 0.7   2.9075e-06 s/particle   <n> =    608.7   nodes =    776531  depth = 16
+  N =   524288  theta = 1.0   2.5197e-06 s/particle   <n> =    264.4   nodes =    776531  depth = 16
+  N =  1048576  theta = 0.5   4.3438e-06 s/particle   <n> =   1518.6   nodes =   1552053  depth = 17
+  N =  1048576  theta = 0.7   3.3582e-06 s/particle   <n> =    638.1   nodes =   1552053  depth = 17
+  N =  1048576  theta = 1.0   3.0650e-06 s/particle   <n> =    274.4   nodes =   1552053  depth = 17
+
+======================================================================
+force error against N, against an exact direct sum
+======================================================================
+  N =    32768  direct reference took 0.1 s
+      theta=0.5 monopole     0.18354%
+      theta=0.5 quadrupole   0.04961%
+      theta=0.5 octupole     0.01823%
+      theta=0.7 monopole     0.46980%
+      theta=0.7 quadrupole   0.19778%
+      theta=0.7 octupole     0.09755%
+      theta=1.0 monopole     1.55221%
+      theta=1.0 quadrupole   1.03504%
+      theta=1.0 octupole     0.67124%
+  N =    65536  direct reference took 0.4 s
+      theta=0.5 monopole     0.14865%
+      theta=0.5 quadrupole   0.04192%
+      theta=0.5 octupole     0.01628%
+      theta=0.7 monopole     0.39518%
+      theta=0.7 quadrupole   0.17443%
+      theta=0.7 octupole     0.08896%
+      theta=1.0 monopole     1.41403%
+      theta=1.0 quadrupole   0.97775%
+      theta=1.0 octupole     0.64271%
+  N =   131072  direct reference took 1.4 s
+      theta=0.5 monopole     0.12330%
+      theta=0.5 quadrupole   0.03658%
+      theta=0.5 octupole     0.01480%
+      theta=0.7 monopole     0.33482%
+      theta=0.7 quadrupole   0.15797%
+      theta=0.7 octupole     0.08310%
+      theta=1.0 monopole     1.29465%
+      theta=1.0 quadrupole   0.93631%
+      theta=1.0 octupole     0.62066%
+  N =   262144  direct reference took 5.4 s
+      theta=0.5 monopole     0.10284%
+      theta=0.5 quadrupole   0.03194%
+      theta=0.5 octupole     0.01377%
+      theta=0.7 monopole     0.29171%
+      theta=0.7 quadrupole   0.14502%
+      theta=0.7 octupole     0.07926%
+      theta=1.0 monopole     1.23721%
+      theta=1.0 quadrupole   0.91079%
+      theta=1.0 octupole     0.61143%
+  N =   524288  direct reference took 21.9 s
+      theta=0.5 monopole     0.08418%
+      theta=0.5 quadrupole   0.02867%
+      theta=0.5 octupole     0.01282%
+      theta=0.7 monopole     0.25489%
+      theta=0.7 quadrupole   0.13693%
+      theta=0.7 octupole     0.07609%
+      theta=1.0 monopole     1.19230%
+      theta=1.0 quadrupole   0.89554%
+      theta=1.0 octupole     0.60003%
+wrote /home/rousan/hernquist1987/scripts/../data/largeN.json (4.6 kB)

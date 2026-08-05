@@ -1,0 +1,44 @@
+N = 4096, eps = 0.03147, integrating to t = 12.5
+
+direct
+   dt = 0.04000   max|dE/E| = 1.1318e-02   gain on halving dt = NaN
+   dt = 0.02000   max|dE/E| = 7.4472e-04   gain on halving dt = 15.20
+   dt = 0.01000   max|dE/E| = 9.0579e-05   gain on halving dt = 8.22
+   dt = 0.00500   max|dE/E| = 1.3116e-05   gain on halving dt = 6.91
+   dt = 0.00250   max|dE/E| = 3.3409e-06   gain on halving dt = 3.93
+   dt = 0.00125   max|dE/E| = 9.5967e-07   gain on halving dt = 3.48
+
+theta=0.3
+   dt = 0.04000   max|dE/E| = 9.8828e-03   gain on halving dt = NaN
+   dt = 0.02000   max|dE/E| = 8.4997e-04   gain on halving dt = 11.63
+   dt = 0.01000   max|dE/E| = 6.0933e-05   gain on halving dt = 13.95
+   dt = 0.00500   max|dE/E| = 2.9031e-05   gain on halving dt = 2.10
+   dt = 0.00250   max|dE/E| = 6.9130e-05   gain on halving dt = 0.42
+   dt = 0.00125   max|dE/E| = 2.1271e-05   gain on halving dt = 3.25
+
+theta=0.5
+   dt = 0.04000   max|dE/E| = 8.6283e-03   gain on halving dt = NaN
+   dt = 0.02000   max|dE/E| = 7.7407e-04   gain on halving dt = 11.15
+   dt = 0.01000   max|dE/E| = 1.1618e-04   gain on halving dt = 6.66
+   dt = 0.00500   max|dE/E| = 1.8038e-04   gain on halving dt = 0.64
+   dt = 0.00250   max|dE/E| = 2.3137e-04   gain on halving dt = 0.78
+   dt = 0.00125   max|dE/E| = 1.8739e-04   gain on halving dt = 1.23
+
+theta=0.7
+   dt = 0.04000   max|dE/E| = 7.0901e-03   gain on halving dt = NaN
+   dt = 0.02000   max|dE/E| = 1.6984e-03   gain on halving dt = 4.17
+   dt = 0.01000   max|dE/E| = 3.1271e-04   gain on halving dt = 5.43
+   dt = 0.00500   max|dE/E| = 3.5538e-04   gain on halving dt = 0.88
+   dt = 0.00250   max|dE/E| = 5.1060e-04   gain on halving dt = 0.70
+   dt = 0.00125   max|dE/E| = 5.2598e-04   gain on halving dt = 0.97
+
+theta=1.0
+   dt = 0.04000   max|dE/E| = 1.3394e-02   gain on halving dt = NaN
+   dt = 0.02000   max|dE/E| = 3.6063e-03   gain on halving dt = 3.71
+   dt = 0.01000   max|dE/E| = 2.7349e-03   gain on halving dt = 1.32
+   dt = 0.00500   max|dE/E| = 3.5269e-03   gain on halving dt = 0.78
+   dt = 0.00250   max|dE/E| = 3.8124e-03   gain on halving dt = 0.93
+   dt = 0.00125   max|dE/E| = 2.9337e-03   gain on halving dt = 1.30
+
+wrote /home/rousan/hernquist1987/scripts/../data/error_budget.json (0.7 kB)
+BUDGET_DONE

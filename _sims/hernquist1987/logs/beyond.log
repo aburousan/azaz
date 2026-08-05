@@ -1,0 +1,71 @@
+
+======================================================================
+truncation error of a single cell: monopole, quadrupole, octupole
+======================================================================
+  s/d = 0.020  mono 1.242e-05  quad 1.738e-07  oct 6.410e-09
+  s/d = 0.030  mono 2.783e-05  quad 5.797e-07  oct 3.238e-08
+  s/d = 0.050  mono 7.792e-05  quad 2.816e-06  oct 2.528e-07
+  s/d = 0.080  mono 1.974e-04  quad 1.125e-05  oct 1.655e-06
+  s/d = 0.120  mono 4.404e-04  quad 3.793e-05  oct 8.373e-06
+  s/d = 0.180  mono 9.847e-04  quad 1.315e-04  oct 4.242e-05
+  s/d = 0.250  mono 1.947e-03  quad 3.727e-04  oct 1.568e-04
+  s/d = 0.350  mono 3.890e-03  quad 1.118e-03  oct 6.119e-04
+  s/d = 0.500  mono 8.594e-03  quad 3.766e-03  oct 2.550e-03
+  s/d = 0.700  mono 1.975e-02  quad 1.284e-02  oct 1.004e-02
+  s/d = 1.000  mono 5.666e-02  quad 4.803e-02  oct 4.289e-02
+
+  fitted slopes: monopole 1.99, quadrupole 3.01, octupole 4.00
+
+======================================================================
+error and cost against theta, N = 32768
+======================================================================
+  monopole    theta=0.2  error 0.01588%  cost 0.2159 s  <n>=7145
+  monopole    theta=0.3  error 0.04818%  cost 0.1229 s  <n>=3262
+  monopole    theta=0.4  error 0.10301%  cost 0.0975 s  <n>=1718
+  monopole    theta=0.5  error 0.18474%  cost 0.0819 s  <n>=1053
+  monopole    theta=0.6  error 0.30060%  cost 0.0738 s  <n>=694
+  monopole    theta=0.7  error 0.46730%  cost 0.0757 s  <n>=475
+  monopole    theta=0.8  error 0.69196%  cost 0.0716 s  <n>=343
+  monopole    theta=0.9  error 1.04346%  cost 0.0744 s  <n>=266
+  monopole    theta=1.0  error 1.55068%  cost 0.0638 s  <n>=218
+  monopole    theta=1.2  error 3.30199%  cost 0.0767 s  <n>=161
+  monopole    theta=1.4  error 5.97955%  cost 0.0638 s  <n>=129
+  quadrupole  theta=0.2  error 0.00143%  cost 0.2162 s  <n>=7145
+  quadrupole  theta=0.3  error 0.00680%  cost 0.1320 s  <n>=3262
+  quadrupole  theta=0.4  error 0.02044%  cost 0.0999 s  <n>=1718
+  quadrupole  theta=0.5  error 0.04877%  cost 0.0904 s  <n>=1053
+  quadrupole  theta=0.6  error 0.10166%  cost 0.0762 s  <n>=694
+  quadrupole  theta=0.7  error 0.19601%  cost 0.0729 s  <n>=475
+  quadrupole  theta=0.8  error 0.33609%  cost 0.0782 s  <n>=343
+  quadrupole  theta=0.9  error 0.61335%  cost 0.0683 s  <n>=266
+  quadrupole  theta=1.0  error 1.03216%  cost 0.0762 s  <n>=218
+  quadrupole  theta=1.2  error 2.60005%  cost 0.0728 s  <n>=161
+  quadrupole  theta=1.4  error 4.95490%  cost 0.0785 s  <n>=129
+  octupole    theta=0.2  error 0.00029%  cost 0.3133 s  <n>=7145
+  octupole    theta=0.3  error 0.00178%  cost 0.1909 s  <n>=3262
+  octupole    theta=0.4  error 0.00669%  cost 0.1349 s  <n>=1718
+  octupole    theta=0.5  error 0.01838%  cost 0.1165 s  <n>=1053
+  octupole    theta=0.6  error 0.04657%  cost 0.1018 s  <n>=694
+  octupole    theta=0.7  error 0.09882%  cost 0.0953 s  <n>=475
+  octupole    theta=0.8  error 0.18522%  cost 0.0921 s  <n>=343
+  octupole    theta=0.9  error 0.37148%  cost 0.0872 s  <n>=266
+  octupole    theta=1.0  error 0.67781%  cost 0.0820 s  <n>=218
+  octupole    theta=1.2  error 1.89353%  cost 0.0849 s  <n>=161
+  octupole    theta=1.4  error 3.66980%  cost 0.0868 s  <n>=129
+
+======================================================================
+leapfrog vs fourth-order symplectic, at equal force-evaluation cost
+======================================================================
+  leapfrog  dt=0.0013   20000 steps ( 20000 force evals)  |dE/E|max = 2.685e-04  final 1.692e-04  189.5s
+  yoshida4  dt=0.0037    6667 steps ( 20001 force evals)  |dE/E|max = 2.210e-04  final 2.584e-05  187.9s
+  leapfrog  dt=0.0025   10000 steps ( 10000 force evals)  |dE/E|max = 3.156e-04  final 2.336e-04  94.9s
+  yoshida4  dt=0.0075    3333 steps (  9999 force evals)  |dE/E|max = 2.285e-04  final 1.669e-04  96.0s
+  leapfrog  dt=0.0050    5000 steps (  5000 force evals)  |dE/E|max = 1.768e-04  final 1.023e-04  47.8s
+  yoshida4  dt=0.0150    1667 steps (  5001 force evals)  |dE/E|max = 5.293e-04  final 4.803e-04  47.7s
+  leapfrog  dt=0.0125    2000 steps (  2000 force evals)  |dE/E|max = 1.827e-04  final 4.478e-05  19.1s
+  yoshida4  dt=0.0375     667 steps (  2001 force evals)  |dE/E|max = 3.735e-02  final 3.735e-02  19.0s
+  leapfrog  dt=0.0250    1000 steps (  1000 force evals)  |dE/E|max = 1.893e-03  final 1.893e-03  9.8s
+  yoshida4  dt=0.0750     333 steps (   999 force evals)  |dE/E|max = 2.030e-01  final 2.030e-01  9.7s
+  leapfrog  dt=0.0500     500 steps (   500 force evals)  |dE/E|max = 4.166e-02  final 4.166e-02  4.8s
+  yoshida4  dt=0.1500     167 steps (   501 force evals)  |dE/E|max = 4.777e-01  final 4.777e-01  5.2s
+wrote /home/rousan/hernquist1987/scripts/../data/beyond.json (3.2 kB)

@@ -1,0 +1,683 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Tree Codes 5: The Code</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // make it easier to scroll throught the website rather than being blocked by a figure.
+      fig.config["scrollZoom"] = false
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#layout">Layout</a></li><li><a href="#running_it">Running it</a></li><li><a href="#the_pieces">The pieces</a><ol><li><a href="#the_octree_as_flat_arrays">The octree, as flat arrays</a></li><li><a href="#the_plummer_model_and_the_sampler">The Plummer model and the sampler</a></li><li><a href="#the_softening_scale">The softening scale</a></li><li><a href="#the_clausius_virial">The Clausius virial</a></li></ol></li><li><a href="#the_tests">The tests</a></li><li><a href="#the_symbolic_checks">The symbolic checks</a></li><li><a href="#individual_files">Individual files</a></li><li><a href="#if_you_want_to_build_on_it">If you want to build on it</a></li></ol></div>
+<h1 id="ol_start5_the_code"><a href="#ol_start5_the_code" class="header-anchor"><ol start="5">
+<li><p>The code</p>
+</li>
+</ol>
+</a></h1>
+<p>Part 5 of my recreation of <a href="/Pages/Physics/papers/hernquist1987/">Hernquist &#40;1987&#41;</a>. Everything I used is here. It is plain Julia with no dependencies beyond the standard library and <code>JSON3</code> for writing out results, so it should run anywhere Julia does.</p>
+<p><strong><a href="/assets/Physics/papers/hernquist1987/TreeCodeH87.tar.gz">Download the whole thing &#40;33 kB tarball&#41;</a></strong></p>
+<h2 id="layout"><a href="#layout" class="header-anchor">Layout</a></h2>
+<pre><code class="language-julia">TreeCodeH87/
+├── Project.toml
+├── src/
+│   ├── TreeCodeH87.jl     module, exports
+│   ├── plummer.jl         the model and the initial conditions
+│   ├── tree.jl            octree, multipole moments, the walk
+│   ├── octupole.jl        the n&#61;3 term, and raw-moment shifting
+│   ├── direct.jl          the honest O&#40;N^2&#41; sum, used as the yardstick
+│   ├── integrate.jl       leapfrog
+│   └── diagnostics.jl     energies, virial, Lagrangian radii, errors
+├── test/runtests.jl       44 tests, all of the checks described in these pages
+├── scripts/               one script per figure in the paper
+└── figures/               turns the results into the plots on these pages</code></pre>
+<h2 id="running_it"><a href="#running_it" class="header-anchor">Running it</a></h2>
+<pre><code class="language-bash">julia --project&#61;. -e &#39;using Pkg; Pkg.instantiate&#40;&#41;&#39;
+
+# the checks first, always
+julia --project&#61;. -t 4 test/runtests.jl
+
+# then any of the measurements
+julia --project&#61;. -t 8 scripts/evolution.jl     # Figs. 1, 2, 9
+julia --project&#61;. -t 1 scripts/timing.jl        # Figs. 3, 4  &#40;one thread&#33;&#41;
+julia --project&#61;. -t 8 scripts/errors.jl        # Figs. 6, 7
+julia --project&#61;. -t 8 scripts/relaxation.jl    # Fig. 10</code></pre>
+<p>Every script takes a <code>--quick</code> flag that cuts \(N\) and the number of steps down, so you can check the whole pipeline in a couple of minutes before committing to the real thing.</p>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      Run <code>timing.jl</code> with <strong>one</strong> thread. The \(N\log N\) law is a statement about how much arithmetic the algorithm does; spreading that arithmetic across cores only layers scheduling noise on top of the thing you are trying to measure. Everything else is happy multithreaded. 
+  </fieldset>
+  
+<p>The full production run is a shell script:</p>
+<pre><code class="language-bash">THREADS&#61;48 ./run_all.sh</code></pre>
+<p>On a 256-core machine the whole set finishes in a few minutes, except the single-threaded timing sweep which takes longer. My laptop can do everything except the \(N = 32768\) points.</p>
+<h2 id="the_pieces"><a href="#the_pieces" class="header-anchor">The pieces</a></h2>
+<p>The tree walk and the multipole recursion are listed and explained <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">in part 3</a>, and the integrator <a href="/Pages/Physics/papers/hernquist1987/02_leapfrog/">in part 2</a>, so I will not repeat them. Here are the parts that have not appeared yet.</p>
+<h3 id="the_octree_as_flat_arrays"><a href="#the_octree_as_flat_arrays" class="header-anchor">The octree, as flat arrays</a></h3>
+<p>Rather than a linked structure of objects, the whole tree is a handful of contiguous vectors indexed by node number. This keeps everything cache-friendly and makes the walk a simple loop over integers.</p>
+<pre><code class="language-julia">mutable struct Octree
+    child::Matrix&#123;Int32&#125;      # 8 x nmax, 0 means &quot;no child&quot;
+    leafpart::Vector&#123;Int32&#125;   # particle index for leaves, 0 otherwise
+    mass::Vector&#123;Float64&#125;
+    com::Matrix&#123;Float64&#125;      # 3 x nmax, centre of mass of the node
+    quad::Matrix&#123;Float64&#125;     # 6 x nmax, quadrupole about the node&#39;s own COM
+    center::Matrix&#123;Float64&#125;   # 3 x nmax, geometric centre of the cell
+    size::Vector&#123;Float64&#125;     # full width of the cell
+    nnodes::Int
+end</code></pre>
+<p>The quadrupole is symmetric and traceless, so six numbers per node is all it needs — I store <code>&#40;xx, xy, xz, yy, yz, zz&#41;</code> and reconstruct the rest by symmetry.</p>
+<p>A node is exactly one of three things: <strong>empty</strong> &#40;<code>mass &#61;&#61; 0</code>&#41;, a <strong>leaf</strong> holding one particle &#40;<code>leafpart &gt; 0</code>&#41;, or <strong>internal</strong> with up to eight children. Empty cells are never created, which is why the node count stays proportional to \(N\) and not to the volume.</p>
+<h3 id="the_plummer_model_and_the_sampler"><a href="#the_plummer_model_and_the_sampler" class="header-anchor">The Plummer model and the sampler</a></h3>
+<pre><code class="language-julia">Base.@kwdef struct Plummer
+    M::Float64 &#61; 1.0
+    r0::Float64 &#61; 0.2
+    R::Float64 &#61; 1.0
+end
+
+density&#40;p::Plummer, r&#41; &#61; 3p.M / &#40;4pi&#41; * p.r0^2 / &#40;r^2 &#43; p.r0^2&#41;^2.5
+enclosed_mass&#40;p::Plummer, r&#41; &#61; p.M * r^3 / &#40;r^2 &#43; p.r0^2&#41;^1.5
+potential&#40;p::Plummer, r&#41; &#61; -p.M / sqrt&#40;r^2 &#43; p.r0^2&#41;
+relative_potential&#40;p::Plummer, r&#41; &#61; p.M / sqrt&#40;r^2 &#43; p.r0^2&#41;
+escape_speed&#40;p::Plummer, r&#41; &#61; sqrt&#40;2 * relative_potential&#40;p, r&#41;&#41;
+
+# Invert the cumulative mass profile, truncated at R:
+#   m &#61; r^3/&#40;r^2&#43;r0^2&#41;^&#40;3/2&#41;  &#61;&gt;  r &#61; r0 m^&#40;1/3&#41; / sqrt&#40;1 - m^&#40;2/3&#41;&#41;
+function sample_radius&#40;p::Plummer, u::Float64&#41;
+    mmax &#61; enclosed_mass&#40;p, p.R&#41; / p.M
+    m &#61; u * mmax
+    return p.r0 * cbrt&#40;m&#41; / sqrt&#40;1 - cbrt&#40;m&#41;^2&#41;
+end
+
+# f&#40;E&#41; ~ &#40;-E&#41;^&#40;7/2&#41; collapses to one universal speed shape at every radius:
+#   g&#40;q&#41; ~ q^2 &#40;1-q^2&#41;^&#40;7/2&#41;,  q &#61; v / v_escape,  max 0.0922 at q &#61; sqrt&#40;2&#41;/3
+function sample_speed_fraction&#40;rng&#41;
+    while true
+        q &#61; rand&#40;rng&#41;
+        y &#61; 0.1 * rand&#40;rng&#41;
+        y &lt;&#61; q^2 * &#40;1 - q^2&#41;^3.5 &amp;&amp; return q
+    end
+end</code></pre>
+<h3 id="the_softening_scale"><a href="#the_softening_scale" class="header-anchor">The softening scale</a></h3>
+<p>Getting this right took me a while, because &quot;mean interparticle separation&quot; can mean several things and they differ by factors that matter. The definition that reproduces the paper&#39;s numbers is \(\lambda = n^{-1/3}\) with \(n\) the <strong>mean number density inside the half-mass radius</strong>:</p>
+<pre><code class="language-julia">function mean_interparticle_separation&#40;p::Plummer, N::Integer&#41;
+    rh &#61; half_mass_radius&#40;p&#41;
+    n &#61; &#40;N / 2&#41; / &#40;4pi / 3 * rh^3&#41;
+    return n^&#40;-1 / 3&#41;
+end</code></pre>
+<p>For the truncated model this gives \(r_{1/2} = 1.24\,r_0\) and \(\lambda = 2.5\,r_0N^{-1/3}\), so \(\varepsilon = 0.031\) at \(N = 4096\) — matching the paper&#39;s quoted \(0.032\). Using the <em>local</em> density at \(r_{1/2}\) instead would have given \(3.5\,r_0N^{-1/3}\), which is wrong by 40&#37;.</p>
+<h3 id="the_clausius_virial"><a href="#the_clausius_virial" class="header-anchor">The Clausius virial</a></h3>
+<p>The diagnostic that <a href="/Pages/Physics/papers/hernquist1987/01_setup/#the_bit_that_caught_me_out">caught me out in part 1</a>. For a softened force, the virial theorem is \(2K + W = 0\) with \(W = \sum_i m_i\vec r_i\cdot\vec a_i\), and \(W \neq U\):</p>
+<pre><code class="language-julia">function clausius_virial&#40;pos, acc, mass&#41;
+    W &#61; 0.0
+    @inbounds for i in eachindex&#40;mass&#41;
+        W &#43;&#61; mass&#91;i&#93; * &#40;pos&#91;1,i&#93;*acc&#91;1,i&#93; &#43; pos&#91;2,i&#93;*acc&#91;2,i&#93; &#43; pos&#91;3,i&#93;*acc&#91;3,i&#93;&#41;
+    end
+    return W
+end</code></pre>
+<p>Note that it uses the accelerations the code <strong>actually applied</strong>, tree approximation and all. So it tests the real dynamics rather than an idealised version of it.</p>
+<h2 id="the_tests"><a href="#the_tests" class="header-anchor">The tests</a></h2>
+<p>I want to be explicit about this, because a wrong simulation looks exactly like a right one. There are 44 tests and they all pass. The important ones:</p>
+<p><strong>The tree must reproduce the direct sum.</strong> At \(\theta = 0\) nothing can be accepted, so the walk has to descend to individual particles:</p>
+<pre><code class="language-julia">build_tree&#33;&#40;t, pos, mass; quadrupole &#61; false&#41;
+tree_forces&#33;&#40;a0, t, pos, mass, 0.0, eps&#41;
+@test maximum&#40;abs.&#40;a0 .- adir&#41;&#41; &lt; 1e-10 * maximum&#40;abs.&#40;adir&#41;&#41;</code></pre>
+<p>If this passes, the tree structure and the walk are both right, and only the multipole terms are left to check.</p>
+<p><strong>The quadrupole recursion must be right.</strong> Build the tree, then compare the <strong>root</strong> node&#39;s \(\mathbf{Q}\) against a brute-force sum over all \(N\) particles. The root never touches a particle directly — it only adds up its eight children — so an error anywhere in the recursion shows up here:</p>
+<pre><code class="language-julia">@test maximum&#40;abs.&#40;Q .- Qt&#41;&#41; &lt; 1e-10 * maximum&#40;abs.&#40;Q&#41;&#41;
+@test abs&#40;tr&#40;Qt&#41;&#41; &lt; 1e-10 * maximum&#40;abs.&#40;Q&#41;&#41;   # traceless by construction</code></pre>
+<p><strong>The acceleration must be minus the gradient of the potential.</strong> Numerically differentiate the multipole potential and compare with eq. &#40;2.4&#41;:</p>
+<pre><code class="language-julia">for k in 1:3
+    xp &#61; copy&#40;x0&#41;; xp&#91;k&#93; &#43;&#61; h
+    xm &#61; copy&#40;x0&#41;; xm&#91;k&#93; -&#61; h
+    num&#91;k&#93; &#61; -&#40;phi&#40;xp&#41; - phi&#40;xm&#41;&#41; / &#40;2h&#41;
+end
+@test isapprox&#40;num, accel&#40;x0&#41;; rtol &#61; 1e-6&#41;</code></pre>
+<p><strong>The distribution function must give back the density.</strong> Integrate \(4\pi\int_0^{v_e} v^2 f(\Psi - v^2/2)\,dv\) and check it returns \(\rho(r)\):</p>
+<pre><code class="language-julia">@test isapprox&#40;s, density&#40;p, r&#41;; rtol &#61; 1e-3&#41;</code></pre>
+<p><strong>The integrator must close a circular orbit and be second order.</strong> A two-body circular orbit has to come back to where it started after one period, and the energy wobble on an eccentric orbit must fall by four when the step is halved:</p>
+<pre><code class="language-julia">@test isapprox&#40;pos&#91;1, 1&#93;, r; atol &#61; 1e-4&#41;
+@test 3.0 &lt; errs&#91;1&#93; / errs&#91;2&#93; &lt; 5.0</code></pre>
+<p><strong>Poisson&#39;s equation.</strong> The density–potential pair, checked numerically as well as symbolically:</p>
+<pre><code class="language-julia">lap &#61; &#40;f&#40;r &#43; h&#41; - f&#40;r - h&#41;&#41; / &#40;2h&#41; / r^2
+@test isapprox&#40;lap, 4pi * density&#40;p, r&#41;; rtol &#61; 1e-4&#41;</code></pre>
+<p>Two of these tests failed the first time, and both failures were <strong>real physics</strong> rather than bugs. The virial ratio came out at 0.94 instead of 1 — that was the softening, now explained in part 1 rather than papered over. And a truncated Plummer sphere is not exactly virialised, which I confirmed by removing the cutoff and watching the ratio walk back to 1.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      In both cases the useful move was to keep the test and make it assert the <em>right</em> thing, instead of loosening the tolerance until it went green. 
+  </fieldset>
+  
+<h2 id="the_symbolic_checks"><a href="#the_symbolic_checks" class="header-anchor">The symbolic checks</a></h2>
+<p>The algebra in <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">part 3</a> was verified in Mathematica rather than by squinting at it. All of it is reproduced on those pages, but the list is:</p>
+<table><tr><th align="right">What</th><th align="right">Result</th></tr><tr><td align="right">Legendre expansion of the inverse distance, orders 0–4</td><td align="right">exact</td></tr><tr><td align="right">\(n=2\) Legendre term \(= \tfrac12\hat n\cdot\mathbf{Q}\cdot\hat n\)</td><td align="right">exact</td></tr><tr><td align="right">eq. &#40;2.4&#41; \(= -\nabla\) eq. &#40;2.2&#41;</td><td align="right">exact</td></tr><tr><td align="right">Poisson for the Plummer pair</td><td align="right">residual 0</td></tr><tr><td align="right">Eddington inversion for \(f(E)\)</td><td align="right">\(\frac{24\sqrt2}{7\pi^3}\frac{r_0^2}{G^5M^4}\mathcal{E}^{7/2}\)</td></tr><tr><td align="right">paper&#39;s eq. &#40;3.2&#41; vs. the above</td><td align="right">differs by \(G^{-4}\)</td></tr><tr><td align="right">Jeans equation for \(\sigma(r)\)</td><td align="right">\(\sigma_0(1+(r/r_0)^2)^{-1/4}\)</td></tr><tr><td align="right">softened potential expansion</td><td align="right">\(1-\tfrac12\varepsilon^2/r^2+\tfrac38\varepsilon^4/r^4\)</td></tr><tr><td align="right">maximum of \(g(q)=q^2(1-q^2)^{7/2}\)</td><td align="right">\(q=\sqrt2/3\), \(g=686\sqrt7/19683\)</td></tr></table>
+<h2 id="individual_files"><a href="#individual_files" class="header-anchor">Individual files</a></h2>
+<table><tr><th align="right">File</th><th align="right">What is in it</th></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/TreeCodeH87.jl"><code>TreeCodeH87.jl</code></a></td><td align="right">module and exports</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/plummer.jl"><code>plummer.jl</code></a></td><td align="right">Plummer model, distribution function, samplers</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/tree.jl"><code>tree.jl</code></a></td><td align="right">octree, multipole moments, the walk</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/octupole.jl"><code>octupole.jl</code></a></td><td align="right">the n &#61; 3 term and the raw-moment recursion</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/direct.jl"><code>direct.jl</code></a></td><td align="right">\(O(N^2)\) reference sum</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/integrate.jl"><code>integrate.jl</code></a></td><td align="right">leapfrog</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/diagnostics.jl"><code>diagnostics.jl</code></a></td><td align="right">energies, virial, radii, force errors, relaxation</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/test/runtests.jl"><code>runtests.jl</code></a></td><td align="right">the 44 checks above</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/evolution.jl"><code>evolution.jl</code></a></td><td align="right">Figs. 1, 2, 9</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/timing.jl"><code>timing.jl</code></a></td><td align="right">Figs. 3, 4</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/nterms.jl"><code>nterms.jl</code></a></td><td align="right">Fig. 5</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/errors.jl"><code>errors.jl</code></a></td><td align="right">Figs. 6, 7</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/softening.jl"><code>softening.jl</code></a></td><td align="right">Fig. 8</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/relaxation.jl"><code>relaxation.jl</code></a></td><td align="right">Fig. 10</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/virial.jl"><code>virial.jl</code></a></td><td align="right">the virial theorem run</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/integrators.jl"><code>integrators.jl</code></a></td><td align="right">leapfrog against Euler and RK4</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/treeviz.jl"><code>treeviz.jl</code></a></td><td align="right">the quadtree pictures</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/multipole_error.jl"><code>multipole_error.jl</code></a></td><td align="right">the \((s/d)^2\) and \((s/d)^3\) test</td></tr></table>
+<h2 id="if_you_want_to_build_on_it"><a href="#if_you_want_to_build_on_it" class="header-anchor">If you want to build on it</a></h2>
+<p>The obvious next steps, roughly in order of how much they would buy you:</p>
+<ol>
+<li><p><strong>Individual time steps</strong> — the single biggest win available, since core particles currently drag the whole simulation down to their step size.</p>
+</li>
+<li><p><strong>A better opening criterion</strong> — \(s/d<\theta\) ignores where the mass inside a cell actually sits. Criteria based on the multipole moments themselves do much better at the same cost.</p>
+</li>
+<li><p><strong>A tree that is not rebuilt from scratch every step</strong> — most of the structure does not change between steps.</p>
+</li>
+</ol>
+<p>Octupole terms used to be on this list; they are now implemented, and <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">part 6</a> measures what they buy.</p>
+
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      A good first exercise: take the code and make it two-dimensional. Everything carries over — the Legendre expansion, the quadrupole, the opening criterion — but a quadtree is a quarter of the bookkeeping and everything can be drawn. Then check whether the error still scales as \((s/d)^2\) and \((s/d)^3\), or whether the dimension changes it. 
+  </fieldset>
+  
+<hr />
+<p><strong>Previous:</strong> <a href="/Pages/Physics/papers/hernquist1987/04_results/">Part 4 — Results</a><br/> <strong>Next:</strong> <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">Part 6 — Doing better than 1987</a></p>
+<p>Hope this helps you in some way. If you like it then share with others if possible.</p>
+<p>If you have some queries, do let me know in the comments or contact me using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
+
+<button onclick="window.history.back()">Go Back</button>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 04, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Floating Back Button -->
+    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
+    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

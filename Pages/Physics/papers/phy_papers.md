@@ -12,4 +12,6 @@ tags = ["physics", "papers"]
 
 This contains the list of papers recreated by me:\\
 (*This part will be updated as new papers are added*)
-1. 
+
+1. **[Performance Characteristics of Tree Codes](/Pages/Physics/papers/hernquist1987/)** — Hernquist, L. 1987, *ApJS*, **64**, 715.\\
+   Recreating the Barnes-Hut tree algorithm from scratch in Julia: the Plummer model and its distribution function, the leapfrog integrator, the multipole expansion worked out term by term, and every timing, error and conservation test in the paper. Five parts, with interactive figures.
