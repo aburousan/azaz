@@ -455,41 +455,6 @@ html.dark-mode .dropdown-content a:hover {
 }
 
 /* =======================================================
-   FLOATING BACK BUTTON
-   ======================================================= */
-#floating-back-btn {
-  position: fixed;
-  bottom: 25px;
-  left: 25px;
-  background-color: var(--pastel-link);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 12px 24px;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-#floating-back-btn:hover {
-  background-color: var(--pastel-link-hover);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-}
-html.dark-mode #floating-back-btn {
-  background-color: #3d2b0e;
-  color: #f1f1f1;
-}
-html.dark-mode #floating-back-btn:hover {
-  background-color: #ffb84d;
-  color: #1a1a1a;
-}
-
-/* =======================================================
    PREMIUM CV IMAGES (About Me)
    ======================================================= */
 /* Overriding terrible franklin default padding */
@@ -756,27 +721,19 @@ html.dark-mode .gradient-text {
    code blocks)   [paper grain already exists above]
    ======================================================= */
 
-/* ---- (5) Ornamental section rules ----
-   Replace plain <hr> with a centered antique-gold fleuron. */
+/* ---- (5) Section rules ----
+   A quiet hairline. No glyph: it was reading as clutter mid-article. */
 .franklin-content hr {
   border: none;
-  height: auto;
-  margin: 3rem auto;
-  text-align: center;
-  overflow: visible;
+  border-top: 1px solid var(--ornament-gold, #9c7a3c);
+  height: 0;
+  width: 42%;
+  margin: 2.75rem auto;
+  opacity: 0.3;
 }
-.franklin-content hr::before {
-  content: "❧";
-  display: inline-block;
-  color: var(--ornament-gold, #9c7a3c);
-  font-size: 1.4rem;
-  line-height: 1;
-  letter-spacing: 0.4em;       /* nudge the glyph visually centered */
-  padding-left: 0.4em;
-  opacity: 0.85;
-}
-html.dark-mode .franklin-content hr::before {
-  color: #cda863;
+html.dark-mode .franklin-content hr {
+  border-top-color: #cda863;
+  opacity: 0.28;
 }
 
 /* ---- (10) Figure captions ----

@@ -242,8 +242,20 @@
       fig["config"]["autosizable"] = true
       fig["config"]["responsive"] = true
 
-      // make it easier to scroll throught the website rather than being blocked by a figure.
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
       fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
 
       // PlotlyJS.savefig by default add the some more attribute to make a static plot.
       // Disable them to make the website fancier.
@@ -300,7 +312,7 @@ julia --project&#61;. -t 8 scripts/relaxation.jl    # Fig. 10</code></pre>
 <pre><code class="language-bash">THREADS&#61;48 ./run_all.sh</code></pre>
 <p>On a 256-core machine the whole set finishes in a few minutes, except the single-threaded timing sweep which takes longer. My laptop can do everything except the \(N = 32768\) points.</p>
 <h2 id="the_pieces"><a href="#the_pieces" class="header-anchor">The pieces</a></h2>
-<p>The tree walk and the multipole recursion are listed and explained <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">in part 3</a>, and the integrator <a href="/Pages/Physics/papers/hernquist1987/02_leapfrog/">in part 2</a>, so I will not repeat them. Here are the parts that have not appeared yet.</p>
+<p>The tree walk and the multipole recursion are listed and explained <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">in part 3</a>, and the integrator <a href="/Pages/Physics/papers/hernquist1987/02_leapfrog/">in part 2</a>, so I will not repeat them. Below are the parts that have not appeared yet.</p>
 <h3 id="the_octree_as_flat_arrays"><a href="#the_octree_as_flat_arrays" class="header-anchor">The octree, as flat arrays</a></h3>
 <p>Rather than a linked structure of objects, the whole tree is a handful of contiguous vectors indexed by node number. This keeps everything cache-friendly and makes the walk a simple loop over integers.</p>
 <pre><code class="language-julia">mutable struct Octree
@@ -313,7 +325,7 @@ julia --project&#61;. -t 8 scripts/relaxation.jl    # Fig. 10</code></pre>
     size::Vector&#123;Float64&#125;     # full width of the cell
     nnodes::Int
 end</code></pre>
-<p>The quadrupole is symmetric and traceless, so six numbers per node is all it needs — I store <code>&#40;xx, xy, xz, yy, yz, zz&#41;</code> and reconstruct the rest by symmetry.</p>
+<p>The quadrupole is symmetric and traceless, so six numbers per node is all it needs. I store <code>&#40;xx, xy, xz, yy, yz, zz&#41;</code> and reconstruct the rest by symmetry.</p>
 <p>A node is exactly one of three things: <strong>empty</strong> &#40;<code>mass &#61;&#61; 0</code>&#41;, a <strong>leaf</strong> holding one particle &#40;<code>leafpart &gt; 0</code>&#41;, or <strong>internal</strong> with up to eight children. Empty cells are never created, which is why the node count stays proportional to \(N\) and not to the volume.</p>
 <h3 id="the_plummer_model_and_the_sampler"><a href="#the_plummer_model_and_the_sampler" class="header-anchor">The Plummer model and the sampler</a></h3>
 <pre><code class="language-julia">Base.@kwdef struct Plummer
@@ -352,9 +364,9 @@ end</code></pre>
     n &#61; &#40;N / 2&#41; / &#40;4pi / 3 * rh^3&#41;
     return n^&#40;-1 / 3&#41;
 end</code></pre>
-<p>For the truncated model this gives \(r_{1/2} = 1.24\,r_0\) and \(\lambda = 2.5\,r_0N^{-1/3}\), so \(\varepsilon = 0.031\) at \(N = 4096\) — matching the paper&#39;s quoted \(0.032\). Using the <em>local</em> density at \(r_{1/2}\) instead would have given \(3.5\,r_0N^{-1/3}\), which is wrong by 40&#37;.</p>
+<p>For the truncated model this gives \(r_{1/2} = 1.24\,r_0\) and \(\lambda = 2.5\,r_0N^{-1/3}\), so \(\varepsilon = 0.031\) at \(N = 4096\), matching the paper&#39;s quoted \(0.032\). Using the <em>local</em> density at \(r_{1/2}\) instead would have given \(3.5\,r_0N^{-1/3}\), which is wrong by 40&#37;.</p>
 <h3 id="the_clausius_virial"><a href="#the_clausius_virial" class="header-anchor">The Clausius virial</a></h3>
-<p>The diagnostic that <a href="/Pages/Physics/papers/hernquist1987/01_setup/#the_bit_that_caught_me_out">caught me out in part 1</a>. For a softened force, the virial theorem is \(2K + W = 0\) with \(W = \sum_i m_i\vec r_i\cdot\vec a_i\), and \(W \neq U\):</p>
+<p>The diagnostic that <a href="/Pages/Physics/papers/hernquist1987/01_setup/#the_bit_that_caught_me_out">caught me out in part 1</a>. For a softened force, the virial theorem is \(2K + W = 0\) with \(W = \sum_i m_i\vec r_i\cdot\vec a_i\) and \(W \neq U\):</p>
 <pre><code class="language-julia">function clausius_virial&#40;pos, acc, mass&#41;
     W &#61; 0.0
     @inbounds for i in eachindex&#40;mass&#41;
@@ -369,8 +381,8 @@ end</code></pre>
 <pre><code class="language-julia">build_tree&#33;&#40;t, pos, mass; quadrupole &#61; false&#41;
 tree_forces&#33;&#40;a0, t, pos, mass, 0.0, eps&#41;
 @test maximum&#40;abs.&#40;a0 .- adir&#41;&#41; &lt; 1e-10 * maximum&#40;abs.&#40;adir&#41;&#41;</code></pre>
-<p>If this passes, the tree structure and the walk are both right, and only the multipole terms are left to check.</p>
-<p><strong>The quadrupole recursion must be right.</strong> Build the tree, then compare the <strong>root</strong> node&#39;s \(\mathbf{Q}\) against a brute-force sum over all \(N\) particles. The root never touches a particle directly — it only adds up its eight children — so an error anywhere in the recursion shows up here:</p>
+<p>If this passes, the tree structure and the walk are both right, leaving only the multipole terms to check.</p>
+<p><strong>The quadrupole recursion must be right.</strong> Build the tree, then compare the <strong>root</strong> node&#39;s \(\mathbf{Q}\) against a brute-force sum over all \(N\) particles. The root never touches a particle directly, since it only adds up its eight children, so an error anywhere in the recursion shows up here:</p>
 <pre><code class="language-julia">@test maximum&#40;abs.&#40;Q .- Qt&#41;&#41; &lt; 1e-10 * maximum&#40;abs.&#40;Q&#41;&#41;
 @test abs&#40;tr&#40;Qt&#41;&#41; &lt; 1e-10 * maximum&#40;abs.&#40;Q&#41;&#41;   # traceless by construction</code></pre>
 <p><strong>The acceleration must be minus the gradient of the potential.</strong> Numerically differentiate the multipole potential and compare with eq. &#40;2.4&#41;:</p>
@@ -385,10 +397,10 @@ end
 <p><strong>The integrator must close a circular orbit and be second order.</strong> A two-body circular orbit has to come back to where it started after one period, and the energy wobble on an eccentric orbit must fall by four when the step is halved:</p>
 <pre><code class="language-julia">@test isapprox&#40;pos&#91;1, 1&#93;, r; atol &#61; 1e-4&#41;
 @test 3.0 &lt; errs&#91;1&#93; / errs&#91;2&#93; &lt; 5.0</code></pre>
-<p><strong>Poisson&#39;s equation.</strong> The density–potential pair, checked numerically as well as symbolically:</p>
+<p><strong>Poisson&#39;s equation.</strong> The density and potential pair, checked numerically as well as symbolically:</p>
 <pre><code class="language-julia">lap &#61; &#40;f&#40;r &#43; h&#41; - f&#40;r - h&#41;&#41; / &#40;2h&#41; / r^2
 @test isapprox&#40;lap, 4pi * density&#40;p, r&#41;; rtol &#61; 1e-4&#41;</code></pre>
-<p>Two of these tests failed the first time, and both failures were <strong>real physics</strong> rather than bugs. The virial ratio came out at 0.94 instead of 1 — that was the softening, now explained in part 1 rather than papered over. And a truncated Plummer sphere is not exactly virialised, which I confirmed by removing the cutoff and watching the ratio walk back to 1.</p>
+<p>Two of these tests failed the first time, and both failures were <strong>real physics</strong> rather than bugs. The virial ratio came out at 0.94 instead of 1, which was the softening, now explained in part 1 rather than papered over. A truncated Plummer sphere is also not exactly virialised, which I confirmed by removing the cutoff and watching the ratio walk back to 1.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       In both cases the useful move was to keep the test and make it assert the <em>right</em> thing, instead of loosening the tolerance until it went green. 
@@ -396,34 +408,34 @@ end
   
 <h2 id="the_symbolic_checks"><a href="#the_symbolic_checks" class="header-anchor">The symbolic checks</a></h2>
 <p>The algebra in <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">part 3</a> was verified in Mathematica rather than by squinting at it. All of it is reproduced on those pages, but the list is:</p>
-<table><tr><th align="right">What</th><th align="right">Result</th></tr><tr><td align="right">Legendre expansion of the inverse distance, orders 0–4</td><td align="right">exact</td></tr><tr><td align="right">\(n=2\) Legendre term \(= \tfrac12\hat n\cdot\mathbf{Q}\cdot\hat n\)</td><td align="right">exact</td></tr><tr><td align="right">eq. &#40;2.4&#41; \(= -\nabla\) eq. &#40;2.2&#41;</td><td align="right">exact</td></tr><tr><td align="right">Poisson for the Plummer pair</td><td align="right">residual 0</td></tr><tr><td align="right">Eddington inversion for \(f(E)\)</td><td align="right">\(\frac{24\sqrt2}{7\pi^3}\frac{r_0^2}{G^5M^4}\mathcal{E}^{7/2}\)</td></tr><tr><td align="right">paper&#39;s eq. &#40;3.2&#41; vs. the above</td><td align="right">differs by \(G^{-4}\)</td></tr><tr><td align="right">Jeans equation for \(\sigma(r)\)</td><td align="right">\(\sigma_0(1+(r/r_0)^2)^{-1/4}\)</td></tr><tr><td align="right">softened potential expansion</td><td align="right">\(1-\tfrac12\varepsilon^2/r^2+\tfrac38\varepsilon^4/r^4\)</td></tr><tr><td align="right">maximum of \(g(q)=q^2(1-q^2)^{7/2}\)</td><td align="right">\(q=\sqrt2/3\), \(g=686\sqrt7/19683\)</td></tr></table>
+<table><tr><th align="right">What</th><th align="right">Result</th></tr><tr><td align="right">Legendre expansion of the inverse distance, orders 0 to 4</td><td align="right">exact</td></tr><tr><td align="right">\(n=2\) Legendre term \(= \tfrac12\hat n\cdot\mathbf{Q}\cdot\hat n\)</td><td align="right">exact</td></tr><tr><td align="right">eq. &#40;2.4&#41; \(= -\nabla\) eq. &#40;2.2&#41;</td><td align="right">exact</td></tr><tr><td align="right">Poisson for the Plummer pair</td><td align="right">residual 0</td></tr><tr><td align="right">Eddington inversion for \(f(E)\)</td><td align="right">\(\frac{24\sqrt2}{7\pi^3}\frac{r_0^2}{G^5M^4}\mathcal{E}^{7/2}\)</td></tr><tr><td align="right">paper&#39;s eq. &#40;3.2&#41; vs. the above</td><td align="right">differs by \(G^{-4}\)</td></tr><tr><td align="right">Jeans equation for \(\sigma(r)\)</td><td align="right">\(\sigma_0(1+(r/r_0)^2)^{-1/4}\)</td></tr><tr><td align="right">softened potential expansion</td><td align="right">\(1-\tfrac12\varepsilon^2/r^2+\tfrac38\varepsilon^4/r^4\)</td></tr><tr><td align="right">maximum of \(g(q)=q^2(1-q^2)^{7/2}\)</td><td align="right">\(q=\sqrt2/3\), \(g=686\sqrt7/19683\)</td></tr></table>
 <h2 id="individual_files"><a href="#individual_files" class="header-anchor">Individual files</a></h2>
 <table><tr><th align="right">File</th><th align="right">What is in it</th></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/TreeCodeH87.jl"><code>TreeCodeH87.jl</code></a></td><td align="right">module and exports</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/plummer.jl"><code>plummer.jl</code></a></td><td align="right">Plummer model, distribution function, samplers</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/tree.jl"><code>tree.jl</code></a></td><td align="right">octree, multipole moments, the walk</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/octupole.jl"><code>octupole.jl</code></a></td><td align="right">the n &#61; 3 term and the raw-moment recursion</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/direct.jl"><code>direct.jl</code></a></td><td align="right">\(O(N^2)\) reference sum</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/integrate.jl"><code>integrate.jl</code></a></td><td align="right">leapfrog</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/src/diagnostics.jl"><code>diagnostics.jl</code></a></td><td align="right">energies, virial, radii, force errors, relaxation</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/test/runtests.jl"><code>runtests.jl</code></a></td><td align="right">the 44 checks above</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/evolution.jl"><code>evolution.jl</code></a></td><td align="right">Figs. 1, 2, 9</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/timing.jl"><code>timing.jl</code></a></td><td align="right">Figs. 3, 4</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/nterms.jl"><code>nterms.jl</code></a></td><td align="right">Fig. 5</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/errors.jl"><code>errors.jl</code></a></td><td align="right">Figs. 6, 7</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/softening.jl"><code>softening.jl</code></a></td><td align="right">Fig. 8</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/relaxation.jl"><code>relaxation.jl</code></a></td><td align="right">Fig. 10</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/virial.jl"><code>virial.jl</code></a></td><td align="right">the virial theorem run</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/integrators.jl"><code>integrators.jl</code></a></td><td align="right">leapfrog against Euler and RK4</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/treeviz.jl"><code>treeviz.jl</code></a></td><td align="right">the quadtree pictures</td></tr><tr><td align="right"><a href="/assets/Physics/papers/hernquist1987/code/scripts/multipole_error.jl"><code>multipole_error.jl</code></a></td><td align="right">the \((s/d)^2\) and \((s/d)^3\) test</td></tr></table>
 <h2 id="if_you_want_to_build_on_it"><a href="#if_you_want_to_build_on_it" class="header-anchor">If you want to build on it</a></h2>
 <p>The obvious next steps, roughly in order of how much they would buy you:</p>
 <ol>
-<li><p><strong>Individual time steps</strong> — the single biggest win available, since core particles currently drag the whole simulation down to their step size.</p>
+<li><p><strong>Individual time steps.</strong> The single biggest win available, since core particles currently drag the whole simulation down to their step size.</p>
 </li>
-<li><p><strong>A better opening criterion</strong> — \(s/d<\theta\) ignores where the mass inside a cell actually sits. Criteria based on the multipole moments themselves do much better at the same cost.</p>
+<li><p><strong>A better opening criterion.</strong> \(s/d<\theta\) ignores where the mass inside a cell actually sits. Criteria based on the multipole moments themselves do much better at the same cost.</p>
 </li>
-<li><p><strong>A tree that is not rebuilt from scratch every step</strong> — most of the structure does not change between steps.</p>
+<li><p><strong>A tree that is not rebuilt from scratch every step.</strong> Most of the structure does not change between steps.</p>
 </li>
 </ol>
 <p>Octupole terms used to be on this list; they are now implemented, and <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">part 6</a> measures what they buy.</p>
 
   <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
-      A good first exercise: take the code and make it two-dimensional. Everything carries over — the Legendre expansion, the quadrupole, the opening criterion — but a quadtree is a quarter of the bookkeeping and everything can be drawn. Then check whether the error still scales as \((s/d)^2\) and \((s/d)^3\), or whether the dimension changes it. 
+      A good first exercise: take the code and make it two-dimensional. Everything carries over &#40;the Legendre expansion, the quadrupole, the opening criterion&#41; but a quadtree is a quarter of the bookkeeping and everything can be drawn. Then check whether the error still scales as \((s/d)^2\) and \((s/d)^3\), or whether the dimension changes it. 
   </fieldset>
   
 <hr />
-<p><strong>Previous:</strong> <a href="/Pages/Physics/papers/hernquist1987/04_results/">Part 4 — Results</a><br/> <strong>Next:</strong> <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">Part 6 — Doing better than 1987</a></p>
+<p><strong>Previous:</strong> <a href="/Pages/Physics/papers/hernquist1987/04_results/">Part 4, results</a><br/> <strong>Next:</strong> <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">Part 6, doing better than 1987</a></p>
 <p>Hope this helps you in some way. If you like it then share with others if possible.</p>
 <p>If you have some queries, do let me know in the comments or contact me using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
 
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 04, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 05, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -526,11 +538,6 @@ end
       <img id="lightbox-img" src="">
     </div>
 
-    <!-- Floating Back Button -->
-    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
-      <i class="fas fa-arrow-left"></i> Back
-    </button>
-
     <!-- Lightbox Script -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -548,8 +555,64 @@ end
       });
     </script>
 
-    <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
-    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <!-- Oneko Cat: opt-out, remembered per visitor. The script is only loaded
+         when the cat is wanted, so switching it off costs nothing on later pages. -->
+    <style>
+      #oneko-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 1000;
+        width: 34px; height: 34px; padding: 0;
+        border: 1px solid rgba(140,140,140,0.35); border-radius: 50%;
+        background: rgba(250,248,244,0.82); color: #7a6a4a;
+        font-size: 15px; line-height: 1; cursor: pointer;
+        opacity: 0.42; transition: opacity 0.2s, transform 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #oneko-toggle:hover { opacity: 1; transform: scale(1.08); }
+      html.dark-mode #oneko-toggle {
+        background: rgba(38,36,33,0.82); color: #cda863;
+        border-color: rgba(180,170,150,0.28);
+      }
+      html.oneko-off #oneko { display: none !important; }
+      @media print { #oneko-toggle { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = 'oneko-enabled';
+        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var loaded = false;
+
+        function loadCat() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '/assets/oneko.js?v=62';
+          s.setAttribute('data-cat', '/assets/oneko.gif');
+          document.body.appendChild(s);
+        }
+
+        function paint(btn) {
+          btn.textContent = on ? '🐈' : '🐾';
+          btn.title = on ? 'Hide the cat' : 'Bring the cat back';
+          btn.setAttribute('aria-label', btn.title);
+          document.documentElement.classList.toggle('oneko-off', !on);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.createElement('button');
+          btn.id = 'oneko-toggle';
+          btn.type = 'button';
+          paint(btn);
+          btn.addEventListener('click', function () {
+            on = !on;
+            localStorage.setItem(KEY, on ? '1' : '0');
+            paint(btn);
+            if (on) loadCat();
+          });
+          document.body.appendChild(btn);
+          if (on) loadCat();
+        });
+      })();
+    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {

@@ -28,7 +28,7 @@
   <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/05_code/index.html </link>
   <guid> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/05_code/index.html </guid>
   <description>
-    <![CDATA[  Part 5 of recreating Hernquist &#40;1987&#41;: the complete Julia source for the Barnes-Hut tree code, the test suite, and how to run everything yourself.  ]]>
+    <![CDATA[  Part 5 of recreating Hernquist &#40;1987&#41;: the complete Julia source for the Barnes-Hut tree code, the test suite and how to run everything yourself.  ]]>
   </description>  
     
   <pubDate>Tue, 04 Aug 2026 00:00:00 +0000</pubDate>  

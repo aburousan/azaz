@@ -20,6 +20,7 @@ run errors     "$THREADS"
 run softening  "$THREADS"
 run evolution  "$THREADS"
 run relaxation "$THREADS"
+run animations "$THREADS"
 run timing     1
 
 echo "ALL DONE $(date '+%F %T')"

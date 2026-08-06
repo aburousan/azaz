@@ -242,8 +242,20 @@
       fig["config"]["autosizable"] = true
       fig["config"]["responsive"] = true
 
-      // make it easier to scroll throught the website rather than being blocked by a figure.
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
       fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
 
       // PlotlyJS.savefig by default add the some more attribute to make a static plot.
       // Disable them to make the website fancier.
@@ -257,20 +269,20 @@
   </script>
   
 <div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#where_it_starts_poissons_equation">Where it starts: Poisson&#39;s equation</a><ol><li><a href="#one_repair_we_need_first_softening">One repair we need first: softening</a></li></ol></li><li><a href="#the_plummer_model">The Plummer model</a></li><li><a href="#the_distribution_function">The distribution function</a><ol><li><a href="#setting_up_the_integral_equation">Setting up the integral equation</a></li><li><a href="#abels_inversion">Abel&#39;s inversion</a></li><li><a href="#turning_the_handle_for_plummer">Turning the handle for Plummer</a></li><li><a href="#what_the_distribution_function_is_telling_us">What the distribution function is telling us</a></li><li><a href="#the_velocity_dispersion">The velocity dispersion</a></li></ol></li><li><a href="#generating_the_initial_conditions">Generating the initial conditions</a><ol><li><a href="#positions">Positions</a></li><li><a href="#velocities">Velocities</a></li><li><a href="#checking_that_it_worked">Checking that it worked</a></li></ol></li><li><a href="#the_virial_theorem">The virial theorem</a><ol><li><a href="#from_the_moment_of_inertia">From the moment of inertia</a></li><li><a href="#why_w_u_for_gravity">Why \(W = U\) for gravity</a></li><li><a href="#the_bit_that_caught_me_out">The bit that caught me out</a></li><li><a href="#testing_it_across_a_factor_of_64_in_varepsilon">Testing it across a factor of 64 in \(\varepsilon\)</a></li><li><a href="#and_a_warning_about_making_varepsilon_small">And a warning about making \(\varepsilon\) small</a></li><li><a href="#the_transient">The transient</a></li></ol></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#where_it_starts_poissons_equation">Where it starts: Poisson&#39;s equation</a><ol><li><a href="#one_repair_we_need_first_softening">One repair we need first: softening</a></li></ol></li><li><a href="#the_plummer_model">The Plummer model</a></li><li><a href="#the_distribution_function">The distribution function</a><ol><li><a href="#setting_up_the_integral_equation">Setting up the integral equation</a></li><li><a href="#inverting_the_integral_equation">Inverting the integral equation</a></li><li><a href="#turning_the_handle_for_plummer">Turning the handle for Plummer</a></li><li><a href="#what_the_distribution_function_is_telling_us">What the distribution function is telling us</a></li><li><a href="#the_velocity_dispersion">The velocity dispersion</a></li></ol></li><li><a href="#generating_the_initial_conditions">Generating the initial conditions</a><ol><li><a href="#positions">Positions</a></li><li><a href="#velocities">Velocities</a></li><li><a href="#checking_that_it_worked">Checking that it worked</a></li></ol></li><li><a href="#the_virial_theorem">The virial theorem</a><ol><li><a href="#from_the_moment_of_inertia">From the moment of inertia</a></li><li><a href="#why_w_u_for_gravity">Why \(W = U\) for gravity</a></li><li><a href="#the_bit_that_caught_me_out">The bit that caught me out</a></li><li><a href="#testing_it_across_a_factor_of_64_in_varepsilon">Testing it across a factor of 64 in \(\varepsilon\)</a></li><li><a href="#and_a_warning_about_making_varepsilon_small">And a warning about making \(\varepsilon\) small</a></li><li><a href="#the_transient">The transient</a></li></ol></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
 <h1 id="the_problem_and_the_model_we_drop_particles_into"><a href="#the_problem_and_the_model_we_drop_particles_into" class="header-anchor"><ol>
 <li><p>The problem, and the model we drop particles into</p>
 </li>
 </ol>
 </a></h1>
-<p>This is part 1 of my recreation of <a href="/Pages/Physics/papers/hernquist1987/">Hernquist &#40;1987&#41;</a>. Here I set up the physics: what equation we are solving, what object we are simulating, how to generate the starting positions and velocities, and how to tell whether the thing is in equilibrium.</p>
+<p>This is part 1 of my recreation of <a href="/Pages/Physics/papers/hernquist1987/">Hernquist &#40;1987&#41;</a>. Here I set up the physics: what equation we are solving, what object we are simulating, how to generate the starting positions and velocities and how to tell whether the thing is in equilibrium.</p>
 <h2 id="where_it_starts_poissons_equation"><a href="#where_it_starts_poissons_equation" class="header-anchor">Where it starts: Poisson&#39;s equation</a></h2>
 <p>Sir wrote this on the board first, and everything else hangs off it:</p>
 \[
 \nabla^2 \phi = 4\pi G \rho
 \]
-<p>That is Poisson&#39;s equation. Given a mass density \(\rho(\vec{r})\), it tells you the gravitational potential \(\phi(\vec{r})\), and then the acceleration of anything sitting at \(\vec{r}\) is \(\vec{a} = -\nabla \phi\).</p>
-<p>Since we will lean on this equation the whole way through, let me show where it comes from rather than just writing it down. Start with Newton&#39;s law for the field of a point mass \(M\) at the origin,</p>
+<p>That is Poisson&#39;s equation. Given a mass density \(\rho(\vec{r})\) it tells you the gravitational potential \(\phi(\vec{r})\), and then the acceleration of anything sitting at \(\vec{r}\) is \(\vec{a} = -\nabla \phi\).</p>
+<p>We lean on this equation the whole way through, so here is where it comes from. Start with Newton&#39;s law for the field of a point mass \(M\) at the origin,</p>
 \[
 \vec g = -\frac{GM}{r^2}\hat r
 \]
@@ -278,7 +290,7 @@
 \[
 \oint \vec g\cdot d\vec S = -\frac{GM}{r^2}\times 4\pi r^2 = -4\pi GM
 \]
-<p>The \(r^2\) cancels — the flux does not care how big the sphere is. That is entirely due to gravity being an inverse-<em>square</em> law, and it is the reason all of this works. Since flux is additive over sources, for any distribution enclosing total mass \(M_{\text{enc}}\),</p>
+<p>The \(r^2\) cancels, so the flux does not care how big the sphere is. That is entirely due to gravity being an inverse-<em>square</em> law, and it is the reason all of this works. Since flux is additive over sources, for any distribution enclosing total mass \(M_{\text{enc}}\),</p>
 \[
 \oint \vec g\cdot d\vec S = -4\pi G M_{\text{enc}} = -4\pi G\int_V \rho\, dV
 \]
@@ -292,17 +304,17 @@
 \]
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      Everything in this project is a consequence of that one cancellation of \(r^2\). It is why the field of a spherical shell vanishes inside it, why we can replace a distant clump by a point mass, and — as we will see in <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">part 3</a> — why the multipole expansion has the structure it does. 
+      Everything in this project is a consequence of that one cancellation of \(r^2\). It is why the field of a spherical shell vanishes inside it, why we can replace a distant clump by a point mass and &#40;as we will see in <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">part 3</a>&#41; why the multipole expansion has the structure it does. 
   </fieldset>
   
-<p>For a smooth continuous fluid you could try to solve this on a grid. But a star cluster is <strong>not</strong> a fluid. It is a few hundred thousand point masses, and the whole interesting physics — stars flinging each other around, the core collapsing — lives in the fact that it is made of <em>lumps</em>. So instead of solving the differential equation, we go back to its solution for point masses and add them up:</p>
+<p>For a smooth continuous fluid you could try to solve this on a grid. But a star cluster is <strong>not</strong> a fluid. It is a few hundred thousand point masses, and the whole interesting physics, stars flinging each other around, the core collapsing, lives in the fact that it is made of <em>lumps</em>. So instead of solving the differential equation, we go back to its solution for point masses and add them up:</p>
 \[
 \phi(\vec{r}) = -G\sum_j \frac{m_j}{|\vec{r} - \vec{r}_j|}, \qquad
 \vec{a}_i = -G\sum_{j\neq i} m_j \frac{\vec{r}_i - \vec{r}_j}{|\vec{r}_i - \vec{r}_j|^3}
 \]
 <p>This is the \(N\)-body problem, and as I said on the <a href="/Pages/Physics/papers/hernquist1987/">front page</a>, doing it honestly costs \(O(N^2)\) per step.</p>
 <h3 id="one_repair_we_need_first_softening"><a href="#one_repair_we_need_first_softening" class="header-anchor">One repair we need first: softening</a></h3>
-<p>There is a nasty problem hiding in that formula. If two particles come very close, \(|\vec r_i - \vec r_j| \to 0\) and the force goes to infinity. Numerically this is a disaster — one unlucky close pass and a particle gets launched out of the system with absurd energy.</p>
+<p>There is a nasty problem hiding in that formula. If two particles come very close, \(|\vec r_i - \vec r_j| \to 0\) and the force goes to infinity. Numerically this is a disaster: one unlucky close pass and a particle gets launched out of the system with absurd energy.</p>
 <p>But think about what our particles actually <em>represent</em>. In a real galaxy simulation, one &quot;particle&quot; stands in for millions of stars. It is a smeared-out blob, not a point. So the divergence is not even physical. The standard repair is to soften the potential, which is Hernquist&#39;s eq. &#40;2.1&#41;:</p>
 \[
 \varphi(r) = -\frac{G m_1 m_2}{\left(r^2 + \varepsilon^2\right)^{1/2}}
@@ -312,26 +324,26 @@
       <strong>Softening length \(\varepsilon\)</strong>: a small distance below which gravity is artificially weakened, so that no pair of particles can ever feel an infinite force. For \(r \gg \varepsilon\) the potential is Newtonian again; for \(r \to 0\) it flattens off to a finite value \(-Gm_1m_2/\varepsilon\). 
   </fieldset>
   
-<p>It is tempting to read this as cheating — we broke gravity because the maths was inconvenient. It is the opposite, and the reason is worth being clear about.</p>
+<p>My first reaction was that this is cheating, that we broke gravity because the maths was inconvenient. It is the opposite.</p>
 <p>A globular cluster has \(\sim10^6\) stars; my simulation has 4096 particles. So one of my particles is not a star, it stands in for roughly 250 of them. And the field of 250 stars spread over some volume is smooth and finite everywhere, including in the middle. Letting my sample diverge would be claiming a sharpness the model never had.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      Softening is not a patch over a hole in Newton&#39;s law, it is an honest statement about <strong>resolution</strong>: below \(\varepsilon\) my particles do not represent anything real, so I am not entitled to an answer there. A pixel is not a point, a grid cell is not a point, and a simulation particle is not a point either. 
+      Softening is not a patch over a hole in Newton&#39;s law, it is an honest statement about <strong>resolution</strong>: below \(\varepsilon\) my particles do not represent anything real, so I am not entitled to an answer there. A pixel is not a point, a grid cell is not a point and a simulation particle is not a point either. 
   </fieldset>
   
 <p>How fast does it become Newtonian again? Expanding for \(r \gg \varepsilon\) &#40;I checked this in Mathematica&#41;:</p>
 \[
 \frac{\varphi_{\text{soft}}}{\varphi_{\text{Kepler}}} = 1 - \frac{1}{2}\frac{\varepsilon^2}{r^2} + \frac{3}{8}\frac{\varepsilon^4}{r^4} + \dots
 \]
-<p>which matches the expansion quoted in the paper. So the softening error dies off like \((\varepsilon/r)^2\) — not very fast. This will come back to bite us later when we look at how softening interacts with the multipole expansion.</p>
-<p>The natural size for \(\varepsilon\) is the <strong>mean interparticle separation</strong> \(\lambda\): close enough that you are not smearing out real structure, far enough that you are not resolving pairs that are not physically meaningful anyway.</p>
+<p>which matches the expansion quoted in the paper. So the softening error dies off like \((\varepsilon/r)^2\), which is not very fast. This will come back to bite us later when we look at how softening interacts with the multipole expansion.</p>
+<p>The natural size for \(\varepsilon\) is the <strong>mean interparticle separation</strong> \(\lambda\): close enough that you are not smearing out real structure, far enough that you are not resolving pairs which are not physically meaningful anyway.</p>
 <h2 id="the_plummer_model"><a href="#the_plummer_model" class="header-anchor">The Plummer model</a></h2>
-<p>Now, what do we actually simulate? Sir said &quot;Plummer profile problem&quot;, and the paper uses it too, for a good reason: it is one of the very few self-gravitating models where <em>everything</em> can be written down in closed form. Density, potential, mass profile, velocity dispersion, and — most importantly — the distribution function.</p>
+<p>Now, what do we actually simulate? Sir said &quot;Plummer profile problem&quot;, and the paper uses it too, for a good reason. It is one of the very few self-gravitating models where <em>everything</em> can be written down in closed form: density, potential, mass profile, velocity dispersion and most importantly the distribution function.</p>
 <p>The density is the paper&#39;s eq. &#40;3.1&#41;:</p>
 \[
 \rho(r) = \frac{3M}{4\pi}\frac{r_0^2}{\left(r^2+r_0^2\right)^{5/2}}
 \]
-<p>with \(M\) the total mass and \(r_0\) a scale length. The paper uses \(M = 1\), \(r_0 = 0.2\), \(G = 1\), and cuts the sphere off at radius \(R = 1\). I use exactly the same.</p>
+<p>with \(M\) the total mass and \(r_0\) a scale length. The paper uses \(M = 1\), \(r_0 = 0.2\), \(G = 1\) and cuts the sphere off at radius \(R = 1\). I use exactly the same.</p>
 <p>Two limits tell you the shape at a glance:</p>
 <ul>
 <li><p>\(r \ll r_0\): \(\rho \to 3M/(4\pi r_0^3)\), a flat constant-density <strong>core</strong>.</p>
@@ -339,17 +351,17 @@
 <li><p>\(r \gg r_0\): \(\rho \to 3Mr_0^2/(4\pi r^5)\), a steeply falling <strong>halo</strong>.</p>
 </li>
 </ul>
-<p>So it is a fat core with thin wings — which is roughly what a globular cluster looks like.</p>
-<p>The potential that goes with it is beautifully simple:</p>
+<p>So it is a fat core with thin wings, which is roughly what a globular cluster looks like.</p>
+<p>The potential that goes with it is very simple:</p>
 \[
 \phi(r) = -\frac{GM}{\sqrt{r^2+r_0^2}}
 \]
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      Look at the potential again. It is exactly the potential of a <strong>point mass</strong>, but with \(r\) replaced by \(\sqrt{r^2+r_0^2}\) — the same trick as the softened potential above&#33; A Plummer sphere <em>is</em> a softened point mass. That is not a coincidence: it is why \(\varphi_{\text{soft}}\) is the standard choice, and why \(\varepsilon\) is sometimes called a &quot;Plummer softening&quot;. 
+      Look at the potential again. It is exactly the potential of a <strong>point mass</strong>, but with \(r\) replaced by \(\sqrt{r^2+r_0^2}\), the same trick as the softened potential above. A Plummer sphere <em>is</em> a softened point mass. That is not a coincidence: it is why \(\varphi_{\text{soft}}\) is the standard choice, and why \(\varepsilon\) is sometimes called a &quot;Plummer softening&quot;. 
   </fieldset>
   
-<p>Let me actually verify the pair satisfies Poisson&#39;s equation rather than just asserting it. In spherical symmetry,</p>
+<p>Before using the pair I checked that it really does satisfy Poisson&#39;s equation. In spherical symmetry,</p>
 \[
 \nabla^2\phi = \frac{1}{r^2}\frac{d}{dr}\left(r^2\frac{d\phi}{dr}\right)
 \]
@@ -357,7 +369,7 @@
 <pre><code class="language-mathematica">phiP &#61; -G Mt/Sqrt&#91;r^2 &#43; r0^2&#93;;
 rhoP &#61; &#40;3 Mt/&#40;4 Pi&#41;&#41; r0^2/&#40;r^2 &#43; r0^2&#41;^&#40;5/2&#41;;
 FullSimplify&#91;&#40;1/r^2&#41; D&#91;r^2 D&#91;phiP, r&#93;, r&#93; - 4 Pi G rhoP&#93;</code></pre>
-<p>which returns <code>0</code>. Good — the pair is consistent.</p>
+<p>which returns <code>0</code>. Good, the pair is consistent.</p>
 <p>Let me also do the enclosed mass by hand, since we need it for the sampler and the integral is a nice one:</p>
 \[
 M(r) = \int_0^r 4\pi r'^2\rho(r')\,dr' = 3Mr_0^2\int_0^r\frac{r'^2\,dr'}{(r'^2+r_0^2)^{5/2}}
@@ -371,27 +383,28 @@ M(r) = \int_0^r 4\pi r'^2\rho(r')\,dr' = 3Mr_0^2\int_0^r\frac{r'^2\,dr'}{(r'^2+r
 M(r) = 3Mr_0^2\cdot\frac{1}{r_0^2}\cdot\frac{1}{3}\left[\frac{r'^3}{(r'^2+r_0^2)^{3/2}}\right]_0^r
 = \boxed{\;M\,\frac{r^3}{\left(r^2+r_0^2\right)^{3/2}}\;}
 \]
-<p>Two sanity checks. As \(r\to\infty\) this tends to \(M\), so the total mass really is \(M\) and the model is not secretly infinite. And as \(r\to 0\) it goes as \(Mr^3/r_0^3\), which is what a constant-density core must give.</p>
-<p>Here is the whole model in one plot. Note the log axis on \(r\), and that \(\rho\) has its own axis on the left while everything else shares the right one.</p>
-<div id="fdppvf" style=""></div>
+<p>Two sanity checks. As \(r\to\infty\) this tends to \(M\), so the total mass really is \(M\) and the model is not secretly infinite. As \(r\to 0\) it goes as \(Mr^3/r_0^3\), which is what a constant-density core must give.</p>
+<p>The whole model in one plot. Note the log axis on \(r\), and that \(\rho\) has its own axis on the left while everything else shares the right one.</p>
+<div id="fdppsx" style=""></div>
 <script>
-graphDiv = document.getElementById("fdppvf");
+graphDiv = document.getElementById("fdppsx");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_profiles.json');
 </script>
 
+<p>Radius goes right, and the four curves are everything the model says about itself. Density is flat in the middle and then falls off a cliff, which is the core plus halo shape. Enclosed mass climbs and levels off at 1, so nearly all the mass sits within a couple of scale lengths. The potential is deepest at the centre. The typical speed is highest in the middle and drops outwards, which is what you expect for stars sitting deeper in the well.</p>
 <h2 id="the_distribution_function"><a href="#the_distribution_function" class="header-anchor">The distribution function</a></h2>
 <p>Now comes the part that actually matters for setting up a simulation, and it is the bit I found most interesting.</p>
-<p>Giving the particles the right <em>positions</em> is easy — just sample from \(\rho(r)\). But if I then hand them random velocities, the cluster will not be in equilibrium; it will collapse or explode and then settle into something else entirely. I need the <em>right</em> velocities too.</p>
+<p>Giving the particles the right <em>positions</em> is easy: just sample from \(\rho(r)\). But if I then hand them random velocities, the cluster will not be in equilibrium. It will collapse or explode and then settle into something else entirely. I need the <em>right</em> velocities too.</p>
 
   <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
       The <strong>distribution function</strong> \(f(\vec r, \vec v)\) is the density of particles in the six-dimensional space of positions <em>and</em> velocities. The number of particles in a little box \(d^3r\, d^3v\) is \(f\, d^3r\, d^3v\). Getting the mass density back is just integrating over all velocities: \(\rho(\vec r) = \int f\, d^3 v\). 
   </fieldset>
   
-<p>For a system that is in a steady state, spherical, and has no preferred direction in velocity space &#40;an <em>isotropic</em> system&#41;, Jeans&#39; theorem says \(f\) can only depend on the energy per unit mass,</p>
+<p>For a system that is in a steady state, spherical, with no preferred direction in velocity space &#40;an <em>isotropic</em> system&#41;, Jeans&#39; theorem says \(f\) can only depend on the energy per unit mass,</p>
 \[
 E = \frac{1}{2}v^2 + \phi(r)
 \]
-<p>So I need to find the one function \(f(E)\) whose velocity integral reproduces the Plummer density. Let me actually derive that inversion instead of quoting it, because the derivation is short and the structure is worth seeing.</p>
+<p>So I need the one function \(f(E)\) whose velocity integral gives back the Plummer density. Here is how you get it.</p>
 <h3 id="setting_up_the_integral_equation"><a href="#setting_up_the_integral_equation" class="header-anchor">Setting up the integral equation</a></h3>
 <p>Work with the <strong>relative potential</strong> \(\Psi = -\phi\) &#40;positive, deepest at the centre&#41; and the <strong>relative energy</strong> \(\mathcal{E} = -E = \Psi - \tfrac{1}{2}v^2\). A particle is bound when \(\mathcal{E} > 0\).</p>
 <p>Since \(f\) is isotropic, the velocity integral only needs the magnitude of \(\vec v\), so \(d^3v = 4\pi v^2\,dv\):</p>
@@ -400,52 +413,86 @@ E = \frac{1}{2}v^2 + \phi(r)
 \]
 <p>Change the integration variable from \(v\) to \(\mathcal{E}\). From \(\mathcal{E} = \Psi - v^2/2\) we get \(v = \sqrt{2(\Psi-\mathcal{E})}\) and \(v\,dv = -d\mathcal{E}\), so \(v^2dv = v\cdot v\,dv = -\sqrt{2(\Psi-\mathcal{E})}\,d\mathcal{E}\). The limits flip &#40;\(v=0 \Rightarrow \mathcal{E}=\Psi\), and \(v=v_e \Rightarrow \mathcal{E}=0\)&#41;, which eats the minus sign:</p>
 \[
-\rho(\Psi) = 4\pi\int_0^{\Psi}f(\mathcal{E})\sqrt{2(\Psi-\mathcal{E})}\;d\mathcal{E}
+\rho(\Psi) = 4\pi\sqrt2\int_0^{\Psi}f(\mathcal{E})\,(\Psi-\mathcal{E})^{1/2}\;d\mathcal{E}
 \]
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      Notice that \(\rho\) is now written as a function of \(\Psi\) rather than \(r\). That is legitimate whenever \(\Psi(r)\) is monotonic — which it is for any sensible spherical model — so \(r\) and \(\Psi\) label the same points and we can move back and forth freely. 
+      Notice that \(\rho\) is now written as a function of \(\Psi\) rather than \(r\). That is legitimate whenever \(\Psi(r)\) is monotonic, which it is for any sensible spherical model, so \(r\) and \(\Psi\) label the same points and we can move back and forth freely. 
   </fieldset>
   
-<p>This is an integral equation for the unknown \(f\). Differentiating once with respect to \(\Psi\) &#40;the integrand vanishes at the upper limit, so only the \(\Psi\)-dependence inside survives&#41;:</p>
+<p>This is an integral equation for the unknown \(f\). It has an awkward feature: the unknown sits inside an integral whose upper limit is the variable we care about. Differentiating once with respect to \(\Psi\) pulls the power down by one and makes the kernel singular, which turns out to be exactly what we want. Using Leibniz&#39;s rule,</p>
 \[
-\frac{d\rho}{d\Psi} = 4\pi\sqrt2\int_0^\Psi f(\mathcal{E})\cdot\frac{1}{2\sqrt{\Psi-\mathcal{E}}}\,d\mathcal{E}
+\frac{d}{d\Psi}\int_0^{\Psi}f(\mathcal{E})(\Psi-\mathcal{E})^{1/2}d\mathcal{E}
+= \underbrace{f(\Psi)\,(\Psi-\Psi)^{1/2}}_{=\;0}
++ \int_0^{\Psi}f(\mathcal{E})\,\frac{1}{2}(\Psi-\mathcal{E})^{-1/2}\,d\mathcal{E}
+\]
+<p>The boundary term dies because the kernel itself vanishes at the upper limit. So</p>
+\[
+\frac{d\rho}{d\Psi} = 4\pi\sqrt2\cdot\frac{1}{2}\int_0^{\Psi}\frac{f(\mathcal{E})}{\sqrt{\Psi-\mathcal{E}}}\,d\mathcal{E}
 = 2\sqrt2\,\pi\int_0^{\Psi}\frac{f(\mathcal{E})}{\sqrt{\Psi-\mathcal{E}}}\,d\mathcal{E}
 \]
-<h3 id="abels_inversion"><a href="#abels_inversion" class="header-anchor">Abel&#39;s inversion</a></h3>
-<p>What we have is now exactly <strong>Abel&#39;s integral equation</strong>,</p>
+<h3 id="inverting_the_integral_equation"><a href="#inverting_the_integral_equation" class="header-anchor">Inverting the integral equation</a></h3>
+<p>What we have now is <strong>Abel&#39;s integral equation</strong>. Strip the constants by defining</p>
 \[
-g(\Psi) = \int_0^{\Psi}\frac{f(\mathcal{E})}{\sqrt{\Psi-\mathcal{E}}}\,d\mathcal{E}, \qquad g \equiv \frac{1}{2\sqrt2\,\pi}\frac{d\rho}{d\Psi}
+g(\Psi) \;\equiv\; \frac{1}{2\sqrt2\,\pi}\frac{d\rho}{d\Psi}
+\qquad\text{so that}\qquad
+g(\Psi) = \int_0^{\Psi}\frac{f(\mathcal{E})}{\sqrt{\Psi-\mathcal{E}}}\,d\mathcal{E}
 \]
-<p>whose solution has been known since 1826:</p>
+<p>\(g\) is known, since we can differentiate \(\rho(\Psi)\). \(f\) is not. When I first met this I was handed the answer and told it was Abel&#39;s, which left me with no idea why an equation like this can be inverted at all. It comes out in three lines, so here they are.</p>
+<p><strong>Step 1. One integral we need.</strong> For any \(a < b\),</p>
 \[
-f(\mathcal{E}) = \frac{1}{\pi}\frac{d}{d\mathcal{E}}\int_0^{\mathcal{E}}\frac{g(\Psi)}{\sqrt{\mathcal{E}-\Psi}}\,d\Psi
+\int_a^b \frac{dx}{\sqrt{(b-x)(x-a)}} = \pi
 \]
+<p>Substitute \(x = a + (b-a)\sin^2\beta\). Then \(dx = 2(b-a)\sin\beta\cos\beta\,d\beta\), while \(x - a = (b-a)\sin^2\beta\) and \(b - x = (b-a)\cos^2\beta\), so the square root is \((b-a)\sin\beta\cos\beta\) and everything cancels:</p>
+\[
+\int_a^b \frac{dx}{\sqrt{(b-x)(x-a)}} = \int_0^{\pi/2}2\,d\beta = \pi
+\]
+<p>Notice the answer is \(\pi\) no matter what \(a\) and \(b\) are. That constant is the whole trick.</p>
+<p><strong>Step 2. Hit the equation with the same kernel again.</strong> Multiply both sides of Abel&#39;s equation by \((\mathcal{E}-\Psi)^{-1/2}\) and integrate \(\Psi\) from \(0\) to \(\mathcal{E}\):</p>
+\[
+\int_0^{\mathcal{E}}\frac{g(\Psi)}{\sqrt{\mathcal{E}-\Psi}}\,d\Psi
+= \int_0^{\mathcal{E}}d\Psi\,\frac{1}{\sqrt{\mathcal{E}-\Psi}}\int_0^{\Psi}d\mathcal{E}'\,\frac{f(\mathcal{E}')}{\sqrt{\Psi-\mathcal{E}'}}
+\]
+<p><strong>Step 3. Swap the order of the double integral.</strong> The region being covered is \(0 \le \mathcal{E}' \le \Psi \le \mathcal{E}\), a triangle in the \((\mathcal{E}',\Psi)\) plane. Sweeping it the other way, \(\mathcal{E}'\) runs from \(0\) to \(\mathcal{E}\), while for each fixed \(\mathcal{E}'\) the variable \(\Psi\) runs from \(\mathcal{E}'\) up to \(\mathcal{E}\):</p>
+\[
+= \int_0^{\mathcal{E}}d\mathcal{E}'\,f(\mathcal{E}')\int_{\mathcal{E}'}^{\mathcal{E}}\frac{d\Psi}{\sqrt{(\mathcal{E}-\Psi)(\Psi-\mathcal{E}')}}
+\]
+<p><strong>Step 4. The inner integral is step 1</strong> with \(a = \mathcal{E}'\) and \(b = \mathcal{E}\), so it is \(\pi\) regardless of where \(\mathcal{E}'\) sits:</p>
+\[
+\int_0^{\mathcal{E}}\frac{g(\Psi)}{\sqrt{\mathcal{E}-\Psi}}\,d\Psi = \pi\int_0^{\mathcal{E}}f(\mathcal{E}')\,d\mathcal{E}'
+\]
+<p>The unknown is now sitting under a plain integral with no kernel at all.</p>
+<p><strong>Step 5. Differentiate.</strong> By the fundamental theorem of calculus,</p>
+\[
+\boxed{\;f(\mathcal{E}) = \frac{1}{\pi}\frac{d}{d\mathcal{E}}\int_0^{\mathcal{E}}\frac{g(\Psi)}{\sqrt{\mathcal{E}-\Psi}}\,d\Psi\;}
+\]
+<p>and that is Abel&#39;s inversion.</p>
 
-  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
-      <strong>Why Abel&#39;s inversion works.</strong> The kernel \((\Psi-\mathcal{E})^{-1/2}\) is its own near-inverse. If you substitute the first equation into the second and swap the order of integration, the inner integral is</p>
-\[
-    \int_{\mathcal{E}'}^{\mathcal{E}}\frac{d\Psi}{\sqrt{(\mathcal{E}-\Psi)(\Psi-\mathcal{E}')}} = \pi
-    \]
-<p>— a constant, independent of both limits &#40;put \(\Psi = \mathcal{E}' + (\mathcal{E}-\mathcal{E}')\sin^2\beta\) and it collapses to \(2\int_0^{\pi/2}d\beta\)&#41;. The \(1/\pi\) out front then cancels it, and the derivative undoes the remaining integral. Two half-power kernels stacked make one whole one.</p>
-<p>
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      Here is the way I ended up remembering it. Integrating against \((\text{gap})^{-1/2}\) is, in a precise sense, &quot;half an integration&quot;. Do it twice and you have done one whole integration, which a single derivative then undoes. That is why the same singular kernel shows up on the forward side and the inverse side instead of some new function: the kernel is its own partner. 
   </fieldset>
   
 <p>Putting \(g\) back in gives <strong>Eddington&#39;s formula</strong>:</p>
 \[
 f(\mathcal{E}) = \frac{1}{2\sqrt2\,\pi^2}\frac{d}{d\mathcal{E}}\int_0^{\mathcal{E}}\frac{d\rho}{d\Psi}\frac{d\Psi}{\sqrt{\mathcal{E}-\Psi}}
 \]
-<p>and integrating by parts once puts it in the form usually printed in textbooks,</p>
+<p>The version you usually see has the derivative moved inside, which takes one integration by parts. Take \(u = d\rho/d\Psi\) and \(dv = (\mathcal{E}-\Psi)^{-1/2}d\Psi\), so \(v = -2(\mathcal{E}-\Psi)^{1/2}\):</p>
+\[
+\int_0^{\mathcal{E}}\frac{d\rho}{d\Psi}\frac{d\Psi}{\sqrt{\mathcal{E}-\Psi}}
+= \Big[-2\sqrt{\mathcal{E}-\Psi}\,\frac{d\rho}{d\Psi}\Big]_0^{\mathcal{E}}
++ 2\int_0^{\mathcal{E}}\sqrt{\mathcal{E}-\Psi}\,\frac{d^2\rho}{d\Psi^2}\,d\Psi
+\]
+<p>At the upper limit the square root vanishes, so the bracket leaves only the lower limit, \(+2\sqrt{\mathcal{E}}\,(d\rho/d\Psi)_{\Psi=0}\). Now differentiate with respect to \(\mathcal{E}\). The first piece gives \(\mathcal{E}^{-1/2}(d\rho/d\Psi)_0\), and the second gives \(\int_0^{\mathcal{E}}(\mathcal{E}-\Psi)^{-1/2}(d^2\rho/d\Psi^2)d\Psi\), again with no boundary term. Collecting, and using \(2\sqrt2 = \sqrt8\),</p>
 \[
 f(\mathcal{E}) = \frac{1}{\sqrt{8}\,\pi^2}\left[\int_0^{\mathcal{E}}\frac{d^2\rho}{d\Psi^2}\frac{d\Psi}{\sqrt{\mathcal{E}-\Psi}} + \frac{1}{\sqrt{\mathcal{E}}}\left(\frac{d\rho}{d\Psi}\right)_{\Psi=0}\right]
 \]
-<p>&#40;using \(\sqrt8 = 2\sqrt2\)&#41;. The two forms are equivalent; the second is convenient because the boundary term usually vanishes.</p>
+<p>The two forms are the same thing. The second is convenient because for most models the boundary term vanishes, as it will here.</p>
 <h3 id="turning_the_handle_for_plummer"><a href="#turning_the_handle_for_plummer" class="header-anchor">Turning the handle for Plummer</a></h3>
 <p>Now the payoff for choosing this model. From \(\Psi = GM/\sqrt{r^2+r_0^2}\) we can read off \(\sqrt{r^2+r_0^2} = GM/\Psi\), so \((r^2+r_0^2)^{5/2} = (GM/\Psi)^5\), and</p>
 \[
 \rho(\Psi) = \frac{3M}{4\pi}\,r_0^2\left(\frac{\Psi}{GM}\right)^5 = \underbrace{\frac{3r_0^2}{4\pi G^5M^4}}_{\;\equiv\;C}\;\Psi^5
 \]
-<p>The density is a <strong>pure power of the potential</strong>. That is what makes Plummer the model everybody learns on. Now \(d\rho/d\Psi = 5C\Psi^4\) and \(d^2\rho/d\Psi^2 = 20C\Psi^3\), and the boundary term dies because \(d\rho/d\Psi\propto\Psi^4\to0\) at \(\Psi=0\). So</p>
+<p>The density is a <strong>pure power of the potential</strong>. Which is why Plummer is the model everybody learns on. Now \(d\rho/d\Psi = 5C\Psi^4\) and \(d^2\rho/d\Psi^2 = 20C\Psi^3\), and the boundary term dies because \(d\rho/d\Psi\propto\Psi^4\to0\) at \(\Psi=0\). So</p>
 \[
 f(\mathcal{E}) = \frac{1}{2\sqrt2\,\pi^2}\int_0^{\mathcal{E}}\frac{20C\,\Psi^3}{\sqrt{\mathcal{E}-\Psi}}\,d\Psi
 \]
@@ -470,7 +517,7 @@ f(\mathcal{E}) = \frac{20C}{2\sqrt2\,\pi^2}\cdot\frac{32}{35}\,\mathcal{E}^{7/2}
 \[
 \boxed{\;f(\mathcal{E}) = \frac{24\sqrt{2}}{7\pi^3}\,\frac{r_0^2}{G^5M^4}\,\mathcal{E}^{7/2}\;}
 \]
-<p>Here is the Mathematica that does it, so you can check me:</p>
+<p>The Mathematica that does it, so you can check me:</p>
 <pre><code class="language-mathematica">&#36;Assumptions &#61; r0 &gt; 0 &amp;&amp; Mt &gt; 0 &amp;&amp; G &gt; 0 &amp;&amp; ee &gt; 0 &amp;&amp; 0 &lt; Psi &lt; ee;
 rhoOfPsi &#61; &#40;3 r0^2/&#40;4 Pi G^5 Mt^4&#41;&#41; Psi^5;
 fE &#61; FullSimplify&#91;&#40;1/&#40;Sqrt&#91;8&#93; Pi^2&#41;&#41; &#40;
@@ -497,7 +544,7 @@ p(v)\,dv \;\propto\; v^2\left(\Psi - \tfrac{1}{2}v^2\right)^{7/2}dv
 \[
 g(q) \propto q^2\left(1-q^2\right)^{7/2}, \qquad 0 \le q \le 1
 \]
-<p>This is a genuinely nice result: <strong>the shape of the speed distribution is identical at every radius</strong>, only the scale \(v_e(r)\) changes. That makes sampling easy, as we will see.</p>
+<p>So <strong>the shape of the speed distribution is identical at every radius</strong>, and only the scale \(v_e(r)\) changes. I like this one, and it makes the sampling easy.</p>
 <h3 id="the_velocity_dispersion"><a href="#the_velocity_dispersion" class="header-anchor">The velocity dispersion</a></h3>
 <p>One more thing I can get analytically, and this one gives me a second independent prediction to test the sampler against.</p>
 <p>The <strong>Jeans equation</strong> for a spherical, isotropic, steady-state system is the stellar-dynamics version of hydrostatic equilibrium: the pressure gradient of the &quot;star gas&quot; balances gravity. With \(\rho\sigma^2\) playing the role of pressure,</p>
@@ -512,7 +559,7 @@ g(q) \propto q^2\left(1-q^2\right)^{7/2}, \qquad 0 \le q \le 1
 \[
 \rho\frac{d\phi}{dr} = \frac{3Mr_0^2}{4\pi(r'^2+r_0^2)^{5/2}}\cdot\frac{GMr'}{(r'^2+r_0^2)^{3/2}} = \frac{3GM^2r_0^2}{4\pi}\frac{r'}{(r'^2+r_0^2)^{4}}
 \]
-<p>That integral is elementary — substitute \(w = r'^2+r_0^2\), \(dw = 2r'dr'\):</p>
+<p>That integral is elementary. Substitute \(w = r'^2+r_0^2\), \(dw = 2r'dr'\):</p>
 \[
 \int_r^\infty\frac{r'\,dr'}{(r'^2+r_0^2)^4} = \frac{1}{2}\int_{r^2+r_0^2}^{\infty}\frac{dw}{w^4} = \frac{1}{6(r^2+r_0^2)^3}
 \]
@@ -530,31 +577,64 @@ g(q) \propto q^2\left(1-q^2\right)^{7/2}, \qquad 0 \le q \le 1
 <p>exactly as the paper quotes.</p>
 
   <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
-      Compare \(\sigma^2 = GM/6\sqrt{r^2+r_0^2}\) with the potential \(\Psi = GM/\sqrt{r^2+r_0^2}\). They differ by a factor of exactly 6 at every radius, so \(\sigma^2 = \Psi/6\) everywhere. That is a special feature of the \(\rho\propto\Psi^5\) relation, and it is why the escape speed \(v_e = \sqrt{2\Psi}\) is always \(\sqrt{12}\,\sigma \approx 3.46\,\sigma\) in this model — the same number at the centre and in the far halo. 
+      Compare \(\sigma^2 = GM/6\sqrt{r^2+r_0^2}\) with the potential \(\Psi = GM/\sqrt{r^2+r_0^2}\). They differ by a factor of exactly 6 at every radius, so \(\sigma^2 = \Psi/6\) everywhere. That is a special feature of the \(\rho\propto\Psi^5\) relation, and it is why the escape speed \(v_e = \sqrt{2\Psi}\) is always \(\sqrt{12}\,\sigma \approx 3.46\,\sigma\) in this model, the same number at the centre and in the far halo. 
   </fieldset>
   
 <p>The important thing is that I never fed \(\sigma(r)\) into the code. It is a <em>consequence</em> of the distribution function, so if my sampled particles reproduce it, the sampler is right.</p>
 <h2 id="generating_the_initial_conditions"><a href="#generating_the_initial_conditions" class="header-anchor">Generating the initial conditions</a></h2>
 <p>Now the practical part: turning the maths above into a list of \(\{\vec r_i\}\) and \(\{\vec v_i\}\).</p>
 <h3 id="positions"><a href="#positions" class="header-anchor">Positions</a></h3>
-<p>I want \(r\) distributed so that the fraction of particles inside radius \(r\) is \(M(r)/M(R)\). The standard trick is <strong>inverse transform sampling</strong>: draw \(u\) uniformly from \([0,1)\), set \(M(r)/M = u \cdot M(R)/M\), and solve for \(r\). With \(m \equiv M(r)/M\),</p>
+<p>I want \(r\) distributed so that the fraction of particles inside radius \(r\) is \(M(r)/M(R)\). The standard trick is <strong>inverse transform sampling</strong>: draw \(u\) uniformly from \([0,1)\), set \(M(r)/M = u \cdot M(R)/M\), then solve for \(r\). With \(m \equiv M(r)/M\),</p>
 \[
 m = \frac{r^3}{(r^2+r_0^2)^{3/2}} \;\Longrightarrow\; m^{2/3} = \frac{r^2}{r^2+r_0^2} \;\Longrightarrow\; r = \frac{r_0\, m^{1/3}}{\sqrt{1-m^{2/3}}}
 \]
 <p>Clean, closed form, no iteration. Then throw the particle in a random direction.</p>
 
   <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
-      A random direction is <em>not</em> &quot;uniform in \(\theta\) and \(\phi\)&quot; — that piles particles up at the poles. The right way is uniform in \(\cos\theta\) and uniform in \(\phi\), because the solid angle element is \(d\Omega = d(\cos\theta)\,d\phi\). 
+      A random direction is <em>not</em> &quot;uniform in \(\theta\) and \(\phi\)&quot;, which piles particles up at the poles. The right way is uniform in \(\cos\theta\) and uniform in \(\phi\), because the solid angle element is \(d\Omega = d(\cos\theta)\,d\phi\). 
   </fieldset>
   
 <h3 id="velocities"><a href="#velocities" class="header-anchor">Velocities</a></h3>
-<p>For speeds I use the universal shape \(g(q) = q^2(1-q^2)^{7/2}\) from above. There is no nice closed-form inverse for this one, so I use <strong>von Neumann rejection</strong>: throw a dart at the box \([0,1]\times[0, g_{\max}]\) and keep it if it lands under the curve.</p>
-<p>Mathematica gives the maximum exactly:</p>
+<p>For speeds I need to draw \(q = v/v_e\) from the universal shape \(g(q) = q^2(1-q^2)^{7/2}\) derived above. The trick I used for the radius does not work here, because there is no closed-form inverse of the cumulative integral of \(g\). So I use <strong>von Neumann rejection</strong> instead.</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>Rejection sampling.</strong> Draw the curve \(g(q)\) on graph paper. Draw a rectangle that completely encloses it. Now throw darts uniformly at the rectangle and throw away every dart landing above the curve. The \(q\)-coordinates of the darts you kept are distributed exactly like \(g\), because the number surviving in any thin vertical strip is proportional to the height of the curve there. 
+  </fieldset>
+  
+<p>That rectangle is the <strong>bounding box</strong>, and it is doing one job: it is a shape I know how to sample from &#40;uniform, trivial&#41; which is guaranteed to sit entirely above the shape I do not know how to sample from. Two conditions make a box valid:</p>
+<ol>
+<li><p>It must span the full range of \(q\) where \(g\) is non-zero. Here \(g\) lives on \(0 \le q \le 1\) and is zero outside, so the box runs from \(0\) to \(1\) horizontally. Miss part of that range and you silently never generate those speeds.</p>
+</li>
+<li><p>It must be at least as tall as the highest point of \(g\). If the box is too short, the top of the curve gets clipped and those speeds come out under-represented.</p>
+</li>
+</ol>
+<p>Nothing forces the box to be <em>tight</em>. A taller box is still correct, only wasteful, because the fraction of darts you keep is</p>
+\[
+\text{acceptance} = \frac{\text{area under } g}{\text{area of the box}}
+\]
+<p>So the only thing I need is the maximum of \(g\). Differentiating \(g = q^2(1-q^2)^{7/2}\),</p>
+\[
+g'(q) = q\left(1-q^2\right)^{5/2}\left(2 - 9q^2\right)
+\]
+<p>which vanishes at \(q^2 = 2/9\). Mathematica confirms the values:</p>
 \[
 q_{\max} = \frac{\sqrt2}{3} \approx 0.4714, \qquad g_{\max} = \frac{686\sqrt7}{19683} \approx 0.0922
 \]
-<p>so a bounding box of height \(0.1\) works and accepts about a quarter of the darts. Cheap enough.</p>
-<p>Here is the Julia:</p>
+<p>So I take a box of height \(0.1\), which clears the peak with a little room to spare. The area under the curve is exactly \(7\pi/512 \approx 0.04295\), so the acceptance rate is \(0.04295/0.1 \approx 43\%\). A little over two darts thrown per particle kept, which costs nothing.</p>
+<p>Rather than describe it any further, here is an actual run of the sampler. Press play.</p>
+<div id="fdpuvm" style=""></div>
+<script>
+graphDiv = document.getElementById("fdpuvm");
+plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/anim_sampler.json');
+</script>
+
+<p>The dotted rectangle is the bounding box, and every dart lands somewhere inside it. Green ones fell under the curve and are kept, red ones fell above and are thrown away. The orange bars are the speeds kept so far, and they slowly grow into the blue curve. That is the whole trick: I never had to invert anything, I just threw darts and kept the lucky ones. The counter in the title settles near \(43\%\), which is the number worked out above.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      The reason a slightly loose box is fine here is that \(g\) is a fat, well-behaved bump. Rejection sampling only becomes painful when the target has a tall narrow spike, because then the box has to be as tall as the spike while nearly all of its area is empty, and the acceptance rate collapses. 
+  </fieldset>
+  
+<p>The Julia:</p>
 <pre><code class="language-julia">function sample_speed_fraction&#40;rng&#41;
     while true
         q &#61; rand&#40;rng&#41;
@@ -587,32 +667,36 @@ function plummer_ics&#40;N::Integer; p::Plummer &#61; Plummer&#40;&#41;, seed::I
     end
     return pos, vel, mass
 end</code></pre>
+<p>The <code>y &#61; 0.1 * rand&#40;rng&#41;</code> line is the vertical coordinate of the dart, and <code>0.1</code> is the height of the bounding box. The <code>while true</code> loop keeps throwing until one lands under the curve.</p>
 <h3 id="checking_that_it_worked"><a href="#checking_that_it_worked" class="header-anchor">Checking that it worked</a></h3>
 <p>Never trust a sampler. Here are 200,000 particles I generated, checked against the theory in three independent ways.</p>
 <p>The radial distribution against \(4\pi r^2\rho(r)/M(R)\):</p>
-<div id="fdpkze" style=""></div>
+<div id="fdpgei" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpkze");
+graphDiv = document.getElementById("fdpgei");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_sampled_radius.json');
 </script>
 
-<p>The velocity dispersion against \(\sigma_0[1+(r/r_0)^2]^{-1/4}\) — and remember, I never fed \(\sigma(r)\) into the sampler. It fell out of the distribution function on its own:</p>
-<div id="fdpofb" style=""></div>
+<p>Dots are my sampled particles, the curve is the theory. They sit on top of each other, so the positions are correct.</p>
+<p>The velocity dispersion against \(\sigma_0[1+(r/r_0)^2]^{-1/4}\). Remember, I never fed \(\sigma(r)\) into the sampler. It fell out of the distribution function on its own:</p>
+<div id="fdpyme" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpofb");
+graphDiv = document.getElementById("fdpyme");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_sampled_sigma.json');
 </script>
 
+<p>Same idea, but for speeds now. Dots are measured from the sample, the curve is the formula we derived. I never gave this formula to the sampler, so matching it means the velocities are right too.</p>
 <p>And the universal speed shape:</p>
-<div id="fdpnap" style=""></div>
+<div id="fdplay" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpnap");
+graphDiv = document.getElementById("fdplay");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_speed_dist.json');
 </script>
 
-<p>All three land on the analytic curves. I also run the check the other way in the test suite — numerically integrating \(4\pi\int v^2 f(\Psi - v^2/2)\,dv\) and confirming it returns \(\rho(r)\) to one part in a thousand.</p>
+<p>One histogram for each shell of the cluster, and they all fall on the same curve. So the speed distribution really does have the same shape everywhere, only the scale changes.</p>
+<p>All three land on the analytic curves. I also run the check the other way in the test suite, numerically integrating \(4\pi\int v^2 f(\Psi - v^2/2)\,dv\) and confirming it returns \(\rho(r)\) to one part in a thousand.</p>
 <h2 id="the_virial_theorem"><a href="#the_virial_theorem" class="header-anchor">The virial theorem</a></h2>
-<p>This is where sir actually started, so let me do it properly and not skip any steps.</p>
+<p>This is where sir actually started, so I am going through it a step at a time.</p>
 <h3 id="from_the_moment_of_inertia"><a href="#from_the_moment_of_inertia" class="header-anchor">From the moment of inertia</a></h3>
 <p>Take the moment of inertia of the whole system about its centre of mass,</p>
 \[
@@ -631,8 +715,8 @@ I = \sum_i m_i r_i^2 = \sum_i m_i\,\vec r_i\cdot\vec r_i
 \[
 \boxed{\;\frac{1}{2}\frac{d^2I}{dt^2} = 2K + W\;}
 \]
-<p>where \(K\) is the total kinetic energy and \(W\) is called the <strong>Clausius virial</strong>. Note that so far this is <em>exact</em> — no averaging, no assumptions, no equilibrium. It is just calculus applied to Newton&#39;s laws.</p>
-<p>Now the physical step, and it is exactly the one sir wrote down. If the system is not flying apart and not collapsing — if it has settled — then \(I\) fluctuates about a constant. Over a long averaging time \(T\),</p>
+<p>where \(K\) is the total kinetic energy and \(W\) is called the <strong>Clausius virial</strong>. Note that so far this is <em>exact</em>. No averaging, no assumptions, no equilibrium. It is just calculus applied to Newton&#39;s laws.</p>
+<p>Now the physical step, and it is exactly the one sir wrote down. If the system is not flying apart and not collapsing, if it has settled, then \(I\) fluctuates about a constant. Over a long averaging time \(T\),</p>
 \[
 \left\langle\frac{d^2I}{dt^2}\right\rangle = \frac{1}{T}\int_0^T\frac{d^2I}{dt^2}dt = \frac{1}{T}\left[\frac{dI}{dt}\right]_0^T \xrightarrow[\;T\to\infty\;]{} 0
 \]
@@ -641,7 +725,7 @@ I = \sum_i m_i r_i^2 = \sum_i m_i\,\vec r_i\cdot\vec r_i
 \boxed{\;2\langle K\rangle + \langle W\rangle = 0\;}
 \]
 <h3 id="why_w_u_for_gravity"><a href="#why_w_u_for_gravity" class="header-anchor">Why \(W = U\) for gravity</a></h3>
-<p>Now I need to show that \(W\) is the potential energy, which is the step that is usually asserted. Write \(W\) in terms of forces, \(m_i\vec a_i = \vec F_i\):</p>
+<p>Every treatment I have seen states that \(W\) is the potential energy and moves on. Here is the show. Write \(W\) in terms of forces, \(m_i\vec a_i = \vec F_i\):</p>
 \[
 W = \sum_i \vec r_i\cdot\vec F_i = -G\sum_i\sum_{j\neq i}m_im_j\;\frac{\vec r_i\cdot(\vec r_i-\vec r_j)}{|\vec r_i-\vec r_j|^3}
 \]
@@ -657,14 +741,14 @@ W = -G\sum_{i\lt j}\frac{m_im_j}{r_{ij}} = U
 \]
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      Look at what made that work. The \(r_{ij}^2\) in the numerator came from \(\vec r_{ij}\cdot\vec r_{ij}\), and it cancelled two of the three powers in \(r_{ij}^3\) — leaving exactly one, which is the potential. <strong>That cancellation is specific to an inverse-square force.</strong> For a force \(\propto r^{-n}\) you would get \(W = -(n-1)\times(\text{something})\), and the virial theorem takes a different form. Gravity being \(1/r^2\) is doing the work here, just as it did in Poisson&#39;s equation. 
+      Look at what made that work. The \(r_{ij}^2\) in the numerator came from \(\vec r_{ij}\cdot\vec r_{ij}\), and it cancelled two of the three powers in \(r_{ij}^3\), leaving exactly one, which is the potential. <strong>That cancellation is specific to an inverse-square force.</strong> For a force \(\propto r^{-n}\) you would get \(W = -(n-1)\times(\text{something})\), and the virial theorem takes a different form. Gravity being \(1/r^2\) is doing the work here, just as it did in Poisson&#39;s equation. 
   </fieldset>
   
 <p>So for a pure \(1/r\) potential the theorem is the familiar</p>
 \[
 2\langle K\rangle + \langle U\rangle = 0 \qquad\text{and}\qquad \langle E\rangle = \langle K\rangle + \langle U\rangle = \frac{1}{2}\langle U\rangle
 \]
-<p>That second relation is worth staring at. Combining \(2K + U = 0\) with \(E = K + U\) gives</p>
+<p>Stare at that second relation for a second. Combining \(2K + U = 0\) with \(E = K + U\) gives</p>
 \[
 K = -E
 \]
@@ -673,11 +757,11 @@ K = -E
       So if the system <strong>loses</strong> energy, \(K\) goes <strong>up</strong>. Take energy away from a star cluster and it gets <em>hotter</em>. This is the famous negative heat capacity of gravitating systems, and it drops straight out of the virial theorem. 
   </fieldset>
   
-<p>You already know an example of this. A satellite in low orbit feels a little atmospheric drag, which removes energy — so does it slow down? No. It spirals inwards, and as it falls to a lower orbit it <em>speeds up</em>, because the potential energy it gave up was twice the kinetic energy it gained. That is \(2K + U = 0\) for a one-body orbit.</p>
-<p>A star cluster does the same thing collectively: let it lose energy, say by flinging a few stars out to infinity, and the rest contracts and the stars left behind move faster.</p>
+<p>You already know an example of this. A satellite in low orbit feels a little atmospheric drag, which removes energy. So does it slow down? No. It spirals inwards, and as it falls to a lower orbit it <em>speeds up</em>, because the potential energy it gave up was twice the kinetic energy it gained. That is \(2K + U = 0\) for a one-body orbit.</p>
+<p>A star cluster does the same thing collectively: let it lose energy, say by flinging a few stars out to infinity, and the rest contracts while the stars left behind move faster.</p>
 
   <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
-      This has an alarming consequence. A hot core in contact with a cooler halo loses energy to the halo, which makes the core <em>hotter</em>, which makes it lose energy faster. Nothing stops the runaway. It is called the <strong>gravothermal catastrophe</strong>, and it is why real globular clusters undergo core collapse — the thing the virial theorem is quietly warning you about. 
+      This has an alarming consequence. A hot core in contact with a cooler halo loses energy to the halo, which makes the core <em>hotter</em>, which makes it lose energy faster. Nothing stops the runaway. It is called the <strong>gravothermal catastrophe</strong>, and it is why real globular clusters undergo core collapse, the thing the virial theorem is quietly warning you about. 
   </fieldset>
   
 <h3 id="the_bit_that_caught_me_out"><a href="#the_bit_that_caught_me_out" class="header-anchor">The bit that caught me out</a></h3>
@@ -701,88 +785,92 @@ U_{ij} = -\frac{Gm_im_j}{(r_{ij}^2+\varepsilon^2)^{1/2}}
 \[
 \boxed{\;\frac{W}{U} \simeq 1 - \left\langle\frac{\varepsilon^2}{r^2}\right\rangle\;}
 \]
-<p>with the average weighted by each pair&#39;s contribution to \(U\). Two limits check out: as \(\varepsilon\to0\) we recover \(W=U\) and the textbook theorem, and as \(\varepsilon\) grows the ratio falls below 1 — meaning a system genuinely in equilibrium will show \(-2K/U < 1\). For my run &#40;\(\varepsilon \approx 0.031\), typical separations of order \(0.2\)&#41; that predicts a few percent, which is exactly the discrepancy I was seeing.</p>
-<p>So the honest test is \(-2K/W\), not \(-2K/U\). Here is the run, both ways:</p>
-<div id="fdpscg" style=""></div>
+<p>with the average weighted by each pair&#39;s contribution to \(U\). Two limits check out. As \(\varepsilon\to0\) we get \(W=U\) and the familiar theorem back. As \(\varepsilon\) grows the ratio falls below 1, meaning a system genuinely in equilibrium will show \(-2K/U < 1\). For my run &#40;\(\varepsilon \approx 0.031\), typical separations of order \(0.2\)&#41; that predicts a few percent, which is exactly the discrepancy I was seeing.</p>
+<p>So the honest test is \(-2K/W\), not \(-2K/U\). My run, measured both ways:</p>
+<div id="fdpqou" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpscg");
+graphDiv = document.getElementById("fdpqou");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/virial_as_sampled.json');
 </script>
 
-<p>The orange curve &#40;\(-2K/W\)&#41; sits on 1 to better than one percent. The blue one is offset by exactly the amount the softening predicts. I find this a nice example of how a &quot;check that fails&quot; can be more informative than one that passes.</p>
+<p>Time goes right, the virial ratio goes up. A value of 1 means perfect equilibrium. Orange sits on 1, blue sits a bit below, and the gap is exactly what softening predicts. So the cluster is fine, we were just measuring the wrong quantity.</p>
+<p>I find this a nice example of how a &quot;check that fails&quot; can be more informative than one that passes.</p>
 <h3 id="testing_it_across_a_factor_of_64_in_varepsilon"><a href="#testing_it_across_a_factor_of_64_in_varepsilon" class="header-anchor">Testing it across a factor of 64 in \(\varepsilon\)</a></h3>
-<p>One run agreeing is not much of a test, so I ran the whole thing again on the server for seven softening lengths spanning \(\varepsilon/\lambda\) from \(1/16\) to \(4\) — a factor of 64. If the derivation above is right, \(-2K/W\) should stay pinned at 1 the whole way while \(-2K/U\) slides away from it.</p>
-<div id="fdpavo" style=""></div>
+<p>One run agreeing is not much of a test, so I ran the whole thing again on the server for seven softening lengths spanning \(\varepsilon/\lambda\) from \(1/16\) to \(4\), a factor of 64. If the derivation above is right, \(-2K/W\) should stay pinned at 1 the whole way while \(-2K/U\) slides away from it.</p>
+<div id="fdpytg" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpavo");
+graphDiv = document.getElementById("fdpytg");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_virial.json');
 </script>
 
-<p>That is about as clean as this sort of thing gets. Over the entire range, \(-2K/W\) stays within half a percent of 1, while \(-2K/U\) falls from \(1.00\) to \(0.85\). The green dashed curve is the <em>prediction</em> \(1-\langle\varepsilon^2/r^2\rangle\) computed from the initial configuration, and it tracks the measured offset well at small \(\varepsilon\) and starts to lift away past \(\varepsilon\sim\lambda\), exactly where the neglected \(\mathcal{O}(\varepsilon^4/r^4)\) terms should begin to matter.</p>
+<p>Softening goes right, virial ratio goes up. Orange stays flat at 1 across a factor of 64, blue slides away. This is the strongest evidence that the derivation is right.</p>
+<p>In numbers, \(-2K/W\) stays within half a percent of 1 over the whole range, while \(-2K/U\) falls from \(1.00\) to \(0.85\). The green dashed curve is the <em>prediction</em> \(1-\langle\varepsilon^2/r^2\rangle\) computed from the initial configuration. It tracks the measured offset well at small \(\varepsilon\) and starts to lift away past \(\varepsilon\sim\lambda\), exactly where the neglected \(\mathcal{O}(\varepsilon^4/r^4)\) terms should begin to matter.</p>
 <table><tr><th align="right">\(\varepsilon/\lambda\)</th><th align="right">\(-2K/U\)</th><th align="right">\(-2K/W\)</th><th align="right">\(W/U\) measured</th><th align="right">\(1-\langle\varepsilon^2/r^2\rangle\)</th></tr><tr><td align="right">0.0625</td><td align="right">1.003</td><td align="right">1.003</td><td align="right">0.9998</td><td align="right">0.9999</td></tr><tr><td align="right">0.125</td><td align="right">0.997</td><td align="right">0.998</td><td align="right">0.9991</td><td align="right">0.9997</td></tr><tr><td align="right">0.25</td><td align="right">0.992</td><td align="right">0.995</td><td align="right">0.9961</td><td align="right">0.9989</td></tr><tr><td align="right">0.5</td><td align="right">0.981</td><td align="right">0.994</td><td align="right">0.9870</td><td align="right">0.9954</td></tr><tr><td align="right">1.0</td><td align="right">0.960</td><td align="right">0.995</td><td align="right">0.9644</td><td align="right">0.9816</td></tr><tr><td align="right">2.0</td><td align="right">0.917</td><td align="right">0.997</td><td align="right">0.9199</td><td align="right">0.9266</td></tr><tr><td align="right">4.0</td><td align="right">0.852</td><td align="right">0.9995</td><td align="right">0.8525</td><td align="right">0.7064</td></tr></table>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      So a softened \(N\)-body system <strong>is</strong> in perfect virial equilibrium — it is just that the quantity you have to measure is \(W\), not \(U\). If you see \(-2K/U \approx 0.85\) and conclude your cluster is far from equilibrium, you will go looking for a bug that does not exist. 
+      So a softened \(N\)-body system <strong>is</strong> in perfect virial equilibrium. It is just that the quantity you have to measure is \(W\), not \(U\). If you see \(-2K/U \approx 0.85\) and conclude your cluster is far from equilibrium, you will go looking for a bug that does not exist. 
   </fieldset>
   
 <h3 id="and_a_warning_about_making_varepsilon_small"><a href="#and_a_warning_about_making_varepsilon_small" class="header-anchor">And a warning about making \(\varepsilon\) small</a></h3>
 <p>There is a trap here that I walked straight into. Having established that softening biases \(-2K/U\), my first instinct was to shrink \(\varepsilon\) until the bias went away. That is a mistake, and the same set of runs shows why:</p>
-<div id="fdpmqa" style=""></div>
+<div id="fdpwtf" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpmqa");
+graphDiv = document.getElementById("fdpwtf");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_energy.json');
 </script>
 
-<p>The energy drift over 800 steps, against softening length. At \(\varepsilon = \lambda\) it is \(0.15\%\). At \(\varepsilon = \lambda/2\) it is \(3.4\%\). At \(\varepsilon = \lambda/16\) it is <strong>\(52\%\)</strong> — the simulation is destroyed.</p>
-<p>The reason is that \(\varepsilon\) sets the hardest interaction the simulation contains. Two particles passing at separation \(\sim\varepsilon\) experience an acceleration \(\sim Gm/\varepsilon^2\) over a time \(\sim\varepsilon/v\), and a fixed time step \(\delta t\) can only resolve that if \(\delta t\) is small compared with the encounter time. Halve \(\varepsilon\) and the encounters get faster and harder while \(\delta t\) stays put, so the integrator starts missing them — and every missed encounter dumps spurious energy into the system.</p>
-<div id="fdpejp" style=""></div>
+<p>Softening length along the bottom, the energy drift over 800 steps up the side, both on log axes. At \(\varepsilon = \lambda\) the drift is \(0.15\%\). At \(\varepsilon = \lambda/2\) it is \(3.4\%\). At \(\varepsilon = \lambda/16\) it is <strong>\(52\%\)</strong>, i.e. the simulation is destroyed.</p>
+<p>The reason is that \(\varepsilon\) sets the hardest interaction the simulation contains. Two particles passing at separation \(\sim\varepsilon\) experience an acceleration \(\sim Gm/\varepsilon^2\) over a time \(\sim\varepsilon/v\), and a fixed time step \(\delta t\) can only resolve that if \(\delta t\) is small compared with the encounter time. Halve \(\varepsilon\) and the encounters get faster and harder while \(\delta t\) stays put, so the integrator starts missing them. Every missed encounter dumps spurious energy into the system.</p>
+<div id="fdpeni" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpejp");
+graphDiv = document.getElementById("fdpeni");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_energy_history.json');
 </script>
 
-<p>You can watch it happen: the small-\(\varepsilon\) curves climb in visible steps, each one a close pass that the integrator botched.</p>
+<p>Time goes right, the energy error goes up, one curve per softening length. The small ones climb in visible steps, and each step is one close encounter the integrator could not handle.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      This is the real reason softening exists, and it is worth being clear about because the usual explanation &#40;&quot;it stops the force diverging&quot;&#41; makes it sound like a cosmetic patch. It is not. Softening is what makes a <strong>fixed time step</strong> legitimate. It puts a floor under how violent an encounter can be, so a single \(\delta t\) can resolve every interaction in the system. The choice \(\varepsilon\approx\lambda\) that the paper uses is the sweet spot: small enough not to smear out real structure, large enough that the dynamics stays integrable at a sane step size. 
+      This is the real reason softening exists. The usual explanation &#40;&quot;it stops the force diverging&quot;&#41; makes it sound like a cosmetic patch. It is not. Softening is what makes a <strong>fixed time step</strong> legitimate. It puts a floor under how violent an encounter can be, so a single \(\delta t\) can resolve every interaction in the system. The choice \(\varepsilon\approx\lambda\) that the paper uses is the sweet spot: small enough not to smear out real structure, large enough that the dynamics stays integrable at a sane step size. 
   </fieldset>
   
 
   <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
-      Show that for a softened pair potential \(\varphi = -Gm_1m_2(r^2+\varepsilon^2)^{-1/2}\) the quantity \(\vec r\cdot\vec F\) equals \(-Gm_1m_2 r^2(r^2+\varepsilon^2)^{-3/2}\), and expand \(W/U\) for \(\varepsilon\ll r\). Harder: work out how \(\delta t\) must scale with \(\varepsilon\) to keep the energy error fixed, and test it. 
+      Show that for a softened pair potential \(\varphi = -Gm_1m_2(r^2+\varepsilon^2)^{-1/2}\) the quantity \(\vec r\cdot\vec F\) equals \(-Gm_1m_2 r^2(r^2+\varepsilon^2)^{-3/2}\), then expand \(W/U\) for \(\varepsilon\ll r\). Harder: work out how \(\delta t\) must scale with \(\varepsilon\) to keep the energy error fixed, and test it. 
   </fieldset>
   
 <h3 id="the_transient"><a href="#the_transient" class="header-anchor">The transient</a></h3>
 <p>There is a second, smaller effect. The paper says the initial models &quot;are not precisely in equilibrium and are subject to a brief transient period before settling into a steady state&quot;, and I can see exactly why.</p>
-<p>The model is cut off at \(R=1\), which throws away the \(5.7\%\) of a true Plummer sphere&#39;s mass that lives beyond that radius. But we still normalise the total mass to \(1\). So the potential inside is slightly <em>deeper</em> than the one whose distribution function we sampled the velocities from — the particles start slightly too slow, and the cluster contracts a bit before settling.</p>
+<p>The model is cut off at \(R=1\), which throws away the \(5.7\%\) of a true Plummer sphere&#39;s mass that lives beyond that radius. But we still normalise the total mass to \(1\). So the potential inside is slightly <em>deeper</em> than the one whose distribution function we sampled the velocities from. The particles start slightly too slow, so the cluster contracts a bit before settling.</p>
 <p>I can confirm this is the whole story by removing the cutoff:</p>
 <table><tr><th align="right">Cutoff \(R\)</th><th align="right">\(M(R)/M\)</th><th align="right">\(-2K/U\) at \(t=0\)</th></tr><tr><td align="right">1</td><td align="right">0.943</td><td align="right">0.958</td></tr><tr><td align="right">2</td><td align="right">0.985</td><td align="right">0.990</td></tr><tr><td align="right">5</td><td align="right">0.998</td><td align="right">1.001</td></tr><tr><td align="right">20</td><td align="right">1.000</td><td align="right">1.003</td></tr></table>
 <p>As the cutoff goes away, the model lands exactly on the virial theorem. If I rescale the velocities at the start to sit exactly on \(2K + W = 0\), the transient disappears:</p>
-<div id="fdptpj" style=""></div>
+<div id="fdpvvd" style=""></div>
 <script>
-graphDiv = document.getElementById("fdptpj");
+graphDiv = document.getElementById("fdpvvd");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/virial_rescaled.json');
 </script>
 
-<p>And here is \(I(t)\) itself, doing what sir said it would — moving at first, then settling down and staying put:</p>
-<div id="fdpbff" style=""></div>
+<p>Same plot as before, but the starting velocities were rescaled to sit exactly on the theorem. The early wobble is gone, which confirms the wobble was coming from the cutoff and nothing else.</p>
+<p>And here is \(I(t)\) itself, doing what sir said it would: moving at first, then settling down and staying put.</p>
+<div id="fdpyej" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpbff");
+graphDiv = document.getElementById("fdpyej");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/virial_inertia.json');
 </script>
 
+<p>Time goes right, and up is a single number saying how spread out the cluster is. It twitches for one crossing time and then goes flat and stays flat. Flat is the whole assumption the virial theorem rests on, so seeing it directly is a better check than any ratio.</p>
 <h2 id="where_we_are"><a href="#where_we_are" class="header-anchor">Where we are</a></h2>
-<p>We now have a physically sensible blob of particles with the right positions and the right velocities, and a way of telling whether it is in equilibrium. What is missing is &#40;a&#41; a way to push the particles forward in time and &#40;b&#41; a way to compute the forces without dying of old age.</p>
+<p>We now have a physically sensible blob of particles with the right positions and the right velocities, plus a way of telling whether it is in equilibrium. What is missing is &#40;a&#41; a way to push the particles forward in time and &#40;b&#41; a way to compute the forces without dying of old age.</p>
 <p>Those are the next two parts.</p>
 <hr />
-<p><strong>Next:</strong> <a href="/Pages/Physics/papers/hernquist1987/02_leapfrog/">Part 2 — Moving the particles: the leapfrog</a></p>
+<p><strong>Next:</strong> <a href="/Pages/Physics/papers/hernquist1987/02_leapfrog/">Part 2, moving the particles: the leapfrog</a></p>
 <p>Hope this helps you in some way. If you like it then share with others if possible.</p>
 <p>If you have some queries, do let me know in the comments or contact me using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
 
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 04, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 06, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -885,11 +973,6 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/vi
       <img id="lightbox-img" src="">
     </div>
 
-    <!-- Floating Back Button -->
-    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
-      <i class="fas fa-arrow-left"></i> Back
-    </button>
-
     <!-- Lightbox Script -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -907,8 +990,64 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/vi
       });
     </script>
 
-    <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
-    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <!-- Oneko Cat: opt-out, remembered per visitor. The script is only loaded
+         when the cat is wanted, so switching it off costs nothing on later pages. -->
+    <style>
+      #oneko-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 1000;
+        width: 34px; height: 34px; padding: 0;
+        border: 1px solid rgba(140,140,140,0.35); border-radius: 50%;
+        background: rgba(250,248,244,0.82); color: #7a6a4a;
+        font-size: 15px; line-height: 1; cursor: pointer;
+        opacity: 0.42; transition: opacity 0.2s, transform 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #oneko-toggle:hover { opacity: 1; transform: scale(1.08); }
+      html.dark-mode #oneko-toggle {
+        background: rgba(38,36,33,0.82); color: #cda863;
+        border-color: rgba(180,170,150,0.28);
+      }
+      html.oneko-off #oneko { display: none !important; }
+      @media print { #oneko-toggle { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = 'oneko-enabled';
+        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var loaded = false;
+
+        function loadCat() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '/assets/oneko.js?v=62';
+          s.setAttribute('data-cat', '/assets/oneko.gif');
+          document.body.appendChild(s);
+        }
+
+        function paint(btn) {
+          btn.textContent = on ? '🐈' : '🐾';
+          btn.title = on ? 'Hide the cat' : 'Bring the cat back';
+          btn.setAttribute('aria-label', btn.title);
+          document.documentElement.classList.toggle('oneko-off', !on);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.createElement('button');
+          btn.id = 'oneko-toggle';
+          btn.type = 'button';
+          paint(btn);
+          btn.addEventListener('click', function () {
+            on = !on;
+            localStorage.setItem(KEY, on ? '1' : '0');
+            paint(btn);
+            if (on) loadCat();
+          });
+          document.body.appendChild(btn);
+          if (on) loadCat();
+        });
+      })();
+    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {

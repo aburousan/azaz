@@ -2,7 +2,7 @@
 title = "Tree Codes 3: The Tree and the Multipole Expansion"
 hascode = true
 date = Date(2026, 8, 4)
-rss = "Part 3 of recreating Hernquist (1987): building an octree, the opening criterion, and the multipole expansion derived term by term from the Legendre generating function."
+rss = "Part 3 of recreating Hernquist (1987): building an octree, the opening criterion and the multipole expansion derived term by term from the Legendre generating function."
 
 tags = ["Julia", "physics", "papers", "N-body", "multipole", "Barnes-Hut", "algorithms"]
 +++
@@ -21,7 +21,7 @@ Suppose I want the force on one particular star, and there is a globular cluster
 
 Obviously not. From far enough away the cluster is just a lump of mass $M$ at a particular place. One term instead of ten thousand.
 
-The question is: **how far is far enough?** And the answer must be relative — a cluster of size $s$ seen from distance $d$ looks compact if $s \ll d$. So the natural thing to compare is the ratio $s/d$, and that is exactly the paper's eq. (1.1):
+The question is: **how far is far enough?** The answer has to be relative, because a cluster of size $s$ seen from distance $d$ looks compact if $s \ll d$. So the natural thing to compare is the ratio $s/d$, which is exactly the paper's eq. (1.1):
 
 $$
 \frac{s}{d} < \theta
@@ -33,7 +33,7 @@ $$
 
 Notice that $s/d$ is roughly the angle the cell subtends on the sky. So $\theta$ is literally "how big is a clump allowed to look before I stop treating it as a point".
 
-Here is the picture. A cell of width $s$ sitting at distance $d$ covers an angle of roughly $s/d$ on your sky. The test asks whether that angle is small enough to ignore what is inside it.
+So, a picture. A cell of width $s$ sitting at distance $d$ covers an angle of roughly $s/d$ on your sky. The test asks whether that angle is small enough to ignore what is inside it.
 
 ~~~
 <div style="max-width:660px;margin:1.5rem auto">
@@ -69,11 +69,13 @@ Here is the picture. A cell of width $s$ sitting at distance $d$ covers an angle
 </div>
 ~~~
 
+One phrase in that picture needs unpacking, since it refers to something built in the next section. Every cube of space in this method gets cut into **8 equal smaller cubes**, in the same way a Rubik's cube is eight little cubes stacked two by two by two. Those eight are called the cube's **children**. "Look at the 8 children" therefore means: this clump is too close and too wide to be trusted as a single blob, so throw the blob away, take the eight smaller cubes it is made of, and ask the same question of each one separately. Some of those will be far enough to accept; the ones that are not get chopped into eight again. In two dimensions the pictures below use 4 children instead of 8, for the obvious reason that a square splits into four.
+
 \defn{
-    So $\theta$ is really a rule about **eyesight**. Small $\theta$ is sharp eyes — you insist on resolving individuals until they are very far away, which is accurate and slow. Large $\theta$ is squinting — you lump things together aggressively, which is fast and crude.
+    So $\theta$ is really a rule about **eyesight**. Small $\theta$ is sharp eyes: you insist on resolving individuals until they are very far away, which is accurate and slow. Large $\theta$ is squinting, i.e. you lump things together aggressively, which is fast and crude.
 }
 
-Notice the criterion is an *angle*, not a distance. A clump twice as wide may be treated as one lump only if it is also twice as far away. That is exactly how vision works, and it is why $s/d$ — rather than $s$ or $d$ on its own — is the right thing to test.
+Notice the criterion is an *angle*, not a distance. A clump twice as wide may be treated as one lump only if it is also twice as far away. That is exactly how vision works, and it is why the right thing to test is $s/d$ rather than $s$ or $d$ on its own.
 
 To turn this into an algorithm I need two things: a way to organise the particles into nested clumps of every size (**the tree**), and a way to describe a clump by more than just its total mass (**the multipole expansion**). Let me do the tree first, because it is the easy half.
 
@@ -82,22 +84,30 @@ To turn this into an algorithm I need two things: a way to organise the particle
 The Barnes-Hut recipe is a recursive subdivision of space:
 
 1. Put a cube around all the particles. This is the **root**.
-2. If a cell has more than one particle in it, cut it into 8 equal sub-cubes (in 3D — an **octree**) and hand each particle to whichever sub-cube contains it.
+2. If a cell has more than one particle in it, cut it into 8 equal sub-cubes (in 3D, hence **octree**) and hand each particle to whichever sub-cube contains it.
 3. Repeat until every cell has at most one particle.
 
-The result is a hierarchy of cells: one enormous cell containing everything, eight cells of half the size, sixty-four of a quarter, and so on down to individual particles. Cells in dense regions get subdivided many times; cells in empty regions stop early.
+The result is a hierarchy of cells: one enormous cell containing everything, eight cells of half the size, sixty-four of a quarter and so on down to individual particles. Cells in dense regions get subdivided many times; cells in empty regions stop early.
 
-Here is what that looks like in 2D (a **quadtree**, four children per cell instead of eight — same logic, just easier to look at). 500 particles drawn from the Plummer sphere:
+In 2D that looks like this (a **quadtree**, four children per cell instead of eight, same logic and easier to look at). 500 particles drawn from the Plummer sphere:
 
 \fig{/assets/Physics/papers/hernquist1987/quadtree_cells}
 
-You can see the structure immediately: the tree is deep and finely divided in the dense middle, and shallow out in the sparse halo. That is exactly the behaviour you want — the subdivision automatically follows the density, with nobody having to tell it where the interesting regions are. This is what makes tree codes so much more flexible than grid methods, which have to pick a resolution in advance.
+Dots are the particles, boxes are the cells the tree made. Notice nobody told it where the crowd is: it worked that out on its own.
+
+The subdivision is deep and fine in the dense middle, shallow out in the sparse halo. This is what makes tree codes so much more flexible than grid methods, which have to commit to a resolution in advance.
 
 \note{
     Empty cells are never stored. So the number of nodes stays proportional to $N$, not to the volume. For my $N = 32768$ Plummer model the tree has $48515$ nodes and is 14 levels deep; the uniform sphere with the same $N$ has $49061$ nodes but only 11 levels, because it has no dense core to keep subdividing.
 }
 
-The Julia is a straightforward insert-one-particle-at-a-time loop. The one subtlety is that when a particle arrives at a cell that already holds one, the sitting particle has to be pushed down a level first:
+That picture is the finished tree though, and it hides the thing that confused me at first, which is that the tree is not designed, it is grown. So here is the same construction with the particles going in one at a time:
+
+\fig{/assets/Physics/papers/hernquist1987/anim_treebuild}
+
+Red is the particle being inserted right now, blue are the ones already placed. Watch what happens when a red dot lands in a box that is already occupied: the box immediately splits into four, and *both* particles fall into their own quarters. Sometimes they land in the same quarter again and it has to split again, which is why one insertion can suddenly add several levels. The title tracks the count, and by the end 120 particles have produced 212 cells and 8 levels. Nobody chose that depth, it is just where the splitting stopped.
+
+The Julia is a straightforward insert-one-particle-at-a-time loop. The one subtlety is the splitting you just watched: when a particle arrives at a cell that already holds one, the sitting particle has to be pushed down a level first:
 
 ```julia
 function insert!(t::Octree, pos::AbstractMatrix, i::Integer)
@@ -129,7 +139,7 @@ function insert!(t::Octree, pos::AbstractMatrix, i::Integer)
 end
 ```
 
-Building the tree costs $O(N\log N)$, and in practice it is a small fraction of the total time — Hernquist quotes under 10%, and I find the same.
+Building the tree costs $O(N\log N)$, and in practice it is a small fraction of the total time. Hernquist quotes under 10%, and I find the same.
 
 ## Walking the tree
 
@@ -137,25 +147,27 @@ With the tree built, computing the force on particle $i$ is a walk from the root
 
 * If the cell is **empty**, skip it.
 * If the cell holds a **single particle**, add the ordinary pairwise force (and skip it if it is particle $i$ itself).
-* Otherwise compute $s/d$. If $s/d < \theta$, **accept** the cell — add one term for the whole thing and do not look inside. If not, **open** it and put its eight children on the stack.
+* Otherwise compute $s/d$. If $s/d < \theta$, **accept** the cell: add one term for the whole thing and do not look inside. If not, **open** it and put its eight children on the stack.
 
-Here is that walk, made visible. This is the same 500-particle quadtree, and the star marks the particle we are computing the force on. Orange boxes are cells that got swallowed whole; red dots are particles that had to be summed one by one. **Drag the slider to change $\theta$**:
+That walk, made visible. This is the same 500-particle quadtree, and the star marks the particle we are computing the force on. Orange boxes are cells that got swallowed whole; red dots are particles that had to be summed one by one. **Drag the slider to change $\theta$**:
 
 \fig{/assets/Physics/papers/hernquist1987/treewalk_theta}
 
-Watch what happens as $\theta$ grows. At $\theta = 0.2$ the walk is fussy: 161 terms, and it descends nearly to individual particles even quite far away. At $\theta = 1.5$ it is 15 terms — one enormous box covers the whole far side of the cluster.
+Move the slider to change $\theta$ and watch the count above the plot. Small $\theta$ means many small boxes and a lot of work; large $\theta$ means a few big boxes and very little work.
 
-Also notice the *spatial pattern*: nearby particles are always handled individually, and the cells used get bigger the further away they are. The method automatically spends its effort where the force is largest and the geometry matters most.
+At $\theta = 0.2$ the walk is fussy: 161 terms, descending nearly to individual particles even quite far away. At $\theta = 1.5$ it is down to 15 terms, with one enormous box covering the whole far side of the cluster.
+
+Also notice the *spatial pattern*. Nearby particles are always handled individually, and the cells used get bigger the further away they are. The method automatically spends its effort where the force is largest and the geometry matters most.
 
 ## The multipole expansion
 
 Now the real content. When we "accept" a cell, what exactly do we replace it with?
 
-The crude answer is: a point mass at its centre of mass. That is the **monopole** approximation, and it is what the original Barnes-Hut paper used. But we can do better, and doing better is what Hernquist's paper is largely about. Let me derive the whole thing carefully, because this is the part sir wanted understood properly.
+The crude answer is: a point mass at its centre of mass. That is the **monopole** approximation, and it is what the original Barnes-Hut paper used. We can do better, and doing better is most of what Hernquist's paper is about. This is the part sir wanted us to actually understand, so nothing below is skipped.
 
 ### The setup
 
-Take one cell. Put the origin at its **centre of mass**. The cell contains particles of mass $m_k$ at positions $\vec s_k$ (these are small — of order the cell size $s$). We want the potential at a field point $\vec d$ which is far away ($d \gg s$). Let $\gamma_k$ be the angle between $\vec d$ and $\vec s_k$.
+Take one cell. Put the origin at its **centre of mass**. The cell contains particles of mass $m_k$ at positions $\vec s_k$, which are small, of order the cell size $s$. We want the potential at a field point $\vec d$ which is far away ($d \gg s$). Let $\gamma_k$ be the angle between $\vec d$ and $\vec s_k$.
 
 The exact potential is just the sum over particles:
 
@@ -179,13 +191,13 @@ $$
 \frac{1}{|\vec d - \vec s|} = \frac{1}{d}\,\frac{1}{\sqrt{1 - 2\left(\frac{s}{d}\right)\cos\gamma + \left(\frac{s}{d}\right)^2}}
 $$
 
-Now — and this is the moment where the whole thing becomes beautiful — that square root is *exactly* the generating function of the **Legendre polynomials**:
+Now comes the moment where the whole thing becomes beautiful. That square root is *exactly* the generating function of the **Legendre polynomials**:
 
 $$
 \frac{1}{\sqrt{1-2xt+t^2}} = \sum_{n=0}^{\infty}P_n(x)\,t^n, \qquad |t|<1
 $$
 
-Rather than assert that, let me get the first few terms by hand, because it takes four lines and it makes the structure concrete. Write the thing under the root as $1 + A$ with
+The first few terms come out by hand in four lines, and doing that made the structure concrete for me. Write the thing under the root as $1 + A$ with
 
 $$
 A = -2xt + t^2
@@ -217,10 +229,10 @@ $$
 $$
 
 \note{
-    This is why Legendre polynomials turn up everywhere in electrostatics and gravity. They are not imposed on the problem — they *are* the expansion of $1/r$, and every multipole expansion you have seen is this one identity in disguise.
+    This is why Legendre polynomials turn up everywhere in electrostatics and gravity. They are not imposed on the problem. They *are* the expansion of $1/r$, and every multipole expansion you have seen is this one identity in disguise.
 }
 
-Note also the convergence condition $|t| < 1$, that is $s < d$. The series simply **does not converge** if the field point is inside the cell. That is not a technicality to wave away — it is why $\theta$ has to be kept below about 1, and it shows up later as a measured effect.
+Note also the convergence condition $|t| < 1$, i.e. $s < d$. The series simply **does not converge** if the field point is inside the cell. That is not a technicality to wave away. It is why $\theta$ has to be kept below about 1, and it shows up later as a measured effect.
 
 I checked the general term in Mathematica rather than trusting my memory beyond $n=2$:
 
@@ -247,7 +259,7 @@ $$
 \sum_k m_k = M
 $$
 
-the total mass of the cell. This gives $-GM/d$ — the cell treated as a point. Nothing about the shape of the cell survives here.
+the total mass of the cell. This gives $-GM/d$, i.e. the cell treated as a point. Nothing about the shape of the cell survives here.
 
 **$n=1$, the dipole.** Write $\hat n = \vec d/d$ for the direction to the field point. Then $s_k\cos\gamma_k = \hat n\cdot\vec s_k$, so
 
@@ -262,10 +274,10 @@ $$
 $$
 
 \note{
-    This is the single most important structural fact about the whole method, and it is easy to skate past. Because we expand about the centre of mass, the first correction to "treat it as a point" is not of order $s/d$ — it is of order $(s/d)^2$. We get an entire order of accuracy for **free**, just by choosing the expansion centre sensibly. If we had expanded about the geometric centre of the cell instead, there would be a dipole term and the method would be far worse.
+    This is the single most important structural fact about the whole method, and it is easy to skate past. Because we expand about the centre of mass, the first correction to "treat it as a point" is not of order $s/d$ but of order $(s/d)^2$. We get an entire order of accuracy for **free**, just by choosing the expansion centre sensibly. If we had expanded about the geometric centre of the cell instead, there would be a dipole term and the method would be far worse.
 }
 
-**$n=2$, the quadrupole.** This is the first term that actually survives, so it deserves care. Again using $s_k\cos\gamma_k = \hat n\cdot\vec s_k$:
+**$n=2$, the quadrupole.** The first term that actually survives, so I am going slowly here. Again using $s_k\cos\gamma_k = \hat n\cdot\vec s_k$:
 
 $$
 s_k^2\,\frac{3\cos^2\gamma_k - 1}{2} = \frac{3(\hat n\cdot\vec s_k)^2 - s_k^2}{2}
@@ -297,7 +309,7 @@ FullSimplify[(mk legTerm - (1/2) nh . Qk . nh) /. n3 -> Sqrt[1 - n1^2 - n2^2]]
 
 ### What these terms actually mean
 
-Before pushing on, it is worth stopping to ask what we have just built, because the algebra hides a very simple physical picture.
+Before pushing on, stop and ask what we have just built. The algebra hides a very simple picture.
 
 **The multipole expansion is a way of describing a lump of matter by progressively finer features**, in the same way you might describe a person from further and further away:
 
@@ -312,10 +324,10 @@ Each term is a finer detail than the last, and each matters less the further awa
 
 You have met this ladder before, probably several times without it being labelled:
 
-* **The Earth's gravity field.** The Earth bulges at the equator, and that bulge is exactly a quadrupole — satellite people call its coefficient $J_2$, and every GPS orbit accounts for it.
+* **The Earth's gravity field.** The Earth bulges at the equator, and that bulge is exactly a quadrupole. Satellite people call its coefficient $J_2$, and every GPS orbit accounts for it.
 * **Tides.** The Moon pulls harder on the near side of the Earth than the far side. Subtract the average and what is left *is* the quadrupole field.
 * **The CMB.** Decomposing the microwave sky into $\ell = 0, 1, 2, \dots$ is this same Legendre expansion on a sphere. $\ell=1$ is the dipole from our own motion.
-* **Nuclear physics.** Deformed nuclei are catalogued by their electric quadrupole moment — same tensor, different force.
+* **Nuclear physics.** Deformed nuclei are catalogued by their electric quadrupole moment: same tensor, different force.
 
 \note{
     It is the same mathematics every time, because it is really a statement about $1/r$ and the Laplacian rather than about gravity specifically.
@@ -323,13 +335,13 @@ You have met this ladder before, probably several times without it being labelle
 
 ### Why the error is second order, intuitively
 
-The $(s/d)^2$ law deserves a picture rather than just a derivation.
+The $(s/d)^2$ law is easier to believe as a picture than as a derivation.
 
 Treating a cell as a point mass at its centre gets the *average* distance right but nothing else. Now ask what you got wrong. Particles on the near side of the cell are closer than you assumed, so they pull **more** than your point-mass estimate; particles on the far side are further, so they pull **less**.
 
-To first order in the cell size, those two errors are equal and opposite, and they **cancel** — because the centre of mass sits exactly at the balance point. That is the dipole vanishing, seen from the other side.
+To first order in the cell size those two errors are equal and opposite, so they **cancel**, because the centre of mass sits exactly at the balance point. That is the dipole vanishing, seen from the other side.
 
-What does *not* cancel is that $1/r$ is **curved**. The extra pull you gain by moving a bit closer is bigger than the pull you lose by moving the same bit further away. So the near side wins by a little, and that residue — the *curvature* of $1/r$, not its slope — is the quadrupole.
+What does *not* cancel is that $1/r$ is **curved**. The extra pull you gain by moving a bit closer is bigger than the pull you lose by moving the same bit further away. So the near side wins by a little, and that residue, the *curvature* of $1/r$ rather than its slope, is the quadrupole.
 
 $$
 \underbrace{\text{slope of } 1/r}_{\text{cancels: dipole} = 0} \qquad
@@ -350,10 +362,10 @@ $$
 
 (the $\delta_{ii} = 3$ in three dimensions), which knocks it down to five.
 
-Physically, $\mathbf{Q}$ measures **how far from spherical the cell is**. Here is the cleanest way to see it: if the particles in a cell are distributed with perfect spherical symmetry, then by symmetry $\sum_k m_k s_{k,i}s_{k,j} = \tfrac{1}{3}\delta_{ij}\sum_k m_k s_k^2$, and substituting gives $Q_{ij} = 0$ exactly.
+Physically, $\mathbf{Q}$ measures **how far from spherical the cell is**. The cleanest way to see it: if the particles in a cell are distributed with perfect spherical symmetry, then by symmetry $\sum_k m_k s_{k,i}s_{k,j} = \tfrac{1}{3}\delta_{ij}\sum_k m_k s_k^2$, and substituting gives $Q_{ij} = 0$ exactly.
 
 \note{
-    So for a spherical clump, the monopole approximation is not an approximation at all — it is **exact**. That is Newton's shell theorem, falling out of the multipole expansion as the statement $\mathbf{Q}=0$. The quadrupole is precisely the leading correction for the fact that a real cubical cell full of particles is *lumpy and not round*.
+    So for a spherical clump the monopole approximation is not an approximation at all, it is **exact**. That is Newton's shell theorem, falling out of the multipole expansion as the statement $\mathbf{Q}=0$. The quadrupole is precisely the leading correction for the fact that a real cubical cell full of particles is *lumpy and not round*.
 }
 
 ### The result
@@ -364,7 +376,7 @@ $$
 \boxed{\;\varphi(\vec d) = -\frac{GM}{d} - \frac{1}{2}\frac{G}{d^5}\,\vec d\cdot\mathbf{Q}\cdot\vec d\;}
 $$
 
-which is the paper's eq. (2.2). And the acceleration follows by $\vec a = -\nabla\varphi$. Let me do that gradient properly in index notation, since it is the sort of thing that is easy to get wrong by a factor of two.
+which is the paper's eq. (2.2). The acceleration follows by $\vec a = -\nabla\varphi$. I did that gradient in index notation, since it is exactly the sort of thing I get wrong by a factor of two.
 
 We need $\partial_k$ of $S/d^5$, where $S \equiv d_iQ_{ij}d_j$. Two ingredients. First, the derivative of the distance itself:
 
@@ -378,7 +390,7 @@ $$
 \partial_k S = \partial_k\left(d_iQ_{ij}d_j\right) = \delta_{ki}Q_{ij}d_j + d_iQ_{ij}\delta_{kj} = Q_{kj}d_j + d_iQ_{ik} = 2Q_{kj}d_j
 $$
 
-The two terms are equal *because* $\mathbf{Q}$ is symmetric — that is where the factor of 2 comes from. Now the product rule:
+The two terms are equal *because* $\mathbf{Q}$ is symmetric, which is where the factor of 2 comes from. Now the product rule:
 
 $$
 \partial_k\left(\frac{S}{d^5}\right) = \frac{\partial_k S}{d^5} + S\,\partial_k\left(d^{-5}\right)
@@ -397,7 +409,7 @@ $$
 \boxed{\;\vec a = -\frac{GM}{d^2}\hat r + \frac{G}{d^4}\mathbf{Q}\cdot\hat r - \frac{5G}{2}\left(\hat r\cdot\mathbf{Q}\cdot\hat r\right)\frac{\hat r}{d^4}\;}
 $$
 
-which is the paper's eq. (2.4). I checked that this really is minus the gradient of the potential above, rather than taking it on trust:
+which is the paper's eq. (2.4). I did not want to take on trust that this is minus the gradient of the potential above, so:
 
 ```mathematica
 Qm = {{q11, q12, q13}, {q12, q22, q23}, {q13, q23, q33}};
@@ -414,16 +426,20 @@ Good. The paper's equations are consistent.
 
 The expansion is a power series in $s/d$. Since the dipole vanishes, the leading term we throw away is:
 
-* **monopole only** — we drop the $n=2$ term, so the error is $\mathcal{O}\!\left((s/d)^2\right)$
-* **through quadrupole** — we drop the $n=3$ term, so the error is $\mathcal{O}\!\left((s/d)^3\right)$
+* **monopole only**: we drop the $n=2$ term, so the error is $\mathcal{O}\!\left((s/d)^2\right)$
+* **through quadrupole**: we drop the $n=3$ term, so the error is $\mathcal{O}\!\left((s/d)^3\right)$
 
 That is a *prediction*, so let me test it. I took a cloud of 200 particles packed into a cube of side $s$, computed the acceleration it produces at distance $d$ exactly, and compared against both approximations, averaging over 400 directions:
 
 \fig{/assets/Physics/papers/hernquist1987/multipole_error}
 
-Fitting slopes on the small-$s/d$ end gives **2.00** for the monopole and **3.03** for the quadrupole. Exactly as derived. I was pleased with this one — it is a clean case of theory predicting a number and the computer producing it.
+Going left means the clump is further away, going down means the answer is more correct. Blue treats the clump as a single point, orange also adds its shape. Orange sits below blue everywhere and the gap keeps widening to the left, so adding the shape always helps and helps more the further you are. The slopes come out 2 and 3, which is what we derived above, so the maths and the computer agree.
 
-You can also see *why* $\theta$ has to be kept below about 1. The expansion parameter is $s/d$, and the series is only guaranteed to converge for $s/d < 1$. Push $\theta$ past that and you are asking a divergent series for an answer, so adding more terms need not help — which is exactly what the paper finds, and what I will show [in the results](/Pages/Physics/papers/hernquist1987/04_results/).
+So the plot is really a measurement of two numbers, the two slopes. The orange line is steeper than the blue one, meaning its error dies away faster as you back off, and the gap between the lines is how much the quadrupole buys you at that distance. At the far left, where $s/d = 0.02$, that gap is a factor of about a hundred.
+
+Fitting slopes on the small-$s/d$ end gives **2.00** for the monopole and **3.03** for the quadrupole. Those are the $2$ and $3$ derived above, and nothing was fitted to make them come out. I was pleased with this one. It is a clean case of theory predicting a number and the computer producing it.
+
+You can also see *why* $\theta$ has to be kept below about 1. The expansion parameter is $s/d$, and the series is only guaranteed to converge for $s/d < 1$. Push $\theta$ past that and you are asking a divergent series for an answer, so adding more terms need not help. That is exactly what the paper finds, and what I will show [in the results](/Pages/Physics/papers/hernquist1987/04_results/).
 
 ## Building $\mathbf{Q}$ for every cell, cheaply
 
@@ -435,9 +451,9 @@ $$
 \mathbf{Q} = \sum_{l}\mathbf{Q}_l + \sum_{l}m_l\left(3\vec R_l\vec R_l - R_l^2\mathbf{1}\right)
 $$
 
-where $l$ runs over the subcells, $m_l$ is the subcell's mass, and $\vec R_l$ is the offset of subcell $l$'s centre of mass from the parent's.
+where $l$ runs over the subcells, $m_l$ is the subcell's mass and $\vec R_l$ is the offset of subcell $l$'s centre of mass from the parent's.
 
-Let me derive it, since the cancellation that makes it work is the same one that killed the dipole. Take a particle $k$ in subcell $l$. Its position relative to the *parent's* centre of mass is
+Deriving it is worth the five minutes, because the cancellation that makes it work is the same one that killed the dipole. Take a particle $k$ in subcell $l$. Its position relative to the *parent's* centre of mass is
 
 $$
 \vec s_k = \vec R_l + \vec y_k
@@ -470,16 +486,28 @@ Now sort the seven terms by how many powers of $\vec y_k$ they carry, and sum ov
 So the whole subcell contributes
 
 $$
-\underbrace{m_l\left(3R_{l,i}R_{l,j} - R_l^2\delta_{ij}\right)}_{\text{subcell treated as a point mass}} \;+\; \underbrace{\mathbf{Q}_l}_{\text{its own internal shape}}
+\underbrace{\mathbf{Q}_l}_{\text{its own internal shape}} \;+\; \underbrace{m_l\left(3R_{l,i}R_{l,j} - R_l^2\delta_{ij}\right)}_{\text{subcell treated as a point mass}}
 $$
 
-and summing over the eight subcells gives eq. (2.5).
+Now sum this over the subcells $l$. The two pieces can be collected separately, which gives
+
+$$
+\mathbf{Q} = \sum_{l=1}^{n_{\text{subcell}}}\mathbf{Q}_l + \sum_{l=1}^{n_{\text{subcell}}}m_l\left(3\vec R_l\vec R_l - R_l^2\mathbf{1}\right)
+$$
+
+and that is the paper's eq. (2.5), character for character.
 
 \note{
-    Notice this is the *same* cancellation that killed the dipole: the linear moment $\sum m\vec y$ vanishes when measured from a centre of mass. It does double duty — once to buy an extra order of accuracy, once here to make the recursion clean. If the tree stored geometric cell centres instead, neither would work.
+    The two lines look different only because of notation. $3\vec R_l\vec R_l$ is the **outer product** of $\vec R_l$ with itself, whose $ij$ component is $R_{l,i}R_{l,j}$, and $\mathbf 1$ is the identity matrix, whose $ij$ component is $\delta_{ij}$. Written out component by component the paper's line and mine are the same nine numbers.
 }
 
-It is also exactly the parallel-axis theorem you met for moments of inertia in mechanics, $I = I_{\text{cm}} + Md^2$: a "shape about its own centre" piece plus a "point mass displaced" piece. Same algebra, same reason. So the whole tree's moments are filled in with a single bottom-up sweep, costing $O(N)$ in total:
+\note{
+    Notice this is the *same* cancellation that killed the dipole: the linear moment $\sum m\vec y$ vanishes when measured from a centre of mass. It does double duty, once to buy an extra order of accuracy and once here to make the recursion clean. If the tree stored geometric cell centres instead, neither would work.
+}
+
+It is also exactly the parallel-axis theorem you met for moments of inertia in mechanics, $I = I_{\text{cm}} + Md^2$: a "shape about its own centre" piece plus a "point mass displaced" piece. Same algebra, same reason.
+
+The shift is not optional, and it took me a moment to see why. Every cell needs its moments **about its own centre of mass**, because that is what made the dipole vanish. But a parent's centre of mass is not any of its children's, so a child's stored numbers are simply the wrong numbers for the parent and have to be translated first. The alternative is to recompute each cell's moments from its own particles, which costs $O(n)$ for a cell of $n$ particles and $O(N\log N)$ over the whole tree, as expensive as the force calculation it was meant to accelerate. With the shifting rule a parent is built from its eight children in constant time, so the whole tree's moments are filled in with a single bottom-up sweep costing $O(N)$ in total:
 
 ```julia
 for o in 1:8
@@ -501,18 +529,18 @@ end
 ```
 
 \tip{
-    This recursion is the easiest place in the whole code to make a silent mistake, because a wrong $\mathbf{Q}$ still produces plausible-looking forces. My test suite checks it by building the tree and then comparing the **root** node's quadrupole against a brute-force sum over all $N$ particles. The root never sees a particle directly — it only ever adds up its eight children — so if the recursion is wrong at any level, the root will be wrong. It agrees to $10^{-10}$, and the trace comes out zero to the same precision.
+    This recursion is the easiest place in the whole code to make a silent mistake, because a wrong $\mathbf{Q}$ still produces plausible-looking forces. My test suite checks it by building the tree and then comparing the **root** node's quadrupole against a brute-force sum over all $N$ particles. The root never sees a particle directly, since it only ever adds up its eight children, so if the recursion is wrong at any level the root will be wrong. It agrees to $10^{-10}$, and the trace comes out zero to the same precision.
 }
 
 ## Why this gives $N\log N$
 
-Stand on a rooftop and look at a city. The houses on your own street you see one by one; a few streets away you see blocks; further out, neighbourhoods; on the horizon, one smudge. Now count how many *things* you are looking at in each of those bands — roughly the same number in each, because things further away are bigger but subtend the same angle.
+Stand on a rooftop and look at a city. The houses on your own street you see one by one; a few streets away you see blocks; further out, neighbourhoods; on the horizon, one smudge. Now count how many *things* you are looking at in each of those bands. It is roughly the same number in each, because things further away are bigger but subtend the same angle.
 
 \note{
-    A tree walk is exactly this. Each level of the tree is one band of distance, and each contributes about the same number of terms. Making the city ten times bigger does not multiply your work by ten, it just adds a couple more bands on the horizon — and that is the whole reason the method is $N\log N$ instead of $N^2$.
+    A tree walk is exactly this. Each level of the tree is one band of distance, and each contributes about the same number of terms. Making the city ten times bigger does not multiply your work by ten, it just adds a couple more bands on the horizon. That is the whole reason the method is $N\log N$ instead of $N^2$.
 }
 
-Here is the counting argument, which I found less obvious than the textbooks make it sound. Let me do it carefully.
+Now the counting argument. It came out less obvious than I expected, so I am doing it slowly.
 
 Fix one particle and walk down the tree level by level. At level $\ell$, cells have size
 
@@ -520,7 +548,7 @@ $$
 s_\ell = \frac{L}{2^\ell}
 $$
 
-where $L$ is the size of the root cell. A cell at that level is **accepted** when $s_\ell/d < \theta$, i.e. when its distance satisfies $d > s_\ell/\theta$, and it is **opened** otherwise. So the cells actually used at level $\ell$ are those which are accepted while their parent was not — parents live at level $\ell-1$ with size $2s_\ell$, and were opened when $d < 2s_\ell/\theta$. The cells contributing terms at level $\ell$ therefore sit in the spherical shell
+where $L$ is the size of the root cell. A cell at that level is **accepted** when $s_\ell/d < \theta$, i.e. when its distance satisfies $d > s_\ell/\theta$, and it is **opened** otherwise. So the cells actually used at level $\ell$ are those which are accepted while their parent was not. Parents live at level $\ell-1$ with size $2s_\ell$, and were opened when $d < 2s_\ell/\theta$. The cells contributing terms at level $\ell$ therefore sit in the spherical shell
 
 $$
 \frac{s_\ell}{\theta} < d < \frac{2s_\ell}{\theta}
@@ -538,7 +566,7 @@ $$
 n_\ell \approx \frac{V_\ell}{s_\ell^3} = \frac{28\pi}{3\theta^3}
 $$
 
-**The $s_\ell$ has cancelled completely.** Every level of the tree contributes the same number of terms, controlled only by $\theta$. That is the crux: doubling the resolution adds one more level, and one more level costs a constant.
+**The $s_\ell$ has cancelled completely.** Every level of the tree contributes the same number of terms, controlled only by $\theta$. Which is the crux: doubling the resolution adds one more level, and one more level costs a constant.
 
 The tree has $\sim\log_8 N$ levels, so
 
@@ -547,14 +575,14 @@ n_{\text{terms}} \sim \frac{28\pi}{3\theta^3}\log_8 N = C(\theta)\log N \quad\Lo
 $$
 
 \tip{
-    The estimate also predicts the *strength* of the $\theta$ dependence: $n_\text{terms}\propto\theta^{-3}$. Testing that on my data at $N=32768$: going from $\theta=1$ to $\theta=0.5$ should cost a factor $2^3 = 8$, and I measure $1053/218 = 4.8$. The right order, but not exact — which is fair, since real cells are not uniformly distributed in a shell and the innermost levels are not full. The scaling *with $N$* is the part the argument gets right, and that is what the timing curves confirm.
+    The estimate also predicts the *strength* of the $\theta$ dependence: $n_\text{terms}\propto\theta^{-3}$. Testing that on my data at $N=32768$, going from $\theta=1$ to $\theta=0.5$ should cost a factor $2^3 = 8$, and I measure $1053/218 = 4.8$. The right order but not exact, which is fair, since real cells are not uniformly distributed in a shell and the innermost levels are not full. The scaling *with $N$* is the part the argument gets right, and that is what the timing curves confirm.
 }
 
-That is the entire promise of the method. And it makes a sharp prediction I can test: **doubling $N$ should add a constant amount to $n_{\text{terms}}$, not double it.** Here is my measurement, at $\theta = 1$:
+That is the entire promise of the method, and it makes a sharp prediction I can test: **doubling $N$ should add a constant amount to $n_{\text{terms}}$, not double it.** My measurement, at $\theta = 1$:
 
 | $N$ | $\langle n_\text{terms}\rangle$ | change |
 | --- | --- | --- |
-| 1024 | 124.0 | — |
+| 1024 | 124.0 | |
 | 2048 | 150.8 | +26.8 |
 | 4096 | 171.5 | +20.7 |
 | 8192 | 191.5 | +20.0 |
@@ -565,9 +593,11 @@ Compare with the direct sum, where the same column would read 1023, 2047, 4095, 
 
 ## What one particle actually sees
 
-The average hides a lot of structure. Here is the full distribution of $n_\text{terms}$ across all 32768 particles, for the Plummer model and for a uniform sphere with the same $N$ — this is the paper's Fig. 5:
+The average hides a lot of structure. Below is the full distribution of $n_\text{terms}$ across all 32768 particles, for the Plummer model and for a uniform sphere with the same $N$. This is the paper's Fig. 5:
 
 \fig{/assets/Physics/papers/hernquist1987/nterms_hist}
+
+Left to right is how many terms one particle had to add up, and the height is how many of the 32768 particles needed that many. The peak is narrow, so almost everybody does a similar amount of work, and the tail on the left is the halo particles who get off cheap.
 
 Two things stand out, and both are physics rather than numerics.
 
@@ -577,15 +607,17 @@ The Plummer model is centred higher (218) and has a long **tail towards smaller 
 
 \fig{/assets/Physics/papers/hernquist1987/nterms_radius}
 
-Particles out in the sparse halo need far fewer terms — the tree above them is shallow, and the whole cluster is far away, so a handful of big cells covers everything. Particles in the dense core need the most, because there are many levels of subdivision right next to them. The tree spends its effort where the structure is, without being told to.
+Distance from the centre goes right, work done goes up, one dot per particle. Particles in the crowded middle do the most work and particles in the empty halo do the least, which is exactly where the effort should go.
+
+The reason is the geometry overhead. A halo particle has a shallow tree above it and the whole cluster sitting far away, so a handful of big cells covers everything. A core particle has many levels of subdivision right next to it, and every one of those levels has to be opened.
 
 My numbers here are $217.6$ and $122.2$; the paper reports $221$ and $121$. Given that this is a completely independent implementation from a written description, I am happy with that.
 
 ## One trap: a particle pulling on itself
 
-There is a subtle bug that the paper warns about in section II, and it is worth knowing because it is invisible unless you look for it.
+There is a subtle bug the paper warns about in section II. It is invisible unless you go looking for it.
 
-Consider a particle sitting near the **edge** of a large cell that it is itself inside. The cell's centre of mass could be at the far edge, so $d$ is large-ish and $s/d < \theta$ might be satisfied — for $\theta \gtrsim 1$ this really can happen. The walk then accepts the cell as a single lump... but the particle's own mass is part of that lump. **The particle exerts a force on itself.**
+Consider a particle sitting near the **edge** of a large cell that it is itself inside. The cell's centre of mass could be at the far edge, so $d$ is large-ish and $s/d < \theta$ might be satisfied. For $\theta \gtrsim 1$ this really can happen. The walk then accepts the cell as a single lump, but the particle's own mass is part of that lump. **The particle exerts a force on itself.**
 
 The fix is a geometric check: if the particle lies inside the cell, always open it, regardless of $s/d$.
 
@@ -600,7 +632,7 @@ I have this on by default. The paper investigates it and finds the effect neglig
 
 ## The walk, in full
 
-Putting it all together, here is the complete force calculation for one particle — the piece of code that dominates the entire runtime:
+Putting it all together, here is the complete force calculation for one particle, the piece of code that dominates the entire runtime:
 
 ```julia
 function tree_accel(t::Octree, pos, i, theta, eps; quadrupole = false,
@@ -669,7 +701,7 @@ end
 ```
 
 \note{
-    **The one test that matters.** Set $\theta = 0$. Then $s^2 \ge 0 = \theta^2 d^2$ is true for every cell, so *nothing* is ever accepted and the walk descends all the way to individual particles — it must reproduce the direct $O(N^2)$ sum exactly. My test suite checks this for $N = 2000$ and gets agreement to $10^{-10}$ of the largest acceleration. If a tree code passes this, the tree structure and the walk logic are both correct, and only the multipole terms remain to be checked separately.
+    **The one test that matters.** Set $\theta = 0$. Then $s^2 \ge 0 = \theta^2 d^2$ is true for every cell, so *nothing* is ever accepted and the walk descends all the way to individual particles. It must reproduce the direct $O(N^2)$ sum exactly. My test suite checks this for $N = 2000$ and gets agreement to $10^{-10}$ of the largest acceleration. If a tree code passes this, the tree structure and the walk logic are both correct, leaving only the multipole terms to be checked separately.
 }
 
 Note also the softening in the quadrupole terms. The paper applies an ad hoc substitution $r^4 \to (r^2+\varepsilon^2)^2$; I instead use $r^n \to (r^2+\varepsilon^2)^{n/2}$ throughout, which has the advantage of being exactly $-\nabla$ of a consistently softened quadrupole potential. The two agree when $\varepsilon = 0$ and differ only in how they behave at large softening, which is [one of the things I test](/Pages/Physics/papers/hernquist1987/04_results/#softening_fights_the_expansion).
@@ -678,17 +710,17 @@ Note also the softening in the quadrupole terms. The paper applies an ad hoc sub
 
 We now have the complete method:
 
-1. Build an octree over the particles — $O(N\log N)$, done once per step.
-2. Fill in mass, centre of mass and quadrupole for every cell by a bottom-up sweep — $O(N)$.
-3. For each particle, walk the tree accepting cells with $s/d < \theta$ — $O(\log N)$ each.
+1. Build an octree over the particles, $O(N\log N)$, done once per step.
+2. Fill in mass, centre of mass and quadrupole for every cell by a bottom-up sweep, $O(N)$.
+3. For each particle, walk the tree accepting cells with $s/d < \theta$, $O(\log N)$ each.
 4. Push everything forward with leapfrog.
 
 The next part is the payoff: does it actually behave the way the counting argument says, and how wrong are the forces?
 
 ---
 
-**Previous:** [Part 2 — Moving the particles](/Pages/Physics/papers/hernquist1987/02_leapfrog/)\\
-**Next:** [Part 4 — Results](/Pages/Physics/papers/hernquist1987/04_results/)
+**Previous:** [Part 2, moving the particles](/Pages/Physics/papers/hernquist1987/02_leapfrog/)\\
+**Next:** [Part 4, results](/Pages/Physics/papers/hernquist1987/04_results/)
 
 Hope this helps you in some way. If you like it then share with others if possible.
 

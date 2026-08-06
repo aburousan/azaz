@@ -81,8 +81,9 @@ collapses onto the single universal shape
 
     g(q) ~ q^2 (1 - q^2)^(7/2),   0 <= q <= 1,
 
-whose maximum is 0.0922 at q = sqrt(2/9). Von Neumann rejection with the bound
-0.1 therefore accepts about 26% of the trials, which is cheap enough.
+whose maximum is 0.0922 at q = sqrt(2/9). The area under it is 7*pi/512, so von
+Neumann rejection against the bound 0.1 accepts (7*pi/512)/0.1 = 43% of the
+trials, which is cheap enough.
 """
 function sample_speed_fraction(rng)
     while true

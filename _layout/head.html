@@ -52,8 +52,20 @@
       fig["config"]["autosizable"] = true
       fig["config"]["responsive"] = true
 
-      // make it easier to scroll throught the website rather than being blocked by a figure.
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
       fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
 
       // PlotlyJS.savefig by default add the some more attribute to make a static plot.
       // Disable them to make the website fancier.

@@ -242,8 +242,20 @@
       fig["config"]["autosizable"] = true
       fig["config"]["responsive"] = true
 
-      // make it easier to scroll throught the website rather than being blocked by a figure.
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
       fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
 
       // PlotlyJS.savefig by default add the some more attribute to make a static plot.
       // Disable them to make the website fancier.
@@ -274,9 +286,9 @@
 \]
 <p>As we can see this is an <strong><span style="color: red">inequality</span></strong>. If we plot this for \(0 < x < 106\) and \(k < y < k + 17\), then we get the plot,</p>
 
-<div id="fdpoai" style=""></div>
+<div id="fdprzf" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpoai");
+graphDiv = document.getElementById("fdprzf");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp1.json');
 </script>
 
@@ -287,9 +299,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
 <pre><code class="language-julia">k_cheenta &#61; 15806189098778893000052913054993993567015366941292274179534053586295503647737517933409233769405785763940088519276398488552677297965783134336600594346427856575753581916591574206800450783605935534858246029155800031822984955455385598121139153589540046302557674614212697588833953815011872377415466312636343196950183648558632777828536170792550924288</code></pre>
 <p>we will get,</p>
 
-<p><div id="fdpzes" style=""></div>
+<p><div id="fdphhv" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpzes");
+graphDiv = document.getElementById("fdphhv");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp8.json');
 </script>
  This is the name where I teaches physics. Why not checkout the website of <a href="https://www.cheenta.com/">CHEENTA</a> and see my awesome colleagues and students.</p>
@@ -297,9 +309,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
 <pre><code class="language-julia">k_cosmic &#61;1271483917409047962504190716480820125972278621369534229771189155117893513117560028103293542766164054366623611185886118600739414120455650913109912110581287743239969847780541636461645780364303397660529613100638803746819131463964363046325228418810374936998088829255027447274810308302244558096667122081824157031726139625219810246859835932683694862411835356166461473745281741462375240388909870117619294905778805095592609024873542546088290387587421750247353346676976414510740261093361230273514384628199351519546799586984946538836015942052347904</code></pre>
 <p>we will get, </p>
 
-<div id="fdptzg" style=""></div>
+<div id="fdpqum" style=""></div>
 <script>
-graphDiv = document.getElementById("fdptzg");
+graphDiv = document.getElementById("fdpqum");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp2.json');
 </script>
 
@@ -380,40 +392,40 @@ p &#61; plot_tupper&#40;k&#41;</code></pre>
 <p>Here are few more plots.</p>
 <pre><code class="language-julia">k_pac &#61; 144520248970897582847942537337194567481277782215150702479718813968549088735682987348888251320905766438178883231976923440016667764749242125128995265907053708020473915320841631792025549005418004768657201699730466383394901601374319715520996181145249781945019068359500510657804325640801197867556863142280259694206254096081665642417367403946384170774537427319606443899923010379398938675025786929455234476319291860957618345432248004921728033349419816206749854472038193939738513848960476759782673313437697051994580681869819330446336774047268864</code></pre>
 
-<div id="fdpevq" style=""></div>
+<div id="fdpkip" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpevq");
+graphDiv = document.getElementById("fdpkip");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp3.json');
 </script>
 
 <pre><code class="language-julia">k_euler &#61;2352035939949658122140829649197960929306974813625028263292934781954073595495544614140648457342461564887325223455620804204796011434955111022376601635853210476633318991990462192687999109308209472315419713652238185967518731354596984676698288025582563654632501009155760415054499960</code></pre>
 
-<p><div id="fdpwtu" style=""></div>
+<p><div id="fdpihq" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwtu");
+graphDiv = document.getElementById("fdpihq");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp4.json');
 </script>
  Why not try making \(E=mc^2\) ?</p>
 <pre><code class="language-julia">k_spand &#61;270887593047695068902177512637039315790870805545237574209083294224566348164515629454108026611013012827103306726993631111616993188494955886640992666873946363041693530171313017819263864013685045445247668181602663772762348140363360641126220335131367302996818140888926115019048960218133602241808439634450714519167159218935381199001214374043071404065825421114593354638235539762000889521529816363996094790128255258340071055083759359335933136601088</code></pre>
 
-<div id="fdpoll" style=""></div>
+<div id="fdpumw" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpoll");
+graphDiv = document.getElementById("fdpumw");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp5.json');
 </script>
 
 <p>Not going to give you k value for this one</p>
 
-<div id="fdpnzs" style=""></div>
+<div id="fdpdaa" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpnzs");
+graphDiv = document.getElementById("fdpdaa");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp6.json');
 </script>
 
 
-<p><div id="fdppuy" style=""></div>
+<p><div id="fdpjce" style=""></div>
 <script>
-graphDiv = document.getElementById("fdppuy");
+graphDiv = document.getElementById("fdpjce");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/code/output/plotlytupp7.json');
 </script>
  Calculate \(\sigma\) for \(e^- + e^+ \to \mu^- + \mu^+\) &#40;use feynman&#39;s diagram drawn above&#41;</p>
@@ -530,11 +542,6 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
       <img id="lightbox-img" src="">
     </div>
 
-    <!-- Floating Back Button -->
-    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
-      <i class="fas fa-arrow-left"></i> Back
-    </button>
-
     <!-- Lightbox Script -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -552,8 +559,64 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/Tupper_Form/c
       });
     </script>
 
-    <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
-    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <!-- Oneko Cat: opt-out, remembered per visitor. The script is only loaded
+         when the cat is wanted, so switching it off costs nothing on later pages. -->
+    <style>
+      #oneko-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 1000;
+        width: 34px; height: 34px; padding: 0;
+        border: 1px solid rgba(140,140,140,0.35); border-radius: 50%;
+        background: rgba(250,248,244,0.82); color: #7a6a4a;
+        font-size: 15px; line-height: 1; cursor: pointer;
+        opacity: 0.42; transition: opacity 0.2s, transform 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #oneko-toggle:hover { opacity: 1; transform: scale(1.08); }
+      html.dark-mode #oneko-toggle {
+        background: rgba(38,36,33,0.82); color: #cda863;
+        border-color: rgba(180,170,150,0.28);
+      }
+      html.oneko-off #oneko { display: none !important; }
+      @media print { #oneko-toggle { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = 'oneko-enabled';
+        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var loaded = false;
+
+        function loadCat() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '/assets/oneko.js?v=62';
+          s.setAttribute('data-cat', '/assets/oneko.gif');
+          document.body.appendChild(s);
+        }
+
+        function paint(btn) {
+          btn.textContent = on ? '🐈' : '🐾';
+          btn.title = on ? 'Hide the cat' : 'Bring the cat back';
+          btn.setAttribute('aria-label', btn.title);
+          document.documentElement.classList.toggle('oneko-off', !on);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.createElement('button');
+          btn.id = 'oneko-toggle';
+          btn.type = 'button';
+          paint(btn);
+          btn.addEventListener('click', function () {
+            on = !on;
+            localStorage.setItem(KEY, on ? '1' : '0');
+            paint(btn);
+            if (on) loadCat();
+          });
+          document.body.appendChild(btn);
+          if (on) loadCat();
+        });
+      })();
+    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {

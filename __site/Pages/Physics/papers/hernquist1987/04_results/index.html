@@ -242,8 +242,20 @@
       fig["config"]["autosizable"] = true
       fig["config"]["responsive"] = true
 
-      // make it easier to scroll throught the website rather than being blocked by a figure.
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
       fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
 
       // PlotlyJS.savefig by default add the some more attribute to make a static plot.
       // Disable them to make the website fancier.
@@ -257,86 +269,92 @@
   </script>
   
 <div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#does_it_stay_put">Does it stay put?</a></li><li><a href="#how_fast_is_it">How fast is it?</a><ol><li><a href="#cost_against_n">Cost against \(N\)</a></li><li><a href="#cost_against_theta">Cost against \(\theta\)</a></li><li><a href="#when_is_it_actually_worth_it">When is it actually worth it?</a></li><li><a href="#what_does_the_quadrupole_cost">What does the quadrupole cost?</a></li></ol></li><li><a href="#how_wrong_are_the_forces">How wrong are the forces?</a><ol><li><a href="#the_error_gets_better_with_more_particles">The error gets <em>better</em> with more particles</a></li><li><a href="#does_the_quadrupole_help">Does the quadrupole help?</a></li><li><a href="#softening_fights_the_expansion">Softening fights the expansion</a></li></ol></li><li><a href="#the_conservation_laws">The conservation laws</a><ol><li><a href="#energy">Energy</a></li><li><a href="#momentum_the_one_that_really_breaks">Momentum — the one that really breaks</a></li></ol></li><li><a href="#is_the_tree_code_more_collisional">Is the tree code more collisional?</a></li><li><a href="#what_i_take_away_from_it">What I take away from it</a></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#does_it_stay_put">Does it stay put?</a></li><li><a href="#how_fast_is_it">How fast is it?</a><ol><li><a href="#cost_against_n">Cost against \(N\)</a></li><li><a href="#cost_against_theta">Cost against \(\theta\)</a></li><li><a href="#when_is_it_actually_worth_it">When is it actually worth it?</a></li><li><a href="#what_does_the_quadrupole_cost">What does the quadrupole cost?</a></li></ol></li><li><a href="#how_wrong_are_the_forces">How wrong are the forces?</a><ol><li><a href="#the_error_gets_better_with_more_particles">The error gets <em>better</em> with more particles</a></li><li><a href="#does_the_quadrupole_help">Does the quadrupole help?</a></li><li><a href="#softening_fights_the_expansion">Softening fights the expansion</a></li></ol></li><li><a href="#the_conservation_laws">The conservation laws</a><ol><li><a href="#energy">Energy</a></li><li><a href="#momentum_the_one_that_really_breaks">Momentum, the one that really breaks</a></li></ol></li><li><a href="#is_the_tree_code_more_collisional">Is the tree code more collisional?</a></li><li><a href="#what_i_take_away_from_it">What I take away from it</a></li></ol></div>
 <h1 id="ol_start4_results"><a href="#ol_start4_results" class="header-anchor"><ol start="4">
 <li><p>Results</p>
 </li>
 </ol>
 </a></h1>
-<p>Part 4 of my recreation of <a href="/Pages/Physics/papers/hernquist1987/">Hernquist &#40;1987&#41;</a>. The code is built and checked; now let me measure it, and see whether the paper&#39;s conclusions hold up.</p>
-<p>Everything below uses the paper&#39;s own parameters: a Plummer model with \(M=1\), \(r_0=0.2\), cutoff \(R=1\), \(G=1\), softening equal to the mean interparticle separation at the half-mass radius, and \(\delta t = 0.025\).</p>
+<p>Part 4 of my recreation of <a href="/Pages/Physics/papers/hernquist1987/">Hernquist &#40;1987&#41;</a>. The code is built and checked; now let me measure it and see whether the paper&#39;s conclusions hold up.</p>
+<p>Everything below uses the paper&#39;s own parameters: a Plummer model with \(M=1\), \(r_0=0.2\), cutoff \(R=1\), \(G=1\), softening equal to the mean interparticle separation at the half-mass radius and \(\delta t = 0.025\).</p>
 <h2 id="does_it_stay_put"><a href="#does_it_stay_put" class="header-anchor">Does it stay put?</a></h2>
 <p>The first and most basic test. The model was constructed to be in equilibrium, so if the code is right, the cluster should sit there and do essentially nothing for a long time.</p>
 <p>\(N = 4096\), \(\theta = 1\), 1000 leapfrog steps. <strong>Press play</strong>:</p>
-<div id="fdpnwt" style=""></div>
+<div id="fdpkfi" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpnwt");
+graphDiv = document.getElementById("fdpkfi");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/evolution_anim.json');
 </script>
 
-<p>It breathes a little and jiggles, but it does not collapse and it does not evaporate. That is the paper&#39;s Fig. 1, and it is more of a test than it looks — a bug in the force calculation, the tree, or the sampling would show up here immediately as a cluster that explodes or implodes within a few crossing times.</p>
+<p>Press play and watch whether the blob stays the same size. It does, so the cluster is in equilibrium and the code is not quietly blowing it up.</p>
+<p>It breathes a little and jiggles, but it does not collapse and it does not evaporate. That is the paper&#39;s Fig. 1, and a harder test than it looks. A bug in the force calculation, the tree or the sampling would show up here immediately as a cluster that explodes or implodes within a few crossing times.</p>
 <p>A sharper version of the same test is to track the radii containing fixed fractions of the mass. If the model really is stationary, these should be flat lines:</p>
-<div id="fdpwgp" style=""></div>
+<div id="fdpbkk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwgp");
+graphDiv = document.getElementById("fdpbkk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/lagrangian_radii.json');
 </script>
 
-<p>They are flat, with the small wobble at early times that we <a href="/Pages/Physics/papers/hernquist1987/01_setup/#the_transient">predicted in part 1</a> from the cutoff at \(R=1\). The 90&#37; radius is the noisiest, which makes sense — it is set by a handful of particles way out in the sparse halo, so it is the most affected by small-number statistics.</p>
+<p>Time goes right, radius goes up. Each curve is the radius holding a fixed share of the mass, so flat lines mean the cluster is not expanding or collapsing. They are flat.</p>
+<p>The small wobble at early times is the one we <a href="/Pages/Physics/papers/hernquist1987/01_setup/#the_transient">predicted in part 1</a> from the cutoff at \(R=1\). The 90&#37; radius is the noisiest, which makes sense: it is set by a handful of particles way out in the sparse halo, so it is the most affected by small-number statistics.</p>
 <h2 id="how_fast_is_it"><a href="#how_fast_is_it" class="header-anchor">How fast is it?</a></h2>
 <p>Now the question the paper is named after.</p>
 <h3 id="cost_against_n"><a href="#cost_against_n" class="header-anchor">Cost against \(N\)</a></h3>
 <p>Time for one force evaluation, per particle, against \(\log_{10}N\), for a range of \(\theta\). Straight lines on these axes mean \(\text{cost} \propto N\log N\):</p>
-<div id="fdpstn" style=""></div>
+<div id="fdpxfg" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpstn");
+graphDiv = document.getElementById("fdpxfg");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/timing_vs_N.json');
 </script>
 
-<p>For \(\theta \gtrsim 0.4\) the curves are straight — the \(N\log N\) scaling is real. For \(\theta \lesssim 0.3\) &#40;dashed&#41; they bend upwards, because so few cells are being accepted that the method is drifting back towards \(O(N^2)\). In the limit \(\theta \to 0\) it <em>is</em> a direct sum, by construction.</p>
+<p>For \(\theta \gtrsim 0.4\) the curves are straight, so the \(N\log N\) scaling is real. For \(\theta \lesssim 0.3\) &#40;dashed&#41; they bend upwards, because so few cells are being accepted that the method is drifting back towards \(O(N^2)\). In the limit \(\theta \to 0\) it <em>is</em> a direct sum, by construction.</p>
 <p>This reproduces the paper&#39;s Fig. 3, including where the behaviour changes. Hernquist concludes that \(\theta \gtrsim 0.4\) is needed to stay in the \(N\log N\) regime, and I find the same.</p>
 <h3 id="cost_against_theta"><a href="#cost_against_theta" class="header-anchor">Cost against \(\theta\)</a></h3>
 <p>The same data sliced the other way, which is the paper&#39;s Fig. 4:</p>
-<div id="fdpmbm" style=""></div>
+<div id="fdpeny" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpmbm");
+graphDiv = document.getElementById("fdpeny");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/timing_vs_theta.json');
 </script>
 
-<p>The cost falls off a cliff between \(\theta = 0\) and \(\theta \approx 1\), then flattens out. Beyond \(\theta \approx 1\) you are paying a rapidly growing error for almost no further speed-up — which is the practical reason \(\theta \sim 0.5\)–\(1\) is the range everybody actually uses.</p>
+<p>\(\theta\) goes right, time per force evaluation goes up. The cost drops very fast up to about \(\theta = 1\) and then flattens, so there is no point pushing \(\theta\) higher: you pay in error and get almost no speed.</p>
+<p>That flattening is the practical reason \(\theta \sim 0.5\) to \(1\) is the range everybody actually uses.</p>
 <p>The direct cause is visible if you plot the number of terms instead of the time:</p>
-<div id="fdperi" style=""></div>
+<div id="fdpkch" style=""></div>
 <script>
-graphDiv = document.getElementById("fdperi");
+graphDiv = document.getElementById("fdpkch");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_vs_theta.json');
 </script>
 
-<p>At \(\theta = 0.05\) a particle is summing over thousands of terms; at \(\theta = 1.5\) it is around a hundred. Past \(\theta \approx 1\) almost everything is already clumped, so relaxing further just regroups cells that were being accepted anyway.</p>
+<p>Same story with the machine taken out of it. \(\theta\) goes right, terms per particle goes up. Thousands of terms at small \(\theta\), about a hundred at large \(\theta\).</p>
+<p>Past \(\theta \approx 1\) almost everything is already clumped, so relaxing further just regroups cells that were being accepted anyway.</p>
 <h3 id="when_is_it_actually_worth_it"><a href="#when_is_it_actually_worth_it" class="header-anchor">When is it actually worth it?</a></h3>
-<p>A tree code is not free. It has to build a tree, chase pointers, and do a comparison at every node — while a direct sum is a tight, perfectly predictable inner loop that a compiler can vectorise beautifully. For small \(N\), the simple method wins.</p>
-<div id="fdptcr" style=""></div>
+<p>A tree code is not free. It has to build a tree, chase pointers and do a comparison at every node, while a direct sum is a tight, perfectly predictable inner loop that a compiler can vectorise beautifully. For small \(N\), the simple method wins.</p>
+<div id="fdpbub" style=""></div>
 <script>
-graphDiv = document.getElementById("fdptcr");
+graphDiv = document.getElementById("fdpbub");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/tree_vs_direct.json');
 </script>
 
+<p>Number of particles goes right, time goes up. Below the crossing point the simple \(N^2\) sum is actually faster, so a tree is only worth building once you have a few thousand particles.</p>
 <p>The crossover at \(\theta = 1\) lands at \(N \approx 1700\), which is exactly what the paper estimates &#40;&quot;the two are comparable for \(N \approx 1700\)&quot;&#41;. At \(N = 32768\) my tree is \(24\times\) faster than the direct sum, and the gap keeps widening.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      I did not expect the crossover to agree so precisely, because it depends on implementation details, language and hardware — none of which are shared with a 1987 FORTRAN code on a CRAY. I think the reason it works is that both sides of the comparison scale the same way with machine speed, so the <em>ratio</em> is a property of the algorithm rather than the computer. 
+      I did not expect the crossover to agree so precisely, because it depends on implementation details, language and hardware, none of which are shared with a 1987 FORTRAN code on a CRAY. I think the reason it works is that both sides of the comparison scale the same way with machine speed, so the <em>ratio</em> is a property of the algorithm rather than the computer. 
   </fieldset>
   
 <h3 id="what_does_the_quadrupole_cost"><a href="#what_does_the_quadrupole_cost" class="header-anchor">What does the quadrupole cost?</a></h3>
-<div id="fdpuvi" style=""></div>
+<div id="fdpcnt" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpuvi");
+graphDiv = document.getElementById("fdpcnt");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/quadrupole_cost.json');
 </script>
 
-<p>Keeping the quadrupole moments makes the force evaluation roughly 1.3–1.5 times more expensive, agreeing with the paper&#39;s &quot;a factor \(\sim 1.5\)&quot;. Whether that is worth paying is the next question.</p>
+<p>How much extra time the shape term costs, as a ratio. It is about 1.3 to 1.5 times, and it does not grow with \(N\), so the shape term is cheap.</p>
+<p>Keeping the quadrupole moments makes the force evaluation roughly 1.3 to 1.5 times more expensive, agreeing with the paper&#39;s &quot;a factor \(\sim 1.5\)&quot;. Whether that is worth paying is the next question.</p>
 <h2 id="how_wrong_are_the_forces"><a href="#how_wrong_are_the_forces" class="header-anchor">How wrong are the forces?</a></h2>
-<p>This is the part I care about most, because speed is worthless if the answer is rubbish.</p>
-<p>The measure is the paper&#39;s, from eqs. &#40;3.4&#41; and &#40;3.5&#41;. For each Cartesian component, compare the tree acceleration against a direct sum on the same particles, take the mean offset, and then the mean absolute deviation about it:</p>
+<p>This is the part I care about most. Speed is worthless if the answer is rubbish.</p>
+<p>The measure is the paper&#39;s, from eqs. &#40;3.4&#41; and &#40;3.5&#41;. For each Cartesian component, compare the tree acceleration against a direct sum on the same particles, take the mean offset, then take the mean absolute deviation about it:</p>
 \[
 \overline{\delta a_i} = \frac{1}{N}\sum_j\left(a^{\text{tree}}_{i,j}-a^{\text{direct}}_{i,j}\right), \qquad
 A(\delta a_i) = \frac{1}{N}\sum_j\left|a^{\text{tree}}_{i,j}-a^{\text{direct}}_{i,j}-\overline{\delta a_i}\right|
@@ -344,50 +362,54 @@ A(\delta a_i) = \frac{1}{N}\sum_j\left|a^{\text{tree}}_{i,j}-a^{\text{direct}}_{
 <p>and quote \(A(\delta a_i)/\bar a_i\) as a percentage.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      Why the mean absolute deviation rather than a plain average error? Because the errors have essentially <strong>random sign</strong> — a cell approximated badly might pull a particle slightly left, the next one slightly right. The mean \(\overline{\delta a_i}\) is typically a hundred times smaller than the spread, so it would badly understate how wrong an individual force is. The scatter is what matters. 
+      Why the mean absolute deviation rather than a plain average error? Because the errors have essentially <strong>random sign</strong>: a cell approximated badly might pull a particle slightly left, the next one slightly right. The mean \(\overline{\delta a_i}\) is typically a hundred times smaller than the spread, so it would badly understate how wrong an individual force is. The scatter is what matters. 
   </fieldset>
   
-<div id="fdpaao" style=""></div>
+<div id="fdpvsx" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpaao");
+graphDiv = document.getElementById("fdpvsx");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_theta.json');
 </script>
 
-<p>This is the paper&#39;s Fig. 6 and it is the plot to remember. At \(\theta = 0.5\) the error is about \(0.2\%\); at \(\theta = 1\) it is \(1.5\%\); at \(\theta = 2\) it is over \(10\%\) and the method is useless. The rise is steep and the useful range is narrow.</p>
+<p>\(\theta\) goes right, force error goes up. This is the plot that decides everything: about \(0.2\%\) at \(\theta = 0.5\), \(1.5\%\) at \(\theta = 1\), and useless beyond \(\theta = 2\). The usable range is narrow.</p>
+<p>This is the paper&#39;s Fig. 6, and if you remember one plot from the series, make it this one.</p>
 <p>My numbers next to the paper&#39;s:</p>
 <table><tr><th align="right">\(N\)</th><th align="right">\(\theta = 0.5\)</th><th align="right">\(\theta = 1.0\)</th></tr><tr><td align="right">1024</td><td align="right">0.43&#37;</td><td align="right">2.91&#37;</td></tr><tr><td align="right">4096</td><td align="right">0.31&#37;</td><td align="right">2.32&#37;</td></tr><tr><td align="right">16384</td><td align="right">0.22&#37;</td><td align="right">1.71&#37;</td></tr><tr><td align="right">32768</td><td align="right">0.18&#37;</td><td align="right">1.55&#37;</td></tr><tr><td align="right"><em>paper, \(N=32768\)</em></td><td align="right"><em>\(\approx 0.2\%\)</em></td><td align="right"><em>\(\approx 1.4\%\)</em></td></tr></table>
 <h3 id="the_error_gets_better_with_more_particles"><a href="#the_error_gets_better_with_more_particles" class="header-anchor">The error gets <em>better</em> with more particles</a></h3>
-<p>Look at the columns above again — the error goes <strong>down</strong> as \(N\) goes up. That surprised me at first. More particles means a deeper tree and more approximations, so surely more error?</p>
-<div id="fdpzzl" style=""></div>
+<p>Look at the columns above again. The error goes <strong>down</strong> as \(N\) goes up. That surprised me at first. More particles means a deeper tree and more approximations, so surely more error?</p>
+<div id="fdpdgo" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpzzl");
+graphDiv = document.getElementById("fdpdgo");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_N.json');
 </script>
 
+<p>Particles go right, error goes up, both log. The line slopes gently downwards, so adding particles does reduce the error, but so slowly that it is not a practical way to get accuracy.</p>
 <p>Over this range the fitted behaviour is \(\sim N^{-1/5}\), exactly the scaling the paper reports &#40;my exponent is \(-0.18\)&#41;.</p>
-<p>Here is the reasoning I eventually settled on. Each accepted cell contributes a small error of random sign, so the total error on a particle is a <strong>random walk</strong> over the \(n_\text{terms}\) cells it used. A random walk of \(n\) steps of size \(\epsilon\) accumulates \(\sqrt{n}\,\epsilon\), not \(n\epsilon\). Meanwhile the true acceleration itself grows as more mass is resolved. The competition between those two gives a slow decline — and it is <em>slow</em>: to halve the error you would need to increase \(N\) by a factor of 32.</p>
+<p>The reasoning I eventually settled on goes like this. Each accepted cell contributes a small error of random sign, so the total error on a particle is a <strong>random walk</strong> over the \(n_\text{terms}\) cells it used. A random walk of \(n\) steps of size \(\epsilon\) accumulates \(\sqrt{n}\,\epsilon\), not \(n\epsilon\). Meanwhile the true acceleration itself grows as more mass is resolved. The competition between those two gives a slow decline, and it is genuinely slow: to halve the error you would need to increase \(N\) by a factor of 32.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      <strong>A caveat I only found later.</strong> Taken out to \(N = 524288\) in part 6, the \(N^{-1/5}\) law turns out <strong>not to continue</strong> — the exponent flattens to \(-0.095\) and keeps shrinking, because at fixed \(\theta\) the error approaches a constant floor rather than decaying to zero. So it is a good description over the range the paper measured, and a bad thing to extrapolate. 
+      <strong>A caveat I only found later.</strong> Taken out to \(N = 524288\) in part 6, the \(N^{-1/5}\) law turns out <strong>not to continue</strong>. The exponent flattens to \(-0.095\) and keeps shrinking, because at fixed \(\theta\) the error approaches a constant floor rather than decaying to zero. So it is a good description over the range the paper measured, and a bad thing to extrapolate. 
   </fieldset>
   
 <p>The practical conclusion is unchanged, only sharpened: <strong>you cannot fix a tree code by throwing particles at it.</strong> You fix it with \(\theta\).</p>
 <h3 id="does_the_quadrupole_help"><a href="#does_the_quadrupole_help" class="header-anchor">Does the quadrupole help?</a></h3>
-<div id="fdpxer" style=""></div>
+<div id="fdppdx" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpxer");
+graphDiv = document.getElementById("fdppdx");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_mono_vs_quad.json');
 </script>
 
-<p>At small \(\theta\), enormously. At \(\theta = 0.5\) the quadrupole version has error \(0.05\%\) against the monopole&#39;s \(0.18\%\) — nearly four times better. At \(\theta = 1\), \(1.04\%\) against \(1.55\%\), only about a third better.</p>
+<p>Two curves, with and without the shape term. The gap between them is what the shape term buys, and it is large on the left and small on the right. So the shape term is worth most when you are already being careful.</p>
+<p>At small \(\theta\), enormously. At \(\theta = 0.5\) the quadrupole version has error \(0.05\%\) against the monopole&#39;s \(0.18\%\), nearly four times better. At \(\theta = 1\), \(1.04\%\) against \(1.55\%\), only about a third better.</p>
 <p>The trend is clearer as a ratio, which is the paper&#39;s Fig. 7:</p>
-<div id="fdpglz" style=""></div>
+<div id="fdpreu" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpglz");
+graphDiv = document.getElementById("fdpreu");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_ratio.json');
 </script>
 
-<p>The curve rises towards zero &#40;no gain&#41; as \(\theta\) grows, and this is exactly the convergence issue from <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#how_good_is_it">part 3</a>. The expansion is a power series in \(s/d\); once \(\theta \gtrsim 1\) we are evaluating it at \(s/d \gtrsim 1\), where it is not guaranteed to converge, so adding the next term is not guaranteed to help.</p>
+<p>The same gap drawn as a ratio. It shrinks towards zero as \(\theta\) grows, meaning at large \(\theta\) the extra term stops helping. That is the series failing to converge, exactly as part 3 warned.</p>
+<p>This is exactly the convergence issue from <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#how_good_is_it">part 3</a>. The expansion is a power series in \(s/d\); once \(\theta \gtrsim 1\) we are evaluating it at \(s/d \gtrsim 1\), where it is not guaranteed to converge, so adding the next term is not guaranteed to help.</p>
 
   <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
       The practical way to read this: the quadrupole is not &quot;more accuracy for 1.5× the cost&quot;. It is a way of <strong>buying a larger \(\theta\) at the same accuracy</strong>. My quadrupole run at \(\theta = 1\) is about as accurate as my monopole run at \(\theta = 0.7\), and it is faster than that, so it wins. At small \(\theta\) the accuracy gain is enormous but you were already accurate, so it may be wasted money. Which is better genuinely depends on what accuracy you need. 
@@ -395,75 +417,80 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
   
 <h3 id="softening_fights_the_expansion"><a href="#softening_fights_the_expansion" class="header-anchor">Softening fights the expansion</a></h3>
 <p>The last error test, and the one with the nicest physics in it. What happens when the softening length \(\varepsilon\) becomes comparable to the interparticle separation \(\lambda\)?</p>
-<div id="fdpnxm" style=""></div>
+<div id="fdptcr" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpnxm");
+graphDiv = document.getElementById("fdptcr");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_softening.json');
 </script>
 
-<p>For small \(\varepsilon\) the error <em>drops</em> — softening smooths out the very close pairs whose forces are hardest to approximate. But past \(\varepsilon/\lambda \approx 1\) it climbs again, and, strikingly, <strong>the quadrupole version becomes worse than the monopole one</strong>.</p>
-<p>The reason is worth spelling out, because it is not a numerical accident. The multipole expansion I derived in part 3 is an expansion for <strong>point masses</strong>: it assumes each particle in the cell is a point at \(\vec s_k\). Softening replaces every particle by a smeared blob of size \(\varepsilon\). Once \(\varepsilon\) is comparable to the cell size, the &quot;shape&quot; that \(\mathbf{Q}\) is carefully describing is no longer the shape of the actual mass distribution — the quadrupole is now correcting for a geometry that the force law does not have. So the correction stops being a correction.</p>
-<p>This is the paper&#39;s Fig. 8, and its conclusion — that the useful range is \(\varepsilon/\lambda \approx 1\)–\(2\) — is what I find too.</p>
+<p>Softening goes right, error goes up. A little softening helps, too much hurts, and past \(\varepsilon \approx \lambda\) the shape term actually makes things worse than not using it at all.</p>
+<p>For small \(\varepsilon\) the error <em>drops</em>, because softening smooths out the very close pairs whose forces are hardest to approximate. But past \(\varepsilon/\lambda \approx 1\) it climbs again, and strikingly <strong>the quadrupole version becomes worse than the monopole one</strong>.</p>
+<p>This is not a numerical accident. The multipole expansion I derived in part 3 is an expansion for <strong>point masses</strong>: it assumes each particle in the cell is a point at \(\vec s_k\). Softening replaces every particle by a smeared blob of size \(\varepsilon\). Once \(\varepsilon\) is comparable to the cell size, the &quot;shape&quot; that \(\mathbf{Q}\) is carefully describing is no longer the shape of the actual mass distribution, so the quadrupole is correcting for a geometry that the force law does not have. So the correction stops being a correction.</p>
+<p>This is the paper&#39;s Fig. 8, and its conclusion that the useful range is \(\varepsilon/\lambda \approx 1\) to \(2\) is what I find too.</p>
 <h2 id="the_conservation_laws"><a href="#the_conservation_laws" class="header-anchor">The conservation laws</a></h2>
 <p>Approximating forces has consequences beyond a number being slightly wrong, and this is the part of the paper I find most instructive.</p>
 <h3 id="energy"><a href="#energy" class="header-anchor">Energy</a></h3>
-<div id="fdpvwa" style=""></div>
+<div id="fdpvzb" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpvwa");
+graphDiv = document.getElementById("fdpvzb");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/energy_conservation.json');
 </script>
 
-<p>Energy drift turns out to be a genuinely noisy quantity — the same run with a different random seed can differ by a factor of three — so single numbers are not worth much here. Averaging over eight independent realisations:</p>
+<p>Time goes right, energy error goes up. The important thing is that even the exact \(N^2\) sum does not sit at zero, so some of the error was never the tree&#39;s fault.</p>
+<p>Energy drift turns out to be a genuinely noisy quantity, since the same run with a different random seed can differ by a factor of three, so single numbers are not worth much here. Averaging over eight independent realisations:</p>
 <table><tr><th align="right"></th><th align="right">direct sum</th><th align="right">\(\theta = 0.5\)</th><th align="right">\(\theta = 1\)</th></tr><tr><td align="right">mine, 8 seeds</td><td align="right">\(0.22 \pm 0.10\%\)</td><td align="right">\(0.26 \pm 0.10\%\)</td><td align="right">\(0.96 \pm 0.14\%\)</td></tr><tr><td align="right">Hernquist &#40;1987&#41;</td><td align="right">\(0.20\%\)</td><td align="right">\(0.32\%\)</td><td align="right">\(0.68\%\)</td></tr></table>
-<p>The first two land on the paper&#39;s values. The \(\theta=1\) column is about two standard deviations high, in the same direction as my slightly larger force error at that \(\theta\) — see <a href="/Pages/Physics/papers/hernquist1987/#how_much_of_this_is_noise">the discussion on the front page</a>.</p>
+<p>The first two land on the paper&#39;s values. The \(\theta=1\) column is about two standard deviations high, in the same direction as my slightly larger force error at that \(\theta\). See <a href="/Pages/Physics/papers/hernquist1987/#how_much_of_this_is_noise">the discussion on the front page</a>.</p>
 <p>The instructive part is that <strong>the direct sum does not conserve energy either</strong>. Its \(0.12\%\) comes entirely from the leapfrog&#39;s finite step size, and it is the floor that no force approximation can go below. At \(\theta = 0.5\) the tree&#39;s contribution is comparable to the integrator&#39;s; at \(\theta = 1\) the tree dominates. That tells you how to spend effort: there is no point using a fancier integrator at \(\theta=1\).</p>
-<p>But that floor is not fixed — it depends on the softening, and much more violently than I expected. Here is the same 800-step run repeated across a factor of 64 in \(\varepsilon\):</p>
-<div id="fdpqiv" style=""></div>
+<p>But that floor is not fixed. It depends on the softening, and much more violently than I expected. The same 800-step run, repeated across a factor of 64 in \(\varepsilon\):</p>
+<div id="fdphor" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpqiv");
+graphDiv = document.getElementById("fdphor");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_energy.json');
 </script>
 
+<p>Softening goes right, energy error goes up, both on log axes. Read it right to left: as the softening shrinks the error climbs by a factor of a thousand. So the left end of this plot is not more accurate physics, it is a broken simulation.</p>
 <table><tr><th align="right">\(\varepsilon/\lambda\)</th><th align="right">0.0625</th><th align="right">0.125</th><th align="right">0.25</th><th align="right">0.5</th><th align="right">1.0</th><th align="right">2.0</th><th align="right">4.0</th></tr><tr><td align="right">\(\Delta E/E\)</td><td align="right">\(+51.6\%\)</td><td align="right">\(+34.0\%\)</td><td align="right">\(+15.9\%\)</td><td align="right">\(+3.35\%\)</td><td align="right">\(+0.15\%\)</td><td align="right">\(+0.005\%\)</td><td align="right">\(-0.29\%\)</td></tr></table>
-<p>At \(\varepsilon = \lambda/16\) the simulation gains half its own energy. The mechanism is <a href="/Pages/Physics/papers/hernquist1987/01_setup/#and_a_warning_about_making_varepsilon_small">explained in part 1</a>: \(\varepsilon\) sets the hardest encounter in the system, and a fixed \(\delta t\) can only resolve encounters that are not too hard.</p>
+<p>At \(\varepsilon = \lambda/16\) the simulation gains half its own energy. The mechanism is <a href="/Pages/Physics/papers/hernquist1987/01_setup/#and_a_warning_about_making_varepsilon_small">explained in part 1</a>: \(\varepsilon\) sets the hardest encounter in the system, so a fixed \(\delta t\) can only resolve encounters that are not too hard.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      This reframes the whole error budget. It is tempting to think of the three error sources — time step, force approximation, softening — as independent knobs. They are not. <strong>Softening and time step are coupled</strong>, and at \(\varepsilon\ll\lambda\) the integrator error swamps everything the tree could possibly do wrong. Chasing \(\theta\) down to \(0.3\) while running at \(\varepsilon = \lambda/8\) would be spending effort in exactly the wrong place. 
+      This reframes the whole error budget. It is tempting to think of the three error sources &#40;time step, force approximation, softening&#41; as independent knobs. They are not. <strong>Softening and time step are coupled</strong>, and at \(\varepsilon\ll\lambda\) the integrator error swamps everything the tree could possibly do wrong. Chasing \(\theta\) down to \(0.3\) while running at \(\varepsilon = \lambda/8\) would be spending effort in exactly the wrong place. 
   </fieldset>
   
-<h3 id="momentum_the_one_that_really_breaks"><a href="#momentum_the_one_that_really_breaks" class="header-anchor">Momentum — the one that really breaks</a></h3>
-<p>Here is the subtle failure, and it is the paper&#39;s sharpest observation.</p>
-<p>Think about what happens when a particle interacts with a distant cell. The particle feels the pull of the whole cell. But the cell does <strong>not</strong> feel the pull of the particle — instead, each particle inside that cell separately does its own tree walk, and <em>its</em> view of our particle may be as part of a different cell entirely.</p>
+<h3 id="momentum_the_one_that_really_breaks"><a href="#momentum_the_one_that_really_breaks" class="header-anchor">Momentum, the one that really breaks</a></h3>
+<p>Now the subtle failure, and the paper&#39;s sharpest observation.</p>
+<p>Think about what happens when a particle interacts with a distant cell. The particle feels the pull of the whole cell. But the cell does <strong>not</strong> feel the pull of the particle. Instead, each particle inside that cell separately does its own tree walk, and <em>its</em> view of our particle may be as part of a different cell entirely.</p>
 <p>So the force of \(A\) on \(B\) is not equal and opposite to the force of \(B\) on \(A\). <strong>Newton&#39;s third law is broken by construction.</strong> And momentum conservation is a direct consequence of the third law, so momentum is not conserved:</p>
-<div id="fdpqna" style=""></div>
+<div id="fdpfng" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpqna");
+graphDiv = document.getElementById("fdpfng");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/com_drift.json');
 </script>
 
-<p>The centre of mass, which should sit still forever, executes a random walk. At \(\theta = 1\) it wanders about \(1\%\) of the system radius over 1000 steps; at \(\theta = 0.5\) it is roughly ten times smaller.</p>
+<p>Time goes right, distance wandered goes up. The centre of mass should never move at all, and it does. Lowering \(\theta\) is the only thing that helps.</p>
+<p>It is a random walk, and the size of it depends only on \(\theta\). At \(\theta = 1\) the centre wanders about \(1\%\) of the system radius over 1000 steps; at \(\theta = 0.5\) it is roughly ten times smaller.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      A direct sum conserves momentum <strong>exactly</strong>, to round-off, because it adds \(+\vec f\) to one particle and \(-\vec f\) to the other in the same operation. No amount of time-step refinement fixes the tree&#39;s drift, because it is not a time-stepping error at all — it is baked into the force calculation, and the only control you have is \(\theta\). 
+      A direct sum conserves momentum <strong>exactly</strong>, to round-off, because it adds \(+\vec f\) to one particle and \(-\vec f\) to the other in the same operation. No amount of time-step refinement fixes the tree&#39;s drift, because it is not a time-stepping error at all. It is baked into the force calculation, and the only control you have is \(\theta\). 
   </fieldset>
   
-<p>This is the sort of thing that makes me like this paper. It is not just &quot;here is a fast algorithm&quot;, it is &quot;here is precisely which piece of physics I traded away, and here is how much&quot;.</p>
+<p>This is the sort of thing that makes me like this paper. It is not just &quot;here is a fast algorithm&quot;, it is &quot;here is precisely which piece of physics I traded away and here is how much&quot;.</p>
 <h2 id="is_the_tree_code_more_collisional"><a href="#is_the_tree_code_more_collisional" class="header-anchor">Is the tree code more collisional?</a></h2>
 <p>The last question, and it is a genuinely worrying one.</p>
-<p>A star cluster relaxes because individual stars deflect each other — the granularity of the mass distribution slowly randomises orbits, on the <strong>relaxation time</strong> \(t_r\). A tree code replaces groups of stars with single massive pseudo-particles. Bigger lumps mean bigger deflections. So does the tree make the simulation artificially more collisional than it should be, silently corrupting the physics?</p>
-<p>The paper tests this with the Standish &amp; Aksnes method, and so did I: fire massless test particles through the system, measure how much they are deflected in one crossing, and form</p>
+<p>A star cluster relaxes because individual stars deflect each other. The granularity of the mass distribution slowly randomises orbits, on the <strong>relaxation time</strong> \(t_r\). A tree code replaces groups of stars with single massive pseudo-particles. Bigger lumps mean bigger deflections. So does the tree make the simulation artificially more collisional than it should be, silently corrupting the physics?</p>
+<p>The paper tests this with the Standish &amp; Aksnes method, and so did I: fire massless test particles through the system, measure how much they are deflected in one crossing, then form</p>
 \[
 t_r = \frac{\langle \Delta t\rangle}{\langle\sin^2\Phi\rangle}
 \]
 <p>Then quote everything relative to a direct calculation, \(t_r(\theta)/t_r(0)\):</p>
-<div id="fdpzcz" style=""></div>
+<div id="fdpkzo" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpzcz");
+graphDiv = document.getElementById("fdpkzo");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/relaxation.json');
 </script>
 
-<p>The answer is <strong>no</strong>, at least in the range anyone uses. For \(\theta \lesssim 1.1\) the ratio sits on 1 within the error bars — the tree code is no more collisional than a direct sum. Only beyond \(\theta \approx 1.2\) does it start to fall, reaching about \(0.8\) at \(\theta = 1.4\) with softening.</p>
-<p>This matches the paper&#39;s Fig. 10, including the detail that the \(\varepsilon = 0\) curves are much noisier — without softening, the occasional very close encounter dominates the deflection statistics and the variance goes through the roof.</p>
+<p>\(\theta\) goes right, and up is the relaxation time compared with the exact calculation. A value of 1 means the tree changed nothing. It stays at 1 up to about \(\theta = 1.1\), so grouping particles does not secretly make the physics grainier.</p>
+<p>The answer is <strong>no</strong>, at least in the range anyone uses. Only beyond \(\theta \approx 1.2\) does the ratio start to fall, reaching about \(0.8\) at \(\theta = 1.4\) with softening.</p>
+<p>This matches the paper&#39;s Fig. 10, including the detail that the \(\varepsilon = 0\) curves are much noisier. Without softening, the occasional very close encounter dominates the deflection statistics and the variance goes through the roof.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       This is the result that makes tree codes respectable rather than merely fast. It says that grouping particles for the purpose of computing forces does <strong>not</strong> import a spurious graininess into the dynamics. Without it you could not trust a tree code for anything where relaxation matters. 
@@ -483,12 +510,12 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/re
 <li><p>Collisionality is unaffected for \(\theta \lesssim 1.1\).</p>
 </li>
 </ul>
-<p>Which lands on \(\theta \approx 0.5\)–\(1.0\) as the sensible operating range, exactly where the paper&#39;s abstract puts it.</p>
+<p>Which lands on \(\theta \approx 0.5\) to \(1.0\) as the sensible operating range, exactly where the paper&#39;s abstract puts it.</p>
 <p>Some things I did not do, if you want to take this further:</p>
 <ol>
 <li><p><strong>Individual time steps.</strong> Every particle currently takes the same \(\delta t\), set by the fastest one. Giving core particles smaller steps than halo particles should be a large win.</p>
 </li>
-<li><p><strong>Octupole terms.</strong> The \(n=3\) term gives \(\mathcal{O}((s/d)^4)\) — worth it, or is the extra bookkeeping self-defeating? I went and did this one; see <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">part 6</a>.</p>
+<li><p><strong>Octupole terms.</strong> The \(n=3\) term gives \(\mathcal{O}((s/d)^4)\). Worth it, or is the extra bookkeeping self-defeating? I went and did this one; see <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">part 6</a>.</p>
 </li>
 <li><p><strong>A better opening criterion.</strong> \(s/d<\theta\) is crude, since it ignores where the mass inside a cell actually sits. Modern codes use criteria based on the multipole moments themselves.</p>
 </li>
@@ -496,14 +523,14 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/re
 </li>
 </ol>
 <hr />
-<p><strong>Previous:</strong> <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">Part 3 — The tree and the multipole expansion</a><br/> <strong>Next:</strong> <a href="/Pages/Physics/papers/hernquist1987/05_code/">Part 5 — The code</a>, then <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">Part 6 — Doing better than 1987</a></p>
+<p><strong>Previous:</strong> <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">Part 3, the tree and the multipole expansion</a><br/> <strong>Next:</strong> <a href="/Pages/Physics/papers/hernquist1987/05_code/">Part 5, the code</a>, then <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">Part 6, doing better than 1987</a></p>
 <p>Hope this helps you in some way. If you like it then share with others if possible.</p>
 <p>If you have some queries, do let me know in the comments or contact me using the informations that are given on the page <a href="/Pages/about_me/">About Me</a>.</p>
 
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 04, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 06, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -606,11 +633,6 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/re
       <img id="lightbox-img" src="">
     </div>
 
-    <!-- Floating Back Button -->
-    <button id="floating-back-btn" onclick="history.back()" title="Go Back">
-      <i class="fas fa-arrow-left"></i> Back
-    </button>
-
     <!-- Lightbox Script -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -628,8 +650,64 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/re
       });
     </script>
 
-    <!-- Oneko Cat — runs entirely in the browser on its built-in behaviour. -->
-    <script src="/assets/oneko.js?v=62" data-cat="/assets/oneko.gif">    </script>
+    <!-- Oneko Cat: opt-out, remembered per visitor. The script is only loaded
+         when the cat is wanted, so switching it off costs nothing on later pages. -->
+    <style>
+      #oneko-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 1000;
+        width: 34px; height: 34px; padding: 0;
+        border: 1px solid rgba(140,140,140,0.35); border-radius: 50%;
+        background: rgba(250,248,244,0.82); color: #7a6a4a;
+        font-size: 15px; line-height: 1; cursor: pointer;
+        opacity: 0.42; transition: opacity 0.2s, transform 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #oneko-toggle:hover { opacity: 1; transform: scale(1.08); }
+      html.dark-mode #oneko-toggle {
+        background: rgba(38,36,33,0.82); color: #cda863;
+        border-color: rgba(180,170,150,0.28);
+      }
+      html.oneko-off #oneko { display: none !important; }
+      @media print { #oneko-toggle { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = 'oneko-enabled';
+        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var loaded = false;
+
+        function loadCat() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '/assets/oneko.js?v=62';
+          s.setAttribute('data-cat', '/assets/oneko.gif');
+          document.body.appendChild(s);
+        }
+
+        function paint(btn) {
+          btn.textContent = on ? '🐈' : '🐾';
+          btn.title = on ? 'Hide the cat' : 'Bring the cat back';
+          btn.setAttribute('aria-label', btn.title);
+          document.documentElement.classList.toggle('oneko-off', !on);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.createElement('button');
+          btn.id = 'oneko-toggle';
+          btn.type = 'button';
+          paint(btn);
+          btn.addEventListener('click', function () {
+            on = !on;
+            localStorage.setItem(KEY, on ? '1' : '0');
+            paint(btn);
+            if (on) loadCat();
+          });
+          document.body.appendChild(btn);
+          if (on) loadCat();
+        });
+      })();
+    </script>
     <script>
       // Add a 'Download as PDF' button only on blog pages
       document.addEventListener('DOMContentLoaded', function() {
