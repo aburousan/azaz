@@ -385,9 +385,9 @@ M(r) = 3Mr_0^2\cdot\frac{1}{r_0^2}\cdot\frac{1}{3}\left[\frac{r'^3}{(r'^2+r_0^2)
 \]
 <p>Two sanity checks. As \(r\to\infty\) this tends to \(M\), so the total mass really is \(M\) and the model is not secretly infinite. As \(r\to 0\) it goes as \(Mr^3/r_0^3\), which is what a constant-density core must give.</p>
 <p>The whole model in one plot. Note the log axis on \(r\), and that \(\rho\) has its own axis on the left while everything else shares the right one.</p>
-<div id="fdppsx" style=""></div>
+<div id="fdpaxl" style=""></div>
 <script>
-graphDiv = document.getElementById("fdppsx");
+graphDiv = document.getElementById("fdpaxl");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_profiles.json');
 </script>
 
@@ -622,9 +622,9 @@ q_{\max} = \frac{\sqrt2}{3} \approx 0.4714, \qquad g_{\max} = \frac{686\sqrt7}{1
 \]
 <p>So I take a box of height \(0.1\), which clears the peak with a little room to spare. The area under the curve is exactly \(7\pi/512 \approx 0.04295\), so the acceptance rate is \(0.04295/0.1 \approx 43\%\). A little over two darts thrown per particle kept, which costs nothing.</p>
 <p>Rather than describe it any further, here is an actual run of the sampler. Press play.</p>
-<div id="fdpuvm" style=""></div>
+<div id="fdpqze" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpuvm");
+graphDiv = document.getElementById("fdpqze");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/anim_sampler.json');
 </script>
 
@@ -671,25 +671,25 @@ end</code></pre>
 <h3 id="checking_that_it_worked"><a href="#checking_that_it_worked" class="header-anchor">Checking that it worked</a></h3>
 <p>Never trust a sampler. Here are 200,000 particles I generated, checked against the theory in three independent ways.</p>
 <p>The radial distribution against \(4\pi r^2\rho(r)/M(R)\):</p>
-<div id="fdpgei" style=""></div>
+<div id="fdpfdk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpgei");
+graphDiv = document.getElementById("fdpfdk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_sampled_radius.json');
 </script>
 
 <p>Dots are my sampled particles, the curve is the theory. They sit on top of each other, so the positions are correct.</p>
 <p>The velocity dispersion against \(\sigma_0[1+(r/r_0)^2]^{-1/4}\). Remember, I never fed \(\sigma(r)\) into the sampler. It fell out of the distribution function on its own:</p>
-<div id="fdpyme" style=""></div>
+<div id="fdpfva" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpyme");
+graphDiv = document.getElementById("fdpfva");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_sampled_sigma.json');
 </script>
 
 <p>Same idea, but for speeds now. Dots are measured from the sample, the curve is the formula we derived. I never gave this formula to the sampler, so matching it means the velocities are right too.</p>
 <p>And the universal speed shape:</p>
-<div id="fdplay" style=""></div>
+<div id="fdpslq" style=""></div>
 <script>
-graphDiv = document.getElementById("fdplay");
+graphDiv = document.getElementById("fdpslq");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_speed_dist.json');
 </script>
 
@@ -787,9 +787,9 @@ U_{ij} = -\frac{Gm_im_j}{(r_{ij}^2+\varepsilon^2)^{1/2}}
 \]
 <p>with the average weighted by each pair&#39;s contribution to \(U\). Two limits check out. As \(\varepsilon\to0\) we get \(W=U\) and the familiar theorem back. As \(\varepsilon\) grows the ratio falls below 1, meaning a system genuinely in equilibrium will show \(-2K/U < 1\). For my run &#40;\(\varepsilon \approx 0.031\), typical separations of order \(0.2\)&#41; that predicts a few percent, which is exactly the discrepancy I was seeing.</p>
 <p>So the honest test is \(-2K/W\), not \(-2K/U\). My run, measured both ways:</p>
-<div id="fdpqou" style=""></div>
+<div id="fdpzda" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpqou");
+graphDiv = document.getElementById("fdpzda");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/virial_as_sampled.json');
 </script>
 
@@ -797,9 +797,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/vi
 <p>I find this a nice example of how a &quot;check that fails&quot; can be more informative than one that passes.</p>
 <h3 id="testing_it_across_a_factor_of_64_in_varepsilon"><a href="#testing_it_across_a_factor_of_64_in_varepsilon" class="header-anchor">Testing it across a factor of 64 in \(\varepsilon\)</a></h3>
 <p>One run agreeing is not much of a test, so I ran the whole thing again on the server for seven softening lengths spanning \(\varepsilon/\lambda\) from \(1/16\) to \(4\), a factor of 64. If the derivation above is right, \(-2K/W\) should stay pinned at 1 the whole way while \(-2K/U\) slides away from it.</p>
-<div id="fdpytg" style=""></div>
+<div id="fdpzfi" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpytg");
+graphDiv = document.getElementById("fdpzfi");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_virial.json');
 </script>
 
@@ -813,17 +813,17 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/ep
   
 <h3 id="and_a_warning_about_making_varepsilon_small"><a href="#and_a_warning_about_making_varepsilon_small" class="header-anchor">And a warning about making \(\varepsilon\) small</a></h3>
 <p>There is a trap here that I walked straight into. Having established that softening biases \(-2K/U\), my first instinct was to shrink \(\varepsilon\) until the bias went away. That is a mistake, and the same set of runs shows why:</p>
-<div id="fdpwtf" style=""></div>
+<div id="fdpizq" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwtf");
+graphDiv = document.getElementById("fdpizq");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_energy.json');
 </script>
 
 <p>Softening length along the bottom, the energy drift over 800 steps up the side, both on log axes. At \(\varepsilon = \lambda\) the drift is \(0.15\%\). At \(\varepsilon = \lambda/2\) it is \(3.4\%\). At \(\varepsilon = \lambda/16\) it is <strong>\(52\%\)</strong>, i.e. the simulation is destroyed.</p>
 <p>The reason is that \(\varepsilon\) sets the hardest interaction the simulation contains. Two particles passing at separation \(\sim\varepsilon\) experience an acceleration \(\sim Gm/\varepsilon^2\) over a time \(\sim\varepsilon/v\), and a fixed time step \(\delta t\) can only resolve that if \(\delta t\) is small compared with the encounter time. Halve \(\varepsilon\) and the encounters get faster and harder while \(\delta t\) stays put, so the integrator starts missing them. Every missed encounter dumps spurious energy into the system.</p>
-<div id="fdpeni" style=""></div>
+<div id="fdpmnt" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpeni");
+graphDiv = document.getElementById("fdpmnt");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_energy_history.json');
 </script>
 
@@ -844,17 +844,17 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/ep
 <p>I can confirm this is the whole story by removing the cutoff:</p>
 <table><tr><th align="right">Cutoff \(R\)</th><th align="right">\(M(R)/M\)</th><th align="right">\(-2K/U\) at \(t=0\)</th></tr><tr><td align="right">1</td><td align="right">0.943</td><td align="right">0.958</td></tr><tr><td align="right">2</td><td align="right">0.985</td><td align="right">0.990</td></tr><tr><td align="right">5</td><td align="right">0.998</td><td align="right">1.001</td></tr><tr><td align="right">20</td><td align="right">1.000</td><td align="right">1.003</td></tr></table>
 <p>As the cutoff goes away, the model lands exactly on the virial theorem. If I rescale the velocities at the start to sit exactly on \(2K + W = 0\), the transient disappears:</p>
-<div id="fdpvvd" style=""></div>
+<div id="fdpicn" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpvvd");
+graphDiv = document.getElementById("fdpicn");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/virial_rescaled.json');
 </script>
 
 <p>Same plot as before, but the starting velocities were rescaled to sit exactly on the theorem. The early wobble is gone, which confirms the wobble was coming from the cutoff and nothing else.</p>
 <p>And here is \(I(t)\) itself, doing what sir said it would: moving at first, then settling down and staying put.</p>
-<div id="fdpyej" style=""></div>
+<div id="fdpxkp" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpyej");
+graphDiv = document.getElementById("fdpxkp");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/virial_inertia.json');
 </script>
 

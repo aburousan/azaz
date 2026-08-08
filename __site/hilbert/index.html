@@ -682,6 +682,9 @@
         <div class="card"><div class="glyph">▦</div><h3>Import data</h3><p>Open a CSV, TSV or Excel file, preview the sheet, and drop it in as a table, a variable, or a plot of the columns you choose.</p></div>
         <div class="card"><div class="glyph">⌘</div><h3>Command palette</h3><p>Press <code style="font-family:var(--mono);font-size:12px">⌘K</code> and search every tool and action by name — nothing to memorise or hunt for in a menu.</p></div>
         <div class="card"><div class="glyph">◧</div><h3>A real workspace</h3><p>Open any folder like VS Code: multi-file docs with <code style="font-family:var(--mono);font-size:12px">#include</code>d chapters, a drag-and-drop file tree, full-text search and Git.</p></div>
+        <div class="card"><div class="glyph">⇌</div><h3>Write it together</h3><p>Share a project from inside the app and edit the same document at once — every keystroke encrypted end-to-end, relayed peer-to-peer, with no account and no server holding your work.</p></div>
+        <div class="card"><div class="glyph">◐</div><h3>Five interface themes</h3><p><b>Ink</b>, <b>Paper</b>, <b>Sepia</b> for long low-blue sessions, <b>Midnight</b> for a dark room, and <b>High Contrast</b> — the whole window, not just the editor pane.</p></div>
+        <div class="card"><div class="glyph">✥</div><h3>Whiteboard &amp; slides</h3><p>Sketch a diagram on an Excalidraw canvas with physics shape presets, or build a 16:9 deck by dragging — both stored as ordinary Typst you can reopen and edit.</p></div>
       </div>
     </div>
   </section>
@@ -829,8 +832,12 @@
         <p class="eyebrow">install it</p>
         <h2>macOS, Windows, Linux.</h2>
         <p>Download the installer for your platform from the
-          <a href="https://github.com/aburousan/hilbert-editor/releases/latest" target="_blank" rel="noopener">latest release</a>.
+          <a href="https://github.com/aburousan/hilbert-editor/releases/latest" target="_blank" rel="noopener">latest release</a>
+          — currently <b>0.1.19</b>.
           First install the Typst CLI (<code style="font-family:var(--mono);font-size:13.5px">typst --version</code> should work), then:</p>
+        <p class="note" style="margin-top:10px">Already have Hilbert? It updates itself — it checks on launch and asks
+          before installing, so you don't need to download anything again. Every build except the Linux
+          <code style="font-family:var(--mono);font-size:13px">.deb</code> auto-updates.</p>
       </div>
       <div class="install-grid">
         <div class="os">
@@ -851,7 +858,9 @@ codesign --force --deep --sign - "/Applications/Hilbert.app"</pre>
             <li>Download the <b>.exe</b> or <b>.msi</b> from Releases and run it.</li>
             <li>Launch Hilbert — it behaves like a normal Windows app (no console flashes, failed compiles show a panel).</li>
           </ol>
-          <p class="note" style="color:var(--muted)">Only the Tauri build ships for Windows.</p>
+          <p class="note" style="color:var(--muted)">Only the Tauri build ships for Windows. Hilbert also looks where
+            winget, scoop and chocolatey put their shims, so a Typst or Tinymist installed after the app was last
+            started is still found.</p>
         </div>
         <div class="os">
           <h3><span class="os-ic">&#9995;</span> Linux</h3>

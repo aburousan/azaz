@@ -430,25 +430,25 @@ end</code></pre>
 <h2 id="why_not_something_fancier"><a href="#why_not_something_fancier" class="header-anchor">Why not something fancier?</a></h2>
 <p>Here is the question that bothered me. Leapfrog is only <strong>second order</strong>. Runge-Kutta 4 is fourth order and everybody learns it first. Why does every serious \(N\)-body code use the &quot;worse&quot; method?</p>
 <p>So I tested it. One particle on an eccentric Kepler orbit around a fixed mass, integrated four ways with the same step size, for 200 orbits.</p>
-<div id="fdpuoe" style=""></div>
+<div id="fdpkmf" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpuoe");
+graphDiv = document.getElementById("fdpkmf");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_orbits.json');
 </script>
 
 <p>This is the orbit itself, seen from above, with 200 revolutions drawn on top of one another. If a method keeps the orbit correct you see one sharp ellipse. Red spreads out into a mess, so forward Euler is useless here.</p>
 <p>All 200 orbits at once is a bit of a pile-up, so here is the same run with the orbits arriving in order. Press play and watch which curves stay put:</p>
-<div id="fdpvol" style=""></div>
+<div id="fdpsrd" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpvol");
+graphDiv = document.getElementById("fdpsrd");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/anim_integrators.json');
 </script>
 
 <p>Red is forward Euler and it walks off the edge of the plot within a few orbits, never to return. Blue &#40;leapfrog&#41; and orange &#40;RK4&#41; both stay on the ellipse for all 60 orbits, and at this scale you cannot separate them. That is the honest situation: on the <em>orbit</em>, the fancy method and the cheap method look the same, and only the bad method is visibly bad.</p>
 <p>Which is why the orbit picture is only half the story. Look at the energy, which is the thing that actually matters:</p>
-<div id="fdpbim" style=""></div>
+<div id="fdpqij" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpbim");
+graphDiv = document.getElementById("fdpqij");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_energy.json');
 </script>
 
@@ -469,9 +469,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/in
   
 <p>There is a second reason, and for an \(N\)-body code it may be the bigger one: <strong>cost</strong>. RK4 needs <em>four</em> force evaluations per step. In a tree code, a force evaluation is essentially the entire cost of the simulation. So at fixed compute budget leapfrog can take four times as many steps, and its error is \(\mathcal{O}(\delta t^2)\), so four times smaller steps means sixteen times better accuracy. The &quot;worse&quot; method wins on both counts.</p>
 <p>To confirm the methods are behaving as advertised, here is the error against step size:</p>
-<div id="fdpsun" style=""></div>
+<div id="fdpzfw" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpsun");
+graphDiv = document.getElementById("fdpzfw");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_order.json');
 </script>
 
