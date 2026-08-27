@@ -98,7 +98,8 @@ Insert every particle into the tree and then fill in the multipole moments.
 The root cell is the smallest cube containing all the particles.
 """
 function build_tree!(t::Octree, pos::AbstractMatrix, mass::AbstractVector;
-                     quadrupole::Bool = true, octupole::Bool = false)
+                     quadrupole::Bool = true, octupole::Bool = false,
+                     raw_second::Bool = false)
     N = length(mass)
     reset!(t)
 
@@ -115,7 +116,7 @@ function build_tree!(t::Octree, pos::AbstractMatrix, mass::AbstractVector;
         insert!(t, pos, i)
     end
     fill_moments!(t, pos, mass, 1; quadrupole = quadrupole || octupole)
-    octupole && fill_raw_moments!(t, pos, mass, 1)
+    (octupole || raw_second) && fill_raw_moments!(t, pos, mass, 1)
     return t
 end
 
@@ -260,6 +261,7 @@ spurious self-acceleration the paper warns about for theta >~ 1.
 function tree_accel(t::Octree, pos::AbstractMatrix, i::Integer,
                     theta::Float64, eps::Float64;
                     quadrupole::Bool = false, octupole::Bool = false,
+                    exact_softened_quadrupole::Bool = false,
                     forced_subdivision::Bool = true,
                     stack::Vector{Int32} = Int32[])
     empty!(stack)
@@ -324,6 +326,13 @@ function tree_accel(t::Octree, pos::AbstractMatrix, i::Integer,
             ax += c1 * qdx - c2 * dx
             ay += c1 * qdy - c2 * dy
             az += c1 * qdz - c2 * dz
+            if exact_softened_quadrupole && eps2 > 0
+                tr = t.m2[1, node] + t.m2[4, node] + t.m2[6, node]
+                c3 = 2.5 * eps2 * tr / r7
+                ax += c3 * dx
+                ay += c3 * dy
+                az += c3 * dz
+            end
         end
         if octupole
             ox, oy, oz = octupole_accel(t, node, dx, dy, dz, d2, r2)
@@ -344,6 +353,7 @@ built, so the loop threads trivially.
 function tree_forces!(acc::AbstractMatrix, t::Octree, pos::AbstractMatrix,
                       mass::AbstractVector, theta::Float64, eps::Float64;
                       quadrupole::Bool = false, octupole::Bool = false,
+                      exact_softened_quadrupole::Bool = false,
                       forced_subdivision::Bool = true,
                       nterms::Union{Nothing,Vector{Int}} = nothing)
     N = length(mass)
@@ -358,6 +368,8 @@ function tree_forces!(acc::AbstractMatrix, t::Octree, pos::AbstractMatrix,
                 ax, ay, az, nt = tree_accel(t, pos, i, theta, eps;
                                             quadrupole = quadrupole,
                                             octupole = octupole,
+                                            exact_softened_quadrupole =
+                                                exact_softened_quadrupole,
                                             forced_subdivision = forced_subdivision,
                                             stack = stack)
                 acc[1, i] = ax; acc[2, i] = ay; acc[3, i] = az

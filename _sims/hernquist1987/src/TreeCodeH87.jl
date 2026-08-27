@@ -23,7 +23,7 @@ export Plummer, plummer_ics, density, enclosed_mass, potential,
        direct_forces!, potential_energy, kinetic_energy,
        RunConfig, compute_forces!, leapfrog_step!, evolve!,
        com_position, com_velocity, angular_momentum, virial_ratio,
-       clausius_virial,
+       clausius_virial, net_force, net_force_fraction,
        lagrangian_radii, force_error, relaxation_time,
        tree_depth, node_count,
        fill_raw_moments!, octupole_accel, quadrupole_from_raw, yoshida4_step!, evolve4!

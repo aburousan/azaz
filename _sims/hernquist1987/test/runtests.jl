@@ -172,6 +172,45 @@ end
     end
 end
 
+@testset "exact softened quadrupole correction" begin
+    rng = MersenneTwister(4)
+    pos = 0.08 .* randn(rng, 3, 60)
+    mass = fill(1 / 60, 60)
+    eps = 0.07
+    t = Octree(512)
+    build_tree!(t, pos, mass; quadrupole = true, raw_second = true)
+
+    M = sum(mass)
+    c = com_position(pos, mass)
+    M2 = zeros(3, 3)
+    for i in 1:length(mass), a in 1:3, b in 1:3
+        M2[a, b] += mass[i] * (pos[a, i] - c[a]) * (pos[b, i] - c[b])
+    end
+
+    phi(x) = begin
+        d = x .- c
+        r2 = dot(d, d) + eps^2
+        -M / sqrt(r2) -
+            0.5 * (3 * (d' * M2 * d) - r2 * tr(M2)) / r2^(5 / 2)
+    end
+
+    for x0 in ([1.0, 0.3, -0.7], [-0.4, 1.2, 0.6])
+        ptest = reshape(x0, 3, 1)
+        ax, ay, az, _ = tree_accel(t, ptest, 1, 10.0, eps;
+                                   quadrupole = true,
+                                   exact_softened_quadrupole = true)
+        analytic = [ax, ay, az]
+        numeric = zeros(3)
+        h = 1e-6
+        for k in 1:3
+            xp = copy(x0); xp[k] += h
+            xm = copy(x0); xm[k] -= h
+            numeric[k] = -(phi(xp) - phi(xm)) / (2h)
+        end
+        @test isapprox(analytic, numeric; rtol = 1e-6, atol = 1e-8)
+    end
+end
+
 @testset "leapfrog" begin
     # A two-body circular orbit is the cleanest test of the integrator:
     # after one period the particles must come back to where they started.

@@ -23,6 +23,37 @@ function angular_momentum(pos, vel, mass)
     return L
 end
 
+"Total force implied by an acceleration array, sum_i m_i a_i."
+function net_force(acc, mass)
+    F = zeros(3)
+    @inbounds for i in eachindex(mass)
+        F[1] += mass[i] * acc[1, i]
+        F[2] += mass[i] * acc[2, i]
+        F[3] += mass[i] * acc[3, i]
+    end
+    return F
+end
+
+"""
+    net_force_fraction(acc, mass)
+
+Dimensionless momentum-conservation diagnostic,
+
+    |sum_i m_i a_i| / sum_i m_i |a_i|.
+
+It is zero for exactly pairwise antisymmetric forces. A one-sided tree walk is
+not guaranteed to satisfy that symmetry, so this measures the size of the
+spurious centre-of-mass acceleration relative to the total force scale.
+"""
+function net_force_fraction(acc, mass)
+    num = net_force(acc, mass)
+    den = 0.0
+    @inbounds for i in eachindex(mass)
+        den += mass[i] * sqrt(acc[1, i]^2 + acc[2, i]^2 + acc[3, i]^2)
+    end
+    return sqrt(sum(abs2, num)) / den
+end
+
 """
     virial_ratio(pos, vel, mass, eps)
 

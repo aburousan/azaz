@@ -16,6 +16,7 @@ Base.@kwdef struct RunConfig
     eps::Float64 = 0.032
     quadrupole::Bool = false
     octupole::Bool = false
+    exact_softened_quadrupole::Bool = false
     forced_subdivision::Bool = true
     direct::Bool = false          # if true, ignore the tree and sum all pairs
 end
@@ -32,9 +33,11 @@ function compute_forces!(acc, tree::Octree, pos, mass, cfg::RunConfig)
         return float(length(mass) - 1)
     end
     build_tree!(tree, pos, mass; quadrupole = cfg.quadrupole,
-                octupole = cfg.octupole)
+                octupole = cfg.octupole,
+                raw_second = cfg.exact_softened_quadrupole)
     return tree_forces!(acc, tree, pos, mass, cfg.theta, cfg.eps;
                         quadrupole = cfg.quadrupole, octupole = cfg.octupole,
+                        exact_softened_quadrupole = cfg.exact_softened_quadrupole,
                         forced_subdivision = cfg.forced_subdivision)
 end
 
