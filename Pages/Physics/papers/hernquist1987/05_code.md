@@ -76,14 +76,24 @@ mutable struct Octree
     leafpart::Vector{Int32}   # particle index for leaves, 0 otherwise
     mass::Vector{Float64}
     com::Matrix{Float64}      # 3 x nmax, centre of mass of the node
-    quad::Matrix{Float64}     # 6 x nmax, quadrupole about the node's own COM
+    quad::Matrix{Float64}     # 6 x nmax, traceless quadrupole about its own COM
+    m2::Matrix{Float64}       # 6 x nmax, raw second moments,  sum m s_i s_j
+    m3::Matrix{Float64}       # 10 x nmax, raw third moments,  sum m s_i s_j s_k
     center::Matrix{Float64}   # 3 x nmax, geometric centre of the cell
     size::Vector{Float64}     # full width of the cell
     nnodes::Int
 end
 ```
 
-The quadrupole is symmetric and traceless, so six numbers per node is all it needs. I store `(xx, xy, xz, yy, yz, zz)` and reconstruct the rest by symmetry.
+Three sets of moments rather than one, and each earns its place.
+
+`quad` is the traceless $\mathbf{Q}$ used in the hot loop, stored as `(xx, xy, xz, yy, yz, zz)` with the rest reconstructed by symmetry. Only five of those six are independent, since the trace vanishes, but carrying the sixth is cheaper than rebuilding it on every use.
+
+`m2` and `m3` are the **raw** moments, and they are what the tree is actually built out of. Raw moments shift from a child's centre of mass to its parent's by a plain binomial rule with no Kronecker deltas anywhere in it, which is [the whole reason the recursion is manageable at rank 3](/Pages/Physics/papers/hernquist1987/06_beyond/#shifting_it_up_the_tree). Keeping `m2` separately also buys something I did not anticipate when I wrote it: the exact softened quadrupole needs $\operatorname{tr}\mathbf{M}^{(2)}$, which the traceless $\mathbf{Q}$ has thrown away by construction and which therefore cannot be recovered from it. [Part 3 works out why](/Pages/Physics/papers/hernquist1987/03_treecode/#what_softening_does_to_the_expansion).
+
+\tip{
+    The general rule this converged on, after I got the rank-3 shift wrong twice: **do all the bookkeeping in raw moments, and take traces at the last possible moment**, ideally inside the force kernel itself. Raw moments compose the way you expect. Traceless tensors do not.
+}
 
 A node is exactly one of three things: **empty** (`mass == 0`), a **leaf** holding one particle (`leafpart > 0`), or **internal** with up to eight children. Empty cells are never created, which is why the node count stays proportional to $N$ and not to the volume.
 
@@ -220,7 +230,7 @@ The algebra in [part 3](/Pages/Physics/papers/hernquist1987/03_treecode/) was ve
 | eq. (2.4) $= -\nabla$ eq. (2.2) | exact |
 | Poisson for the Plummer pair | residual 0 |
 | Eddington inversion for $f(E)$ | $\frac{24\sqrt2}{7\pi^3}\frac{r_0^2}{G^5M^4}\mathcal{E}^{7/2}$ |
-| paper's eq. (3.2) vs. the above | differs by $G^{-4}$ |
+| paper's eq. (3.2) vs. the above | **identical**, powers of $G$ included |
 | Jeans equation for $\sigma(r)$ | $\sigma_0(1+(r/r_0)^2)^{-1/4}$ |
 | softened potential expansion | $1-\tfrac12\varepsilon^2/r^2+\tfrac38\varepsilon^4/r^4$ |
 | maximum of $g(q)=q^2(1-q^2)^{7/2}$ | $q=\sqrt2/3$, $g=686\sqrt7/19683$ |
@@ -253,7 +263,7 @@ The algebra in [part 3](/Pages/Physics/papers/hernquist1987/03_treecode/) was ve
 The obvious next steps, roughly in order of how much they would buy you:
 
 1. **Individual time steps.** The single biggest win available, since core particles currently drag the whole simulation down to their step size.
-2. **A better opening criterion.** $s/d<\theta$ ignores where the mass inside a cell actually sits. Criteria based on the multipole moments themselves do much better at the same cost.
+2. **A better opening criterion.** $s/d<\theta$ ignores where the mass inside a cell actually sits. Two purely geometric repairs are [tried and beaten in part 6](/Pages/Physics/papers/hernquist1987/06_beyond/#can_the_opening_test_be_repaired); a criterion built from the multipole moments themselves is the thing to write next.
 3. **A tree that is not rebuilt from scratch every step.** Most of the structure does not change between steps.
 
 Octupole terms used to be on this list; they are now implemented, and [part 6](/Pages/Physics/papers/hernquist1987/06_beyond/) measures what they buy.

@@ -304,6 +304,30 @@ The symmetric ordering kills every odd power. So leapfrog is the **exact** solut
 
 That also tells you what to expect on a plot. Leapfrog gives a **band**: noisy, but flat and level no matter how long you run. RK4 gives a **line with a slope**. A band you can live with; a slope will eventually eat your simulation.
 
+### The fine print, which matters more than I first thought
+
+Everything above is true, and everything above assumes something I did not state. Go back and look at where the shadow Hamiltonian came from. We split the evolution into a pure kick and a pure drift and said each factor is the *exact* flow of a solvable problem. That step needs the system to be of the form
+
+$$
+H = T(\vec p) + V(\vec q)
+$$
+
+with a **fixed** potential $V$ that depends on the positions and on nothing else. For exact gravity that is true, and leapfrog is genuinely symplectic. **For a tree code it is not.**
+
+Three separate things break it, and none of them is subtle once you look:
+
+* The force depends on **how the tree was cut**, which is not a function of the positions alone in any useful sense. Draw the outer cube slightly differently and every dividing plane moves.
+* The set of accepted cells **changes as the particles move**. A cell that passed $s/d<\theta$ on this step may be opened on the next one, and at that moment the force law the code is applying changes discontinuously.
+* The approximate interactions are **not equal and opposite pair by pair**. Particle $A$ may see $B$ as part of a distant lump while $B$ sees $A$ individually. A Hamiltonian force cannot do that, and this is the same asymmetry that breaks momentum conservation in [part 4](/Pages/Physics/papers/hernquist1987/04_results/#momentum_the_one_that_really_breaks).
+
+\note{
+    So the correct statement is narrower than the one usually made, including by me earlier on this page. **Leapfrog is symplectic for the exact gravitational problem. The complete tree simulation is not an exactly Hamiltonian system at all, so its energy is not protected in the same way.** There is no shadow Hamiltonian for the code you are actually running.
+}
+
+The consequence is measurable and it is not small. With exact forces, halving $\delta t$ divides the energy error by four, over and over, all the way down to $10^{-6}$ and beyond. With tree forces, the error falls for a while and then stops dead at a **floor** set by the force error, after which halving the step buys nothing and eventually makes matters slightly worse. [Part 6 measures that floor](/Pages/Physics/papers/hernquist1987/06_beyond/#mapping_the_floor) and finds it sits at roughly one tenth of the fractional force error, across a thirty-fold range in $\theta$.
+
+None of this makes leapfrog the wrong choice. It makes the *reason* for choosing it different from the textbook one. You are not buying an exactly conserved shadow energy, because you cannot have one. You are buying the absence of a **built-in direction** to the error, which is a property of the time symmetry of the scheme rather than of the Hamiltonian structure, and time symmetry survives everything in the list above except the discontinuous re-cutting of the tree. That is enough to keep the error a band rather than a ramp, which is all you actually needed.
+
 ## Choosing the step size
 
 The paper uses $\delta t = 0.025$ in units where $G = M = R = 1$, and says this is about $5\%$ of the core crossing time. The scale that matters is how long a typical particle takes to cross the dense middle,

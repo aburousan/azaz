@@ -232,7 +232,7 @@ $$
     This is why Legendre polynomials turn up everywhere in electrostatics and gravity. They are not imposed on the problem. They *are* the expansion of $1/r$, and every multipole expansion you have seen is this one identity in disguise.
 }
 
-Note also the convergence condition $|t| < 1$, i.e. $s < d$. The series simply **does not converge** if the field point is inside the cell. That is not a technicality to wave away. It is why $\theta$ has to be kept below about 1, and it shows up later as a measured effect.
+Note also the convergence condition $|t| < 1$, i.e. $s < d$. The series simply **does not converge** if the field point is too close. That is not a technicality to wave away, and it is worth being careful about *which* distance has to be small, because the answer is not the one I assumed for a long time. The condition is that $|\vec s_\alpha|/d < 1$ for **every particle $\alpha$ in the cell**, not for some typical size of the cell. I come back to this below, in [the section on what the opening test actually tests](#the_test_does_not_test_what_you_think_it_tests), and it turns out to change the safe range of $\theta$ by a factor of nearly two.
 
 I checked the general term in Mathematica rather than trusting my memory beyond $n=2$:
 
@@ -439,7 +439,242 @@ So the plot is really a measurement of two numbers, the two slopes. The orange l
 
 Fitting slopes on the small-$s/d$ end gives **2.00** for the monopole and **3.03** for the quadrupole. Those are the $2$ and $3$ derived above, and nothing was fitted to make them come out. I was pleased with this one. It is a clean case of theory predicting a number and the computer producing it.
 
-You can also see *why* $\theta$ has to be kept below about 1. The expansion parameter is $s/d$, and the series is only guaranteed to converge for $s/d < 1$. Push $\theta$ past that and you are asking a divergent series for an answer, so adding more terms need not help. That is exactly what the paper finds, and what I will show [in the results](/Pages/Physics/papers/hernquist1987/04_results/).
+## The test does not test what you think it tests
+
+I used to finish the section above with a sentence like this: *the expansion parameter is $s/d$, the series converges only for $s/d<1$, so keep $\theta$ below about 1.* It sounds fine. It is wrong, and the way it is wrong is worth a section of its own, because it is the single most instructive mistake I made in this whole project.
+
+Go back to the convergence condition. The Legendre series converges when $|t|<1$ with $t = |\vec s_\alpha|/d$, and that has to hold for **every particle $\alpha$ in the cell**, not for some average or typical size. So the quantity that decides convergence is
+
+$$
+b_{\max} \;=\; \max_\alpha\left|\vec s_\alpha\right|
+$$
+
+the distance from the expansion centre, which is the cell's centre of mass, out to its own furthest particle. The series converges when $b_{\max}/d < 1$.
+
+**But the opening test never looks at $b_{\max}$.** It looks at $s$, the width of the cube, which is a completely different number. Nothing in $s/d<\theta$ says anything directly about where the particles inside the cell actually are.
+
+\defn{
+    Two lengths, easy to confuse, and the whole of this section is about the gap between them. $s$ is the **width of the cube**, a piece of bookkeeping the tree chose when it cut space. $b_{\max}$ is the **radius of the particles about their own centre of mass**, a fact about the matter. The test uses the first. Convergence depends on the second.
+}
+
+### How far apart can they be?
+
+Take the friendly case first. If the centre of mass sits at the geometric centre of the cube, the furthest point of the cube is a corner, at half the body diagonal:
+
+$$
+b_{\max} = \frac{\sqrt3}{2}\,s \approx 0.866\,s
+$$
+
+Now the unfriendly case. Nothing pins the centre of mass to the middle. Put nearly all the mass in one corner, so the centre of mass sits essentially *at* that corner, and leave one straggler particle in the opposite corner. Now $b_{\max}$ is the **full body diagonal**:
+
+$$
+b_{\max} = \sqrt3\,s \approx 1.73\,s
+$$
+
+So the test $s/d<\theta$ buys us only
+
+$$
+\frac{b_{\max}}{d} \;<\; \sqrt3\,\theta
+$$
+
+and if we want the guarantee $b_{\max}/d<1$ to follow from the test, we need
+
+$$
+\boxed{\;\theta \;\le\; \frac{1}{\sqrt3} \;\approx\; 0.577\;}
+$$
+
+Here is the whole argument in one picture. Cut a plane through the cube along a face diagonal, so that the body diagonal lies inside the plane and is drawn at its true length. The section is a rectangle with sides $s$ and $\sqrt2\,s$, so its own diagonal is $\sqrt{1+2}\,s = \sqrt3\,s$: the worst possible $b_{\max}$. The dashed circle of that radius is where the series stops converging. The three stars sit at $d = s/\theta$, which is the *closest* the test will let a field point come, for three values of $\theta$:
+
+~~~
+<div style="max-width:620px;margin:1.5rem auto">
+<svg viewBox="0 0 620 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+  <circle cx="200" cy="180" r="103.9" fill="none" stroke="#8A8F98" stroke-width="1.1" stroke-dasharray="5 4"/>
+  <rect x="200" y="120" width="84.9" height="60" fill="#4C8DF6" fill-opacity="0.07" stroke="#4C8DF6" stroke-width="1.6"/>
+  <line x1="200" y1="180" x2="284.9" y2="120" stroke="#E5646E" stroke-width="2"/>
+  <circle cx="284.9" cy="120" r="4.5" fill="#E5646E"/>
+  <path d="M193,180 L207,180 M200,173 L200,187" stroke="#E5646E" stroke-width="2"/>
+  <line x1="200" y1="180" x2="350.7" y2="267.0" stroke="#8A8F98" stroke-width="0.9"/>
+  <path d="M329.9,248.0 L332.0,252.8 L336.9,252.8 L333.1,256.4 L334.4,261.4 L329.9,258.4 L325.4,261.4 L326.7,256.4 L322.9,252.8 L327.8,252.8 Z" fill="#4C8DF6"/>
+  <path d="M290.0,225.0 L292.1,229.8 L297.0,229.8 L293.2,233.4 L294.5,238.4 L290.0,235.4 L285.5,238.4 L286.8,233.4 L283.0,229.8 L287.9,229.8 Z" fill="#E5646E"/>
+  <path d="M252.0,203.0 L254.1,207.8 L259.0,207.8 L255.2,211.4 L256.5,216.4 L252.0,213.4 L247.5,216.4 L248.8,211.4 L245.0,207.8 L249.9,207.8 Z" fill="#3FBF8F"/>
+  <text x="242" y="198" fill="#8A8F98" font-size="13" text-anchor="middle">&#8730;2 s</text>
+  <text x="295" y="150" fill="#8A8F98" font-size="13">s</text>
+  <text x="229" y="155" fill="#E5646E" font-size="13">&#8730;3 s</text>
+  <text x="188" y="200" fill="#E5646E" font-size="12" text-anchor="end">centre of mass</text>
+  <text x="344" y="260" fill="#4C8DF6" font-size="13">&#952; = 0.4, safe</text>
+  <text x="304" y="237" fill="#E5646E" font-size="13">&#952; = 1/&#8730;3, exactly on the edge</text>
+  <text x="266" y="215" fill="#3FBF8F" font-size="13">&#952; = 1, inside: no guarantee</text>
+  <text x="90" y="78" fill="#8A8F98" font-size="12" text-anchor="end">the series converges only outside this circle</text>
+  <text x="310" y="316" fill="#8A8F98" font-size="12" text-anchor="middle">a plane section through the cell, cut along a face diagonal, so the body diagonal is drawn at true length</text>
+</svg>
+</div>
+~~~
+
+The middle star lands exactly on the circle, and that is the entire content of $\theta \le 1/\sqrt3$. For anything larger, the acceptance test is willing to put the field point **inside** the radius of convergence.
+
+\note{
+    Read that again, because it is a strong statement. At the common working choices $\theta = 0.7$ or $\theta = 1$, **including the $\theta = 1$ that Hernquist uses for his production runs**, the opening test does not guarantee that the series being truncated even converges. Salmon and Warren (1994) arrive at the same $1/\sqrt3$ from the other direction, by deliberately building cells on which the method falls over.
+}
+
+### So why does it work anyway?
+
+Because the worst case is a caricature, and I can measure how far real cells are from it. I took the $N = 32768$ tree, walked it with 200 target particles, and recorded $b_{\max}$ for every cell that was actually accepted.
+
+The typical accepted cell has $b_{\max}/s = 0.67$ at $\theta=0.5$ and $0.74$ at $\theta=1$. The whole distribution piles up just **below** $\sqrt3/2 = 0.866$, which is exactly what you would get from a cell with its centre of mass near the middle and a particle out near a corner: the friendly case. In the entire measurement, across every cell accepted by 200 different particles, **not one cell reached $b_{\max}/s = 1.25$**, never mind the worst case of $1.73$.
+
+The expansion parameter itself tells the same story more directly. Plotting $b_{\max}/d$ over the accepted cells:
+
+* the worst-case bound $\sqrt3\,\theta$ reaches 1 at $\theta = 0.577$, as it must, by construction;
+* the **largest** $b_{\max}/d$ the tree actually produces anywhere climbs far more slowly, and only reaches 1 near $\theta \approx 0.83$;
+* the **ordinary** cell is nowhere near trouble at all. Its $b_{\max}/d$ is still only $0.38$ at $\theta = 1$.
+
+\tip{
+    So $\theta \le 1/\sqrt3$ is a true statement about the worst cell that geometry permits, and for a real cluster it is conservative by about $40\%$. It is still a threshold, and $\theta=1$ is still on the wrong side of it. The number to actually remember is the measured one, $\theta \approx 0.83$, because that is where the first genuinely divergent cell appears in this tree.
+}
+
+And $0.83$ earns its keep. In [part 6](/Pages/Physics/papers/hernquist1987/06_beyond/#making_a_tree_code_misbehave_on_purpose) I build a deliberately awkward configuration, a big cluster with a small compact satellite sliding across cell boundaries, and ask when particles start getting badly wrong forces. Nothing at all goes wrong up to $\theta = 0.7$. The first bad particles appear near $\theta = 0.9$, just above the measured crossing, and by $\theta = 1.3$ the worst particle is wrong by $242\%$.
+
+\note{
+    Losing a guarantee is not the same as failing immediately, and that gap is where all the practical confusion lives. Between $\theta = 0.577$ and $\theta \approx 0.83$ the formal protection is gone but every cell in my tree still happens to be fine. Between $0.83$ and $0.9$ divergent cells exist but no particle is badly hurt by one. Past that, they are. **The danger is never the average cell. It is the unusual one**, and an average error cannot see it, which is the whole subject of [part 4](/Pages/Physics/papers/hernquist1987/04_results/#what_the_average_error_is_hiding).
+}
+
+## What each term is actually seeing
+
+Before leaving the expansion, it is worth asking what the terms *mean* operationally, because that tells you when each one is needed and when it is wasted. The cleanest way I found is an experiment you can do in twenty lines.
+
+Build three cells that the monopole **cannot possibly tell apart**: same total mass, same centre of mass, same cell. Then look at how wrong each approximation is.
+
+~~~
+<div style="max-width:620px;margin:1.5rem auto">
+<svg viewBox="0 0 620 215" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+  <!-- round -->
+  <rect x="15.0" y="20.0" width="150.0" height="150.0" fill="#4C8DF6" fill-opacity="0.05" stroke="#4C8DF6" stroke-width="1.1"/>
+  <circle cx="71.7" cy="122.9" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="86.1" cy="65.0" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="69.7" cy="84.4" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="98.0" cy="72.1" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="98.9" cy="89.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="69.9" cy="118.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="108.3" cy="72.4" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="74.3" cy="96.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="85.2" cy="90.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="54.3" cy="98.1" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="77.9" cy="61.8" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="60.5" cy="80.3" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="119.1" cy="72.4" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="72.0" cy="129.4" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="90.8" cy="126.5" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="91.6" cy="113.8" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="125.8" cy="88.1" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="104.5" cy="97.9" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="110.3" cy="105.9" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="56.2" cy="93.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="95.8" cy="95.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="93.4" cy="74.0" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="85.6" cy="102.0" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="121.9" cy="115.8" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="84.9" cy="91.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="105.4" cy="90.3" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="92.7" cy="116.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="59.3" cy="80.9" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="112.8" cy="112.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="123.1" cy="91.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <!-- elongated -->
+  <rect x="215.0" y="20.0" width="150.0" height="150.0" fill="#4C8DF6" fill-opacity="0.05" stroke="#4C8DF6" stroke-width="1.1"/>
+  <circle cx="291.5" cy="87.3" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="247.6" cy="100.3" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="251.4" cy="100.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="316.7" cy="99.8" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="231.2" cy="101.0" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="260.4" cy="95.6" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="288.5" cy="85.4" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="276.0" cy="98.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="258.3" cy="86.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="273.1" cy="104.8" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="304.0" cy="97.9" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="252.5" cy="91.8" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="263.5" cy="92.4" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="233.6" cy="98.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="270.9" cy="97.5" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="317.0" cy="103.6" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="324.0" cy="96.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="260.6" cy="85.9" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="259.7" cy="85.5" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="325.3" cy="90.9" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="347.5" cy="90.0" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="331.1" cy="94.3" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="302.5" cy="90.8" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="301.6" cy="100.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="325.3" cy="101.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="320.4" cy="95.3" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="275.6" cy="87.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="348.6" cy="101.4" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="298.1" cy="87.6" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="343.3" cy="101.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <!-- lopsided -->
+  <rect x="415.0" y="20.0" width="150.0" height="150.0" fill="#4C8DF6" fill-opacity="0.05" stroke="#4C8DF6" stroke-width="1.1"/>
+  <circle cx="504.7" cy="91.1" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="474.7" cy="95.3" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="513.6" cy="119.5" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="488.9" cy="81.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="513.9" cy="91.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="519.3" cy="94.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="504.8" cy="96.9" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="511.4" cy="92.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="525.6" cy="118.1" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="483.9" cy="120.1" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="541.0" cy="80.0" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="500.8" cy="77.6" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="493.8" cy="114.7" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="465.9" cy="85.6" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="515.0" cy="64.0" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="501.6" cy="114.0" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="474.3" cy="71.4" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="522.6" cy="89.3" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="537.6" cy="98.8" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="526.9" cy="94.9" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="503.2" cy="88.5" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="525.2" cy="97.5" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="483.6" cy="75.1" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="478.3" cy="101.1" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="422.9" cy="100.6" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="442.7" cy="91.3" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="433.3" cy="100.9" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="432.0" cy="96.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="422.2" cy="99.2" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <circle cx="436.3" cy="108.6" r="2.6" fill="#3A3F45" fill-opacity="0.85"/>
+  <path d="M84,95 L96,95 M90,89 L90,101" stroke="#E5646E" stroke-width="2"/>
+  <text x="90" y="192" fill="#8A8F98" font-size="13" text-anchor="middle">(a) round</text>
+  <path d="M284,95 L296,95 M290,89 L290,101" stroke="#E5646E" stroke-width="2"/>
+  <text x="290" y="192" fill="#8A8F98" font-size="13" text-anchor="middle">(b) a bar</text>
+  <path d="M484,95 L496,95 M490,89 L490,101" stroke="#E5646E" stroke-width="2"/>
+  <text x="490" y="192" fill="#8A8F98" font-size="13" text-anchor="middle">(c) lopsided</text>
+  <text x="310" y="212" fill="#8A8F98" font-size="12" text-anchor="middle">same total mass, same centre of mass (the red cross): the monopole cannot tell them apart</text>
+</svg>
+</div>
+~~~
+
+* **(a) round.** A roughly spherical cloud. By Newton's shell theorem this should pull almost exactly like a point mass, so there is nearly nothing for the higher terms to do.
+* **(b) a bar.** Stretched along one axis. This is a pure quadrupole shape: it is symmetric under $\vec s \to -\vec s$, so its third moment vanishes.
+* **(c) lopsided.** A heavy clump on one side and a light one on the other, placed so that the centre of mass is still dead centre. This is the shape a quadrupole **cannot** describe.
+
+The measured force error at $s/d = 0.5$, averaged over 240 directions:
+
+| cell | monopole | + quadrupole | + octupole | $\lVert\mathbf{Q}\rVert$ |
+| --- | --- | --- | --- | --- |
+| (a) round | $0.34\%$ | $0.043\%$ | $0.0063\%$ | $0.026$ |
+| (b) bar | $2.43\%$ | $0.087\%$ | $0.074\%$ | $0.124$ |
+| (c) lopsided | $2.26\%$ | $0.268\%$ | $0.092\%$ | $0.121$ |
+
+Read the bottom two rows together, because that is where the lesson is.
+
+The bar and the lopsided cell have **almost the same quadrupole**, $0.124$ against $0.121$, and almost the same monopole error, $2.4\%$ against $2.3\%$. Yet the quadrupole fixes the bar by a factor of **28** and the lopsided cell by a factor of only **8**. Adding the octupole then does nothing more for the bar (a factor $1.2$) and another factor of **3** for the lopsided one.
+
+\note{
+    The reason is parity, and it is a one-line argument. $Q_{ij} \propto s_is_j$ is **even** under $\vec s \to -\vec s$. So a quadrupole physically cannot tell a heavy clump on the right from a heavy clump on the left: swap them and every $Q_{ij}$ is unchanged. Only an **odd** term can see lopsidedness, the dipole is the first odd term and we deliberately killed it by expanding about the centre of mass, so the octupole is the first odd term that survives. That is the entire job of the $n=3$ term.
+}
+
+This is the same ladder as in electrostatics, and it has the same structure everywhere it appears: each term describes a finer feature of the shape than the one before, and **each term is blind to whatever first appears at the next order**. The monopole cannot see position, the dipole cannot see elongation, the quadrupole cannot see lopsidedness. Since every new term costs memory and arithmetic, where to stop is a question of economics and not of principle, and [part 6](/Pages/Physics/papers/hernquist1987/06_beyond/#but_is_it_worth_it) answers it with a cost-accuracy frontier.
 
 ## Building $\mathbf{Q}$ for every cell, cheaply
 
@@ -575,7 +810,7 @@ n_{\text{terms}} \sim \frac{28\pi}{3\theta^3}\log_8 N = C(\theta)\log N \quad\Lo
 $$
 
 \tip{
-    The estimate also predicts the *strength* of the $\theta$ dependence: $n_\text{terms}\propto\theta^{-3}$. Testing that on my data at $N=32768$, going from $\theta=1$ to $\theta=0.5$ should cost a factor $2^3 = 8$, and I measure $1053/218 = 4.8$. The right order but not exact, which is fair, since real cells are not uniformly distributed in a shell and the innermost levels are not full. The scaling *with $N$* is the part the argument gets right, and that is what the timing curves confirm.
+    The estimate also predicts the *strength* of the $\theta$ dependence: $n_\text{terms}\propto\theta^{-3}$. Testing that at $N=32768$, going from $\theta=1$ to $\theta=0.5$ should cost a factor $2^3 = 8$, and I measure $1049/219 = 4.8$. So the scaling **with $N$** is right and the scaling **with $\theta$** is not. For a long time I wrote that off as "real cells are not uniformly distributed, so what do you expect". That was lazy: the discrepancy is a factor of nearly two and it has a clean explanation with no free parameters in it. [The next section](#a_better_count) does it properly.
 }
 
 That is the entire promise of the method, and it makes a sharp prediction I can test: **doubling $N$ should add a constant amount to $n_{\text{terms}}$, not double it.** My measurement, at $\theta = 1$:
@@ -590,6 +825,131 @@ That is the entire promise of the method, and it makes a sharp prediction I can 
 | 32768 | 217.6 | +12.3 |
 
 Compare with the direct sum, where the same column would read 1023, 2047, 4095, 8191, 16383, 32767. Thirty-two times more particles cost me 1.75 times more work per particle. That is the whole game.
+
+## A better count
+
+So the shell argument gets the growth with $N$ right and the dependence on $\theta$ badly wrong. That bothered me for a long time and I want to fix it properly, because a factor of two in the cost of a simulation is not a rounding error, and because "real cells are not uniform, so what do you expect" is not an explanation, it is an excuse.
+
+Go back and look at what the shell count quietly assumed. **The cluster is infinite, and every cell is full.** Neither is true, and each failure bites at a different end of the range.
+
+* **A cell has to be inside the cluster.** The accepted cells of width $s$ live in a shell at distances $s/\theta$ to $2s/\theta$. For small $\theta$, and for the big cells near the top of the tree, that shell is pushed out beyond the edge of the cluster, where there is nothing to count. The volume is there; the matter is not. **This kills the largest cells.**
+* **A cell has to contain particles.** Down at the bottom of the tree, cells are much smaller than the mean spacing between particles, so most of them are empty, and an empty cell contributes nothing and costs nothing. **This kills the smallest cells.**
+
+The crude count includes both populations at full strength. That is why it overestimates, and why it overestimates worst at small $\theta$, where the shells are furthest out.
+
+### Putting both cut-offs in
+
+Write $W(d)$ for the **average volume of the system lying within a distance $d$ of one of its own particles**. This is the quantity that knows about the edge: for small $d$ it is just $\tfrac43\pi d^3$, and once $d$ is bigger than the system it saturates at the system's whole volume. Then the shell around a target particle contains
+
+$$
+\frac{W(2s/\theta) - W(s/\theta)}{s^3}
+$$
+
+cells rather than $28\pi/3\theta^3$ of them, and of those, the fraction that actually hold anything is
+
+$$
+1 - e^{-\rho s^3}
+$$
+
+with $\rho$ the number density: the Poisson probability that a box of volume $s^3$ is not empty. Summing over the levels, with $s_\ell = L/2^\ell$,
+
+$$
+\boxed{\;\left\langle n\right\rangle = \sum_\ell \frac{W(2s_\ell/\theta) - W(s_\ell/\theta)}{s_\ell^3}\left(1 - e^{-\rho s_\ell^3}\right)\;}
+$$
+
+\note{
+    **Nothing in that formula is fitted.** There is no free parameter anywhere in it. $W$ is geometry, $\rho$ is the density of the model I am simulating, and the sum runs over the levels the tree actually has. That matters, because a two-parameter fit to a curve is not an explanation of anything.
+}
+
+For a uniform ball of radius $R$ the overlap volume is known in closed form, and I got it out of a computer algebra system rather than trusting an integral I did by hand:
+
+$$
+W(d) = \frac{\pi d^3\left(d^3 - 18dR^2 + 32R^3\right)}{24R^3}\quad (0<d<2R),
+\qquad
+W(d) = \frac{4\pi}{3}R^3 \quad (d\ge 2R)
+$$
+
+Two limits check it. For $d\ll R$ the bracket is dominated by $32R^3$ and $W\to \tfrac43\pi d^3$, which is a whole ball, as it should be when the sphere of radius $d$ is entirely inside the system. At $d=2R$ the bracket gives $4R^3$ and $W\to\tfrac43\pi R^3$, the whole system, as it must be once you can reach everything from anywhere.
+
+For a centrally concentrated model like Plummer, $\rho$ varies from place to place, so the occupancy factor has to stay **inside** the integral instead of coming out as a constant, and the answer has to be averaged over where the target particle sits. That one is done numerically.
+
+### Does it work?
+
+Here is the whole comparison at $N = 32768$ for the truncated Plummer sphere. The last column is the crude shell count for reference:
+
+| $\theta$ | measured $\langle n\rangle$ | this model | ratio | crude count |
+| --- | --- | --- | --- | --- |
+| $0.15$ | $11160$ | $11073$ | $0.99$ | $43439$ |
+| $0.18$ | $8434$ | $8324$ | $0.99$ | $24848$ |
+| $0.20$ | $7235$ | $7112$ | $0.98$ | $18801$ |
+| $0.24$ | $5190$ | $5035$ | $0.97$ | $10753$ |
+| $0.29$ | $3560$ | $3379$ | $0.95$ | $6150$ |
+| $0.35$ | $2360$ | $2177$ | $0.92$ | $3521$ |
+| $0.42$ | $1557$ | $1388$ | $0.89$ | $2015$ |
+| $0.50$ | $1035$ | $877$ | $0.85$ | $1152$ |
+| $0.61$ | $677$ | $537$ | $0.79$ | $659$ |
+| $0.73$ | $427$ | $326$ | $0.76$ | $377$ |
+| $0.88$ | $279$ | $200$ | $0.71$ | $216$ |
+| $1.06$ | $198$ | $122$ | $0.62$ | $124$ |
+
+Summarised honestly, with **means and worst cases**, because a mean on its own always flatters:
+
+| | mean error | worst |
+| --- | --- | --- |
+| Plummer, $\theta\le0.5$ | $5.1\%$ | $12.8\%$ |
+| Plummer, $0.15\le\theta\le1$ | $12.1\%$ | $32.9\%$ |
+| uniform sphere, $\theta\le0.5$ | $11.0\%$ | $15.7\%$ |
+| uniform sphere, $0.15\le\theta\le1$ | $17.2\%$ | $25.9\%$ |
+
+And it catches most of the curvature the crude rule misses. Fitting a power law to each over $0.15\le\theta\le1$:
+
+| | effective exponent |
+| --- | --- |
+| measured | $\theta^{-2.14}$ |
+| this model | $\theta^{-2.34}$ |
+| crude shell count | $\theta^{-3.00}$ |
+
+### What that buys you in practice
+
+The point of having a model is to stop being surprised, so here are the statements it lets me make, all of them measured on the real tree at the exact $\theta$ values quoted:
+
+* Take the $\theta^{-3}$ law, anchor it to the **measured** count at $\theta=1$, and carry it down to $\theta = 0.15$. It predicts $64800$ terms per particle. The truth is $11160$. It overpredicts the work by a factor of $\mathbf{5.8}$.
+* Going from $\theta = 0.50$ to $\theta = 0.20$, a strict $\theta^{-3}$ law demands a factor of $15.6$ more work. The measured factor is $\mathbf{6.8}$.
+* **Halving $\theta$ costs four to five times more work, not eight.** Measured across the range, the halving factor runs from $3.4$ (going $0.30\to0.15$) to $5.0$ (going $0.80\to0.40$), with $4.8$ for $1.0\to0.5$.
+
+\tip{
+    That last one is the practically useful number, and it is good news. Everybody's mental model is "halving $\theta$ costs eight times more", which makes accuracy sound unaffordable. It is really four to five times, because by then a good part of the tree has simply run out of useful cells to give you.
+}
+
+This is not just my machine being odd, either. Khandai and Bagla, tuning a TreePM code, report about $500\%$ more CPU time for exactly that change of $\theta$ at $N\approx10^4$, which is a factor of six and sits right on top of my $6.8$.
+
+### Where it fails, and why
+
+The model gives up near $\theta \approx 1$, where the ratio falls to $0.62$, and the reason is structural rather than fixable. At $\theta = 1$ the acceptance shell runs from $d = s$ to $d = 2s$, so it is **thinner than one cell is wide**. Counting cells by dividing a volume by $s^3$ stops meaning anything when the region is not several cells thick, and no amount of care with $W(d)$ will repair that. It is a continuum argument being asked a discrete question.
+
+\note{
+    Which is a good general warning about this style of estimate. The counting model works precisely where the crude one fails, at small $\theta$ where there are many thin shells full of many small cells, and it fails precisely where the crude one accidentally works, at large $\theta$ where the shells are one cell thick and the two errors happen to cancel. Neither is a substitute for measuring.
+}
+
+### The growth with $N$ is the easy half
+
+None of this trouble touches the scaling with $N$, and it is worth seeing why. **Changing $N$ at fixed $\theta$ does not move either cut-off.** The cluster is the same size, so the edge is where it was; adding particles only fills in cells that were previously empty, which is what "one more level of tree" means. So the crude constant-per-level argument should survive, and it does.
+
+One doubling of $N$ adds a third of a level to an octree, so the prediction is
+
+$$
+\Delta\langle n\rangle = \frac{1}{3}\cdot\frac{28\pi}{3\theta^3} = \frac{28\pi}{9\theta^3}
+$$
+
+extra terms per doubling. Measured all the way to $N = 2^{20}$, which is thirty-two times the largest run in the paper:
+
+| $\theta$ | predicted $28\pi/9\theta^3$ | measured, mean over five doublings |
+| --- | --- | --- |
+| $1.0$ | $9.8$ | $11.2$ |
+| $0.7$ | $28.5$ | $32.6$ |
+| $0.5$ | $78.2$ | $93.0$ |
+
+Good to about $15\%$, from an argument that consists of dividing the volume of a shell by the volume of a cube. [Part 6](/Pages/Physics/papers/hernquist1987/06_beyond/#a_million_particles) has the run.
 
 ## What one particle actually sees
 
@@ -704,7 +1064,103 @@ end
     **The one test that matters.** Set $\theta = 0$. Then $s^2 \ge 0 = \theta^2 d^2$ is true for every cell, so *nothing* is ever accepted and the walk descends all the way to individual particles. It must reproduce the direct $O(N^2)$ sum exactly. My test suite checks this for $N = 2000$ and gets agreement to $10^{-10}$ of the largest acceleration. If a tree code passes this, the tree structure and the walk logic are both correct, leaving only the multipole terms to be checked separately.
 }
 
-Note also the softening in the quadrupole terms. The paper applies an ad hoc substitution $r^4 \to (r^2+\varepsilon^2)^2$; I instead use $r^n \to (r^2+\varepsilon^2)^{n/2}$ throughout, which has the advantage of being exactly $-\nabla$ of a consistently softened quadrupole potential. The two agree when $\varepsilon = 0$ and differ only in how they behave at large softening, which is [one of the things I test](/Pages/Physics/papers/hernquist1987/04_results/#softening_fights_the_expansion).
+## What softening does to the expansion
+
+Now a correction to something I had wrong for a long time, and which turned out to be much more interesting than the thing I thought I was right about.
+
+Look at the softening in the quadrupole branch of that code. Every $r^n$ has become $(r^2+\varepsilon^2)^{n/2}$. Hernquist calls this an *ad hoc* softening of the quadrupole terms, and I used to write that my version was better because it is "exactly $-\nabla$ of a consistently softened quadrupole potential".
+
+Half of that is true. Write $\tilde r = \sqrt{d^2+\varepsilon^2}$ and notice that $\partial_k \tilde r = d_k/\tilde r$, which is the same form as $\partial_k d = d_k/d$. So the whole gradient calculation from earlier goes through unchanged with $d\to\tilde r$ in the denominators, and the substituted acceleration really is exactly minus the gradient of the substituted potential. It is a consistent pair.
+
+What it is **not** is the multipole expansion of the softened force law. And those are different things.
+
+### Doing it properly
+
+The softened kernel is
+
+$$
+K(\vec x) = \frac{1}{\sqrt{|\vec x|^2+\varepsilon^2}}
+$$
+
+and the multipole expansion of a cell is just the Taylor series of $K$ in the source position. So the dipole still dies, for exactly the reason it always dies, $\sum_\alpha m_\alpha\vec s_\alpha = 0$. The quadrupole term needs the second derivative, and that is a short calculation:
+
+$$
+\partial_i K = -\frac{x_i}{(x^2+\varepsilon^2)^{3/2}},
+\qquad
+\partial_i\partial_j K = \frac{3x_ix_j - \delta_{ij}\left(x^2+\varepsilon^2\right)}{\left(x^2+\varepsilon^2\right)^{5/2}}
+$$
+
+Contracting with the **raw** second moment $M^{(2)}_{ij} = \sum_\alpha m_\alpha s_is_j$ gives the exact softened quadrupole term:
+
+$$
+\boxed{\;\varphi_2^{\,\varepsilon}
+= -\frac{G}{2}\,
+\frac{3M^{(2)}_{ij}d_id_j - \left(d^2+\varepsilon^2\right)\operatorname{tr}\mathbf{M}^{(2)}}
+{\left(d^2+\varepsilon^2\right)^{5/2}}\;}
+$$
+
+Now compare it with the substituted version. The substituted one is built from the traceless $\mathbf Q$, so writing $Q_{ij} = 3M^{(2)}_{ij}-\delta_{ij}\operatorname{tr}\mathbf M^{(2)}$ and contracting,
+
+$$
+\vec d\cdot\mathbf{Q}\cdot\vec d = 3M^{(2)}_{ij}d_id_j - d^2\operatorname{tr}\mathbf{M}^{(2)}
+$$
+
+The two expressions are **identical except that one carries $d^2$ where the other carries $d^2+\varepsilon^2$**, and only in the trace piece. Subtracting, the entire difference is one term:
+
+$$
+\varphi_2^{\,\varepsilon} - \varphi_2^{\,\text{substituted}}
+= \frac{G\,\varepsilon^2\operatorname{tr}\mathbf{M}^{(2)}}{2\left(d^2+\varepsilon^2\right)^{5/2}}
+$$
+
+### Why the trace suddenly matters
+
+The reason that term exists at all is a nice piece of physics rather than an algebraic accident, and it connects straight back to [part 1](/Pages/Physics/papers/hernquist1987/01_setup/#the_plummer_model).
+
+For the Newtonian kernel, $\nabla^2(1/r) = 0$ everywhere away from the origin. The kernel is **harmonic**. That is precisely why the trace of the second moment drops out of the potential: adding any multiple of $\delta_{ij}$ to $M^{(2)}_{ij}$ changes nothing, so only the five traceless combinations can ever appear, and $\mathbf Q$ is built to be traceless for that reason.
+
+The softened kernel is not harmonic. Take its Laplacian:
+
+$$
+\nabla^2 K = -\frac{3\varepsilon^2}{\left(d^2+\varepsilon^2\right)^{5/2}}
+$$
+
+\note{
+    Stare at the right-hand side for a moment. It is $-4\pi\rho_\varepsilon$, where
+    $$
+    \rho_\varepsilon(d) = \frac{3}{4\pi}\frac{\varepsilon^2}{\left(d^2+\varepsilon^2\right)^{5/2}}
+    $$
+    is a **unit-mass Plummer sphere of scale length $\varepsilon$**. So $\Phi = -GmK$ satisfies Poisson's equation exactly, with a Plummer sphere as its source. This is the same observation from part 1, that a softened point mass *is* a Plummer sphere, coming back with a job to do: it is the reason the trace survives.
+}
+
+Once the kernel has a source sitting on top of the field point, the trace no longer drops out, and **all six components of $\mathbf{M}^{(2)}$ are needed, not the five that survive in $\mathbf{Q}$**. That has a concrete consequence for the code. The traceless $\mathbf{Q}$ has thrown the trace away by construction, so you cannot rebuild the exact softened term from a stored $\mathbf{Q}$, no matter how many numbers you kept. The tree has to carry the **raw** second moment $\mathbf{M}^{(2)}$ separately, which mine does, alongside the raw third moment it needs for the octupole shift anyway. It is one more instance of the rule that runs through the whole implementation: keep the books in raw moments, and take traces at the last possible moment.
+
+### How much does it actually matter?
+
+Very little at sensible settings, which is why the historical prescription has survived. Compare the missing term to the monopole:
+
+$$
+\frac{\left|\varphi_2^{\,\varepsilon}-\varphi_2^{\,\text{substituted}}\right|}{\left|\varphi_0\right|}
+= \frac{\varepsilon^2\left\langle s^2\right\rangle}{2\left(d^2+\varepsilon^2\right)^2}
+$$
+
+It dies as $(\varepsilon/d)^2$, so it can only become visible for a cell accepted at a distance comparable to the softening length, and a cell that close is almost always opened instead. I measured the ratio across two decades in $\varepsilon/d$ at fixed $s/d=0.25$ and it sits flat at $0.436$ of that scale, with a fitted slope of $1.94$ against the predicted $2$.
+
+But "very little" is not "nothing", and the sign is in our favour. I implemented the exact term as well and evolved the same softened cluster both ways, $N=4096$, $\theta=1$, $\varepsilon=0.031$, 1000 steps:
+
+| quadrupole prescription | $\Delta E/E$ after 1000 steps |
+| --- | --- |
+| historical substitution (what the paper does, and what I do by default) | $0.685\%$ |
+| exact softened quadrupole (the extra trace term restored) | $0.496\%$ |
+| Hernquist's quoted value for the comparable run | $0.68\%$ |
+| **no softening at all**, $\varepsilon = 0$ | $\mathbf{620\%}$ |
+
+\tip{
+    Three things fall out of that table. My default agrees with the paper to better than a percent, which is the check that mattered. Restoring the exact term is a real $28\%$ improvement in energy conservation for no extra memory, since the raw moments were being carried anyway. And the last row is the one to keep in mind: whatever we are arguing about here is a $30\%$ effect sitting on top of a **factor of a thousand** that softening itself is buying.
+}
+
+\prob{
+    Show that replacing $d$ by $\sqrt{d^2+\varepsilon^2}$ in the *potential* and then differentiating gives the same thing as replacing it in the *acceleration* directly, but that neither equals the Taylor expansion of the softened kernel. Then work out at what $d/\varepsilon$ the missing trace term reaches one per cent of the monopole, and check whether the opening test would ever accept a cell at that distance.
+}
 
 ## Where we are
 

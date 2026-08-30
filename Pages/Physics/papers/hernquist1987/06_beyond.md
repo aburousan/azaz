@@ -15,17 +15,27 @@ Part 6 of my recreation of [Hernquist (1987)](/Pages/Physics/papers/hernquist198
 
 ## The gap in hardware
 
-The paper's timings are for a **CRAY X-MP**, one of the fastest machines on Earth in 1987. Hernquist quotes a rate for his largest run of $7.3\times10^{-4}$ CPU seconds per particle per step. My code, on **one** core, single-threaded, at the same $N = 32768$ and $\theta = 1$ with monopoles only, runs at $5.2\times10^{-6}$.
+The paper's timings are for a **CRAY X-MP**, one of the fastest machines on Earth in 1987. Hernquist quotes a rate for his largest run of $7.3\times10^{-4}$ CPU seconds per particle per step. My code, on **one** core, single threaded, at the same $N = 32768$ and $\theta = 1$ with monopoles only, runs at about $5.5\times10^{-6}$, so
 
 $$
-\frac{7.3\times10^{-4}}{5.2\times10^{-6}} \approx 140
+\frac{7.3\times10^{-4}}{5.5\times10^{-6}} \approx 130
 $$
 
 | | Hernquist's simulation | on one of my cores |
 | --- | --- | --- |
-| $N = 32768$, 300 steps | **2.0 CRAY X-MP CPU hours** | **51 seconds** |
+| $N = 32768$, 300 steps | **2.0 CRAY X-MP CPU hours** | **54 seconds** |
 
-A run that consumed two hours of the world's fastest supercomputer takes under a minute on a single modern core, and I have 48 of them to hand. So the interesting question is not "can I reproduce it" but **"what would I do differently, given the compute?"**
+\note{
+    Timings on a shared machine move around by about $20\%$ depending on what else is running, and my two independent timing sweeps put the $\theta=1$ monopole evaluation anywhere between $0.17$ and $0.22$ seconds. So read this as "**over a hundred**" rather than as $130$ on the nose. Everything downstream of it survives that uncertainty comfortably; nothing here turns on the second digit.
+}
+
+A run that consumed two hours of the world's fastest supercomputer takes under a minute on a single modern core, and I have 48 of them to hand.
+
+It is worth being precise about what that buys and what it does not, because this is the point at which it is easiest to claim too much.
+
+**It does not make the force error of the same approximation any smaller.** That error comes from truncating a series, which is mathematics, and mathematics did not get faster. Two implementations agreeing on the particle realisation, the tree geometry, the cell-size convention, the acceptance test and the multipole prescription should produce the same numbers up to floating point, and mine agrees with the published values to about $1\%$. Had my error come out ten times smaller at the same settings, that would have been evidence of a **bug**, not of progress.
+
+What the hardware buys is the freedom to run settings that could not have been afforded in real work in 1987. So the interesting question is not "can I reproduce it" but **"what would I do differently, given the compute?"**
 
 Three things: carry the multipole expansion one order further, try a better integrator and go to a million particles.
 
@@ -174,25 +184,210 @@ Accuracy alone is the wrong question. The octupole costs more per cell, so the h
 
 Cost goes right, error goes up, one point per setting, and you want to be at the bottom left. The useful thing here is which points nobody beats on both counts at once.
 
-Down and to the left is better. Reading off the frontier, i.e. the set of settings that are not beaten on both counts at once:
-
-| cost (s) | best choice | error |
-| --- | --- | --- |
-| $0.064$ | monopole, $\theta=1.0$ | $1.55\%$ |
-| $0.068$ | **quadrupole**, $\theta=0.9$ | $0.61\%$ |
-| $0.073$ | **quadrupole**, $\theta=0.7$ | $0.196\%$ |
-| $0.090$ | **quadrupole**, $\theta=0.5$ | $0.049\%$ |
-| $0.117$ | **octupole**, $\theta=0.5$ | $0.018\%$ |
-| $0.191$ | **octupole**, $\theta=0.3$ | $0.0018\%$ |
-| $0.313$ | **octupole**, $\theta=0.2$ | $0.0003\%$ |
-
-And here is the answer, which is not the one I was hoping for when I started writing the octupole code:
-
 \note{
-    **The quadrupole owns the middle of the range.** For any accuracy between about $1\%$ and $0.02\%$, where essentially every astrophysical simulation actually lives, the cheapest route is a quadrupole tree with $\theta$ tuned to suit. The monopole only wins at the crude end, and the octupole only starts paying for itself below $0.02\%$.
+    **The costs on that figure are from a threaded run and should not be read as absolute times.** I originally quoted them as if they were, and then compared one of them against a single-CPU CRAY number, which was a straightforward mistake. The *shape* of the frontier survives, because all three orders were threaded the same way, but every number below has been redone on **one core**. If you are comparing against anything historical, that is the only currency that means anything.
 }
 
-In other words, **Hernquist stopped at exactly the right order for the problems he was solving.** Adding the next term was not an oversight and not a limitation of 1987 hardware; it was the correct engineering call and it still is for most work. Modern hardware does not make the octupole better. It makes the regime where the octupole is better *reachable*.
+### Doing it properly, with a cost model
+
+Reading a frontier off a scatter of measured points is fine for a picture and hopeless for a conclusion, because the crossings land between the points I happened to run. So instead let me fit the two things that actually vary and then eliminate $\theta$ between them.
+
+**First, the error is a power law in $\theta$**, with the exponents measured in [part 4](/Pages/Physics/papers/hernquist1987/04_results/#where_the_error_actually_comes_from):
+
+$$
+\epsilon = A_p\,\theta^{\beta_p},\qquad \beta = 2.75,\; 3.97,\; 4.68
+$$
+
+**Second, the work is a power law too**, $n = C\theta^{-\gamma}$ with $C = 229$ and $\gamma = 2.14$. That is a fit, not a theorem; the [counting model in part 3](/Pages/Physics/papers/hernquist1987/03_treecode/#a_better_count) is the physical description and this is a convenient summary of it over the useful range.
+
+**Third, the cost of one force evaluation** is a tree build plus a walk:
+
+$$
+\text{cost}(\theta, p) = T_0 + N\,c_p\,n(\theta)
+$$
+
+with $T_0 = 0.08$ s for $N = 32768$ on one core, and $c_p$ the cost per accepted cell:
+
+| terms kept | cost per accepted cell | spread over $\theta$ | ratio |
+| --- | --- | --- | --- |
+| monopole | $23.1$ ns | $18$ to $31$ ns | $1.00$ |
+| quadrupole | $25.7$ ns | $20$ to $35$ ns | $1.11$ |
+| octupole | $47.8$ ns | $37$ to $62$ ns | $2.07$ |
+
+That model reproduces the measured walk times to about $18\%$, and **what is left over is not random**, which is the interesting part. Look at the spread column: the cost per accepted cell is not constant even for a fixed multipole order. For the monopole it climbs from $18$ ns at $\theta = 1.4$ to $31$ ns at $\theta = 0.15$, and the arithmetic per cell in those two cases is *identical*.
+
+\note{
+    The difference is memory, not arithmetic. At large $\theta$ the walk uses a handful of big cells near the top of the tree, which every particle reuses, so they sit permanently in cache. At small $\theta$ it reaches deep cells scattered all over memory, and every one is a cache miss. This is also why the quadrupole is only $11\%$ dearer than the monopole here where Hernquist measured $50\%$ on a CRAY: an arithmetic-bound machine charges you for arithmetic, a memory-bound one gives it away while it waits.
+
+    Khandai and Bagla build much of their TreePM optimisation on exactly this observation, by letting a **group** of neighbouring particles share one tree walk, so each cell is fetched once instead of once per particle.
+}
+
+### Eliminating $\theta$
+
+Now put the two power laws together. Solving $\epsilon = A_p\theta^{\beta_p}$ for $\theta$ and substituting into the cost gives the price of a target accuracy:
+
+$$
+\boxed{\;\text{cost}_p(\epsilon) = T_0 + K_p\,\epsilon^{-\gamma/\beta_p},
+\qquad K_p = N c_p C A_p^{\gamma/\beta_p}\;}
+$$
+
+with exponents
+
+| terms kept | $-\gamma/\beta_p$ |
+| --- | --- |
+| monopole | $-0.78$ |
+| quadrupole | $-0.54$ |
+| octupole | $-0.46$ |
+
+A higher multipole order gives a **shallower** cost curve, so it must eventually win at high enough accuracy. The only question is where. Evaluating, on one core at $N = 32768$:
+
+| target accuracy | cheapest order | its cost | monopole | quadrupole | octupole |
+| --- | --- | --- | --- | --- | --- |
+| $3\%$ | monopole | $0.17$ s | $0.17$ | $0.18$ | $0.24$ |
+| $1\%$ | **quadrupole** | $0.26$ s | $0.29$ | $0.26$ | $0.35$ |
+| $0.3\%$ | **quadrupole** | $0.41$ s | $0.62$ | $0.41$ | $0.55$ |
+| $0.1\%$ | **quadrupole** | $0.68$ s | $1.36$ | $0.68$ | $0.85$ |
+| $0.01\%$ | **quadrupole** | $2.16$ s | $7.7$ | $2.16$ | $2.27$ |
+| $0.001\%$ | **octupole** | $6.3$ s | $45.8$ | $7.2$ | $6.3$ |
+| $0.0001\%$ | **octupole** | $18.0$ s | $274$ | $24.9$ | $18.0$ |
+
+The crossings are at
+
+$$
+\epsilon_{\text{mono}\to\text{quad}} = 2.3\%,
+\qquad
+\epsilon_{\text{quad}\to\text{oct}} = 5\times10^{-5} = 0.005\%
+$$
+
+\note{
+    **The second crossing needs a health warning and the first does not.** The cost exponents of the quadrupole and the octupole, $-0.54$ and $-0.46$, are so close that the two curves cross at a very shallow angle. Solving $K_q\epsilon^{-0.54} = K_o\epsilon^{-0.46}$ gives $\epsilon = (K_q/K_o)^{12}$, and a **twelfth power** is not something anybody measures casually. Get the relative cost of the two wrong by $15\%$ and that crossing moves anywhere between $10^{-5}$ and $3\times10^{-4}$; by $30\%$, and it moves between $2\times10^{-6}$ and $10^{-3}$.
+
+    The first crossing is far better behaved, because its two exponents are genuinely different. The same $15\%$ moves it only from $2.3\%$ to somewhere between $1.3\%$ and $4.2\%$.
+}
+
+### The answer, which is not the one I wanted
+
+**The quadrupole owns the middle of the range.** For any target accuracy between about $2\%$ and $5\times10^{-5}$, which is where essentially every real astrophysical simulation lives, the cheapest route is a quadrupole tree with $\theta$ tuned to suit. The monopole wins only at the crude end. The octupole only starts paying for itself below one part in twenty thousand.
+
+So the practical rules for this code are short:
+
+1. Use the **quadrupole** unless an error of a few per cent is good enough.
+2. Add the **octupole** only if you genuinely need better than about $10^{-4}$.
+3. Within a given order, **tune $\theta$ first.** Adding a multipole order is not usually the cheapest way to reduce an error.
+
+In other words, **Hernquist stopped at exactly the right order for the problems he was solving.** Stopping at the quadrupole was not an oversight, and it was not a limitation of 1987 hardware either. It was the correct engineering call and it remains the correct one for most work. Modern hardware does not make the octupole better; it makes the regime where the octupole is better *reachable*.
+
+\tip{
+    What is solid here is the **shape** of the frontier and the first crossing. What is not solid is the exact accuracy at which the octupole takes over, and I would not defend the second decimal place of it on a different machine, a different $N$, or a different particle distribution. Frontiers like this are worth recomputing for your own problem; that is the point of writing the model down rather than quoting a number.
+}
+
+## Can the opening test be repaired?
+
+Two separate things so far point at the same suspect. [Part 3](/Pages/Physics/papers/hernquist1987/03_treecode/#the_test_does_not_test_what_you_think_it_tests) showed that $s/d<\theta$ does not test the quantity that decides convergence. [Part 4](/Pages/Physics/papers/hernquist1987/04_results/#what_the_average_error_is_hiding) showed that roughly half the error comes from the cells that only just passed that test, and that a comfortable mean error hides a nasty tail.
+
+So the obvious question: **can the test be repaired without touching anything else in the code?** I tried two natural geometric repairs. Not to propose a new production algorithm, but to find out whether geometry alone is enough.
+
+| test | rule | idea |
+| --- | --- | --- |
+| **Barnes-Hut** (1987) | accept if $s/d < \theta$ | the original |
+| **offset aware** | accept if $d > s/\theta + \delta_c$ | push the boundary out by how lopsided the cell is |
+| **safe radius** | accept if $B/d < \theta$ | test a bound on $b_{\max}$ instead of the cell width |
+
+In the second, $\delta_c$ is the distance between the cell's centre of mass and its geometric centre. It costs one subtraction per cell and it is a cheap way of noticing that a cell's mass is not where the cell is.
+
+In the third, $B$ is a recursively built **upper bound** on $b_{\max}$. If child $c$ has centre-of-mass displacement $\vec R_c$ from the parent and its own bound $B_c$, then
+
+$$
+B_p = \max_c\left(\left|\vec R_c\right| + B_c\right)
+$$
+
+and by the triangle inequality $B_p \ge b_{\max}^{\text{true}}$, so accepting only when $B/d<\theta<1$ **guarantees** convergence. It can of course be stricter than the exact radius would be, and in my tree it is: a well-filled cell has $B$ between $0.72s$ and $0.85s$ depending on $\theta$, which is only $4$ to $11\%$ above the exact $b_{\max}$, so the bound is tight.
+
+### Comparing them fairly
+
+Here is the trap, and I fell into it first time round. **The three tests are not equally strict at the same $\theta$.** Since $B$ is usually smaller than $s$, the safe-radius test *accepts more* at the same numerical $\theta$ and is therefore looser, while the offset-aware test is stricter. Comparing them at fixed $\theta$ measures nothing except how each one has been normalised.
+
+\tip{
+    The only fair comparison is **at equal cost**: interpolate every criterion onto a common mean number of accepted terms per particle, then compare the errors there. Whenever somebody shows you a new acceptance criterion that beats the old one, the first question to ask is whether the comparison was at matched $\theta$ or matched work. At matched $\theta$ you can make almost anything look good by making it slightly stricter.
+}
+
+Done that way, on the smooth Plummer cluster, **neither repair helps.** With quadrupoles, at matched cost:
+
+| | mean error, relative to Barnes-Hut | worst particle, relative to Barnes-Hut |
+| --- | --- | --- |
+| offset aware | $1.00$ to $1.35$ | $0.92$ to $2.22$ |
+| safe radius | $1.41$ to $2.35$ | $1.83$ to $6.99$ |
+
+The offset-aware test is a wash: sometimes very slightly better on the worst particle, usually slightly worse on the mean, never clearly ahead. The safe-radius test, the one that carries an actual convergence *guarantee*, is **the worst of the three**. With monopoles it is worse still, up to $3.0$ times the mean error.
+
+## Making a tree code misbehave on purpose
+
+A smooth relaxed cluster may simply be hiding the problem, so let me build something nasty on purpose.
+
+A heavy Plummer primary of 20000 particles, plus a **compact satellite** carrying one twentieth of the mass in 4000 particles packed into a ball of radius $0.05$. Then slide the satellite through 41 positions, so that it crosses the cell boundaries of the tree. This is the static, controlled version of something that happens by itself in any real merger simulation, and it is Salmon and Warren's *detonating galaxies* set up so I can watch it happen.
+
+Barnes-Hut, worst error suffered by any satellite particle at any of the 41 positions:
+
+| $\theta$ | worst satellite particle | fraction of satellite worse than $20\%$ |
+| --- | --- | --- |
+| $0.2$ | $0.06\%$ | none |
+| $0.3$ | $0.24\%$ | none |
+| $0.4$ | $0.99\%$ | none |
+| $0.5$ | $2.2\%$ | none |
+| $0.6$ | $3.2\%$ | none |
+| $0.7$ | $8.1\%$ | none |
+| $0.9$ | $\mathbf{55\%}$ | $0.03\%$ |
+| $1.1$ | $\mathbf{127\%}$ | $1.9\%$ |
+| $1.3$ | $\mathbf{242\%}$ | $8.3\%$ |
+
+Read where the corner is. **Nothing at all goes wrong up to $\theta = 0.7$.** The first badly wrong particles appear near $\theta = 0.9$, which is just above the $\theta \approx 0.83$ where [part 3](/Pages/Physics/papers/hernquist1987/03_treecode/#the_test_does_not_test_what_you_think_it_tests) measured the first genuinely divergent cell, and well above the $1/\sqrt3 = 0.577$ where the formal guarantee expired.
+
+\note{
+    **Losing a guarantee is not the same as failing.** Between $0.577$ and $0.9$ the theory has stopped protecting you and nothing has gone wrong yet. That is the most dangerous region to work in, because everything looks fine right up until the geometry happens to be unlucky, and by then it is a production run.
+}
+
+### What actually went wrong
+
+It is worth stopping at the single worst particle and asking what happened to it, because once you look, the whole thing is embarrassingly simple.
+
+At $\theta = 1.3$, at the position of the worst spike, the responsible cell is a cube of side $0.0153$ holding **fifteen of the satellite's own particles**, sitting practically on top of the target particle. It was accepted whole, so those fifteen neighbours were replaced by a single point mass at their common centre of mass. That one substitution is wrong by $\mathbf{258\%}$ of the entire true force on that particle.
+
+And it passed the test legitimately. At $\theta = 1.3$ a cell may be $1.3$ times as wide as it is far away. Which is another way of saying that at this setting, **a cell can be accepted while it is very nearly touching the target.** Nothing about the test noticed that the cell and the target belong to the same little clump.
+
+For comparison, in Salmon and Warren's 20:1 merger at $\theta = 0.7$, when the smaller galaxy crosses a cell boundary, about $10\%$ of *all* bodies and nearly $70\%$ of the smaller galaxy's bodies pick up force errors above $20\%$. My configuration is milder because the satellite is smaller relative to the primary's cell structure. The mechanism is identical.
+
+### And the repairs still do not win
+
+If the geometric repairs were going to earn their keep anywhere, it would be here. They do not. At matched cost on this awkward configuration:
+
+* **offset aware** is roughly level with Barnes-Hut, between $0.68$ and $1.12$ times its worst-particle error, with no consistent sign;
+* **safe radius** is between $1.6$ and $5.5$ times **worse**.
+
+### Why the guaranteed test loses
+
+This is the part I found genuinely instructive, because it is the criterion with the theorem attached and it comes last.
+
+**Convergence is a weak guarantee.** Take a cell with $b_{\max}/d \simeq 0.7$. The series converges, certainly. But the first term thrown away is of order $(b_{\max}/d)^3$ relative to the monopole, and at $0.7$ that is already
+
+$$
+0.7^3 = 0.34
+$$
+
+before any coefficients or geometry are counted. A convergent series stopped too early is still a bad approximation.
+
+\note{
+    **Convergence is not accuracy.** They are different questions, and the safe-radius test answers the wrong one. It tells you the series *would* eventually get there if you kept enough terms, which is no comfort at all when you are keeping two.
+}
+
+There is a second, more practical reason it loses. $b_{\max}$, and therefore the bound $B$, can be set by **one light straggler particle** out near a corner of the cell. That single particle carries almost no mass and contributes almost nothing to the field, but it inflates $B$ and forces the code to open a cell whose real force error would have been entirely negligible. So the safe-radius test spends work in the wrong places as well as failing to protect the right ones.
+
+\tip{
+    The conclusion is not that acceptance criteria cannot be improved. It is that **geometry alone is the wrong thing to test.** What controls the error is the size of the multipole moments actually being thrown away, and that depends on how the mass inside the cell is arranged, not on how far apart its extreme particles happen to be. This is exactly why Salmon and Warren, having exposed the problem, proposed error bounds built from the **moments** rather than yet another geometric distance test, and it is why modern codes use criteria of that kind.
+}
+
+\prob{
+    Build one. Estimate the size of the next multipole term you are about to discard, compare it with a tolerance times the current running total of the acceleration, and accept only if it is small enough. This is one line of extra arithmetic per cell. Then test it the honest way: at matched cost, on the smooth cluster **and** on the satellite configuration, looking at the worst particle and not the mean. My prediction is that it will not beat Barnes-Hut on the mean error of a smooth cluster and will comfortably beat it on the tail, which is the thing you actually wanted.
+}
 
 ## A better integrator? Not so fast
 
@@ -262,6 +457,10 @@ With exact forces, leapfrog shows textbook $\delta t^2$ behaviour forever, divid
 At $\theta = 0.5$ the tree *is* the tape. Its $0.18\%$ force error injects energy error at a level no time step can undo, so a fourth-order integrator is wasted effort, and so is any $\delta t < 0.0125$. The only thing that helps is a more accurate force.
 
 This is why production $N$-body codes still use leapfrog nearly forty years on, despite fourth-order symplectic schemes being well known. It is not conservatism. The force is approximate by design, so a better integrator has nothing to bite on, and leapfrog is the cheapest scheme giving the one property you cannot do without: no secular energy drift.
+
+\note{
+    There is a sharper way to say this, which I only got straight after writing [the fine print in part 2](/Pages/Physics/papers/hernquist1987/02_leapfrog/#the_fine_print_which_matters_more_than_i_first_thought). Yoshida's construction cancels the $\delta t^2$ term of the **shadow Hamiltonian**, and a shadow Hamiltonian only exists for a system of the form $H = T(\vec p) + V(\vec q)$ with a fixed $V$. A tree force is not the gradient of any such fixed $V$: the accepted cells change as the particles move, and the interactions are not equal and opposite pair by pair. So there is no $\delta t^2$ term of the right kind for Yoshida to cancel, and the scheme is spending three force evaluations to remove an error that is not the one limiting the answer. The floor is not a time-stepping error at all, which is exactly why no time-stepping method can reach below it.
+}
 
 ### Mapping the floor
 

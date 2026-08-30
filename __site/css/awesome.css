@@ -182,6 +182,8 @@ html.dark-mode .blog-card:hover {
 }
 .blog-card-category.physics { color: #e52e71; }
 .blog-card-category.mathematics { color: #ff8a00; }
+.blog-card-category.series { color: #b45cf0; }
+.blog-card-category.course { color: #0bb3d6; }
 .blog-card-title {
   font-size: 1.25rem;
   margin: 0 0 1rem 0;

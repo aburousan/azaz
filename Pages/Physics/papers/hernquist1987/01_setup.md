@@ -358,12 +358,34 @@ fE = FullSimplify[(1/(Sqrt[8] Pi^2)) (
 (* -> (24 Sqrt[2] ee^(7/2) r0^2) / (7 G^5 Mt^4 Pi^3) *)
 ```
 
+### The same thing, in the paper's notation
+
+Hernquist's eq. (3.2) writes the same distribution function using a scale speed instead of $M$ and $r_0$:
+
+$$
+f(E) = \frac{\sqrt{2}}{378\,\pi^3\,G\,r_0^2\,\sigma_0}\left(\frac{-E}{\sigma_0^2}\right)^{7/2},
+\qquad \sigma_0^2 = \frac{GM}{6r_0}
+$$
+
+It looks like a different formula and it is not. Substitute $\sigma_0$ and watch the powers collect. The bracket carries $\sigma_0^{-7}$ and the prefactor another $\sigma_0^{-1}$, so between them they carry
+
+$$
+\sigma_0^{-8} = \left(\frac{6r_0}{GM}\right)^{4}= \frac{6^4\,r_0^4}{G^4M^4}
+$$
+
+Multiply that by the $1/(G\,r_0^2)$ already sitting outside. The $G$ in the prefactor and the $G^{4}$ from the scale speed make $G^5$, one factor of $r_0^2$ is eaten, and the numerical part is $1296/378 = 24/7$:
+
+$$
+f(E) = \frac{\sqrt2}{378\,\pi^3}\cdot\frac{6^4 r_0^{2}}{G^{5}M^{4}}\,(-E)^{7/2}
+= \frac{24\sqrt2}{7\pi^3}\,\frac{r_0^2}{G^5M^4}\,\mathcal{E}^{7/2}
+$$
+
+which is exactly the boxed result above, $G$ and all.
+
 \note{
-    **A small discrepancy with the paper.** Hernquist's eq. (3.2) writes this as
-    $$
-    f(E) = \frac{\sqrt{2}}{378\pi^3G^5r_0^2\sigma_0}\left(\frac{-E}{\sigma_0^2}\right)^{7/2}, \qquad \sigma_0^2 = \frac{GM}{6r_0}
-    $$
-    If you substitute $\sigma_0$ and simplify, this equals my expression *except* that it carries $G^9$ where it should carry $G^5$. The ratio of the two is exactly $G^{-4}$, so in the paper's units ($G=1$) the formula is numerically correct and nothing in the paper is affected. It is just that the printed $G$-dependence does not restore properly. I only noticed because I tried to keep $G$ symbolic while checking.
+    **A retraction.** An earlier version of this page claimed that eq. (3.2) carries an inconsistent power of $G$, and that restoring $G$ leaves the printed formula wrong by a factor $G^{-4}$. **That was my mistake, not the paper's.** I had copied the formula into my notes with $G^5$ in the prefactor where the paper prints $G$, then checked my notes instead of the paper and duly found the $G^{-4}$ I had put there myself.
+
+    I have redone the check both ways, symbolically and by putting arbitrary numbers into both expressions, and the two agree to the last digit. The general lesson is worth more than the formula: when you think you have found an error in a published paper, the first suspect should be your own transcription, and the cheapest way to clear it is to go back to the printed page rather than to your copy of it.
 }
 
 ### What the distribution function is telling us
@@ -746,7 +768,23 @@ Time goes right, the energy error goes up, one curve per softening length. The s
 
 There is a second, smaller effect. The paper says the initial models "are not precisely in equilibrium and are subject to a brief transient period before settling into a steady state", and I can see exactly why.
 
-The model is cut off at $R=1$, which throws away the $5.7\%$ of a true Plummer sphere's mass that lives beyond that radius. But we still normalise the total mass to $1$. So the potential inside is slightly *deeper* than the one whose distribution function we sampled the velocities from. The particles start slightly too slow, so the cluster contracts a bit before settling.
+The model is cut off at $R=1$, and it is worth being exact about what that does, because the number is small but everything downstream inherits it. A true Plummer sphere of total mass 1 puts only
+
+$$
+M(<1) = \frac{1}{\left(1+r_0^2\right)^{3/2}} = \frac{1}{1.04^{3/2}} = 0.9429
+$$
+
+inside $r=1$, so cutting there throws away $5.71\%$ of the mass. But we still *call* the total mass 1. So what we are actually simulating is not a Plummer sphere with the outside removed. It is a Plummer **shape** whose normalisation has been raised by
+
+$$
+\frac{1}{0.9429} = 1.0606
+$$
+
+Shell by shell, my sampled particles carry $1.0606$ times the mass the untruncated formula puts there. The potential inside is therefore slightly deeper than the potential whose distribution function I sampled the velocities from, so the particles start slightly too slow for the well they are actually sitting in, and the cluster contracts a little before settling.
+
+\note{
+    This is not a bug and it is not carelessness, it is what the 1987 paper does too, and it is the honest reading of "a Plummer model with $M=1$, $r_0=0.2$, cut off at $R=1$". But it does mean my starting cluster is **close to** a Plummer equilibrium and not exactly one, and that single fact explains three separate things further on: the early wobble in the Lagrangian radii, the $-2K/U$ that does not start at 1, and the thin skin the cluster sheds in the first crossing time, which is what makes $\langle n_\text{terms}\rangle$ drift upwards by $13\%$.
+}
 
 I can confirm this is the whole story by removing the cutoff:
 

@@ -308,6 +308,25 @@
 
 <item>
   <title>
+    <![CDATA[  The Physics of Neutrinos: Chirality, Helicity, and Parity Violation  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/neutrino_chirality/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/neutrino_chirality/index.html </guid>
+  <description>
+    <![CDATA[  What chirality, helicity and parity violation actually mean, and where they come apart once the neutrino has mass: Weyl spinors and the gamma-5 projector, the &#40;m/2E&#41;^2 ~ 10^-17 gap between chirality and helicity, why the pion refuses to decay into an electron, V-A theory and the group structure behind it, and Dirac versus Majorana mass with the seesaw.  ]]>
+  </description>  
+    
+  <pubDate>Thu, 25 Jun 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  A Pedestrian&#39;s Guide to FORM for Particle Physics &#40;via Julia&#41;  ]]>
   </title>
   <link> https://rousan.netlify.app/Pages/Physics/blogs/form_pedestrian_qft_blog/index.html </link>

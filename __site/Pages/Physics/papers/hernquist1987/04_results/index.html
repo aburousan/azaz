@@ -269,7 +269,7 @@
   </script>
   
 <div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#does_it_stay_put">Does it stay put?</a></li><li><a href="#how_fast_is_it">How fast is it?</a><ol><li><a href="#cost_against_n">Cost against \(N\)</a></li><li><a href="#cost_against_theta">Cost against \(\theta\)</a></li><li><a href="#when_is_it_actually_worth_it">When is it actually worth it?</a></li><li><a href="#what_does_the_quadrupole_cost">What does the quadrupole cost?</a></li></ol></li><li><a href="#how_wrong_are_the_forces">How wrong are the forces?</a><ol><li><a href="#the_error_gets_better_with_more_particles">The error gets <em>better</em> with more particles</a></li><li><a href="#does_the_quadrupole_help">Does the quadrupole help?</a></li><li><a href="#softening_fights_the_expansion">Softening fights the expansion</a></li></ol></li><li><a href="#the_conservation_laws">The conservation laws</a><ol><li><a href="#energy">Energy</a></li><li><a href="#momentum_the_one_that_really_breaks">Momentum, the one that really breaks</a></li></ol></li><li><a href="#is_the_tree_code_more_collisional">Is the tree code more collisional?</a></li><li><a href="#what_i_take_away_from_it">What I take away from it</a></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#does_it_stay_put">Does it stay put?</a></li><li><a href="#how_fast_is_it">How fast is it?</a><ol><li><a href="#cost_against_n">Cost against \(N\)</a></li><li><a href="#cost_against_theta">Cost against \(\theta\)</a></li><li><a href="#when_is_it_actually_worth_it">When is it actually worth it?</a></li><li><a href="#what_does_the_quadrupole_cost">What does the quadrupole cost?</a></li></ol></li><li><a href="#how_wrong_are_the_forces">How wrong are the forces?</a><ol><li><a href="#the_error_gets_better_with_more_particles">The error gets <em>better</em> with more particles</a></li><li><a href="#does_the_quadrupole_help">Does the quadrupole help?</a></li><li><a href="#softening_fights_the_expansion">Softening fights the expansion</a></li></ol></li><li><a href="#where_the_error_actually_comes_from">Where the error actually comes from</a><ol><li><a href="#instrumenting_the_walk">Instrumenting the walk</a></li><li><a href="#the_law_that_comes_out_of_it">The law that comes out of it</a></li><li><a href="#three_warnings_about_that_law">Three warnings about that law</a></li><li><a href="#which_cells_are_doing_the_damage">Which cells are doing the damage</a></li></ol></li><li><a href="#what_the_average_error_is_hiding">What the average error is hiding</a></li><li><a href="#the_conservation_laws">The conservation laws</a><ol><li><a href="#energy">Energy</a></li><li><a href="#momentum_the_one_that_really_breaks">Momentum, the one that really breaks</a></li></ol></li><li><a href="#is_the_tree_code_more_collisional">Is the tree code more collisional?</a></li><li><a href="#what_i_take_away_from_it">What I take away from it</a></li></ol></div>
 <h1 id="ol_start4_results"><a href="#ol_start4_results" class="header-anchor"><ol start="4">
 <li><p>Results</p>
 </li>
@@ -280,18 +280,18 @@
 <h2 id="does_it_stay_put"><a href="#does_it_stay_put" class="header-anchor">Does it stay put?</a></h2>
 <p>The first and most basic test. The model was constructed to be in equilibrium, so if the code is right, the cluster should sit there and do essentially nothing for a long time.</p>
 <p>\(N = 4096\), \(\theta = 1\), 1000 leapfrog steps. <strong>Press play</strong>:</p>
-<div id="fdpudy" style=""></div>
+<div id="fdpcvf" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpudy");
+graphDiv = document.getElementById("fdpcvf");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/evolution_anim.json');
 </script>
 
 <p>Press play and watch whether the blob stays the same size. It does, so the cluster is in equilibrium and the code is not quietly blowing it up.</p>
 <p>It breathes a little and jiggles, but it does not collapse and it does not evaporate. That is the paper&#39;s Fig. 1, and a harder test than it looks. A bug in the force calculation, the tree or the sampling would show up here immediately as a cluster that explodes or implodes within a few crossing times.</p>
 <p>A sharper version of the same test is to track the radii containing fixed fractions of the mass. If the model really is stationary, these should be flat lines:</p>
-<div id="fdpbmf" style=""></div>
+<div id="fdpcev" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpbmf");
+graphDiv = document.getElementById("fdpcev");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/lagrangian_radii.json');
 </script>
 
@@ -301,9 +301,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/la
 <p>Now the question the paper is named after.</p>
 <h3 id="cost_against_n"><a href="#cost_against_n" class="header-anchor">Cost against \(N\)</a></h3>
 <p>Time for one force evaluation, per particle, against \(\log_{10}N\), for a range of \(\theta\). Straight lines on these axes mean \(\text{cost} \propto N\log N\):</p>
-<div id="fdptgb" style=""></div>
+<div id="fdprlb" style=""></div>
 <script>
-graphDiv = document.getElementById("fdptgb");
+graphDiv = document.getElementById("fdprlb");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/timing_vs_N.json');
 </script>
 
@@ -311,18 +311,18 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/ti
 <p>This reproduces the paper&#39;s Fig. 3, including where the behaviour changes. Hernquist concludes that \(\theta \gtrsim 0.4\) is needed to stay in the \(N\log N\) regime, and I find the same.</p>
 <h3 id="cost_against_theta"><a href="#cost_against_theta" class="header-anchor">Cost against \(\theta\)</a></h3>
 <p>The same data sliced the other way, which is the paper&#39;s Fig. 4:</p>
-<div id="fdpaja" style=""></div>
+<div id="fdpgoj" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpaja");
+graphDiv = document.getElementById("fdpgoj");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/timing_vs_theta.json');
 </script>
 
 <p>\(\theta\) goes right, time per force evaluation goes up. The cost drops very fast up to about \(\theta = 1\) and then flattens, so there is no point pushing \(\theta\) higher: you pay in error and get almost no speed.</p>
 <p>That flattening is the practical reason \(\theta \sim 0.5\) to \(1\) is the range everybody actually uses.</p>
 <p>The direct cause is visible if you plot the number of terms instead of the time:</p>
-<div id="fdpdki" style=""></div>
+<div id="fdpeyi" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpdki");
+graphDiv = document.getElementById("fdpeyi");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_vs_theta.json');
 </script>
 
@@ -330,28 +330,50 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nt
 <p>Past \(\theta \approx 1\) almost everything is already clumped, so relaxing further just regroups cells that were being accepted anyway.</p>
 <h3 id="when_is_it_actually_worth_it"><a href="#when_is_it_actually_worth_it" class="header-anchor">When is it actually worth it?</a></h3>
 <p>A tree code is not free. It has to build a tree, chase pointers and do a comparison at every node, while a direct sum is a tight, perfectly predictable inner loop that a compiler can vectorise beautifully. For small \(N\), the simple method wins.</p>
-<div id="fdpqsi" style=""></div>
+<div id="fdpdug" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpqsi");
+graphDiv = document.getElementById("fdpdug");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/tree_vs_direct.json');
 </script>
 
 <p>Number of particles goes right, time goes up. Below the crossing point the simple \(N^2\) sum is actually faster, so a tree is only worth building once you have a few thousand particles.</p>
-<p>The crossover at \(\theta = 1\) lands at \(N \approx 1700\), which is exactly what the paper estimates &#40;&quot;the two are comparable for \(N \approx 1700\)&quot;&#41;. At \(N = 32768\) my tree is \(24\times\) faster than the direct sum, and the gap keeps widening.</p>
+<p>At \(N = 32768\) my tree is \(24\times\) faster than the direct sum, and the gap keeps widening.</p>
+<p>Where exactly the crossover falls is the interesting part, and I got this badly wrong the first time I wrote it up, so let me do it carefully.</p>
+<table><tr><th align="right"></th><th align="right">Hernquist &#40;1987&#41;</th><th align="right">this work</th></tr><tr><td align="right">crossover \(N\), \(\theta = 1\)</td><td align="right">\(\approx 1700\)</td><td align="right">already below \(1024\)</td></tr><tr><td align="right">crossover \(N\), \(\theta = 0.5\)</td><td align="right">\(\approx 7000\)</td><td align="right">\(\approx 2300\)</td></tr></table>
+<p>At \(\theta = 1\) my tree is <strong>already faster at the smallest \(N\) I measured</strong>: at \(N = 1024\) the direct sum takes \(3.96\) ms and the tree \(2.88\) ms, so the crossing has happened before the plot starts.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      I did not expect the crossover to agree so precisely, because it depends on implementation details, language and hardware, none of which are shared with a 1987 FORTRAN code on a CRAY. I think the reason it works is that both sides of the comparison scale the same way with machine speed, so the <em>ratio</em> is a property of the algorithm rather than the computer. 
+      <strong>An earlier version of this page claimed the crossover landed at \(N\approx1700\), &quot;exactly what the paper estimates&quot;, and then argued that the ratio must be a property of the algorithm rather than the computer.</strong> Both halves were wrong, and the second one was wrong in an instructive way, so I am leaving the wreckage visible instead of quietly deleting it.</p>
+<p>The crossover is the point where **two inner loops break even**, and how fast each of those loops runs is a fact about the machine, not about the mathematics. A direct sum is a tight, perfectly predictable, branch-free loop, which is exactly the shape of code a CRAY X-MP&#39;s vector units were built to devour. A tree walk is a pointer chase through a stack with an unpredictable branch at every node, which is the shape of code that machine was worst at. So on a CRAY the tree started a long way behind and only caught up near \(N\approx1700\). On a modern out-of-order core the two loops are much closer in speed, so my tree catches up far sooner.
+
+**The crossover has to be measured again on every architecture.** It is the one number in this entire project that I should have expected *not* to reproduce, and I talked myself into being pleased when it seemed to.</p>
+<p>
+  </fieldset>
+  
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      A useful way to tell the two kinds of number apart, which I wish I had had at the start. Ask whether the quantity would change if you reran the identical code on a different machine. The force error would not: it comes from truncating a series, and it is mathematics. The crossover would: it is a ratio of two wall-clock times. Anything in the second category is a benchmark, not a result, and agreement with 1987 is a coincidence rather than a confirmation. 
   </fieldset>
   
 <h3 id="what_does_the_quadrupole_cost"><a href="#what_does_the_quadrupole_cost" class="header-anchor">What does the quadrupole cost?</a></h3>
-<div id="fdptww" style=""></div>
+<div id="fdphmm" style=""></div>
 <script>
-graphDiv = document.getElementById("fdptww");
+graphDiv = document.getElementById("fdphmm");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/quadrupole_cost.json');
 </script>
 
-<p>How much extra time the shape term costs, as a ratio. It is about 1.3 to 1.5 times, and it does not grow with \(N\), so the shape term is cheap.</p>
-<p>Keeping the quadrupole moments makes the force evaluation roughly 1.3 to 1.5 times more expensive, agreeing with the paper&#39;s &quot;a factor \(\sim 1.5\)&quot;. Whether that is worth paying is the next question.</p>
+<p>How much extra time the shape term costs, as a ratio. It does not grow with \(N\), so whatever it costs, it costs that once and for all.</p>
+<p>Measured as whole force evaluations at matched \(\theta\), the ratio comes out around \(1.3\) to \(1.5\), which looks like a clean confirmation of the paper&#39;s &quot;a factor \(\sim 1.5\)&quot;. It is not, and it took me a while to see why. That ratio is contaminated by the tree build, by how many cells happened to be accepted, and by memory behaviour that has nothing to do with the quadrupole. <strong>The honest quantity is the cost per accepted cell</strong>, which strips all of that out:</p>
+<table><tr><th align="right">terms kept</th><th align="right">cost per accepted cell</th><th align="right">ratio</th></tr><tr><td align="right">monopole</td><td align="right">\(23\) ns</td><td align="right">\(1\)</td></tr><tr><td align="right">quadrupole</td><td align="right">\(26\) ns</td><td align="right">\(1.11\)</td></tr><tr><td align="right">octupole</td><td align="right">\(48\) ns</td><td align="right">\(2.07\)</td></tr></table>
+<p>So on this machine <strong>the quadrupole is \(11\%\) dearer than the monopole, not \(50\%\).</strong> That is a real disagreement with 1987, and it is not a disagreement about the algorithm, which has not changed. It is architectural.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      A CRAY X-MP was limited by <strong>arithmetic</strong>: if you asked it to do more floating-point operations per cell, you waited longer, more or less in proportion. A present-day core is usually limited by <strong>memory</strong>: most of the time it is sitting idle waiting for a cache line to arrive. The extra quadrupole arithmetic hides inside that wait and is very nearly free.</p>
+<p>You can watch this happening in the same data. The cost per accepted cell is not even constant for a *fixed* multipole order: for the monopole it climbs from \(18\) ns at \(\theta = 1.4\) to \(31\) ns at \(\theta = 0.15\). The arithmetic per cell is literally identical in the two cases. What changes is that at large \(\theta\) the walk uses a few big cells near the top of the tree, which every particle reuses and which therefore live permanently in cache, while at small \(\theta\) it reaches deep cells scattered all over memory. Khandai and Bagla build much of their TreePM optimisation on exactly this, by letting a *group* of neighbouring particles share one tree walk so each cell is fetched once instead of once per particle.</p>
+<p>
+  </fieldset>
+  
+<p>Whether the extra term is worth paying for is a different question from what it costs, and <a href="/Pages/Physics/papers/hernquist1987/06_beyond/#but_is_it_worth_it">part 6</a> answers it properly, at matched accuracy rather than matched \(\theta\).</p>
 <h2 id="how_wrong_are_the_forces"><a href="#how_wrong_are_the_forces" class="header-anchor">How wrong are the forces?</a></h2>
 <p>This is the part I care about most. Speed is worthless if the answer is rubbish.</p>
 <p>The measure is the paper&#39;s, from eqs. &#40;3.4&#41; and &#40;3.5&#41;. For each Cartesian component, compare the tree acceleration against a direct sum on the same particles, take the mean offset, then take the mean absolute deviation about it:</p>
@@ -365,9 +387,9 @@ A(\delta a_i) = \frac{1}{N}\sum_j\left|a^{\text{tree}}_{i,j}-a^{\text{direct}}_{
       Why the mean absolute deviation rather than a plain average error? Because the errors have essentially <strong>random sign</strong>: a cell approximated badly might pull a particle slightly left, the next one slightly right. The mean \(\overline{\delta a_i}\) is typically a hundred times smaller than the spread, so it would badly understate how wrong an individual force is. The scatter is what matters. 
   </fieldset>
   
-<div id="fdpjhp" style=""></div>
+<div id="fdpave" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpjhp");
+graphDiv = document.getElementById("fdpave");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_theta.json');
 </script>
 
@@ -377,9 +399,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
 <table><tr><th align="right">\(N\)</th><th align="right">\(\theta = 0.5\)</th><th align="right">\(\theta = 1.0\)</th></tr><tr><td align="right">1024</td><td align="right">0.43&#37;</td><td align="right">2.91&#37;</td></tr><tr><td align="right">4096</td><td align="right">0.31&#37;</td><td align="right">2.32&#37;</td></tr><tr><td align="right">16384</td><td align="right">0.22&#37;</td><td align="right">1.71&#37;</td></tr><tr><td align="right">32768</td><td align="right">0.18&#37;</td><td align="right">1.55&#37;</td></tr><tr><td align="right"><em>paper, \(N=32768\)</em></td><td align="right"><em>\(\approx 0.2\%\)</em></td><td align="right"><em>\(\approx 1.4\%\)</em></td></tr></table>
 <h3 id="the_error_gets_better_with_more_particles"><a href="#the_error_gets_better_with_more_particles" class="header-anchor">The error gets <em>better</em> with more particles</a></h3>
 <p>Look at the columns above again. The error goes <strong>down</strong> as \(N\) goes up. That surprised me at first. More particles means a deeper tree and more approximations, so surely more error?</p>
-<div id="fdpcho" style=""></div>
+<div id="fdpkjd" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpcho");
+graphDiv = document.getElementById("fdpkjd");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_N.json');
 </script>
 
@@ -393,18 +415,18 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
   
 <p>The practical conclusion is unchanged, only sharpened: <strong>you cannot fix a tree code by throwing particles at it.</strong> You fix it with \(\theta\).</p>
 <h3 id="does_the_quadrupole_help"><a href="#does_the_quadrupole_help" class="header-anchor">Does the quadrupole help?</a></h3>
-<div id="fdpshl" style=""></div>
+<div id="fdppxt" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpshl");
+graphDiv = document.getElementById("fdppxt");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_mono_vs_quad.json');
 </script>
 
 <p>Two curves, with and without the shape term. The gap between them is what the shape term buys, and it is large on the left and small on the right. So the shape term is worth most when you are already being careful.</p>
 <p>At small \(\theta\), enormously. At \(\theta = 0.5\) the quadrupole version has error \(0.05\%\) against the monopole&#39;s \(0.18\%\), nearly four times better. At \(\theta = 1\), \(1.04\%\) against \(1.55\%\), only about a third better.</p>
 <p>The trend is clearer as a ratio, which is the paper&#39;s Fig. 7:</p>
-<div id="fdpumw" style=""></div>
+<div id="fdputr" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpumw");
+graphDiv = document.getElementById("fdputr");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_ratio.json');
 </script>
 
@@ -417,9 +439,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
   
 <h3 id="softening_fights_the_expansion"><a href="#softening_fights_the_expansion" class="header-anchor">Softening fights the expansion</a></h3>
 <p>The last error test, and the one with the nicest physics in it. What happens when the softening length \(\varepsilon\) becomes comparable to the interparticle separation \(\lambda\)?</p>
-<div id="fdpsyg" style=""></div>
+<div id="fdpszs" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpsyg");
+graphDiv = document.getElementById("fdpszs");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_softening.json');
 </script>
 
@@ -427,12 +449,106 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
 <p>For small \(\varepsilon\) the error <em>drops</em>, because softening smooths out the very close pairs whose forces are hardest to approximate. But past \(\varepsilon/\lambda \approx 1\) it climbs again, and strikingly <strong>the quadrupole version becomes worse than the monopole one</strong>.</p>
 <p>This is not a numerical accident. The multipole expansion I derived in part 3 is an expansion for <strong>point masses</strong>: it assumes each particle in the cell is a point at \(\vec s_k\). Softening replaces every particle by a smeared blob of size \(\varepsilon\). Once \(\varepsilon\) is comparable to the cell size, the &quot;shape&quot; that \(\mathbf{Q}\) is carefully describing is no longer the shape of the actual mass distribution, so the quadrupole is correcting for a geometry that the force law does not have. So the correction stops being a correction.</p>
 <p>This is the paper&#39;s Fig. 8, and its conclusion that the useful range is \(\varepsilon/\lambda \approx 1\) to \(2\) is what I find too.</p>
+<h2 id="where_the_error_actually_comes_from"><a href="#where_the_error_actually_comes_from" class="header-anchor">Where the error actually comes from</a></h2>
+<p>Now a measurement that was simply not practical on 1987 hardware, and which answers a question the plots above raise without settling.</p>
+<p>Compare the two slopes. A single isolated cell, truncated after the term \(n = k-1\), has a relative error of order \((s/d)^k\), and I measured exactly that: fitted slopes of \(1.99\), \(3.01\) and \(4.00\) against the predicted \(2\), \(3\) and \(4\). But the <strong>full tree walk</strong> does better than that. Fitting the force error over \(0.15\le\theta\le1\) gives</p>
+\[
+\text{error} \;\propto\; \theta^{2.75},\qquad \theta^{3.97},\qquad \theta^{4.68}
+\]
+<p>Every one of those is about <strong>one full power of \(\theta\) steeper</strong> than the single-cell rule. At \(\theta = 0.3\) that is already close to a factor of three in accuracy, which is enough to change what a real calculation costs. Where does the extra power come from?</p>
+<h3 id="instrumenting_the_walk"><a href="#instrumenting_the_walk" class="header-anchor">Instrumenting the walk</a></h3>
+<p>To find out I put instruments inside the tree walk. For one target particle, every accepted cell now records two accelerations: the multipole approximation it contributed, and the <strong>exact</strong> contribution obtained by summing the particles inside that cell one at a time. The difference is that cell&#39;s exact error vector.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      This is not an estimate or a model, and the reason is worth stating. The accepted cells <strong>partition</strong> the source particles: every other particle in the system is inside exactly one accepted cell, or is itself an accepted leaf. So adding up all the exact contributions gives back the direct sum, identically. The error vectors therefore add up to the total force error, exactly, with nothing left over. 
+  </fieldset>
+  
+<p>And the picture that comes out is simple. Every accepted cell leaves behind a small error <strong>arrow</strong>. If all those arrows point roughly the same way, they add up and the total error is large. If they point in many different directions, most of the error cancels, the way the net displacement of a random walk is much smaller than the distance walked.</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      Ten errors of length one add to length ten if they are aligned. If their directions are unrelated, the typical resultant is about \(\sqrt{10}\). A tree force is a <strong>vector</strong> sum, so this cancellation matters just as much as how wrong any single cell is. 
+  </fieldset>
+  
+<p>To measure the alignment, define</p>
+\[
+\kappa \;=\; \frac{\left|\sum_c \delta\vec a_c\right|}{\sqrt{\sum_c\left|\delta\vec a_c\right|^2}}
+\]
+<p>If every cell error pointed the same way, the numerator would be the sum of their lengths and \(\kappa\) would be \(\sqrt{n}\) for \(n\) cells. If they point in unrelated directions they add in quadrature and \(\kappa\) stays of order one.</p>
+<p>The answer is unambiguous. Across three multipole orders, eight values of \(\theta\) and 256 target particles, \(\kappa\) sits between \(0.81\) and \(1.13\) in twenty-three of the twenty-four combinations, while \(\sqrt{n}\) over the same runs ranges from \(14\) to \(64\).</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      The twenty-fourth is the octupole at \(\theta=0.2\), where \(\kappa = 1.58\). I do not think that one means anything: at that setting the total octupole error is about \(4\times10^{-6}\) of the force, and the reference direct sum I am differencing against is itself only good to roughly that level, so what I am measuring there is mostly floating-point round-off. I mention it because &quot;\(\kappa\) stays between \(0.81\) and \(1.13\)&quot; is a cleaner sentence than the truth, and the cleaner sentence has one counterexample in it. 
+  </fieldset>
+  
+<p>So the cell errors point in almost unrelated directions, and the cancellation is large:</p>
+<table><tr><th align="right"></th><th align="right">monopole</th><th align="right">quadrupole</th><th align="right">octupole</th></tr><tr><td align="right">cancellation factor at \(\theta = 0.2\)</td><td align="right">\(33\)</td><td align="right">\(23\)</td><td align="right">\(13\)</td></tr><tr><td align="right">cancellation factor at \(\theta = 1.0\)</td><td align="right">\(5.2\)</td><td align="right">\(4.4\)</td><td align="right">\(3.9\)</td></tr></table>
+<p>where the cancellation factor is the sum of the error <strong>lengths</strong> divided by the length of their <strong>sum</strong>. At \(\theta=0.2\) with quadrupoles, about \(96\%\) of the error made by individual cells cancels against other cells before it ever reaches the answer. Notice the factor shrinks as \(\theta\) grows, for the plain reason that there are fewer cells left to cancel against.</p>
+<h3 id="the_law_that_comes_out_of_it"><a href="#the_law_that_comes_out_of_it" class="header-anchor">The law that comes out of it</a></h3>
+<p>Now the argument writes itself. Suppose accepted cell \(c\) contributes a force of size \(a_c\) with a truncation error of about \(C_k\theta^k a_c\). If the directions are only weakly aligned, the total goes like the quadrature sum,</p>
+\[
+\left|\delta\vec a\right| \sim C_k\theta^k\sqrt{\sum_c a_c^2}
+\]
+<p>and dividing by the true force,</p>
+\[
+\frac{\left|\delta\vec a\right|}{\left|\vec a\right|} \sim C_k\theta^k\frac{\sqrt{\sum_c a_c^2}}{\left|\vec a\right|}
+\]
+<p>If the \(n\) accepted cells contribute comparably, so that \(a_c\sim|\vec a|/n\), this collapses to</p>
+\[
+\boxed{\;\frac{\left|\delta\vec a\right|}{\left|\vec a\right|} \;\approx\; c_k\,\frac{\theta^k}{\sqrt n}\;}
+\]
+<p>with \(n\) the number of terms the walk actually used. <strong>That \(1/\sqrt n\) is the missing power of \(\theta\).</strong> Since \(n\propto\theta^{-2.14}\) from the counting model in <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#a_better_count">part 3</a>, the extra factor contributes about \(\theta^{1.07}\):</p>
+<table><tr><th align="right">terms kept</th><th align="right">naive \(k\)</th><th align="right">\(k + 1.07\)</th><th align="right">measured exponent</th></tr><tr><td align="right">monopole</td><td align="right">\(2\)</td><td align="right">\(3.07\)</td><td align="right">\(2.75\)</td></tr><tr><td align="right">quadrupole</td><td align="right">\(3\)</td><td align="right">\(4.07\)</td><td align="right">\(3.97\)</td></tr><tr><td align="right">octupole</td><td align="right">\(4\)</td><td align="right">\(5.07\)</td><td align="right">\(4.68\)</td></tr></table>
+<p>The quadrupole row is nearly exact, the other two are out by ten to eight per cent in the exponent. So this is clearly the right mechanism and not the whole story, which is what you would expect from an argument that assumed every accepted cell carries the same weight.</p>
+<p>Dividing the measured force error by \(\theta^k/\sqrt n\) should then give a constant, and it nearly does:</p>
+<table><tr><th align="right">terms kept</th><th align="right">\(c_k\)</th></tr><tr><td align="right">monopole</td><td align="right">\(0.20 \pm 0.02\)</td></tr><tr><td align="right">quadrupole</td><td align="right">\(0.117 \pm 0.005\)</td></tr><tr><td align="right">octupole</td><td align="right">\(0.09 \pm 0.03\)</td></tr></table>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      The practical reading: <strong>opening more cells helps you twice over.</strong> Each cell you open is replaced by better-resolved children, which is the obvious gain, and the extra terms give the small errors that remain more chance to cancel against each other, which is the one nobody mentions. That second effect is worth roughly a full power of \(\theta\), and it is the reason a tree code is more accurate than a back-of-envelope truncation estimate says it should be. 
+  </fieldset>
+  
+<h3 id="three_warnings_about_that_law"><a href="#three_warnings_about_that_law" class="header-anchor">Three warnings about that law</a></h3>
+<p>It is a working rule and not a theorem, and each of the assumptions it makes fails somewhere.</p>
+<p><strong>It assumed equal weights.</strong> The step from the quadrature sum to \(c_k\theta^k/\sqrt n\) needed every accepted cell to contribute comparably, and real cells do not. The rare badly-wrong particles in the next section arise from exactly this: unusual weights and unusual geometry.</p>
+<p><strong>It is an average, not a bound.</strong> It describes what happens to a typical particle in an ordinary cluster-like arrangement of matter. Salmon and Warren proved that the test \(s/d<\theta\) carries no guarantee at all once \(\theta > 1/\sqrt3 \approx 0.577\), which covers most practical choices including the \(\theta=1\) of the 1987 paper. Nothing in this law protects you from that, and <a href="/Pages/Physics/papers/hernquist1987/06_beyond/#making_a_tree_code_misbehave_on_purpose">part 6</a> builds a configuration where it does not.</p>
+<p><strong>It describes changing \(\theta\), not changing \(N\).</strong> Going from \(N = 3\times10^4\) to \(5\times10^5\) at \(\theta = 0.5\), the measured error falls by a factor \(0.46\), while the \(1/\sqrt n\) factor alone predicts only \(0.86\). Something else changes with resolution, most likely how the total force is shared among the accepted cells, and I have not isolated it.</p>
+<h3 id="which_cells_are_doing_the_damage"><a href="#which_cells_are_doing_the_damage" class="header-anchor">Which cells are doing the damage</a></h3>
+<p>The same instrumentation answers a question I had not thought to ask: is the error spread evenly over the accepted cells, or concentrated? Concentrated, and increasingly so:</p>
+<table><tr><th align="right">terms kept</th><th align="right">share of the total squared error from cells with \(s/d > 0.8\theta\)</th></tr><tr><td align="right">monopole</td><td align="right">\(47\%\)</td></tr><tr><td align="right">quadrupole</td><td align="right">\(56\%\)</td></tr><tr><td align="right">octupole</td><td align="right">\(61\%\)</td></tr></table>
+<p>Those are the <strong>marginal</strong> cells, the ones that only just squeaked past the opening test. Roughly half the error comes from the cells that were nearly opened, and the fraction rises as you add multipole terms.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      That trend is not a coincidence and it says something useful. A higher multipole order improves the <em>comfortable</em> far-away cells much faster than it improves the marginal ones, because the improvement goes like an extra power of \(s/d\) and \(s/d\) is small out there and close to \(\theta\) here. So each term you add makes the answer better <strong>and</strong> makes the remaining error more concentrated in the few cells that were borderline. That is a direct argument for spending effort on a smarter acceptance test rather than on yet another multipole order, which is exactly where <a href="/Pages/Physics/papers/hernquist1987/06_beyond/#can_the_opening_test_be_repaired">part 6</a> goes. 
+  </fieldset>
+  
+<h2 id="what_the_average_error_is_hiding"><a href="#what_the_average_error_is_hiding" class="header-anchor">What the average error is hiding</a></h2>
+<p>Every force error quoted so far, mine and the paper&#39;s, is an <strong>average over all the particles</strong>. That is the natural thing to report, and it is what makes the law above possible. But an average can hide precisely the particles that matter most for the dynamics, so let me look at the error one particle at a time:</p>
+\[
+\epsilon_j = \frac{\left|\vec a^{\,\text{tree}}_j - \vec a^{\,\text{dir}}_j\right|}{\left|\vec a^{\,\text{dir}}_j\right|}
+\]
+<p>and keep the whole distribution instead of collapsing it to one number. \(N = 32768\), quadrupoles, Barnes-Hut test. The 99th percentile means \(99\%\) of particles are better than that and \(1\%\) are worse:</p>
+<table><tr><th align="right">\(\theta\)</th><th align="right">mean</th><th align="right">99th pct</th><th align="right">99.9th pct</th><th align="right">worst particle</th><th align="right">worst / mean</th></tr><tr><td align="right">\(0.15\)</td><td align="right">\(0.00048\%\)</td><td align="right">\(0.0013\%\)</td><td align="right">\(0.0029\%\)</td><td align="right">\(0.0075\%\)</td><td align="right">\(15\)</td></tr><tr><td align="right">\(0.2\)</td><td align="right">\(0.0015\%\)</td><td align="right">\(0.0048\%\)</td><td align="right">\(0.012\%\)</td><td align="right">\(0.033\%\)</td><td align="right">\(22\)</td></tr><tr><td align="right">\(0.3\)</td><td align="right">\(0.0069\%\)</td><td align="right">\(0.029\%\)</td><td align="right">\(0.058\%\)</td><td align="right">\(0.13\%\)</td><td align="right">\(19\)</td></tr><tr><td align="right">\(0.5\)</td><td align="right">\(0.049\%\)</td><td align="right">\(0.22\%\)</td><td align="right">\(0.53\%\)</td><td align="right">\(1.19\%\)</td><td align="right">\(24\)</td></tr><tr><td align="right">\(0.7\)</td><td align="right">\(0.19\%\)</td><td align="right">\(0.81\%\)</td><td align="right">\(1.86\%\)</td><td align="right">\(7.0\%\)</td><td align="right">\(36\)</td></tr><tr><td align="right">\(1.0\)</td><td align="right">\(0.96\%\)</td><td align="right">\(4.50\%\)</td><td align="right">\(10.6\%\)</td><td align="right">\(37.6\%\)</td><td align="right">\(39\)</td></tr><tr><td align="right">\(1.2\)</td><td align="right">\(2.40\%\)</td><td align="right">\(12.9\%\)</td><td align="right">\(43.1\%\)</td><td align="right">\(124\%\)</td><td align="right">\(52\)</td></tr></table>
+<p>Read the \(\theta = 1\) row, which is the paper&#39;s own opening angle. The mean error is under one per cent, which sounds thoroughly comfortable. But <strong>one particle in a hundred is wrong by more than \(4.5\%\), one in a thousand by more than \(11\%\), and the worst particle in the cluster is wrong by \(38\%\).</strong></p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>A tree code is not uniformly a little bit wrong.</strong> It is very accurate for almost every particle and occasionally very wrong for a few, and an average cannot tell you which situation you are in. Notice too that the columns are not parallel: as \(\theta\) grows the tail pulls away from the mean, from a worst-to-mean ratio of about \(15\) at \(\theta=0.15\) to about \(52\) at \(\theta = 1.2\). Pushing \(\theta\) up does not just make everything slightly worse; it makes the <em>distribution</em> worse-shaped. 
+  </fieldset>
+  
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      Whether this matters depends entirely on what you are computing. For a bulk quantity averaged over the whole cluster, a \(1\%\) mean error with a fat tail is fine, because the tail is \(1\%\) of the particles and they are averaged away. For anything where a few individual orbits matter, a binary hardening, a particle on a nearly radial orbit through the centre, a satellite being disrupted, the tail is exactly the population you care about. <strong>Quote the tail as well as the mean, or you have not reported your error.</strong> 
+  </fieldset>
+  
+
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      Reproduce that table for your own code at one value of \(\theta\), then go and find the worst particle and ask <em>why</em> it is worst. Where is it in the cluster? How many terms did its walk use, compared with the average? Which single accepted cell contributed most of its error, and what does that cell look like? I found this more instructive than any amount of staring at mean errors. 
+  </fieldset>
+  
 <h2 id="the_conservation_laws"><a href="#the_conservation_laws" class="header-anchor">The conservation laws</a></h2>
 <p>Approximating forces has consequences beyond a number being slightly wrong, and this is the part of the paper I find most instructive.</p>
 <h3 id="energy"><a href="#energy" class="header-anchor">Energy</a></h3>
-<div id="fdpsbd" style=""></div>
+<div id="fdpzqa" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpsbd");
+graphDiv = document.getElementById("fdpzqa");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/energy_conservation.json');
 </script>
 
@@ -442,9 +558,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/en
 <p>The first two land on the paper&#39;s values. The \(\theta=1\) column is about two standard deviations high, in the same direction as my slightly larger force error at that \(\theta\). See <a href="/Pages/Physics/papers/hernquist1987/#how_much_of_this_is_noise">the discussion on the front page</a>.</p>
 <p>The instructive part is that <strong>the direct sum does not conserve energy either</strong>. Its \(0.12\%\) comes entirely from the leapfrog&#39;s finite step size, and it is the floor that no force approximation can go below. At \(\theta = 0.5\) the tree&#39;s contribution is comparable to the integrator&#39;s; at \(\theta = 1\) the tree dominates. That tells you how to spend effort: there is no point using a fancier integrator at \(\theta=1\).</p>
 <p>But that floor is not fixed. It depends on the softening, and much more violently than I expected. The same 800-step run, repeated across a factor of 64 in \(\varepsilon\):</p>
-<div id="fdpghn" style=""></div>
+<div id="fdpyfm" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpghn");
+graphDiv = document.getElementById("fdpyfm");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_energy.json');
 </script>
 
@@ -460,14 +576,26 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/ep
 <p>Now the subtle failure, and the paper&#39;s sharpest observation.</p>
 <p>Think about what happens when a particle interacts with a distant cell. The particle feels the pull of the whole cell. But the cell does <strong>not</strong> feel the pull of the particle. Instead, each particle inside that cell separately does its own tree walk, and <em>its</em> view of our particle may be as part of a different cell entirely.</p>
 <p>So the force of \(A\) on \(B\) is not equal and opposite to the force of \(B\) on \(A\). <strong>Newton&#39;s third law is broken by construction.</strong> And momentum conservation is a direct consequence of the third law, so momentum is not conserved:</p>
-<div id="fdpnnr" style=""></div>
+<div id="fdpocb" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpnnr");
+graphDiv = document.getElementById("fdpocb");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/com_drift.json');
 </script>
 
 <p>Time goes right, distance wandered goes up. The centre of mass should never move at all, and it does. Lowering \(\theta\) is the only thing that helps.</p>
 <p>It is a random walk, and the size of it depends only on \(\theta\). At \(\theta = 1\) the centre wanders about \(1\%\) of the system radius over 1000 steps; at \(\theta = 0.5\) it is roughly ten times smaller.</p>
+<p>That drift is a <em>consequence</em>, measured after a thousand steps. It is more useful to measure the cause directly, in a single force evaluation, so I also track the spurious force on the centre of mass against the total force scale:</p>
+\[
+\eta_P = \frac{\left|\sum_i m_i\vec a_i\right|}{\sum_i m_i\left|\vec a_i\right|}
+\]
+<p>A direct pair sum must give zero here, up to round-off, because every interaction is added twice with opposite signs. A one-sided particle-to-cell walk has no such symmetry, so this number must be small and must <strong>not</strong> be zero. If it ever came out at round-off for a tree walk, I would go looking for a bug in my diagnostic. At \(N = 8192\) with quadrupoles and \(\varepsilon = 0\), averaged over three realisations:</p>
+<table><tr><th align="right"></th><th align="right">\(\eta_P\)</th></tr><tr><td align="right">direct sum</td><td align="right">\(4.0\times10^{-17}\)</td></tr><tr><td align="right">tree, \(\theta = 0.5\)</td><td align="right">\(1.3\times10^{-5}\)</td></tr><tr><td align="right">tree, \(\theta = 1.0\)</td><td align="right">\(1.6\times10^{-4}\)</td></tr></table>
+<p>So at \(\theta = 1\) the tree invents a net force on the whole cluster equal to about two parts in ten thousand of the total force scale, out of nothing, every single step. Lowering \(\theta\) to \(0.5\) cuts it by twelve.</p>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      While I had that diagnostic running I used it for a second check that has nothing to do with momentum. <strong>Translation covariance</strong>: shift every particle by the same fixed vector, rebuild the tree from scratch, recompute. The exact force cannot have changed, so the tree&#39;s answer must not change either, even though the outer cube and every dividing plane inside it have moved. Both methods agree to about \(10^{-15}\), which says the tree is not accidentally depending on where I happened to draw the box. The number of <em>terms</em> is allowed to change, and does, for exactly that reason. 
+  </fieldset>
+  
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       A direct sum conserves momentum <strong>exactly</strong>, to round-off, because it adds \(+\vec f\) to one particle and \(-\vec f\) to the other in the same operation. No amount of time-step refinement fixes the tree&#39;s drift, because it is not a time-stepping error at all. It is baked into the force calculation, and the only control you have is \(\theta\). 
@@ -482,9 +610,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/co
 t_r = \frac{\langle \Delta t\rangle}{\langle\sin^2\Phi\rangle}
 \]
 <p>Then quote everything relative to a direct calculation, \(t_r(\theta)/t_r(0)\):</p>
-<div id="fdposa" style=""></div>
+<div id="fdpyfd" style=""></div>
 <script>
-graphDiv = document.getElementById("fdposa");
+graphDiv = document.getElementById("fdpyfd");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/relaxation.json');
 </script>
 
@@ -517,7 +645,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/re
 </li>
 <li><p><strong>Octupole terms.</strong> The \(n=3\) term gives \(\mathcal{O}((s/d)^4)\). Worth it, or is the extra bookkeeping self-defeating? I went and did this one; see <a href="/Pages/Physics/papers/hernquist1987/06_beyond/">part 6</a>.</p>
 </li>
-<li><p><strong>A better opening criterion.</strong> \(s/d<\theta\) is crude, since it ignores where the mass inside a cell actually sits. Modern codes use criteria based on the multipole moments themselves.</p>
+<li><p><strong>A better opening criterion.</strong> \(s/d<\theta\) is crude, since it ignores where the mass inside a cell actually sits. I have since tried two geometric repairs and neither of them beats it at equal cost; <a href="/Pages/Physics/papers/hernquist1987/06_beyond/#can_the_opening_test_be_repaired">part 6 has the comparison</a> and the argument for why the fix has to come from the multipole moments rather than from geometry.</p>
 </li>
 <li><p><strong>Reversing the drift.</strong> Since momentum is not conserved, why not re-centre the system every step? The paper suggests it; does it introduce artefacts of its own?</p>
 </li>
@@ -530,7 +658,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/re
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 06, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 30, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

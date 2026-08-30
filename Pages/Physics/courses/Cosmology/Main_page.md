@@ -4,6 +4,8 @@ hascode = true
 rss = "A five-part tour through cosmology (Baumann, Chapters 2, 5 and 6): the homogeneous universe's geometry, kinematics, dynamics and thermal history, then how tiny perturbations grow into galaxies — with every result checked numerically against my Julia package Cosmic.jl."
 rss_title = "The Expanding Universe with Cosmic.jl"
 rss_pubdate = Date(2026, 7, 24)
+card = true
+card_category = "Course"
 
 tags = ["physics", "cosmology", "course", "julia", "code"]
 +++

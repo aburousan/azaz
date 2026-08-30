@@ -1,6 +1,7 @@
 +++
 title = "The Physics of Neutrinos: Chirality, Helicity, and Parity Violation"
 date = Date(2026, 6, 25)
+rss = "What chirality, helicity and parity violation actually mean, and where they come apart once the neutrino has mass: Weyl spinors and the gamma-5 projector, the (m/2E)^2 ~ 10^-17 gap between chirality and helicity, why the pion refuses to decay into an electron, V-A theory and the group structure behind it, and Dirac versus Majorana mass with the seesaw."
 hascode = true
 tags = ["qft", "particle-physics", "neutrino", "weak-interaction"]
 +++

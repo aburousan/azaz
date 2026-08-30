@@ -269,7 +269,7 @@
   </script>
   
 <div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#the_gap_in_hardware">The gap in hardware</a></li><li><a href="#going_one_order_further_the_octupole">Going one order further: the octupole</a><ol><li><a href="#the_n3_term">The \(n=3\) term</a></li><li><a href="#the_force">The force</a></li><li><a href="#shifting_it_up_the_tree">Shifting it up the tree</a></li></ol></li><li><a href="#does_it_work">Does it work?</a></li><li><a href="#but_is_it_worth_it">But is it worth it?</a></li><li><a href="#a_better_integrator_not_so_fast">A better integrator? Not so fast</a><ol><li><a href="#why_more_accuracy_is_not_always_buyable">Why more accuracy is not always buyable</a></li><li><a href="#mapping_the_floor">Mapping the floor</a></li></ol></li><li><a href="#a_million_particles">A million particles</a><ol><li><a href="#where_the_papers_error_law_runs_out">Where the paper&#39;s error law runs out</a></li></ol></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#the_gap_in_hardware">The gap in hardware</a></li><li><a href="#going_one_order_further_the_octupole">Going one order further: the octupole</a><ol><li><a href="#the_n3_term">The \(n=3\) term</a></li><li><a href="#the_force">The force</a></li><li><a href="#shifting_it_up_the_tree">Shifting it up the tree</a></li></ol></li><li><a href="#does_it_work">Does it work?</a></li><li><a href="#but_is_it_worth_it">But is it worth it?</a><ol><li><a href="#doing_it_properly_with_a_cost_model">Doing it properly, with a cost model</a></li><li><a href="#eliminating_theta">Eliminating \(\theta\)</a></li><li><a href="#the_answer_which_is_not_the_one_i_wanted">The answer, which is not the one I wanted</a></li></ol></li><li><a href="#can_the_opening_test_be_repaired">Can the opening test be repaired?</a><ol><li><a href="#comparing_them_fairly">Comparing them fairly</a></li></ol></li><li><a href="#making_a_tree_code_misbehave_on_purpose">Making a tree code misbehave on purpose</a><ol><li><a href="#what_actually_went_wrong">What actually went wrong</a></li><li><a href="#and_the_repairs_still_do_not_win">And the repairs still do not win</a></li><li><a href="#why_the_guaranteed_test_loses">Why the guaranteed test loses</a></li></ol></li><li><a href="#a_better_integrator_not_so_fast">A better integrator? Not so fast</a><ol><li><a href="#why_more_accuracy_is_not_always_buyable">Why more accuracy is not always buyable</a></li><li><a href="#mapping_the_floor">Mapping the floor</a></li></ol></li><li><a href="#a_million_particles">A million particles</a><ol><li><a href="#where_the_papers_error_law_runs_out">Where the paper&#39;s error law runs out</a></li></ol></li></ol></div>
 <h1 id="ol_start6_doing_better_than_1987"><a href="#ol_start6_doing_better_than_1987" class="header-anchor"><ol start="6">
 <li><p>Doing better than 1987</p>
 </li>
@@ -277,12 +277,20 @@
 </a></h1>
 <p>Part 6 of my recreation of <a href="/Pages/Physics/papers/hernquist1987/">Hernquist &#40;1987&#41;</a>. Everything up to here was reproducing what sir&#39;s paper did. This part is about what it <em>could not</em> do.</p>
 <h2 id="the_gap_in_hardware"><a href="#the_gap_in_hardware" class="header-anchor">The gap in hardware</a></h2>
-<p>The paper&#39;s timings are for a <strong>CRAY X-MP</strong>, one of the fastest machines on Earth in 1987. Hernquist quotes a rate for his largest run of \(7.3\times10^{-4}\) CPU seconds per particle per step. My code, on <strong>one</strong> core, single-threaded, at the same \(N = 32768\) and \(\theta = 1\) with monopoles only, runs at \(5.2\times10^{-6}\).</p>
+<p>The paper&#39;s timings are for a <strong>CRAY X-MP</strong>, one of the fastest machines on Earth in 1987. Hernquist quotes a rate for his largest run of \(7.3\times10^{-4}\) CPU seconds per particle per step. My code, on <strong>one</strong> core, single threaded, at the same \(N = 32768\) and \(\theta = 1\) with monopoles only, runs at about \(5.5\times10^{-6}\), so</p>
 \[
-\frac{7.3\times10^{-4}}{5.2\times10^{-6}} \approx 140
+\frac{7.3\times10^{-4}}{5.5\times10^{-6}} \approx 130
 \]
-<table><tr><th align="right"></th><th align="right">Hernquist&#39;s simulation</th><th align="right">on one of my cores</th></tr><tr><td align="right">\(N = 32768\), 300 steps</td><td align="right"><strong>2.0 CRAY X-MP CPU hours</strong></td><td align="right"><strong>51 seconds</strong></td></tr></table>
-<p>A run that consumed two hours of the world&#39;s fastest supercomputer takes under a minute on a single modern core, and I have 48 of them to hand. So the interesting question is not &quot;can I reproduce it&quot; but <strong>&quot;what would I do differently, given the compute?&quot;</strong></p>
+<table><tr><th align="right"></th><th align="right">Hernquist&#39;s simulation</th><th align="right">on one of my cores</th></tr><tr><td align="right">\(N = 32768\), 300 steps</td><td align="right"><strong>2.0 CRAY X-MP CPU hours</strong></td><td align="right"><strong>54 seconds</strong></td></tr></table>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      Timings on a shared machine move around by about \(20\%\) depending on what else is running, and my two independent timing sweeps put the \(\theta=1\) monopole evaluation anywhere between \(0.17\) and \(0.22\) seconds. So read this as &quot;<strong>over a hundred</strong>&quot; rather than as \(130\) on the nose. Everything downstream of it survives that uncertainty comfortably; nothing here turns on the second digit. 
+  </fieldset>
+  
+<p>A run that consumed two hours of the world&#39;s fastest supercomputer takes under a minute on a single modern core, and I have 48 of them to hand.</p>
+<p>It is worth being precise about what that buys and what it does not, because this is the point at which it is easiest to claim too much.</p>
+<p><strong>It does not make the force error of the same approximation any smaller.</strong> That error comes from truncating a series, which is mathematics, and mathematics did not get faster. Two implementations agreeing on the particle realisation, the tree geometry, the cell-size convention, the acceptance test and the multipole prescription should produce the same numbers up to floating point, and mine agrees with the published values to about \(1\%\). Had my error come out ten times smaller at the same settings, that would have been evidence of a <strong>bug</strong>, not of progress.</p>
+<p>What the hardware buys is the freedom to run settings that could not have been afforded in real work in 1987. So the interesting question is not &quot;can I reproduce it&quot; but <strong>&quot;what would I do differently, given the compute?&quot;</strong></p>
 <p>Three things: carry the multipole expansion one order further, try a better integrator and go to a million particles.</p>
 <h2 id="going_one_order_further_the_octupole"><a href="#going_one_order_further_the_octupole" class="header-anchor">Going one order further: the octupole</a></h2>
 <p>The paper stops at the quadrupole. But nothing forces that. The Legendre series <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#expanding_1_vec_d_vec_s">derived in part 3</a> goes on forever, and we left it at \(n=2\) only because \(n=3\) costs more arithmetic. Arithmetic is exactly what has got cheaper.</p>
@@ -365,18 +373,18 @@ O_{ijk} = 5M^{(3)}_{ijk} - \left(\delta_{jk}T_i + \delta_{ik}T_j + \delta_{ij}T_
   
 <h2 id="does_it_work"><a href="#does_it_work" class="header-anchor">Does it work?</a></h2>
 <p>First the clean test, on a single cell, exactly as <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#how_good_is_it">in part 3</a> but with the third curve added. The prediction is that the errors should fall as \((s/d)^2\), \((s/d)^3\) and \((s/d)^4\):</p>
-<div id="fdprew" style=""></div>
+<div id="fdpebe" style=""></div>
 <script>
-graphDiv = document.getElementById("fdprew");
+graphDiv = document.getElementById("fdpebe");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/multipole_error_3.json');
 </script>
 
 <p>Same plot as in part 3, now with a third curve. Each extra term pushes the line down and makes it steeper, and the slopes come out 2, 3 and 4 exactly as the theory says.</p>
 <p>Fitted slopes: <strong>1.99, 3.01, 4.00</strong>. The theory says 2, 3, 4.</p>
 <p>Now in the real tree, at \(N = 32768\), averaged over three realisations:</p>
-<div id="fdplkn" style=""></div>
+<div id="fdpusw" style=""></div>
 <script>
-graphDiv = document.getElementById("fdplkn");
+graphDiv = document.getElementById("fdpusw");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_theta_3.json');
 </script>
 
@@ -385,22 +393,146 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
 <p>At \(\theta = 0.5\) the octupole is <strong>10 times more accurate than the monopole</strong> and 2.7 times better than the quadrupole. At \(\theta = 0.2\) it is <strong>50 times</strong> better than the monopole. The gain grows as \(\theta\) shrinks, exactly as the \((s/d)^4\) law demands.</p>
 <h2 id="but_is_it_worth_it"><a href="#but_is_it_worth_it" class="header-anchor">But is it worth it?</a></h2>
 <p>Accuracy alone is the wrong question. The octupole costs more per cell, so the honest comparison is <strong>error against cost</strong>. If I can reach the same accuracy more cheaply by just lowering \(\theta\) with cheaper cells, the octupole is a waste of effort.</p>
-<div id="fdpgdu" style=""></div>
+<div id="fdpqvj" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpgdu");
+graphDiv = document.getElementById("fdpqvj");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/pareto.json');
 </script>
 
 <p>Cost goes right, error goes up, one point per setting, and you want to be at the bottom left. The useful thing here is which points nobody beats on both counts at once.</p>
-<p>Down and to the left is better. Reading off the frontier, i.e. the set of settings that are not beaten on both counts at once:</p>
-<table><tr><th align="right">cost &#40;s&#41;</th><th align="right">best choice</th><th align="right">error</th></tr><tr><td align="right">\(0.064\)</td><td align="right">monopole, \(\theta=1.0\)</td><td align="right">\(1.55\%\)</td></tr><tr><td align="right">\(0.068\)</td><td align="right"><strong>quadrupole</strong>, \(\theta=0.9\)</td><td align="right">\(0.61\%\)</td></tr><tr><td align="right">\(0.073\)</td><td align="right"><strong>quadrupole</strong>, \(\theta=0.7\)</td><td align="right">\(0.196\%\)</td></tr><tr><td align="right">\(0.090\)</td><td align="right"><strong>quadrupole</strong>, \(\theta=0.5\)</td><td align="right">\(0.049\%\)</td></tr><tr><td align="right">\(0.117\)</td><td align="right"><strong>octupole</strong>, \(\theta=0.5\)</td><td align="right">\(0.018\%\)</td></tr><tr><td align="right">\(0.191\)</td><td align="right"><strong>octupole</strong>, \(\theta=0.3\)</td><td align="right">\(0.0018\%\)</td></tr><tr><td align="right">\(0.313\)</td><td align="right"><strong>octupole</strong>, \(\theta=0.2\)</td><td align="right">\(0.0003\%\)</td></tr></table>
-<p>And here is the answer, which is not the one I was hoping for when I started writing the octupole code:</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      <strong>The quadrupole owns the middle of the range.</strong> For any accuracy between about \(1\%\) and \(0.02\%\), where essentially every astrophysical simulation actually lives, the cheapest route is a quadrupole tree with \(\theta\) tuned to suit. The monopole only wins at the crude end, and the octupole only starts paying for itself below \(0.02\%\). 
+      <strong>The costs on that figure are from a threaded run and should not be read as absolute times.</strong> I originally quoted them as if they were, and then compared one of them against a single-CPU CRAY number, which was a straightforward mistake. The <em>shape</em> of the frontier survives, because all three orders were threaded the same way, but every number below has been redone on <strong>one core</strong>. If you are comparing against anything historical, that is the only currency that means anything. 
   </fieldset>
   
-<p>In other words, <strong>Hernquist stopped at exactly the right order for the problems he was solving.</strong> Adding the next term was not an oversight and not a limitation of 1987 hardware; it was the correct engineering call and it still is for most work. Modern hardware does not make the octupole better. It makes the regime where the octupole is better <em>reachable</em>.</p>
+<h3 id="doing_it_properly_with_a_cost_model"><a href="#doing_it_properly_with_a_cost_model" class="header-anchor">Doing it properly, with a cost model</a></h3>
+<p>Reading a frontier off a scatter of measured points is fine for a picture and hopeless for a conclusion, because the crossings land between the points I happened to run. So instead let me fit the two things that actually vary and then eliminate \(\theta\) between them.</p>
+<p><strong>First, the error is a power law in \(\theta\)</strong>, with the exponents measured in <a href="/Pages/Physics/papers/hernquist1987/04_results/#where_the_error_actually_comes_from">part 4</a>:</p>
+\[
+\epsilon = A_p\,\theta^{\beta_p},\qquad \beta = 2.75,\; 3.97,\; 4.68
+\]
+<p><strong>Second, the work is a power law too</strong>, \(n = C\theta^{-\gamma}\) with \(C = 229\) and \(\gamma = 2.14\). That is a fit, not a theorem; the <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#a_better_count">counting model in part 3</a> is the physical description and this is a convenient summary of it over the useful range.</p>
+<p><strong>Third, the cost of one force evaluation</strong> is a tree build plus a walk:</p>
+\[
+\text{cost}(\theta, p) = T_0 + N\,c_p\,n(\theta)
+\]
+<p>with \(T_0 = 0.08\) s for \(N = 32768\) on one core, and \(c_p\) the cost per accepted cell:</p>
+<table><tr><th align="right">terms kept</th><th align="right">cost per accepted cell</th><th align="right">spread over \(\theta\)</th><th align="right">ratio</th></tr><tr><td align="right">monopole</td><td align="right">\(23.1\) ns</td><td align="right">\(18\) to \(31\) ns</td><td align="right">\(1.00\)</td></tr><tr><td align="right">quadrupole</td><td align="right">\(25.7\) ns</td><td align="right">\(20\) to \(35\) ns</td><td align="right">\(1.11\)</td></tr><tr><td align="right">octupole</td><td align="right">\(47.8\) ns</td><td align="right">\(37\) to \(62\) ns</td><td align="right">\(2.07\)</td></tr></table>
+<p>That model reproduces the measured walk times to about \(18\%\), and <strong>what is left over is not random</strong>, which is the interesting part. Look at the spread column: the cost per accepted cell is not constant even for a fixed multipole order. For the monopole it climbs from \(18\) ns at \(\theta = 1.4\) to \(31\) ns at \(\theta = 0.15\), and the arithmetic per cell in those two cases is <em>identical</em>.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      The difference is memory, not arithmetic. At large \(\theta\) the walk uses a handful of big cells near the top of the tree, which every particle reuses, so they sit permanently in cache. At small \(\theta\) it reaches deep cells scattered all over memory, and every one is a cache miss. This is also why the quadrupole is only \(11\%\) dearer than the monopole here where Hernquist measured \(50\%\) on a CRAY: an arithmetic-bound machine charges you for arithmetic, a memory-bound one gives it away while it waits.</p>
+<p>Khandai and Bagla build much of their TreePM optimisation on exactly this observation, by letting a **group** of neighbouring particles share one tree walk, so each cell is fetched once instead of once per particle.</p>
+<p>
+  </fieldset>
+  
+<h3 id="eliminating_theta"><a href="#eliminating_theta" class="header-anchor">Eliminating \(\theta\)</a></h3>
+<p>Now put the two power laws together. Solving \(\epsilon = A_p\theta^{\beta_p}\) for \(\theta\) and substituting into the cost gives the price of a target accuracy:</p>
+\[
+\boxed{\;\text{cost}_p(\epsilon) = T_0 + K_p\,\epsilon^{-\gamma/\beta_p},
+\qquad K_p = N c_p C A_p^{\gamma/\beta_p}\;}
+\]
+<p>with exponents</p>
+<table><tr><th align="right">terms kept</th><th align="right">\(-\gamma/\beta_p\)</th></tr><tr><td align="right">monopole</td><td align="right">\(-0.78\)</td></tr><tr><td align="right">quadrupole</td><td align="right">\(-0.54\)</td></tr><tr><td align="right">octupole</td><td align="right">\(-0.46\)</td></tr></table>
+<p>A higher multipole order gives a <strong>shallower</strong> cost curve, so it must eventually win at high enough accuracy. The only question is where. Evaluating, on one core at \(N = 32768\):</p>
+<table><tr><th align="right">target accuracy</th><th align="right">cheapest order</th><th align="right">its cost</th><th align="right">monopole</th><th align="right">quadrupole</th><th align="right">octupole</th></tr><tr><td align="right">\(3\%\)</td><td align="right">monopole</td><td align="right">\(0.17\) s</td><td align="right">\(0.17\)</td><td align="right">\(0.18\)</td><td align="right">\(0.24\)</td></tr><tr><td align="right">\(1\%\)</td><td align="right"><strong>quadrupole</strong></td><td align="right">\(0.26\) s</td><td align="right">\(0.29\)</td><td align="right">\(0.26\)</td><td align="right">\(0.35\)</td></tr><tr><td align="right">\(0.3\%\)</td><td align="right"><strong>quadrupole</strong></td><td align="right">\(0.41\) s</td><td align="right">\(0.62\)</td><td align="right">\(0.41\)</td><td align="right">\(0.55\)</td></tr><tr><td align="right">\(0.1\%\)</td><td align="right"><strong>quadrupole</strong></td><td align="right">\(0.68\) s</td><td align="right">\(1.36\)</td><td align="right">\(0.68\)</td><td align="right">\(0.85\)</td></tr><tr><td align="right">\(0.01\%\)</td><td align="right"><strong>quadrupole</strong></td><td align="right">\(2.16\) s</td><td align="right">\(7.7\)</td><td align="right">\(2.16\)</td><td align="right">\(2.27\)</td></tr><tr><td align="right">\(0.001\%\)</td><td align="right"><strong>octupole</strong></td><td align="right">\(6.3\) s</td><td align="right">\(45.8\)</td><td align="right">\(7.2\)</td><td align="right">\(6.3\)</td></tr><tr><td align="right">\(0.0001\%\)</td><td align="right"><strong>octupole</strong></td><td align="right">\(18.0\) s</td><td align="right">\(274\)</td><td align="right">\(24.9\)</td><td align="right">\(18.0\)</td></tr></table>
+<p>The crossings are at</p>
+\[
+\epsilon_{\text{mono}\to\text{quad}} = 2.3\%,
+\qquad
+\epsilon_{\text{quad}\to\text{oct}} = 5\times10^{-5} = 0.005\%
+\]
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>The second crossing needs a health warning and the first does not.</strong> The cost exponents of the quadrupole and the octupole, \(-0.54\) and \(-0.46\), are so close that the two curves cross at a very shallow angle. Solving \(K_q\epsilon^{-0.54} = K_o\epsilon^{-0.46}\) gives \(\epsilon = (K_q/K_o)^{12}\), and a <strong>twelfth power</strong> is not something anybody measures casually. Get the relative cost of the two wrong by \(15\%\) and that crossing moves anywhere between \(10^{-5}\) and \(3\times10^{-4}\); by \(30\%\), and it moves between \(2\times10^{-6}\) and \(10^{-3}\).</p>
+<p>The first crossing is far better behaved, because its two exponents are genuinely different. The same \(15\%\) moves it only from \(2.3\%\) to somewhere between \(1.3\%\) and \(4.2\%\).</p>
+<p>
+  </fieldset>
+  
+<h3 id="the_answer_which_is_not_the_one_i_wanted"><a href="#the_answer_which_is_not_the_one_i_wanted" class="header-anchor">The answer, which is not the one I wanted</a></h3>
+<p><strong>The quadrupole owns the middle of the range.</strong> For any target accuracy between about \(2\%\) and \(5\times10^{-5}\), which is where essentially every real astrophysical simulation lives, the cheapest route is a quadrupole tree with \(\theta\) tuned to suit. The monopole wins only at the crude end. The octupole only starts paying for itself below one part in twenty thousand.</p>
+<p>So the practical rules for this code are short:</p>
+<ol>
+<li><p>Use the <strong>quadrupole</strong> unless an error of a few per cent is good enough.</p>
+</li>
+<li><p>Add the <strong>octupole</strong> only if you genuinely need better than about \(10^{-4}\).</p>
+</li>
+<li><p>Within a given order, <strong>tune \(\theta\) first.</strong> Adding a multipole order is not usually the cheapest way to reduce an error.</p>
+</li>
+</ol>
+<p>In other words, <strong>Hernquist stopped at exactly the right order for the problems he was solving.</strong> Stopping at the quadrupole was not an oversight, and it was not a limitation of 1987 hardware either. It was the correct engineering call and it remains the correct one for most work. Modern hardware does not make the octupole better; it makes the regime where the octupole is better <em>reachable</em>.</p>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      What is solid here is the <strong>shape</strong> of the frontier and the first crossing. What is not solid is the exact accuracy at which the octupole takes over, and I would not defend the second decimal place of it on a different machine, a different \(N\), or a different particle distribution. Frontiers like this are worth recomputing for your own problem; that is the point of writing the model down rather than quoting a number. 
+  </fieldset>
+  
+<h2 id="can_the_opening_test_be_repaired"><a href="#can_the_opening_test_be_repaired" class="header-anchor">Can the opening test be repaired?</a></h2>
+<p>Two separate things so far point at the same suspect. <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#the_test_does_not_test_what_you_think_it_tests">Part 3</a> showed that \(s/d<\theta\) does not test the quantity that decides convergence. <a href="/Pages/Physics/papers/hernquist1987/04_results/#what_the_average_error_is_hiding">Part 4</a> showed that roughly half the error comes from the cells that only just passed that test, and that a comfortable mean error hides a nasty tail.</p>
+<p>So the obvious question: <strong>can the test be repaired without touching anything else in the code?</strong> I tried two natural geometric repairs. Not to propose a new production algorithm, but to find out whether geometry alone is enough.</p>
+<table><tr><th align="right">test</th><th align="right">rule</th><th align="right">idea</th></tr><tr><td align="right"><strong>Barnes-Hut</strong> &#40;1987&#41;</td><td align="right">accept if \(s/d < \theta\)</td><td align="right">the original</td></tr><tr><td align="right"><strong>offset aware</strong></td><td align="right">accept if \(d > s/\theta + \delta_c\)</td><td align="right">push the boundary out by how lopsided the cell is</td></tr><tr><td align="right"><strong>safe radius</strong></td><td align="right">accept if \(B/d < \theta\)</td><td align="right">test a bound on \(b_{\max}\) instead of the cell width</td></tr></table>
+<p>In the second, \(\delta_c\) is the distance between the cell&#39;s centre of mass and its geometric centre. It costs one subtraction per cell and it is a cheap way of noticing that a cell&#39;s mass is not where the cell is.</p>
+<p>In the third, \(B\) is a recursively built <strong>upper bound</strong> on \(b_{\max}\). If child \(c\) has centre-of-mass displacement \(\vec R_c\) from the parent and its own bound \(B_c\), then</p>
+\[
+B_p = \max_c\left(\left|\vec R_c\right| + B_c\right)
+\]
+<p>and by the triangle inequality \(B_p \ge b_{\max}^{\text{true}}\), so accepting only when \(B/d<\theta<1\)<strong>guarantees</strong> convergence. It can of course be stricter than the exact radius would be, and in my tree it is: a well-filled cell has \(B\) between \(0.72s\) and \(0.85s\) depending on \(\theta\), which is only \(4\) to \(11\%\) above the exact \(b_{\max}\), so the bound is tight.</p>
+<h3 id="comparing_them_fairly"><a href="#comparing_them_fairly" class="header-anchor">Comparing them fairly</a></h3>
+<p>Here is the trap, and I fell into it first time round. <strong>The three tests are not equally strict at the same \(\theta\).</strong> Since \(B\) is usually smaller than \(s\), the safe-radius test <em>accepts more</em> at the same numerical \(\theta\) and is therefore looser, while the offset-aware test is stricter. Comparing them at fixed \(\theta\) measures nothing except how each one has been normalised.</p>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      The only fair comparison is <strong>at equal cost</strong>: interpolate every criterion onto a common mean number of accepted terms per particle, then compare the errors there. Whenever somebody shows you a new acceptance criterion that beats the old one, the first question to ask is whether the comparison was at matched \(\theta\) or matched work. At matched \(\theta\) you can make almost anything look good by making it slightly stricter. 
+  </fieldset>
+  
+<p>Done that way, on the smooth Plummer cluster, <strong>neither repair helps.</strong> With quadrupoles, at matched cost:</p>
+<table><tr><th align="right"></th><th align="right">mean error, relative to Barnes-Hut</th><th align="right">worst particle, relative to Barnes-Hut</th></tr><tr><td align="right">offset aware</td><td align="right">\(1.00\) to \(1.35\)</td><td align="right">\(0.92\) to \(2.22\)</td></tr><tr><td align="right">safe radius</td><td align="right">\(1.41\) to \(2.35\)</td><td align="right">\(1.83\) to \(6.99\)</td></tr></table>
+<p>The offset-aware test is a wash: sometimes very slightly better on the worst particle, usually slightly worse on the mean, never clearly ahead. The safe-radius test, the one that carries an actual convergence <em>guarantee</em>, is <strong>the worst of the three</strong>. With monopoles it is worse still, up to \(3.0\) times the mean error.</p>
+<h2 id="making_a_tree_code_misbehave_on_purpose"><a href="#making_a_tree_code_misbehave_on_purpose" class="header-anchor">Making a tree code misbehave on purpose</a></h2>
+<p>A smooth relaxed cluster may simply be hiding the problem, so let me build something nasty on purpose.</p>
+<p>A heavy Plummer primary of 20000 particles, plus a <strong>compact satellite</strong> carrying one twentieth of the mass in 4000 particles packed into a ball of radius \(0.05\). Then slide the satellite through 41 positions, so that it crosses the cell boundaries of the tree. This is the static, controlled version of something that happens by itself in any real merger simulation, and it is Salmon and Warren&#39;s <em>detonating galaxies</em> set up so I can watch it happen.</p>
+<p>Barnes-Hut, worst error suffered by any satellite particle at any of the 41 positions:</p>
+<table><tr><th align="right">\(\theta\)</th><th align="right">worst satellite particle</th><th align="right">fraction of satellite worse than \(20\%\)</th></tr><tr><td align="right">\(0.2\)</td><td align="right">\(0.06\%\)</td><td align="right">none</td></tr><tr><td align="right">\(0.3\)</td><td align="right">\(0.24\%\)</td><td align="right">none</td></tr><tr><td align="right">\(0.4\)</td><td align="right">\(0.99\%\)</td><td align="right">none</td></tr><tr><td align="right">\(0.5\)</td><td align="right">\(2.2\%\)</td><td align="right">none</td></tr><tr><td align="right">\(0.6\)</td><td align="right">\(3.2\%\)</td><td align="right">none</td></tr><tr><td align="right">\(0.7\)</td><td align="right">\(8.1\%\)</td><td align="right">none</td></tr><tr><td align="right">\(0.9\)</td><td align="right">\(\mathbf{55\%}\)</td><td align="right">\(0.03\%\)</td></tr><tr><td align="right">\(1.1\)</td><td align="right">\(\mathbf{127\%}\)</td><td align="right">\(1.9\%\)</td></tr><tr><td align="right">\(1.3\)</td><td align="right">\(\mathbf{242\%}\)</td><td align="right">\(8.3\%\)</td></tr></table>
+<p>Read where the corner is. <strong>Nothing at all goes wrong up to \(\theta = 0.7\).</strong> The first badly wrong particles appear near \(\theta = 0.9\), which is just above the \(\theta \approx 0.83\) where <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#the_test_does_not_test_what_you_think_it_tests">part 3</a> measured the first genuinely divergent cell, and well above the \(1/\sqrt3 = 0.577\) where the formal guarantee expired.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>Losing a guarantee is not the same as failing.</strong> Between \(0.577\) and \(0.9\) the theory has stopped protecting you and nothing has gone wrong yet. That is the most dangerous region to work in, because everything looks fine right up until the geometry happens to be unlucky, and by then it is a production run. 
+  </fieldset>
+  
+<h3 id="what_actually_went_wrong"><a href="#what_actually_went_wrong" class="header-anchor">What actually went wrong</a></h3>
+<p>It is worth stopping at the single worst particle and asking what happened to it, because once you look, the whole thing is embarrassingly simple.</p>
+<p>At \(\theta = 1.3\), at the position of the worst spike, the responsible cell is a cube of side \(0.0153\) holding <strong>fifteen of the satellite&#39;s own particles</strong>, sitting practically on top of the target particle. It was accepted whole, so those fifteen neighbours were replaced by a single point mass at their common centre of mass. That one substitution is wrong by \(\mathbf{258\%}\) of the entire true force on that particle.</p>
+<p>And it passed the test legitimately. At \(\theta = 1.3\) a cell may be \(1.3\) times as wide as it is far away. Which is another way of saying that at this setting, <strong>a cell can be accepted while it is very nearly touching the target.</strong> Nothing about the test noticed that the cell and the target belong to the same little clump.</p>
+<p>For comparison, in Salmon and Warren&#39;s 20:1 merger at \(\theta = 0.7\), when the smaller galaxy crosses a cell boundary, about \(10\%\) of <em>all</em> bodies and nearly \(70\%\) of the smaller galaxy&#39;s bodies pick up force errors above \(20\%\). My configuration is milder because the satellite is smaller relative to the primary&#39;s cell structure. The mechanism is identical.</p>
+<h3 id="and_the_repairs_still_do_not_win"><a href="#and_the_repairs_still_do_not_win" class="header-anchor">And the repairs still do not win</a></h3>
+<p>If the geometric repairs were going to earn their keep anywhere, it would be here. They do not. At matched cost on this awkward configuration:</p>
+<ul>
+<li><p><strong>offset aware</strong> is roughly level with Barnes-Hut, between \(0.68\) and \(1.12\) times its worst-particle error, with no consistent sign;</p>
+</li>
+<li><p><strong>safe radius</strong> is between \(1.6\) and \(5.5\) times <strong>worse</strong>.</p>
+</li>
+</ul>
+<h3 id="why_the_guaranteed_test_loses"><a href="#why_the_guaranteed_test_loses" class="header-anchor">Why the guaranteed test loses</a></h3>
+<p>This is the part I found genuinely instructive, because it is the criterion with the theorem attached and it comes last.</p>
+<p><strong>Convergence is a weak guarantee.</strong> Take a cell with \(b_{\max}/d \simeq 0.7\). The series converges, certainly. But the first term thrown away is of order \((b_{\max}/d)^3\) relative to the monopole, and at \(0.7\) that is already</p>
+\[
+0.7^3 = 0.34
+\]
+<p>before any coefficients or geometry are counted. A convergent series stopped too early is still a bad approximation.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>Convergence is not accuracy.</strong> They are different questions, and the safe-radius test answers the wrong one. It tells you the series <em>would</em> eventually get there if you kept enough terms, which is no comfort at all when you are keeping two. 
+  </fieldset>
+  
+<p>There is a second, more practical reason it loses. \(b_{\max}\), and therefore the bound \(B\), can be set by <strong>one light straggler particle</strong> out near a corner of the cell. That single particle carries almost no mass and contributes almost nothing to the field, but it inflates \(B\) and forces the code to open a cell whose real force error would have been entirely negligible. So the safe-radius test spends work in the wrong places as well as failing to protect the right ones.</p>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      The conclusion is not that acceptance criteria cannot be improved. It is that <strong>geometry alone is the wrong thing to test.</strong> What controls the error is the size of the multipole moments actually being thrown away, and that depends on how the mass inside the cell is arranged, not on how far apart its extreme particles happen to be. This is exactly why Salmon and Warren, having exposed the problem, proposed error bounds built from the <strong>moments</strong> rather than yet another geometric distance test, and it is why modern codes use criteria of that kind. 
+  </fieldset>
+  
+
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      Build one. Estimate the size of the next multipole term you are about to discard, compare it with a tolerance times the current running total of the acceleration, and accept only if it is small enough. This is one line of extra arithmetic per cell. Then test it the honest way: at matched cost, on the smooth cluster <strong>and</strong> on the satellite configuration, looking at the worst particle and not the mean. My prediction is that it will not beat Barnes-Hut on the mean error of a smooth cluster and will comfortably beat it on the tail, which is the thing you actually wanted. 
+  </fieldset>
+  
 <h2 id="a_better_integrator_not_so_fast"><a href="#a_better_integrator_not_so_fast" class="header-anchor">A better integrator? Not so fast</a></h2>
 <p>The second obvious modernisation is the integrator. Leapfrog is second order; Yoshida &#40;1990&#41; showed you can compose <strong>three</strong> leapfrog steps with weights</p>
 \[
@@ -418,9 +550,9 @@ function yoshida4_step&#33;&#40;pos, vel, acc, tree, mass, dt, cfg&#41;
 end</code></pre>
 <p>On a two-body orbit it behaves exactly as advertised: halving \(\delta t\) cuts the energy error by about sixteen, confirming fourth order.</p>
 <p>But it costs <strong>three force evaluations per step</strong>. So the fair comparison holds the number of force evaluations fixed, letting Yoshida take steps three times longer:</p>
-<div id="fdpnlz" style=""></div>
+<div id="fdpgei" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpnlz");
+graphDiv = document.getElementById("fdpgei");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_equal_cost.json');
 </script>
 
@@ -441,11 +573,16 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/in
   
 <p>At \(\theta = 0.5\) the tree <em>is</em> the tape. Its \(0.18\%\) force error injects energy error at a level no time step can undo, so a fourth-order integrator is wasted effort, and so is any \(\delta t < 0.0125\). The only thing that helps is a more accurate force.</p>
 <p>This is why production \(N\)-body codes still use leapfrog nearly forty years on, despite fourth-order symplectic schemes being well known. It is not conservatism. The force is approximate by design, so a better integrator has nothing to bite on, and leapfrog is the cheapest scheme giving the one property you cannot do without: no secular energy drift.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      There is a sharper way to say this, which I only got straight after writing <a href="/Pages/Physics/papers/hernquist1987/02_leapfrog/#the_fine_print_which_matters_more_than_i_first_thought">the fine print in part 2</a>. Yoshida&#39;s construction cancels the \(\delta t^2\) term of the <strong>shadow Hamiltonian</strong>, and a shadow Hamiltonian only exists for a system of the form \(H = T(\vec p) + V(\vec q)\) with a fixed \(V\). A tree force is not the gradient of any such fixed \(V\): the accepted cells change as the particles move, and the interactions are not equal and opposite pair by pair. So there is no \(\delta t^2\) term of the right kind for Yoshida to cancel, and the scheme is spending three force evaluations to remove an error that is not the one limiting the answer. The floor is not a time-stepping error at all, which is exactly why no time-stepping method can reach below it. 
+  </fieldset>
+  
 <h3 id="mapping_the_floor"><a href="#mapping_the_floor" class="header-anchor">Mapping the floor</a></h3>
 <p>So I went and measured the floor for every \(\theta\). \(N = 4096\), integrated to \(t = 12.5\), shrinking \(\delta t\) by factors of two:</p>
-<div id="fdpaqc" style=""></div>
+<div id="fdpqhe" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpaqc");
+graphDiv = document.getElementById("fdpqhe");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_budget.json');
 </script>
 
@@ -473,17 +610,17 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
   
 <h2 id="a_million_particles"><a href="#a_million_particles" class="header-anchor">A million particles</a></h2>
 <p>The paper&#39;s largest run was \(N = 32768\). Going to \(2^{20} \approx 10^6\) extends the lever arm on both scaling laws by more than a decade, which is the only honest way to check that \(N\log N\) is a real law and not a fit over too short a range.</p>
-<div id="fdpguy" style=""></div>
+<div id="fdpqlf" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpguy");
+graphDiv = document.getElementById("fdpqlf");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_timing.json');
 </script>
 
 <p>Particles go right, time per force evaluation goes up, all the way to a million particles. The line stays straight, so the \(N\log N\) promise holds well beyond what the paper could test.</p>
 <p>The counting argument from <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#why_this_gives_n_log_n">part 3</a> predicted that each level of the tree contributes a constant number of terms, so \(\langle n_\text{terms}\rangle\) should be <strong>linear in \(\log N\)</strong>. Over five doublings that was suggestive; over seven it is a straight line:</p>
-<div id="fdphne" style=""></div>
+<div id="fdpsxi" style=""></div>
 <script>
-graphDiv = document.getElementById("fdphne");
+graphDiv = document.getElementById("fdpsxi");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_nterms.json');
 </script>
 
@@ -498,9 +635,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/la
 <h3 id="where_the_papers_error_law_runs_out"><a href="#where_the_papers_error_law_runs_out" class="header-anchor">Where the paper&#39;s error law runs out</a></h3>
 <p>Now the one that genuinely revises something. The paper reports that the force error decays as \(\sim N^{-1/5}\), fitted over its range of \(1024 \le N \le 32768\). Over exactly that range I reproduce it: my exponent is \(-0.18\), which is \(-1/5\) to the accuracy anyone could ask.</p>
 <p>But push it further:</p>
-<div id="fdpari" style=""></div>
+<div id="fdpikv" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpari");
+graphDiv = document.getElementById("fdpikv");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_error.json');
 </script>
 
@@ -523,7 +660,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/la
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 06, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 30, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

@@ -269,7 +269,7 @@
   </script>
   
 <div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#starting_from_taylor">Starting from Taylor</a></li><li><a href="#sirs_trick_evaluate_the_velocity_half_a_step_out">Sir&#39;s trick: evaluate the velocity half a step out</a></li><li><a href="#the_picture_who_hops_over_whom">The picture: who hops over whom</a></li><li><a href="#the_form_i_actually_use_kick-drift-kick">The form I actually use: kick-drift-kick</a></li><li><a href="#why_not_something_fancier">Why not something fancier?</a></li><li><a href="#time-reversibility_proved">Time-reversibility, proved</a><ol><li><a href="#the_deeper_reason_a_shadow_hamiltonian">The deeper reason: a shadow Hamiltonian</a></li></ol></li><li><a href="#choosing_the_step_size">Choosing the step size</a></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#starting_from_taylor">Starting from Taylor</a></li><li><a href="#sirs_trick_evaluate_the_velocity_half_a_step_out">Sir&#39;s trick: evaluate the velocity half a step out</a></li><li><a href="#the_picture_who_hops_over_whom">The picture: who hops over whom</a></li><li><a href="#the_form_i_actually_use_kick-drift-kick">The form I actually use: kick-drift-kick</a></li><li><a href="#why_not_something_fancier">Why not something fancier?</a></li><li><a href="#time-reversibility_proved">Time-reversibility, proved</a><ol><li><a href="#the_deeper_reason_a_shadow_hamiltonian">The deeper reason: a shadow Hamiltonian</a></li><li><a href="#the_fine_print_which_matters_more_than_i_first_thought">The fine print, which matters more than I first thought</a></li></ol></li><li><a href="#choosing_the_step_size">Choosing the step size</a></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
 <h1 id="ol_start2_moving_the_particles_the_leapfrog"><a href="#ol_start2_moving_the_particles_the_leapfrog" class="header-anchor"><ol start="2">
 <li><p>Moving the particles: the leapfrog</p>
 </li>
@@ -430,25 +430,25 @@ end</code></pre>
 <h2 id="why_not_something_fancier"><a href="#why_not_something_fancier" class="header-anchor">Why not something fancier?</a></h2>
 <p>Here is the question that bothered me. Leapfrog is only <strong>second order</strong>. Runge-Kutta 4 is fourth order and everybody learns it first. Why does every serious \(N\)-body code use the &quot;worse&quot; method?</p>
 <p>So I tested it. One particle on an eccentric Kepler orbit around a fixed mass, integrated four ways with the same step size, for 200 orbits.</p>
-<div id="fdpkmf" style=""></div>
+<div id="fdpovq" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpkmf");
+graphDiv = document.getElementById("fdpovq");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_orbits.json');
 </script>
 
 <p>This is the orbit itself, seen from above, with 200 revolutions drawn on top of one another. If a method keeps the orbit correct you see one sharp ellipse. Red spreads out into a mess, so forward Euler is useless here.</p>
 <p>All 200 orbits at once is a bit of a pile-up, so here is the same run with the orbits arriving in order. Press play and watch which curves stay put:</p>
-<div id="fdpsrd" style=""></div>
+<div id="fdpaov" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpsrd");
+graphDiv = document.getElementById("fdpaov");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/anim_integrators.json');
 </script>
 
 <p>Red is forward Euler and it walks off the edge of the plot within a few orbits, never to return. Blue &#40;leapfrog&#41; and orange &#40;RK4&#41; both stay on the ellipse for all 60 orbits, and at this scale you cannot separate them. That is the honest situation: on the <em>orbit</em>, the fancy method and the cheap method look the same, and only the bad method is visibly bad.</p>
 <p>Which is why the orbit picture is only half the story. Look at the energy, which is the thing that actually matters:</p>
-<div id="fdpqij" style=""></div>
+<div id="fdprsc" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpqij");
+graphDiv = document.getElementById("fdprsc");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_energy.json');
 </script>
 
@@ -469,9 +469,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/in
   
 <p>There is a second reason, and for an \(N\)-body code it may be the bigger one: <strong>cost</strong>. RK4 needs <em>four</em> force evaluations per step. In a tree code, a force evaluation is essentially the entire cost of the simulation. So at fixed compute budget leapfrog can take four times as many steps, and its error is \(\mathcal{O}(\delta t^2)\), so four times smaller steps means sixteen times better accuracy. The &quot;worse&quot; method wins on both counts.</p>
 <p>To confirm the methods are behaving as advertised, here is the error against step size:</p>
-<div id="fdpzfw" style=""></div>
+<div id="fdpgeu" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpzfw");
+graphDiv = document.getElementById("fdpgeu");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_order.json');
 </script>
 
@@ -529,6 +529,28 @@ w_{\text{new}} = w_{1/2} + \tfrac{\delta t}{2}a(r_0) = -v_{1/2} + \tfrac{\delta 
   </fieldset>
   
 <p>That also tells you what to expect on a plot. Leapfrog gives a <strong>band</strong>: noisy, but flat and level no matter how long you run. RK4 gives a <strong>line with a slope</strong>. A band you can live with; a slope will eventually eat your simulation.</p>
+<h3 id="the_fine_print_which_matters_more_than_i_first_thought"><a href="#the_fine_print_which_matters_more_than_i_first_thought" class="header-anchor">The fine print, which matters more than I first thought</a></h3>
+<p>Everything above is true, and everything above assumes something I did not state. Go back and look at where the shadow Hamiltonian came from. We split the evolution into a pure kick and a pure drift and said each factor is the <em>exact</em> flow of a solvable problem. That step needs the system to be of the form</p>
+\[
+H = T(\vec p) + V(\vec q)
+\]
+<p>with a <strong>fixed</strong> potential \(V\) that depends on the positions and on nothing else. For exact gravity that is true, and leapfrog is genuinely symplectic. <strong>For a tree code it is not.</strong></p>
+<p>Three separate things break it, and none of them is subtle once you look:</p>
+<ul>
+<li><p>The force depends on <strong>how the tree was cut</strong>, which is not a function of the positions alone in any useful sense. Draw the outer cube slightly differently and every dividing plane moves.</p>
+</li>
+<li><p>The set of accepted cells <strong>changes as the particles move</strong>. A cell that passed \(s/d<\theta\) on this step may be opened on the next one, and at that moment the force law the code is applying changes discontinuously.</p>
+</li>
+<li><p>The approximate interactions are <strong>not equal and opposite pair by pair</strong>. Particle \(A\) may see \(B\) as part of a distant lump while \(B\) sees \(A\) individually. A Hamiltonian force cannot do that, and this is the same asymmetry that breaks momentum conservation in <a href="/Pages/Physics/papers/hernquist1987/04_results/#momentum_the_one_that_really_breaks">part 4</a>.</p>
+</li>
+</ul>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      So the correct statement is narrower than the one usually made, including by me earlier on this page. <strong>Leapfrog is symplectic for the exact gravitational problem. The complete tree simulation is not an exactly Hamiltonian system at all, so its energy is not protected in the same way.</strong> There is no shadow Hamiltonian for the code you are actually running. 
+  </fieldset>
+  
+<p>The consequence is measurable and it is not small. With exact forces, halving \(\delta t\) divides the energy error by four, over and over, all the way down to \(10^{-6}\) and beyond. With tree forces, the error falls for a while and then stops dead at a <strong>floor</strong> set by the force error, after which halving the step buys nothing and eventually makes matters slightly worse. <a href="/Pages/Physics/papers/hernquist1987/06_beyond/#mapping_the_floor">Part 6 measures that floor</a> and finds it sits at roughly one tenth of the fractional force error, across a thirty-fold range in \(\theta\).</p>
+<p>None of this makes leapfrog the wrong choice. It makes the <em>reason</em> for choosing it different from the textbook one. You are not buying an exactly conserved shadow energy, because you cannot have one. You are buying the absence of a <strong>built-in direction</strong> to the error, which is a property of the time symmetry of the scheme rather than of the Hamiltonian structure, and time symmetry survives everything in the list above except the discontinuous re-cutting of the tree. That is enough to keep the error a band rather than a ramp, which is all you actually needed.</p>
 <h2 id="choosing_the_step_size"><a href="#choosing_the_step_size" class="header-anchor">Choosing the step size</a></h2>
 <p>The paper uses \(\delta t = 0.025\) in units where \(G = M = R = 1\), and says this is about \(5\%\) of the core crossing time. The scale that matters is how long a typical particle takes to cross the dense middle,</p>
 \[
@@ -552,7 +574,7 @@ t_{\text{cross}} \sim \frac{r}{\sigma_0}, \qquad \sigma_0 = \sqrt{\frac{GM}{6r_0
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 06, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 30, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
