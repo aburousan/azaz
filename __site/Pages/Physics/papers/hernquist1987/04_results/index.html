@@ -280,18 +280,18 @@
 <h2 id="does_it_stay_put"><a href="#does_it_stay_put" class="header-anchor">Does it stay put?</a></h2>
 <p>The first and most basic test. The model was constructed to be in equilibrium, so if the code is right, the cluster should sit there and do essentially nothing for a long time.</p>
 <p>\(N = 4096\), \(\theta = 1\), 1000 leapfrog steps. <strong>Press play</strong>:</p>
-<div id="fdpcvf" style=""></div>
+<div id="fdpdfi" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpcvf");
+graphDiv = document.getElementById("fdpdfi");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/evolution_anim.json');
 </script>
 
 <p>Press play and watch whether the blob stays the same size. It does, so the cluster is in equilibrium and the code is not quietly blowing it up.</p>
 <p>It breathes a little and jiggles, but it does not collapse and it does not evaporate. That is the paper&#39;s Fig. 1, and a harder test than it looks. A bug in the force calculation, the tree or the sampling would show up here immediately as a cluster that explodes or implodes within a few crossing times.</p>
 <p>A sharper version of the same test is to track the radii containing fixed fractions of the mass. If the model really is stationary, these should be flat lines:</p>
-<div id="fdpcev" style=""></div>
+<div id="fdpzhf" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpcev");
+graphDiv = document.getElementById("fdpzhf");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/lagrangian_radii.json');
 </script>
 
@@ -301,9 +301,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/la
 <p>Now the question the paper is named after.</p>
 <h3 id="cost_against_n"><a href="#cost_against_n" class="header-anchor">Cost against \(N\)</a></h3>
 <p>Time for one force evaluation, per particle, against \(\log_{10}N\), for a range of \(\theta\). Straight lines on these axes mean \(\text{cost} \propto N\log N\):</p>
-<div id="fdprlb" style=""></div>
+<div id="fdpwif" style=""></div>
 <script>
-graphDiv = document.getElementById("fdprlb");
+graphDiv = document.getElementById("fdpwif");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/timing_vs_N.json');
 </script>
 
@@ -311,18 +311,18 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/ti
 <p>This reproduces the paper&#39;s Fig. 3, including where the behaviour changes. Hernquist concludes that \(\theta \gtrsim 0.4\) is needed to stay in the \(N\log N\) regime, and I find the same.</p>
 <h3 id="cost_against_theta"><a href="#cost_against_theta" class="header-anchor">Cost against \(\theta\)</a></h3>
 <p>The same data sliced the other way, which is the paper&#39;s Fig. 4:</p>
-<div id="fdpgoj" style=""></div>
+<div id="fdpwks" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpgoj");
+graphDiv = document.getElementById("fdpwks");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/timing_vs_theta.json');
 </script>
 
 <p>\(\theta\) goes right, time per force evaluation goes up. The cost drops very fast up to about \(\theta = 1\) and then flattens, so there is no point pushing \(\theta\) higher: you pay in error and get almost no speed.</p>
 <p>That flattening is the practical reason \(\theta \sim 0.5\) to \(1\) is the range everybody actually uses.</p>
 <p>The direct cause is visible if you plot the number of terms instead of the time:</p>
-<div id="fdpeyi" style=""></div>
+<div id="fdpxtu" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpeyi");
+graphDiv = document.getElementById("fdpxtu");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_vs_theta.json');
 </script>
 
@@ -330,9 +330,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nt
 <p>Past \(\theta \approx 1\) almost everything is already clumped, so relaxing further just regroups cells that were being accepted anyway.</p>
 <h3 id="when_is_it_actually_worth_it"><a href="#when_is_it_actually_worth_it" class="header-anchor">When is it actually worth it?</a></h3>
 <p>A tree code is not free. It has to build a tree, chase pointers and do a comparison at every node, while a direct sum is a tight, perfectly predictable inner loop that a compiler can vectorise beautifully. For small \(N\), the simple method wins.</p>
-<div id="fdpdug" style=""></div>
+<div id="fdpxwt" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpdug");
+graphDiv = document.getElementById("fdpxwt");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/tree_vs_direct.json');
 </script>
 
@@ -356,9 +356,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/tr
   </fieldset>
   
 <h3 id="what_does_the_quadrupole_cost"><a href="#what_does_the_quadrupole_cost" class="header-anchor">What does the quadrupole cost?</a></h3>
-<div id="fdphmm" style=""></div>
+<div id="fdpdfn" style=""></div>
 <script>
-graphDiv = document.getElementById("fdphmm");
+graphDiv = document.getElementById("fdpdfn");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/quadrupole_cost.json');
 </script>
 
@@ -387,9 +387,9 @@ A(\delta a_i) = \frac{1}{N}\sum_j\left|a^{\text{tree}}_{i,j}-a^{\text{direct}}_{
       Why the mean absolute deviation rather than a plain average error? Because the errors have essentially <strong>random sign</strong>: a cell approximated badly might pull a particle slightly left, the next one slightly right. The mean \(\overline{\delta a_i}\) is typically a hundred times smaller than the spread, so it would badly understate how wrong an individual force is. The scatter is what matters. 
   </fieldset>
   
-<div id="fdpave" style=""></div>
+<div id="fdpbxj" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpave");
+graphDiv = document.getElementById("fdpbxj");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_theta.json');
 </script>
 
@@ -399,9 +399,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
 <table><tr><th align="right">\(N\)</th><th align="right">\(\theta = 0.5\)</th><th align="right">\(\theta = 1.0\)</th></tr><tr><td align="right">1024</td><td align="right">0.43&#37;</td><td align="right">2.91&#37;</td></tr><tr><td align="right">4096</td><td align="right">0.31&#37;</td><td align="right">2.32&#37;</td></tr><tr><td align="right">16384</td><td align="right">0.22&#37;</td><td align="right">1.71&#37;</td></tr><tr><td align="right">32768</td><td align="right">0.18&#37;</td><td align="right">1.55&#37;</td></tr><tr><td align="right"><em>paper, \(N=32768\)</em></td><td align="right"><em>\(\approx 0.2\%\)</em></td><td align="right"><em>\(\approx 1.4\%\)</em></td></tr></table>
 <h3 id="the_error_gets_better_with_more_particles"><a href="#the_error_gets_better_with_more_particles" class="header-anchor">The error gets <em>better</em> with more particles</a></h3>
 <p>Look at the columns above again. The error goes <strong>down</strong> as \(N\) goes up. That surprised me at first. More particles means a deeper tree and more approximations, so surely more error?</p>
-<div id="fdpkjd" style=""></div>
+<div id="fdplws" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpkjd");
+graphDiv = document.getElementById("fdplws");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_N.json');
 </script>
 
@@ -415,18 +415,18 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
   
 <p>The practical conclusion is unchanged, only sharpened: <strong>you cannot fix a tree code by throwing particles at it.</strong> You fix it with \(\theta\).</p>
 <h3 id="does_the_quadrupole_help"><a href="#does_the_quadrupole_help" class="header-anchor">Does the quadrupole help?</a></h3>
-<div id="fdppxt" style=""></div>
+<div id="fdpqqi" style=""></div>
 <script>
-graphDiv = document.getElementById("fdppxt");
+graphDiv = document.getElementById("fdpqqi");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_mono_vs_quad.json');
 </script>
 
 <p>Two curves, with and without the shape term. The gap between them is what the shape term buys, and it is large on the left and small on the right. So the shape term is worth most when you are already being careful.</p>
 <p>At small \(\theta\), enormously. At \(\theta = 0.5\) the quadrupole version has error \(0.05\%\) against the monopole&#39;s \(0.18\%\), nearly four times better. At \(\theta = 1\), \(1.04\%\) against \(1.55\%\), only about a third better.</p>
 <p>The trend is clearer as a ratio, which is the paper&#39;s Fig. 7:</p>
-<div id="fdputr" style=""></div>
+<div id="fdpyhh" style=""></div>
 <script>
-graphDiv = document.getElementById("fdputr");
+graphDiv = document.getElementById("fdpyhh");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_ratio.json');
 </script>
 
@@ -439,9 +439,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
   
 <h3 id="softening_fights_the_expansion"><a href="#softening_fights_the_expansion" class="header-anchor">Softening fights the expansion</a></h3>
 <p>The last error test, and the one with the nicest physics in it. What happens when the softening length \(\varepsilon\) becomes comparable to the interparticle separation \(\lambda\)?</p>
-<div id="fdpszs" style=""></div>
+<div id="fdpgol" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpszs");
+graphDiv = document.getElementById("fdpgol");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_softening.json');
 </script>
 
@@ -546,9 +546,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
 <h2 id="the_conservation_laws"><a href="#the_conservation_laws" class="header-anchor">The conservation laws</a></h2>
 <p>Approximating forces has consequences beyond a number being slightly wrong, and this is the part of the paper I find most instructive.</p>
 <h3 id="energy"><a href="#energy" class="header-anchor">Energy</a></h3>
-<div id="fdpzqa" style=""></div>
+<div id="fdpvtg" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpzqa");
+graphDiv = document.getElementById("fdpvtg");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/energy_conservation.json');
 </script>
 
@@ -558,9 +558,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/en
 <p>The first two land on the paper&#39;s values. The \(\theta=1\) column is about two standard deviations high, in the same direction as my slightly larger force error at that \(\theta\). See <a href="/Pages/Physics/papers/hernquist1987/#how_much_of_this_is_noise">the discussion on the front page</a>.</p>
 <p>The instructive part is that <strong>the direct sum does not conserve energy either</strong>. Its \(0.12\%\) comes entirely from the leapfrog&#39;s finite step size, and it is the floor that no force approximation can go below. At \(\theta = 0.5\) the tree&#39;s contribution is comparable to the integrator&#39;s; at \(\theta = 1\) the tree dominates. That tells you how to spend effort: there is no point using a fancier integrator at \(\theta=1\).</p>
 <p>But that floor is not fixed. It depends on the softening, and much more violently than I expected. The same 800-step run, repeated across a factor of 64 in \(\varepsilon\):</p>
-<div id="fdpyfm" style=""></div>
+<div id="fdpglo" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpyfm");
+graphDiv = document.getElementById("fdpglo");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_energy.json');
 </script>
 
@@ -576,9 +576,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/ep
 <p>Now the subtle failure, and the paper&#39;s sharpest observation.</p>
 <p>Think about what happens when a particle interacts with a distant cell. The particle feels the pull of the whole cell. But the cell does <strong>not</strong> feel the pull of the particle. Instead, each particle inside that cell separately does its own tree walk, and <em>its</em> view of our particle may be as part of a different cell entirely.</p>
 <p>So the force of \(A\) on \(B\) is not equal and opposite to the force of \(B\) on \(A\). <strong>Newton&#39;s third law is broken by construction.</strong> And momentum conservation is a direct consequence of the third law, so momentum is not conserved:</p>
-<div id="fdpocb" style=""></div>
+<div id="fdpbkk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpocb");
+graphDiv = document.getElementById("fdpbkk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/com_drift.json');
 </script>
 
@@ -610,9 +610,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/co
 t_r = \frac{\langle \Delta t\rangle}{\langle\sin^2\Phi\rangle}
 \]
 <p>Then quote everything relative to a direct calculation, \(t_r(\theta)/t_r(0)\):</p>
-<div id="fdpyfd" style=""></div>
+<div id="fdpmbh" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpyfd");
+graphDiv = document.getElementById("fdpmbh");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/relaxation.json');
 </script>
 

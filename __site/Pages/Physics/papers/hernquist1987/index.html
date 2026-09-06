@@ -283,9 +283,9 @@
 <p>and on the other side wrote <strong>Plummer Profile Problem</strong>: you are given initial conditions \(\{\vec r_i\}, \{\vec v_i\}\) and you want to evolve them under gravity only. Then he derived the integrator starting from two Taylor expansions, ending with the leapfrog scheme.</p>
 <p>So the assignment was: do that. Take a blob of particles, give them the right positions and velocities, push them forward in time, then check that the virial theorem holds.</p>
 <p>That is the part I started with. But once the particles were moving I could not stop, because the paper behind sir&#39;s box is really about a much better question: <strong>how do you compute the forces at all without waiting till next year?</strong> So I ended up recreating the whole of Hernquist&#39;s paper in <strong>Julia</strong>. This is what came out.</p>
-<div id="fdpqrm" style=""></div>
+<div id="fdpvig" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpqrm");
+graphDiv = document.getElementById("fdpvig");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_3d.json');
 </script>
 
@@ -432,9 +432,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/pl
 <p>approximately 170 to 175 for small \(t\), but increased slowly to 195 to 200 during the first 50 time steps</p>
 </blockquote>
 <p><strong>So \(\langle n_\text{terms}\rangle\) is not a property of the model at all. It drifts as the cluster settles.</strong> Every number I had been quoting was measured at the very start. Measured against time instead:</p>
-<div id="fdplsw" style=""></div>
+<div id="fdpddw" style=""></div>
 <script>
-graphDiv = document.getElementById("fdplsw");
+graphDiv = document.getElementById("fdpddw");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_of_time.json');
 </script>
 
@@ -450,9 +450,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nt
 <p>I also tested the other suspect the paper flags, which is a particle being allowed to pull on itself through a box it is sitting inside. Turning that safeguard off changes the force error by this much:</p>
 <table><tr><th align="right">\(\theta\)</th><th align="right">safeguard on</th><th align="right">safeguard off</th></tr><tr><td align="right">\(0.5\)</td><td align="right">\(0.18474\%\)</td><td align="right">\(0.18474\%\)</td></tr><tr><td align="right">\(1.0\)</td><td align="right">\(1.55068\%\)</td><td align="right">\(1.55079\%\)</td></tr><tr><td align="right">\(1.2\)</td><td align="right">\(3.3020\%\)</td><td align="right">\(3.3184\%\)</td></tr><tr><td align="right">\(1.5\)</td><td align="right">\(7.445\%\)</td><td align="right">\(8.073\%\)</td></tr></table>
 <p>At \(\theta = 0.5\) it is identical to every digit I print, because no particle is ever inside a cell that passes the test. At \(\theta = 1\) it moves the fourth decimal place. By \(\theta = 1.5\) it is worth \(8\%\) of the error. That independently reproduces the paper&#39;s own conclusion that the effect &quot;was completely negligible for \(\theta \le 1.2\)&quot;, and shows where it stops being negligible.</p>
-<div id="fdpxpg" style=""></div>
+<div id="fdpmjd" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpxpg");
+graphDiv = document.getElementById("fdpmjd");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/forced_subdivision.json');
 </script>
 

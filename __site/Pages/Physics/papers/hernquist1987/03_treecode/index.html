@@ -344,9 +344,9 @@
 </ol>
 <p>The result is a hierarchy of cells: one enormous cell containing everything, eight cells of half the size, sixty-four of a quarter and so on down to individual particles. Cells in dense regions get subdivided many times; cells in empty regions stop early.</p>
 <p>In 2D that looks like this &#40;a <strong>quadtree</strong>, four children per cell instead of eight, same logic and easier to look at&#41;. 500 particles drawn from the Plummer sphere:</p>
-<div id="fdpbpu" style=""></div>
+<div id="fdpksb" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpbpu");
+graphDiv = document.getElementById("fdpksb");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/quadtree_cells.json');
 </script>
 
@@ -358,9 +358,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/qu
   </fieldset>
   
 <p>That picture is the finished tree though, and it hides the thing that confused me at first, which is that the tree is not designed, it is grown. So here is the same construction with the particles going in one at a time:</p>
-<div id="fdpygi" style=""></div>
+<div id="fdpyoa" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpygi");
+graphDiv = document.getElementById("fdpyoa");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/anim_treebuild.json');
 </script>
 
@@ -405,9 +405,9 @@ end</code></pre>
 </li>
 </ul>
 <p>That walk, made visible. This is the same 500-particle quadtree, and the star marks the particle we are computing the force on. Orange boxes are cells that got swallowed whole; red dots are particles that had to be summed one by one. <strong>Drag the slider to change \(\theta\)</strong>:</p>
-<div id="fdpndx" style=""></div>
+<div id="fdpakj" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpndx");
+graphDiv = document.getElementById("fdpakj");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/treewalk_theta.json');
 </script>
 
@@ -603,9 +603,9 @@ FullSimplify&#91;-Grad&#91;phi, &#123;x, y, z&#125;&#93; - accelPaper&#93;
 </li>
 </ul>
 <p>That is a <em>prediction</em>, so let me test it. I took a cloud of 200 particles packed into a cube of side \(s\), computed the acceleration it produces at distance \(d\) exactly, and compared against both approximations, averaging over 400 directions:</p>
-<div id="fdpgnl" style=""></div>
+<div id="fdpxpe" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpgnl");
+graphDiv = document.getElementById("fdpxpe");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/multipole_error.json');
 </script>
 
@@ -1014,9 +1014,9 @@ W(d) = \frac{4\pi}{3}R^3 \quad (d\ge 2R)
 <p>Good to about \(15\%\), from an argument that consists of dividing the volume of a shell by the volume of a cube. <a href="/Pages/Physics/papers/hernquist1987/06_beyond/#a_million_particles">Part 6</a> has the run.</p>
 <h2 id="what_one_particle_actually_sees"><a href="#what_one_particle_actually_sees" class="header-anchor">What one particle actually sees</a></h2>
 <p>The average hides a lot of structure. Below is the full distribution of \(n_\text{terms}\) across all 32768 particles, for the Plummer model and for a uniform sphere with the same \(N\). This is the paper&#39;s Fig. 5:</p>
-<div id="fdprwz" style=""></div>
+<div id="fdplkc" style=""></div>
 <script>
-graphDiv = document.getElementById("fdprwz");
+graphDiv = document.getElementById("fdplkc");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_hist.json');
 </script>
 
@@ -1024,9 +1024,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nt
 <p>Two things stand out, and both are physics rather than numerics.</p>
 <p>The uniform sphere gives a <strong>tight, symmetric</strong> distribution centred on 122. Every particle sits in a similar neighbourhood, so every particle does a similar amount of work.</p>
 <p>The Plummer model is centred higher &#40;218&#41; and has a long <strong>tail towards smaller values</strong>. The reason becomes obvious when you plot \(n_\text{terms}\) against radius:</p>
-<div id="fdpvmq" style=""></div>
+<div id="fdpmoj" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpvmq");
+graphDiv = document.getElementById("fdpmoj");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_radius.json');
 </script>
 

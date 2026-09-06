@@ -32,6 +32,34 @@
       --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
 
+    .upi {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .upi-qr {
+      background: var(--paper-2);
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow-small);
+      flex: 0 0 auto;
+    }
+
+    .upi-id {
+      min-width: 160px;
+      flex: 1 1 160px;
+    }
+
+    .upi-note {
+      margin-top: 10px;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -867,6 +895,7 @@
         <a href="#toolbox">Toolbox</a>
         <a href="#compute">Compute</a>
         <a href="#install">Install</a>
+        <a href="#support">Support</a>
         <a href="#notes">Notes</a>
       </nav>
     </header>
@@ -1166,6 +1195,36 @@ sudo apt install bubblewrap</div>
         </div>
       </section>
 
+      <section id="support" class="reveal">
+        <div class="section-head">
+          <p class="note">Support</p>
+          <h2>Hilbert is free, and stays free.</h2>
+          <p>No licence, no accounts, no telemetry, and nothing held back for a paid tier. If it saves you time on a thesis or a paper you are welcome to put something back, and just as welcome not to.</p>
+        </div>
+        <div class="grid two">
+          <article class="paper-card">
+            <span class="eyebrow">Anywhere</span>
+            <h3>GitHub Sponsors</h3>
+            <p>One-off or monthly, handled entirely by GitHub. Cards issued outside India go through here without any fuss.</p>
+            <div class="button-row">
+              <a class="button primary" href="https://github.com/sponsors/aburousan">Sponsor on GitHub</a>
+            </div>
+          </article>
+          <article class="paper-card">
+            <span class="eyebrow">India</span>
+            <h3>UPI</h3>
+            <p>Indian cards are often refused by international processors, so Sponsors frequently fails from here. Scan this with any UPI app instead.</p>
+            <div class="upi">
+              <img class="upi-qr" src="assets/upi-qr.svg" alt="UPI QR code for donations to Hilbert" width="150" height="150" loading="lazy">
+              <div class="upi-id">
+                <span class="eyebrow">UPI code</span>
+                <p class="upi-note">Point any UPI app at this code and it will fill in the rest. Any amount — nothing is unlocked by paying, and nothing is withheld by not.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section id="notes" class="reveal">
         <div class="section-head">
           <p class="note">Honest notes</p>
@@ -1202,7 +1261,7 @@ sudo apt install bubblewrap</div>
         <a href="https://github.com/aburousan/hilbert-editor/releases/latest">Releases</a>
         <a href="https://github.com/aburousan/hilbert-editor/blob/main/docs/Hilbert-Handbook.pdf">Handbook</a>
         <a href="https://github.com/aburousan/hilbert-editor/blob/main/docs/FEATURES.md">Features</a>
-        <a href="https://github.com/sponsors/aburousan">Sponsor</a>
+        <a href="#support">Support</a>
       </div>
     </footer>
   </div>
