@@ -430,25 +430,25 @@ end</code></pre>
 <h2 id="why_not_something_fancier"><a href="#why_not_something_fancier" class="header-anchor">Why not something fancier?</a></h2>
 <p>Here is the question that bothered me. Leapfrog is only <strong>second order</strong>. Runge-Kutta 4 is fourth order and everybody learns it first. Why does every serious \(N\)-body code use the &quot;worse&quot; method?</p>
 <p>So I tested it. One particle on an eccentric Kepler orbit around a fixed mass, integrated four ways with the same step size, for 200 orbits.</p>
-<div id="fdpaaq" style=""></div>
+<div id="fdpwjc" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpaaq");
+graphDiv = document.getElementById("fdpwjc");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_orbits.json');
 </script>
 
 <p>This is the orbit itself, seen from above, with 200 revolutions drawn on top of one another. If a method keeps the orbit correct you see one sharp ellipse. Red spreads out into a mess, so forward Euler is useless here.</p>
 <p>All 200 orbits at once is a bit of a pile-up, so here is the same run with the orbits arriving in order. Press play and watch which curves stay put:</p>
-<div id="fdpalw" style=""></div>
+<div id="fdpmou" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpalw");
+graphDiv = document.getElementById("fdpmou");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/anim_integrators.json');
 </script>
 
 <p>Red is forward Euler and it walks off the edge of the plot within a few orbits, never to return. Blue &#40;leapfrog&#41; and orange &#40;RK4&#41; both stay on the ellipse for all 60 orbits, and at this scale you cannot separate them. That is the honest situation: on the <em>orbit</em>, the fancy method and the cheap method look the same, and only the bad method is visibly bad.</p>
 <p>Which is why the orbit picture is only half the story. Look at the energy, which is the thing that actually matters:</p>
-<div id="fdprfh" style=""></div>
+<div id="fdpchg" style=""></div>
 <script>
-graphDiv = document.getElementById("fdprfh");
+graphDiv = document.getElementById("fdpchg");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_energy.json');
 </script>
 
@@ -469,9 +469,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/in
   
 <p>There is a second reason, and for an \(N\)-body code it may be the bigger one: <strong>cost</strong>. RK4 needs <em>four</em> force evaluations per step. In a tree code, a force evaluation is essentially the entire cost of the simulation. So at fixed compute budget leapfrog can take four times as many steps, and its error is \(\mathcal{O}(\delta t^2)\), so four times smaller steps means sixteen times better accuracy. The &quot;worse&quot; method wins on both counts.</p>
 <p>To confirm the methods are behaving as advertised, here is the error against step size:</p>
-<div id="fdpfbp" style=""></div>
+<div id="fdpnsh" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpfbp");
+graphDiv = document.getElementById("fdpnsh");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_order.json');
 </script>
 
@@ -552,12 +552,13 @@ H = T(\vec p) + V(\vec q)
 <p>The consequence is measurable and it is not small. With exact forces, halving \(\delta t\) divides the energy error by four, over and over, all the way down to \(10^{-6}\) and beyond. With tree forces, the error falls for a while and then stops dead at a <strong>floor</strong> set by the force error, after which halving the step buys nothing and eventually makes matters slightly worse. <a href="/Pages/Physics/papers/hernquist1987/06_beyond/#mapping_the_floor">Part 6 measures that floor</a> and finds it sits at roughly one tenth of the fractional force error, across a thirty-fold range in \(\theta\).</p>
 <p>None of this makes leapfrog the wrong choice. It makes the <em>reason</em> for choosing it different from the textbook one. You are not buying an exactly conserved shadow energy, because you cannot have one. You are buying the absence of a <strong>built-in direction</strong> to the error, which is a property of the time symmetry of the scheme rather than of the Hamiltonian structure, and time symmetry survives everything in the list above except the discontinuous re-cutting of the tree. That is enough to keep the error a band rather than a ramp, which is all you actually needed.</p>
 <h2 id="choosing_the_step_size"><a href="#choosing_the_step_size" class="header-anchor">Choosing the step size</a></h2>
-<p>The paper uses \(\delta t = 0.025\) in units where \(G = M = R = 1\), and says this is about \(5\%\) of the core crossing time. The scale that matters is how long a typical particle takes to cross the dense middle,</p>
+<p>The paper uses \(\delta t = 0.025\) in units where \(G = M = R = 1\). Those units fix the time as well as the mass and the length, and the unit they fix it to is the <strong>dynamical time</strong> \(t_\ast = \sqrt{R^3/GM}\), <a href="/Pages/Physics/papers/hernquist1987/01_setup/#the_units_including_the_one_everybody_forgets">derived in part 1</a>. So \(\delta t = 0.025\) means one fortieth of a dynamical time, and for a cluster of \(10^5 M_\odot\) inside a parsec it is about \(1.2\) kyr.</p>
+<p>The paper also says \(\delta t\) is about \(5\%\) of the <strong>core</strong> crossing time, which is a shorter time than \(t_\ast\) because the core is smaller and denser than the whole cluster. The scale that matters there is how long a typical particle takes to cross the dense middle,</p>
 \[
 t_{\text{cross}} \sim \frac{r}{\sigma_0}, \qquad \sigma_0 = \sqrt{\frac{GM}{6r_0}} \approx 0.91
 \]
 <p>but &quot;the core&quot; and &quot;a crossing&quot; are both loose, so it is worth pinning the number down rather than guessing at \(r\). The paper does it for us elsewhere: it says 1000 steps of \(0.025\) amount to &quot;of the order of 50 core crossing times&quot;. That is \(25\) time units for 50 crossings, so its crossing time is \(0.5\), and \(\delta t\) really is \(5\%\) of it, resolving one crossing with <strong>20 steps</strong>.</p>
-<p>That \(0.5\) also tells you which radius the paper means. Putting the half-mass radius \(r_{1/2} = 0.248\) into a there-and-back crossing gives \(2r_{1/2}/\sigma_0 = 0.54\), which is the right number; using \(r_0\) one way gives \(0.22\), a factor of two smaller. Either convention leaves \(\delta t\) comfortably small, but they differ by enough to matter if you quote steps-per-crossing, so I am using the paper&#39;s. I keep \(\delta t = 0.025\) throughout so my results can be compared with the paper&#39;s directly.</p>
+<p>So the core crossing time is \(0.5\,t_\ast\), half a global dynamical time, which is the right sort of number for a region well inside the cutoff. That \(0.5\) also tells you which radius the paper means. Putting the half-mass radius \(r_{1/2} = 0.248\) into a there-and-back crossing gives \(2r_{1/2}/\sigma_0 = 0.54\), which is the right number; using \(r_0\) one way gives \(0.22\), a factor of two smaller. Either convention leaves \(\delta t\) comfortably small, but they differ by enough to matter if you quote steps-per-crossing, so I am using the paper&#39;s. I keep \(\delta t = 0.025\) throughout so my results can be compared with the paper&#39;s directly.</p>
 
   <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
       A real production code would not use one step size for everybody. A particle in the dense core needs a much smaller \(\delta t\) than one drifting in the halo. Try modifying the integrator to give each particle its own step size, chosen from something like \(\delta t_i \propto \sqrt{\varepsilon / |a_i|}\), then check whether the energy conservation improves at fixed total cost. The paper mentions this idea, under &quot;multiple time scales&quot;, as one of the obvious refinements. 
@@ -574,7 +575,7 @@ t_{\text{cross}} \sim \frac{r}{\sigma_0}, \qquad \sigma_0 = \sqrt{\frac{GM}{6r_0
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 30, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 08, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

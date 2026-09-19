@@ -54,7 +54,7 @@ $$
 so the $n=3$ contribution to the potential is
 
 $$
-\varphi_3 = -\frac{G}{d^4}\sum_\alpha m_\alpha\,s_\alpha^3\,P_3(\cos\gamma_\alpha)
+\phi_3 = -\frac{G}{d^4}\sum_\alpha m_\alpha\,s_\alpha^3\,P_3(\cos\gamma_\alpha)
 = -\frac{G}{d^4}\sum_\alpha m_\alpha\,\frac{5(\hat n\cdot\vec s_\alpha)^3 - 3s_\alpha^2(\hat n\cdot\vec s_\alpha)}{2}
 $$
 
@@ -73,7 +73,7 @@ $$
 and
 
 $$
-\varphi_3 = -\frac{G}{2}\,\frac{O_{ijk}\,d_id_jd_k}{d^7}
+\phi_3 = -\frac{G}{2}\,\frac{O_{ijk}\,d_id_jd_k}{d^7}
 $$
 
 Like the quadrupole, this tensor is **traceless**. Contract any pair of indices:
@@ -92,7 +92,7 @@ $$
 \boxed{\;a_l^{(3)} = \frac{3G}{2}\,\frac{O_{ljk}d_jd_k}{d^7} \;-\; \frac{7G}{2}\,\frac{S_3\,d_l}{d^9}\;}
 $$
 
-I checked all three claims in Mathematica before writing a line of Julia: that the $P_3$ term really equals $\tfrac12\hat n_i\hat n_j\hat n_k O_{ijk}$, that $O$ is traceless and that the acceleration is $-\nabla\varphi_3$:
+I checked all three claims in Mathematica before writing a line of Julia: that the $P_3$ term really equals $\tfrac12\hat n_i\hat n_j\hat n_k O_{ijk}$, that $O$ is traceless and that the acceleration is $-\nabla\phi_3$:
 
 ```mathematica
 legTerm3 = s2^(3/2) LegendreP[3, (xk . nh)/Sqrt[s2]];
@@ -185,7 +185,7 @@ Accuracy alone is the wrong question. The octupole costs more per cell, so the h
 Cost goes right, error goes up, one point per setting, and you want to be at the bottom left. The useful thing here is which points nobody beats on both counts at once.
 
 \note{
-    **The costs on that figure are from a threaded run and should not be read as absolute times.** I originally quoted them as if they were, and then compared one of them against a single-CPU CRAY number, which was a straightforward mistake. The *shape* of the frontier survives, because all three orders were threaded the same way, but every number below has been redone on **one core**. If you are comparing against anything historical, that is the only currency that means anything.
+    **The costs on that figure come from a threaded run, so read them as relative and not as absolute times.** The *shape* of the frontier is meaningful, because all three orders were threaded the same way, but every number quoted below is measured on **one core**. Core-seconds is the only currency in which a comparison against 1987 hardware means anything, and it is easy to gain a factor of 40 by quietly changing the units of the vertical axis.
 }
 
 ### Doing it properly, with a cost model
@@ -265,7 +265,7 @@ $$
     The first crossing is far better behaved, because its two exponents are genuinely different. The same $15\%$ moves it only from $2.3\%$ to somewhere between $1.3\%$ and $4.2\%$.
 }
 
-### The answer, which is not the one I wanted
+### The answer
 
 **The quadrupole owns the middle of the range.** For any target accuracy between about $2\%$ and $5\times10^{-5}$, which is where essentially every real astrophysical simulation lives, the cheapest route is a quadrupole tree with $\theta$ tuned to suit. The monopole wins only at the crude end. The octupole only starts paying for itself below one part in twenty thousand.
 
@@ -305,7 +305,7 @@ and by the triangle inequality $B_p \ge b_{\max}^{\text{true}}$, so accepting on
 
 ### Comparing them fairly
 
-Here is the trap, and I fell into it first time round. **The three tests are not equally strict at the same $\theta$.** Since $B$ is usually smaller than $s$, the safe-radius test *accepts more* at the same numerical $\theta$ and is therefore looser, while the offset-aware test is stricter. Comparing them at fixed $\theta$ measures nothing except how each one has been normalised.
+Here is the trap. **The three tests are not equally strict at the same $\theta$.** Since $B$ is usually smaller than $s$, the safe-radius test *accepts more* at the same numerical $\theta$ and is therefore looser, while the offset-aware test is stricter. Comparing them at fixed $\theta$ measures nothing except how each one has been normalised.
 
 \tip{
     The only fair comparison is **at equal cost**: interpolate every criterion onto a common mean number of accepted terms per particle, then compare the errors there. Whenever somebody shows you a new acceptance criterion that beats the old one, the first question to ask is whether the comparison was at matched $\theta$ or matched work. At matched $\theta$ you can make almost anything look good by making it slightly stricter.

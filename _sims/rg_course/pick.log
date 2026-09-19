@@ -1,0 +1,13 @@
+seed 7011: |m| = 0.317  agreement = 0.7021
+seed 7000: |m| = 0.371  agreement = 0.7046
+seed 7010: |m| = 0.463  agreement = 0.7104
+seed 7004: |m| = 0.484  agreement = 0.7004
+seed 7005: |m| = 0.499  agreement = 0.7082
+seed 7003: |m| = 0.504  agreement = 0.6961
+seed 7007: |m| = 0.516  agreement = 0.7083
+seed 7009: |m| = 0.517  agreement = 0.7023
+seed 7001: |m| = 0.578  agreement = 0.7145
+seed 7002: |m| = 0.580  agreement = 0.7141
+seed 7006: |m| = 0.594  agreement = 0.7187
+seed 7008: |m| = 0.686  agreement = 0.7267
+chosen seed 7011: |m| = 0.317, agreement 0.7021 (exact 0.7071)

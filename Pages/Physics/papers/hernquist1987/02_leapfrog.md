@@ -330,7 +330,9 @@ None of this makes leapfrog the wrong choice. It makes the *reason* for choosing
 
 ## Choosing the step size
 
-The paper uses $\delta t = 0.025$ in units where $G = M = R = 1$, and says this is about $5\%$ of the core crossing time. The scale that matters is how long a typical particle takes to cross the dense middle,
+The paper uses $\delta t = 0.025$ in units where $G = M = R = 1$. Those units fix the time as well as the mass and the length, and the unit they fix it to is the **dynamical time** $t_\ast = \sqrt{R^3/GM}$, [derived in part 1](/Pages/Physics/papers/hernquist1987/01_setup/#the_units_including_the_one_everybody_forgets). So $\delta t = 0.025$ means one fortieth of a dynamical time, and for a cluster of $10^5 M_\odot$ inside a parsec it is about $1.2$ kyr.
+
+The paper also says $\delta t$ is about $5\%$ of the **core** crossing time, which is a shorter time than $t_\ast$ because the core is smaller and denser than the whole cluster. The scale that matters there is how long a typical particle takes to cross the dense middle,
 
 $$
 t_{\text{cross}} \sim \frac{r}{\sigma_0}, \qquad \sigma_0 = \sqrt{\frac{GM}{6r_0}} \approx 0.91
@@ -338,7 +340,7 @@ $$
 
 but "the core" and "a crossing" are both loose, so it is worth pinning the number down rather than guessing at $r$. The paper does it for us elsewhere: it says 1000 steps of $0.025$ amount to "of the order of 50 core crossing times". That is $25$ time units for 50 crossings, so its crossing time is $0.5$, and $\delta t$ really is $5\%$ of it, resolving one crossing with **20 steps**.
 
-That $0.5$ also tells you which radius the paper means. Putting the half-mass radius $r_{1/2} = 0.248$ into a there-and-back crossing gives $2r_{1/2}/\sigma_0 = 0.54$, which is the right number; using $r_0$ one way gives $0.22$, a factor of two smaller. Either convention leaves $\delta t$ comfortably small, but they differ by enough to matter if you quote steps-per-crossing, so I am using the paper's. I keep $\delta t = 0.025$ throughout so my results can be compared with the paper's directly.
+So the core crossing time is $0.5\,t_\ast$, half a global dynamical time, which is the right sort of number for a region well inside the cutoff. That $0.5$ also tells you which radius the paper means. Putting the half-mass radius $r_{1/2} = 0.248$ into a there-and-back crossing gives $2r_{1/2}/\sigma_0 = 0.54$, which is the right number; using $r_0$ one way gives $0.22$, a factor of two smaller. Either convention leaves $\delta t$ comfortably small, but they differ by enough to matter if you quote steps-per-crossing, so I am using the paper's. I keep $\delta t = 0.025$ throughout so my results can be compared with the paper's directly.
 
 \prob{
     A real production code would not use one step size for everybody. A particle in the dense core needs a much smaller $\delta t$ than one drifting in the halo. Try modifying the integrator to give each particle its own step size, chosen from something like $\delta t_i \propto \sqrt{\varepsilon / |a_i|}$, then check whether the energy conservation improves at fixed total cost. The paper mentions this idea, under "multiple time scales", as one of the obvious refinements.

@@ -269,7 +269,7 @@
   </script>
   
 <div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#the_idea_in_one_picture">The idea, in one picture</a></li><li><a href="#building_the_tree">Building the tree</a></li><li><a href="#walking_the_tree">Walking the tree</a></li><li><a href="#the_multipole_expansion">The multipole expansion</a><ol><li><a href="#the_setup">The setup</a></li><li><a href="#expanding_1vec_d_-_vec_s">Expanding \(1/|\vec d - \vec s|\)</a></li><li><a href="#term_by_term">Term by term</a></li><li><a href="#what_these_terms_actually_mean">What these terms actually mean</a></li><li><a href="#why_the_error_is_second_order_intuitively">Why the error is second order, intuitively</a></li><li><a href="#what_the_quadrupole_tensor_means">What the quadrupole tensor means</a></li><li><a href="#the_result">The result</a></li><li><a href="#how_good_is_it">How good is it?</a></li></ol></li><li><a href="#the_test_does_not_test_what_you_think_it_tests">The test does not test what you think it tests</a><ol><li><a href="#how_far_apart_can_they_be">How far apart can they be?</a></li><li><a href="#so_why_does_it_work_anyway">So why does it work anyway?</a></li></ol></li><li><a href="#what_each_term_is_actually_seeing">What each term is actually seeing</a></li><li><a href="#building_mathbfq_for_every_cell_cheaply">Building \(\mathbf{Q}\) for every cell, cheaply</a></li><li><a href="#why_this_gives_nlog_n">Why this gives \(N\log N\)</a></li><li><a href="#a_better_count">A better count</a><ol><li><a href="#putting_both_cut-offs_in">Putting both cut-offs in</a></li><li><a href="#does_it_work">Does it work?</a></li><li><a href="#what_that_buys_you_in_practice">What that buys you in practice</a></li><li><a href="#where_it_fails_and_why">Where it fails, and why</a></li><li><a href="#the_growth_with_n_is_the_easy_half">The growth with \(N\) is the easy half</a></li></ol></li><li><a href="#what_one_particle_actually_sees">What one particle actually sees</a></li><li><a href="#one_trap_a_particle_pulling_on_itself">One trap: a particle pulling on itself</a></li><li><a href="#the_walk_in_full">The walk, in full</a></li><li><a href="#what_softening_does_to_the_expansion">What softening does to the expansion</a><ol><li><a href="#doing_it_properly">Doing it properly</a></li><li><a href="#why_the_trace_suddenly_matters">Why the trace suddenly matters</a></li><li><a href="#how_much_does_it_actually_matter">How much does it actually matter?</a></li></ol></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#the_idea_in_one_picture">The idea, in one picture</a></li><li><a href="#building_the_tree">Building the tree</a></li><li><a href="#walking_the_tree">Walking the tree</a></li><li><a href="#a_worked_example_the_force_on_one_particle">A worked example: the force on one particle</a><ol><li><a href="#i_have_four_particles_and_i_want_the_force_on_the_fourth_where_do_i_start">&quot;I have four particles and I want the force on the fourth. Where do I start?&quot;</a></li><li><a href="#the_mistake_in_the_question">The mistake in the question</a></li><li><a href="#eight_particles_drawn">Eight particles, drawn</a></li><li><a href="#step_0_put_a_box_round_everything">Step 0: put a box round everything</a></li><li><a href="#step_1_cut_until_every_box_holds_at_most_one_particle">Step 1: cut until every box holds at most one particle</a></li><li><a href="#step_2_fill_in_what_each_box_knows_about_itself">Step 2: fill in what each box knows about itself</a></li><li><a href="#step_3_walk_starting_from_the_root">Step 3: walk, starting from the root</a></li><li><a href="#what_it_cost_and_what_it_got">What it cost, and what it got</a></li></ol></li><li><a href="#the_multipole_expansion">The multipole expansion</a><ol><li><a href="#the_setup">The setup</a></li><li><a href="#expanding_1vec_d_-_vec_s">Expanding \(1/|\vec d - \vec s|\)</a></li><li><a href="#term_by_term">Term by term</a></li><li><a href="#what_these_terms_actually_mean">What these terms actually mean</a></li><li><a href="#why_the_error_is_second_order_intuitively">Why the error is second order, intuitively</a></li><li><a href="#what_the_quadrupole_tensor_means">What the quadrupole tensor means</a></li><li><a href="#the_result">The result</a></li><li><a href="#how_good_is_it">How good is it?</a></li></ol></li><li><a href="#the_test_does_not_test_what_you_think_it_tests">The test does not test what you think it tests</a><ol><li><a href="#how_far_apart_can_they_be">How far apart can they be?</a></li><li><a href="#so_why_does_it_work_anyway">So why does it work anyway?</a></li></ol></li><li><a href="#what_each_term_is_actually_seeing">What each term is actually seeing</a></li><li><a href="#building_mathbfq_for_every_cell_cheaply">Building \(\mathbf{Q}\) for every cell, cheaply</a></li><li><a href="#why_this_gives_nlog_n">Why this gives \(N\log N\)</a></li><li><a href="#a_better_count">A better count</a><ol><li><a href="#putting_both_cut-offs_in">Putting both cut-offs in</a></li><li><a href="#does_it_work">Does it work?</a></li><li><a href="#what_that_buys_you_in_practice">What that buys you in practice</a></li><li><a href="#where_it_fails_and_why">Where it fails, and why</a></li><li><a href="#the_growth_with_n_is_the_easy_half">The growth with \(N\) is the easy half</a></li></ol></li><li><a href="#what_one_particle_actually_sees">What one particle actually sees</a></li><li><a href="#one_trap_a_particle_pulling_on_itself">One trap: a particle pulling on itself</a></li><li><a href="#the_walk_in_full">The walk, in full</a></li><li><a href="#what_softening_does_to_the_expansion">What softening does to the expansion</a><ol><li><a href="#doing_it_properly">Doing it properly</a></li><li><a href="#why_the_trace_suddenly_matters">Why the trace suddenly matters</a></li><li><a href="#how_much_does_it_actually_matter">How much does it actually matter?</a></li></ol></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
 <h1 id="ol_start3_the_tree_and_the_multipole_expansion"><a href="#ol_start3_the_tree_and_the_multipole_expansion" class="header-anchor"><ol start="3">
 <li><p>The tree and the multipole expansion</p>
 </li>
@@ -344,9 +344,9 @@
 </ol>
 <p>The result is a hierarchy of cells: one enormous cell containing everything, eight cells of half the size, sixty-four of a quarter and so on down to individual particles. Cells in dense regions get subdivided many times; cells in empty regions stop early.</p>
 <p>In 2D that looks like this &#40;a <strong>quadtree</strong>, four children per cell instead of eight, same logic and easier to look at&#41;. 500 particles drawn from the Plummer sphere:</p>
-<div id="fdpksb" style=""></div>
+<div id="fdpnpa" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpksb");
+graphDiv = document.getElementById("fdpnpa");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/quadtree_cells.json');
 </script>
 
@@ -358,9 +358,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/qu
   </fieldset>
   
 <p>That picture is the finished tree though, and it hides the thing that confused me at first, which is that the tree is not designed, it is grown. So here is the same construction with the particles going in one at a time:</p>
-<div id="fdpyoa" style=""></div>
+<div id="fdpmjz" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpyoa");
+graphDiv = document.getElementById("fdpmjz");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/anim_treebuild.json');
 </script>
 
@@ -405,23 +405,147 @@ end</code></pre>
 </li>
 </ul>
 <p>That walk, made visible. This is the same 500-particle quadtree, and the star marks the particle we are computing the force on. Orange boxes are cells that got swallowed whole; red dots are particles that had to be summed one by one. <strong>Drag the slider to change \(\theta\)</strong>:</p>
-<div id="fdpakj" style=""></div>
+<div id="fdpxno" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpakj");
+graphDiv = document.getElementById("fdpxno");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/treewalk_theta.json');
 </script>
 
 <p>Move the slider to change \(\theta\) and watch the count above the plot. Small \(\theta\) means many small boxes and a lot of work; large \(\theta\) means a few big boxes and very little work.</p>
 <p>At \(\theta = 0.2\) the walk is fussy: 161 terms, descending nearly to individual particles even quite far away. At \(\theta = 1.5\) it is down to 15 terms, with one enormous box covering the whole far side of the cluster.</p>
 <p>Also notice the <em>spatial pattern</em>. Nearby particles are always handled individually, and the cells used get bigger the further away they are. The method automatically spends its effort where the force is largest and the geometry matters most.</p>
+<h2 id="a_worked_example_the_force_on_one_particle"><a href="#a_worked_example_the_force_on_one_particle" class="header-anchor">A worked example: the force on one particle</a></h2>
+<p>Everything above is the idea. Before the algebra, let me do one force calculation completely by hand, because the first question everybody asks is a very concrete one and the answer is not what you would guess.</p>
+<h3 id="i_have_four_particles_and_i_want_the_force_on_the_fourth_where_do_i_start"><a href="#i_have_four_particles_and_i_want_the_force_on_the_fourth_where_do_i_start" class="header-anchor">&quot;I have four particles and I want the force on the fourth. Where do I start?&quot;</a></h3>
+<p>Start by not building a tree.</p>
+<p>With four particles the honest answer is <strong>pair by pair</strong>. The force on particle 4 is three terms:</p>
+\[
+\vec a_4 = -G\left[\;m_1\frac{\vec r_4-\vec r_1}{\left|\vec r_4-\vec r_1\right|^3}
++ m_2\frac{\vec r_4-\vec r_2}{\left|\vec r_4-\vec r_2\right|^3}
++ m_3\frac{\vec r_4-\vec r_3}{\left|\vec r_4-\vec r_3\right|^3}\;\right]
+\]
+<p>and that is the whole calculation. Building a tree for four particles would cost more than the three subtractions it saves you. A tree only starts winning somewhere above a thousand particles, and <a href="/Pages/Physics/papers/hernquist1987/04_results/#when_is_it_actually_worth_it">part 4 measures exactly where</a>.</p>
+<p>So the real question is not &quot;how do I do four&quot;, it is &quot;what changes when there are a million&quot;, and the answer is a procedure whose every step is still visible at eight. Let me do it at eight.</p>
+<h3 id="the_mistake_in_the_question"><a href="#the_mistake_in_the_question" class="header-anchor">The mistake in the question</a></h3>
+<p>There is a hidden assumption in &quot;<em>first build a box around the other three</em>&quot;, and it is worth pulling out, because it is the thing that makes the whole method economical.</p>
+<p><strong>The box does not go around the other particles. It goes around all of them, target included, and it is built once.</strong></p>
+<p>Not once per particle: <strong>once per time step</strong>, for the whole system. Then that one tree answers the question &quot;what is the force on me?&quot; for every one of the \(N\) particles in turn. Building costs \(O(N\log N)\) once; each of the \(N\) walks then costs \(O(\log N)\).</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      That reuse is the entire economy of the method, and it is easy to throw away by accident. If you rebuilt the tree for each target, so as to leave the target out, you would pay \(O(N\log N)\) per particle and \(O(N^2\log N)\) in total, which is <strong>worse than the direct sum you were trying to avoid</strong>. The tree has to be a fact about the system, not about the target. 
+  </fieldset>
+  
+<p>The price of keeping the target inside its own tree is that the walk must not let a particle pull on itself. That costs one comparison: when the walk reaches a leaf, check whether the leaf <em>is</em> the target, and if so skip it. &#40;There is a second, subtler version of the same trap, where the target sits inside a large cell that gets accepted whole, and its own mass is then part of the lump pulling on it. That one needs a geometric check, and it is <a href="#one_trap_a_particle_pulling_on_itself">dealt with further down</a>.&#41;</p>
+<h3 id="eight_particles_drawn"><a href="#eight_particles_drawn" class="header-anchor">Eight particles, drawn</a></h3>
+<p>Here is the smallest example I can draw where the tree actually does something. Eight equal particles of mass \(1/8\) in a unit square: the target &#40;red&#41;, two close neighbours, and a tight clump of five in the far corner. Opening angle \(\theta = 0.7\).</p>
+
+<div style="max-width:640px;margin:1.5rem auto">
+<svg viewBox="0 0 620 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+  <rect x="30.0" y="20.0" width="250.0" height="250.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="30.0" y="145.0" width="125.0" height="125.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="30.0" y="207.5" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="61.2" y="238.8" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="30.0" y="207.5" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="30.0" y="145.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="155.0" y="20.0" width="125.0" height="125.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="217.5" y="82.5" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="155.0" y="20.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="217.5" y="20.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="217.5" y="51.2" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="233.1" y="66.9" width="15.6" height="15.6" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="217.5" y="51.2" width="15.6" height="15.6" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="225.3" y="59.1" width="7.8" height="7.8" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="217.5" y="51.2" width="7.8" height="7.8" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="340.0" y="20.0" width="250.0" height="250.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="340.0" y="145.0" width="125.0" height="125.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="340.0" y="207.5" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="371.2" y="238.8" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="340.0" y="207.5" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="340.0" y="145.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="465.0" y="20.0" width="125.0" height="125.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="527.5" y="82.5" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="465.0" y="20.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="527.5" y="20.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="527.5" y="51.2" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="543.1" y="66.9" width="15.6" height="15.6" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="527.5" y="51.2" width="15.6" height="15.6" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="535.3" y="59.1" width="7.8" height="7.8" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="527.5" y="51.2" width="7.8" height="7.8" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <circle cx="55.0" cy="232.5" r="5.5" fill="#E5646E"/>
+  <text x="63.0" y="236.5" fill="#8A8F98" font-size="11">1</text>
+  <circle cx="85.0" cy="245.0" r="3.5" fill="#4C8DF6"/>
+  <text x="93.0" y="249.0" fill="#8A8F98" font-size="11">2</text>
+  <circle cx="67.5" cy="195.0" r="3.5" fill="#4C8DF6"/>
+  <text x="75.5" y="199.0" fill="#8A8F98" font-size="11">3</text>
+  <circle cx="215.0" cy="77.5" r="3.5" fill="#4C8DF6"/>
+  <text x="223.0" y="81.5" fill="#8A8F98" font-size="11">4</text>
+  <circle cx="232.5" cy="85.0" r="3.5" fill="#4C8DF6"/>
+  <text x="240.5" y="89.0" fill="#8A8F98" font-size="11">5</text>
+  <circle cx="227.5" cy="62.5" r="3.5" fill="#4C8DF6"/>
+  <text x="235.5" y="66.5" fill="#8A8F98" font-size="11">6</text>
+  <circle cx="245.0" cy="70.0" r="3.5" fill="#4C8DF6"/>
+  <text x="253.0" y="74.0" fill="#8A8F98" font-size="11">7</text>
+  <circle cx="220.0" cy="55.0" r="3.5" fill="#4C8DF6"/>
+  <text x="228.0" y="59.0" fill="#8A8F98" font-size="11">8</text>
+  <rect x="465.0" y="20.0" width="125.0" height="125.0" fill="#3FBF8F" fill-opacity="0.13" stroke="#3FBF8F" stroke-width="2"/>
+  <line x1="365.0" y1="232.5" x2="538.0" y2="70.0" stroke="#3FBF8F" stroke-width="2.2"/>
+  <circle cx="538.0" cy="70.0" r="5" fill="#3FBF8F"/>
+  <line x1="365.0" y1="232.5" x2="395.0" y2="245.0" stroke="#E5646E" stroke-width="1.6"/>
+  <line x1="365.0" y1="232.5" x2="377.5" y2="195.0" stroke="#E5646E" stroke-width="1.6"/>
+  <circle cx="365.0" cy="232.5" r="5.5" fill="#E5646E"/>
+  <circle cx="395.0" cy="245.0" r="3.5" fill="#E5646E"/>
+  <circle cx="377.5" cy="195.0" r="3.5" fill="#E5646E"/>
+  <circle cx="525.0" cy="77.5" r="2.6" fill="#8A8F98"/>
+  <circle cx="542.5" cy="85.0" r="2.6" fill="#8A8F98"/>
+  <circle cx="537.5" cy="62.5" r="2.6" fill="#8A8F98"/>
+  <circle cx="555.0" cy="70.0" r="2.6" fill="#8A8F98"/>
+  <circle cx="530.0" cy="55.0" r="2.6" fill="#8A8F98"/>
+  <text x="155" y="292" fill="#8A8F98" font-size="13" text-anchor="middle">(a) one box around everybody, cut until each holds one</text>
+  <text x="465" y="292" fill="#8A8F98" font-size="13" text-anchor="middle">(b) the three terms the walk actually adds</text>
+</svg>
+</div>
+
+<h3 id="step_0_put_a_box_round_everything"><a href="#step_0_put_a_box_round_everything" class="header-anchor">Step 0: put a box round everything</a></h3>
+<p>One square, from \((0,0)\) to \((1,1)\), containing all eight. This is the <strong>root</strong>.</p>
+<h3 id="step_1_cut_until_every_box_holds_at_most_one_particle"><a href="#step_1_cut_until_every_box_holds_at_most_one_particle" class="header-anchor">Step 1: cut until every box holds at most one particle</a></h3>
+<p>Cut the root into four &#40;eight in 3D&#41;. Any piece still holding more than one particle gets cut again. Stop when every piece holds one or none. Panel &#40;a&#41; is the result: deep cutting in the crowded bottom-left where the target and its neighbours sit, deep cutting in the far clump, and nothing at all in the two empty quadrants.</p>
+<h3 id="step_2_fill_in_what_each_box_knows_about_itself"><a href="#step_2_fill_in_what_each_box_knows_about_itself" class="header-anchor">Step 2: fill in what each box knows about itself</a></h3>
+<p>Sweep upwards from the leaves. Every box records its total mass and its centre of mass, adding up its children. This is \(O(N)\) and it happens once. For the far quadrant it gives</p>
+\[
+m = 5\times\tfrac18 = 0.625, \qquad \text{centre of mass} = (0.7920,\;0.8000)
+\]
+<h3 id="step_3_walk_starting_from_the_root"><a href="#step_3_walk_starting_from_the_root" class="header-anchor">Step 3: walk, starting from the root</a></h3>
+<p>Now the actual force calculation. Put the root on a stack. Repeatedly take one box off, and ask one question about it: <strong>is \(s/d < \theta\)?</strong>, where \(s\) is the width of the box and \(d\) is the distance from the target to that box&#39;s centre of mass.</p>
+<p>Three outcomes. If the box is empty, drop it. If it holds a single particle, add that particle directly &#40;unless it is the target itself&#41;. Otherwise apply the test: if it passes, add one term for the whole box; if it fails, throw the box away and push its children.</p>
+<p>Here is the complete trace. Every number is measured from the actual run:</p>
+<table><tr><th align="right">step</th><th align="right">box</th><th align="right">\(s\)</th><th align="right">\(d\)</th><th align="right">\(s/d\)</th><th align="right">decision</th></tr><tr><td align="right">1</td><td align="right">root</td><td align="right">\(1.000\)</td><td align="right">\(0.617\)</td><td align="right">\(1.620\)</td><td align="right">too wide, <strong>open</strong></td></tr><tr><td align="right">2</td><td align="right">root.SW</td><td align="right">\(0.500\)</td><td align="right">\(0.066\)</td><td align="right">\(7.605\)</td><td align="right">far too wide, <strong>open</strong></td></tr><tr><td align="right">3</td><td align="right">root.SW.SW</td><td align="right">\(0.250\)</td><td align="right">\(0.065\)</td><td align="right">\(3.846\)</td><td align="right">still too wide, <strong>open</strong></td></tr><tr><td align="right">4</td><td align="right">root.SW.SW.SE</td><td align="right">leaf</td><td align="right">\(0.130\)</td><td align="right"></td><td align="right"><strong>add particle 2</strong></td></tr><tr><td align="right">5</td><td align="right">root.SW.SW.NW</td><td align="right">leaf</td><td align="right"></td><td align="right"></td><td align="right">this <em>is</em> the target, skip</td></tr><tr><td align="right">6</td><td align="right">root.SW.NW</td><td align="right">leaf</td><td align="right">\(0.158\)</td><td align="right"></td><td align="right"><strong>add particle 3</strong></td></tr><tr><td align="right">7</td><td align="right">root.NE</td><td align="right">\(0.500\)</td><td align="right">\(0.949\)</td><td align="right">\(\mathbf{0.527}\)</td><td align="right">passes, <strong>accept: 5 particles in one term</strong></td></tr></table>
+<p>Seven steps, and the walk is done. Panel &#40;b&#41; is what it added: two red lines to the individual neighbours, and one green line to the centre of mass of the far clump.</p>
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      Read steps 2 and 3 again. The \(s/d\) values are \(7.6\) and \(3.8\), wildly failing the test, because the target is <em>inside</em> those boxes and \(d\) is tiny. A box you are standing in can never be accepted, which is the geometric reason the walk always descends to individual particles in your own neighbourhood and never approximates the things nearest to you. That is exactly the right instinct: nearby particles dominate the force, so they are the ones you must not approximate. 
+  </fieldset>
+  
+<h3 id="what_it_cost_and_what_it_got"><a href="#what_it_cost_and_what_it_got" class="header-anchor">What it cost, and what it got</a></h3>
+<table><tr><th align="right"></th><th align="right">direct sum</th><th align="right">tree at \(\theta=0.7\)</th></tr><tr><td align="right">terms added</td><td align="right">\(7\)</td><td align="right">\(3\)</td></tr><tr><td align="right">acceleration on the target</td><td align="right">\((+8.914934,\;+2.374070)\)</td><td align="right">\((+8.914032,\;+2.373354)\)</td></tr><tr><td align="right">relative error</td><td align="right">\(0\)</td><td align="right">\(0.012\%\)</td></tr></table>
+<p>Five particles were replaced by one point mass, and the answer moved in the fifth significant figure.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      At \(N=8\) this saves four terms, which is nothing. The point is what happens to that table as \(N\) grows. The far clump would still be <strong>one term</strong> if it held five thousand particles instead of five, because the test only looks at how wide it is and how far away, not at what is inside. That is why the count per particle grows like \(\log N\) and not like \(N\), and the <a href="#why_this_gives_n_log_n">next section but one</a> turns that into a number. 
+  </fieldset>
+  
+
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      Do this by hand. Take the eight positions above &#40;\((0.10,0.15)\), \((0.22,0.10)\), \((0.15,0.30)\), then \((0.74,0.77)\), \((0.81,0.74)\), \((0.79,0.83)\), \((0.86,0.80)\), \((0.76,0.86)\), all of mass \(1/8\)&#41;, draw the quadtree on graph paper and reproduce the trace. Then change \(\theta\) to \(0.3\) and redo it: the far quadrant now fails the test, so you have to open it and you end up with more terms. Then set \(\theta = 1.5\) and watch the walk try to accept a box the target is nearly touching. 
+  </fieldset>
+  
 <h2 id="the_multipole_expansion"><a href="#the_multipole_expansion" class="header-anchor">The multipole expansion</a></h2>
 <p>Now the real content. When we &quot;accept&quot; a cell, what exactly do we replace it with?</p>
 <p>The crude answer is: a point mass at its centre of mass. That is the <strong>monopole</strong> approximation, and it is what the original Barnes-Hut paper used. We can do better, and doing better is most of what Hernquist&#39;s paper is about. This is the part sir wanted us to actually understand, so nothing below is skipped.</p>
 <h3 id="the_setup"><a href="#the_setup" class="header-anchor">The setup</a></h3>
 <p>Take one cell. Put the origin at its <strong>centre of mass</strong>. The cell contains particles of mass \(m_k\) at positions \(\vec s_k\), which are small, of order the cell size \(s\). We want the potential at a field point \(\vec d\) which is far away &#40;\(d \gg s\)&#41;. Let \(\gamma_k\) be the angle between \(\vec d\) and \(\vec s_k\).</p>
-<p>The exact potential is just the sum over particles:</p>
+<p>The exact potential, per unit mass, is just the sum over particles:</p>
 \[
-\varphi(\vec d) = -G\sum_k \frac{m_k}{\left|\vec d - \vec s_k\right|}
+\phi(\vec d) = -G\sum_k \frac{m_k}{\left|\vec d - \vec s_k\right|}
 \]
 <p>Everything now comes from expanding that denominator.</p>
 <h3 id="expanding_1vec_d_-_vec_s"><a href="#expanding_1vec_d_-_vec_s" class="header-anchor">Expanding \(1/|\vec d - \vec s|\)</a></h3>
@@ -472,7 +596,7 @@ Table&#91;FullSimplify&#91;SeriesCoefficient&#91;1/Sqrt&#91;d^2 - 2 d s ct &#43;
 <h3 id="term_by_term"><a href="#term_by_term" class="header-anchor">Term by term</a></h3>
 <p>Substituting back into the potential:</p>
 \[
-\varphi(\vec d) = -\frac{G}{d}\left[\underbrace{\sum_k m_k}_{n=0} + \frac{1}{d}\underbrace{\sum_k m_k s_k\cos\gamma_k}_{n=1} + \frac{1}{d^2}\underbrace{\sum_k m_k s_k^2\,\frac{3\cos^2\gamma_k-1}{2}}_{n=2} + \dots\right]
+\phi(\vec d) = -\frac{G}{d}\left[\underbrace{\sum_k m_k}_{n=0} + \frac{1}{d}\underbrace{\sum_k m_k s_k\cos\gamma_k}_{n=1} + \frac{1}{d^2}\underbrace{\sum_k m_k s_k^2\,\frac{3\cos^2\gamma_k-1}{2}}_{n=2} + \dots\right]
 \]
 <p>Let me take these one at a time.</p>
 <p><strong>\(n=0\), the monopole.</strong> This one is trivial:</p>
@@ -562,9 +686,9 @@ FullSimplify&#91;&#40;mk legTerm - &#40;1/2&#41; nh . Qk . nh&#41; /. n3 -&gt; S
 <h3 id="the_result"><a href="#the_result" class="header-anchor">The result</a></h3>
 <p>Putting the surviving terms together, and using \(\hat n\cdot\mathbf{Q}\cdot\hat n = \vec d\cdot\mathbf{Q}\cdot\vec d / d^2\):</p>
 \[
-\boxed{\;\varphi(\vec d) = -\frac{GM}{d} - \frac{1}{2}\frac{G}{d^5}\,\vec d\cdot\mathbf{Q}\cdot\vec d\;}
+\boxed{\;\phi(\vec d) = -\frac{GM}{d} - \frac{1}{2}\frac{G}{d^5}\,\vec d\cdot\mathbf{Q}\cdot\vec d\;}
 \]
-<p>which is the paper&#39;s eq. &#40;2.2&#41;. The acceleration follows by \(\vec a = -\nabla\varphi\). I did that gradient in index notation, since it is exactly the sort of thing I get wrong by a factor of two.</p>
+<p>which is the paper&#39;s eq. &#40;2.2&#41;. The acceleration follows by \(\vec a = -\nabla\phi\). I did that gradient in index notation, since it is exactly the sort of thing I get wrong by a factor of two.</p>
 <p>We need \(\partial_k\) of \(S/d^5\), where \(S \equiv d_iQ_{ij}d_j\). Two ingredients. First, the derivative of the distance itself:</p>
 \[
 d = \sqrt{d_ld_l} \;\Longrightarrow\; \partial_k d = \frac{d_k}{d} \;\Longrightarrow\; \partial_k\left(d^{-5}\right) = -5d^{-6}\cdot\frac{d_k}{d} = -\frac{5d_k}{d^7}
@@ -578,7 +702,7 @@ d = \sqrt{d_ld_l} \;\Longrightarrow\; \partial_k d = \frac{d_k}{d} \;\Longrighta
 \partial_k\left(\frac{S}{d^5}\right) = \frac{\partial_k S}{d^5} + S\,\partial_k\left(d^{-5}\right)
 = \frac{2Q_{kj}d_j}{d^5} - \frac{5\,S\,d_k}{d^7}
 \]
-<p>Therefore, remembering the \(-\tfrac12 G\) prefactor in \(\varphi\) and the overall minus in \(\vec a = -\nabla\varphi\), the two signs cancel and the \(\tfrac12\) eats the 2:</p>
+<p>Therefore, remembering the \(-\tfrac12 G\) prefactor in \(\phi\) and the overall minus in \(\vec a = -\nabla\phi\), the two signs cancel and the \(\tfrac12\) eats the 2:</p>
 \[
 a_k^{\text{quad}} = -\partial_k\left(-\frac{G}{2}\frac{S}{d^5}\right) = \frac{G}{2}\left(\frac{2Q_{kj}d_j}{d^5} - \frac{5Sd_k}{d^7}\right) = \frac{G\,Q_{kj}d_j}{d^5} - \frac{5G}{2}\frac{S\,d_k}{d^7}
 \]
@@ -603,9 +727,9 @@ FullSimplify&#91;-Grad&#91;phi, &#123;x, y, z&#125;&#93; - accelPaper&#93;
 </li>
 </ul>
 <p>That is a <em>prediction</em>, so let me test it. I took a cloud of 200 particles packed into a cube of side \(s\), computed the acceleration it produces at distance \(d\) exactly, and compared against both approximations, averaging over 400 directions:</p>
-<div id="fdpxpe" style=""></div>
+<div id="fdpkxn" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpxpe");
+graphDiv = document.getElementById("fdpkxn");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/multipole_error.json');
 </script>
 
@@ -613,7 +737,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/mu
 <p>So the plot is really a measurement of two numbers, the two slopes. The orange line is steeper than the blue one, meaning its error dies away faster as you back off, and the gap between the lines is how much the quadrupole buys you at that distance. At the far left, where \(s/d = 0.02\), that gap is a factor of about a hundred.</p>
 <p>Fitting slopes on the small-\(s/d\) end gives <strong>2.00</strong> for the monopole and <strong>3.03</strong> for the quadrupole. Those are the \(2\) and \(3\) derived above, and nothing was fitted to make them come out. I was pleased with this one. It is a clean case of theory predicting a number and the computer producing it.</p>
 <h2 id="the_test_does_not_test_what_you_think_it_tests"><a href="#the_test_does_not_test_what_you_think_it_tests" class="header-anchor">The test does not test what you think it tests</a></h2>
-<p>I used to finish the section above with a sentence like this: <em>the expansion parameter is \(s/d\), the series converges only for \(s/d<1\), so keep \(\theta\) below about 1.</em> It sounds fine. It is wrong, and the way it is wrong is worth a section of its own, because it is the single most instructive mistake I made in this whole project.</p>
+<p>The obvious thing to say at this point is: <em>the expansion parameter is \(s/d\), the series converges only for \(s/d<1\), so keep \(\theta\) below about 1.</em> It sounds fine. It is wrong, and the way it is wrong is worth a section of its own, because it is the single most instructive thing in the whole method.</p>
 <p>Go back to the convergence condition. The Legendre series converges when \(|t|<1\) with \(t = |\vec s_\alpha|/d\), and that has to hold for <strong>every particle \(\alpha\) in the cell</strong>, not for some average or typical size. So the quantity that decides convergence is</p>
 \[
 b_{\max} \;=\; \max_\alpha\left|\vec s_\alpha\right|
@@ -1014,9 +1138,9 @@ W(d) = \frac{4\pi}{3}R^3 \quad (d\ge 2R)
 <p>Good to about \(15\%\), from an argument that consists of dividing the volume of a shell by the volume of a cube. <a href="/Pages/Physics/papers/hernquist1987/06_beyond/#a_million_particles">Part 6</a> has the run.</p>
 <h2 id="what_one_particle_actually_sees"><a href="#what_one_particle_actually_sees" class="header-anchor">What one particle actually sees</a></h2>
 <p>The average hides a lot of structure. Below is the full distribution of \(n_\text{terms}\) across all 32768 particles, for the Plummer model and for a uniform sphere with the same \(N\). This is the paper&#39;s Fig. 5:</p>
-<div id="fdplkc" style=""></div>
+<div id="fdpqep" style=""></div>
 <script>
-graphDiv = document.getElementById("fdplkc");
+graphDiv = document.getElementById("fdpqep");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_hist.json');
 </script>
 
@@ -1024,9 +1148,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nt
 <p>Two things stand out, and both are physics rather than numerics.</p>
 <p>The uniform sphere gives a <strong>tight, symmetric</strong> distribution centred on 122. Every particle sits in a similar neighbourhood, so every particle does a similar amount of work.</p>
 <p>The Plummer model is centred higher &#40;218&#41; and has a long <strong>tail towards smaller values</strong>. The reason becomes obvious when you plot \(n_\text{terms}\) against radius:</p>
-<div id="fdpmoj" style=""></div>
+<div id="fdpolv" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpmoj");
+graphDiv = document.getElementById("fdpolv");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/nterms_radius.json');
 </script>
 
@@ -1113,9 +1237,8 @@ end</code></pre>
   </fieldset>
   
 <h2 id="what_softening_does_to_the_expansion"><a href="#what_softening_does_to_the_expansion" class="header-anchor">What softening does to the expansion</a></h2>
-<p>Now a correction to something I had wrong for a long time, and which turned out to be much more interesting than the thing I thought I was right about.</p>
-<p>Look at the softening in the quadrupole branch of that code. Every \(r^n\) has become \((r^2+\varepsilon^2)^{n/2}\). Hernquist calls this an <em>ad hoc</em> softening of the quadrupole terms, and I used to write that my version was better because it is &quot;exactly \(-\nabla\) of a consistently softened quadrupole potential&quot;.</p>
-<p>Half of that is true. Write \(\tilde r = \sqrt{d^2+\varepsilon^2}\) and notice that \(\partial_k \tilde r = d_k/\tilde r\), which is the same form as \(\partial_k d = d_k/d\). So the whole gradient calculation from earlier goes through unchanged with \(d\to\tilde r\) in the denominators, and the substituted acceleration really is exactly minus the gradient of the substituted potential. It is a consistent pair.</p>
+<p>Look at the softening in the quadrupole branch of that code. Every \(r^n\) has become \((r^2+\varepsilon^2)^{n/2}\). Hernquist calls this an <em>ad hoc</em> softening of the quadrupole terms. It is tempting to claim the substituted version is better than that, because it is &quot;exactly \(-\nabla\) of a consistently softened quadrupole potential&quot;.</p>
+<p>Half of that claim is true. Write \(\tilde r = \sqrt{d^2+\varepsilon^2}\) and notice that \(\partial_k \tilde r = d_k/\tilde r\), which is the same form as \(\partial_k d = d_k/d\). So the whole gradient calculation from earlier goes through unchanged with \(d\to\tilde r\) in the denominators, and the substituted acceleration really is exactly minus the gradient of the substituted potential. It is a consistent pair.</p>
 <p>What it is <strong>not</strong> is the multipole expansion of the softened force law. And those are different things.</p>
 <h3 id="doing_it_properly"><a href="#doing_it_properly" class="header-anchor">Doing it properly</a></h3>
 <p>The softened kernel is</p>
@@ -1130,7 +1253,7 @@ K(\vec x) = \frac{1}{\sqrt{|\vec x|^2+\varepsilon^2}}
 \]
 <p>Contracting with the <strong>raw</strong> second moment \(M^{(2)}_{ij} = \sum_\alpha m_\alpha s_is_j\) gives the exact softened quadrupole term:</p>
 \[
-\boxed{\;\varphi_2^{\,\varepsilon}
+\boxed{\;\phi_2^{\,\varepsilon}
 = -\frac{G}{2}\,
 \frac{3M^{(2)}_{ij}d_id_j - \left(d^2+\varepsilon^2\right)\operatorname{tr}\mathbf{M}^{(2)}}
 {\left(d^2+\varepsilon^2\right)^{5/2}}\;}
@@ -1141,7 +1264,7 @@ K(\vec x) = \frac{1}{\sqrt{|\vec x|^2+\varepsilon^2}}
 \]
 <p>The two expressions are <strong>identical except that one carries \(d^2\) where the other carries \(d^2+\varepsilon^2\)</strong>, and only in the trace piece. Subtracting, the entire difference is one term:</p>
 \[
-\varphi_2^{\,\varepsilon} - \varphi_2^{\,\text{substituted}}
+\phi_2^{\,\varepsilon} - \phi_2^{\,\text{substituted}}
 = \frac{G\,\varepsilon^2\operatorname{tr}\mathbf{M}^{(2)}}{2\left(d^2+\varepsilon^2\right)^{5/2}}
 \]
 <h3 id="why_the_trace_suddenly_matters"><a href="#why_the_trace_suddenly_matters" class="header-anchor">Why the trace suddenly matters</a></h3>
@@ -1165,7 +1288,7 @@ K(\vec x) = \frac{1}{\sqrt{|\vec x|^2+\varepsilon^2}}
 <h3 id="how_much_does_it_actually_matter"><a href="#how_much_does_it_actually_matter" class="header-anchor">How much does it actually matter?</a></h3>
 <p>Very little at sensible settings, which is why the historical prescription has survived. Compare the missing term to the monopole:</p>
 \[
-\frac{\left|\varphi_2^{\,\varepsilon}-\varphi_2^{\,\text{substituted}}\right|}{\left|\varphi_0\right|}
+\frac{\left|\phi_2^{\,\varepsilon}-\phi_2^{\,\text{substituted}}\right|}{\left|\phi_0\right|}
 = \frac{\varepsilon^2\left\langle s^2\right\rangle}{2\left(d^2+\varepsilon^2\right)^2}
 \]
 <p>It dies as \((\varepsilon/d)^2\), so it can only become visible for a cell accepted at a distance comparable to the softening length, and a cell that close is almost always opened instead. I measured the ratio across two decades in \(\varepsilon/d\) at fixed \(s/d=0.25\) and it sits flat at \(0.436\) of that scale, with a fitted slope of \(1.94\) against the predicted \(2\).</p>
@@ -1202,7 +1325,7 @@ K(\vec x) = \frac{1}{\sqrt{|\vec x|^2+\varepsilon^2}}
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 30, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 08, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

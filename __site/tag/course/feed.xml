@@ -23,6 +23,196 @@
 
 <item>
   <title>
+    <![CDATA[  Renormalisation Group: Glossary  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/glossary/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/glossary/index.html </guid>
+  <description>
+    <![CDATA[  A plain-language glossary for the renormalisation group course: every technical word explained in one or two simple sentences, with an everyday picture and a pointer to where the course explains it properly.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group V: Wilson&#39;s Momentum Shells  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/05_wilson/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/05_wilson/index.html </guid>
+  <description>
+    <![CDATA[  Part 5 of the renormalisation group course. From spins to a smooth field, Wilson&#39;s three-step RG in momentum space explained as filtering music and zooming out, the free-field &#40;Gaussian&#41; fixed point, power counting and why four dimensions is special.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group VII: Running Couplings  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/07_running/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/07_running/index.html </guid>
+  <description>
+    <![CDATA[  Part 7 of the renormalisation group course. The particle physics road, in simple words: counterterms, minimal subtraction, beta functions and the Callan-Symanzik equation. phi^4 finds the Wilson-Fisher point again, QED screens &#40;checked with FORM and Wolfram&#41; and QCD antiscreens and is asymptotically free. With an interactive running-coupling calculator.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group IV: Fixed Points and Universality  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html </guid>
+  <description>
+    <![CDATA[  Part 4 of the renormalisation group course. What a critical point looks like, why it is a fixed point of the RG, relevant and irrelevant directions as a ball on a mountain ridge, critical exponents from one number, universality as a river basin and the exact 2D critical temperature from a mirror symmetry. With a live 2D Ising simulation you can coarse-grain.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group III: Block Spins  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/03_block_spins/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/03_block_spins/index.html </guid>
+  <description>
+    <![CDATA[  Part 3 of the renormalisation group course. Kadanoff&#39;s block-spin idea done exactly on a line of spins, explained as a game of telephone: the recursion tanh K&#39; &#61; tanh^2 K, fixed points and a correlation length that never changes when you measure it properly. With an interactive widget.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group II: Loops, Infinities and Cutoffs  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/02_toolkit/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/02_toolkit/index.html </guid>
+  <description>
+    <![CDATA[  Part 2 of the renormalisation group course. The toolkit from zero, with a picture for each idea: where loop integrals come from, the Wick rotation done as a real contour integral, why loops blow up, what a cutoff is, three ways to regularise the same integral and what renormalisation actually does. With an interactive cutoff widget.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group I: Why Scale Matters  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/01_scale/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/01_scale/index.html </guid>
+  <description>
+    <![CDATA[  Part 1 of the renormalisation group course. A quantum correction to a particle&#39;s mass, worked out diagram by diagram, comes out infinite. What that is really telling us about coupling constants and the scale we look at.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  The Renormalisation Group: a beginner&#39;s course  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/Main_page/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/Main_page/index.html </guid>
+  <description>
+    <![CDATA[  An eight-part beginner&#39;s course on the renormalisation group, in simple words with an everyday picture for every idea: loops and cutoffs from scratch, block spins and the Ising chain, fixed points and universality, Wilson&#39;s momentum shells, the Wilson-Fisher fixed point, running couplings in QED and QCD and effective field theory. Every formula checked in Wolfram and FORM, with live simulations in the browser.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group VIII: Effective Field Theory  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/08_eft/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/08_eft/index.html </guid>
+  <description>
+    <![CDATA[  Part 8 of the renormalisation group course. Why physics works at all without a final theory: effective field theories as a multipole expansion, Fermi&#39;s theory as the low-energy shadow of the W boson, what renormalisable really means, why high-energy physics is hard, triviality, asymptotic freedom and safety, naturalness and where to go next.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group VI: The Wilson-Fisher Fixed Point  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/06_wilson_fisher/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/06_wilson_fisher/index.html </guid>
+  <description>
+    <![CDATA[  Part 6 of the renormalisation group course. The one-loop momentum-shell RG of phi^4 theory, step by step, the flow equations read as a population with limited food, the Wilson-Fisher fixed point in d &#61; 4 - epsilon and critical exponents compared with experiment. With an interactive flow diagram.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  The Expanding Universe with Cosmic.jl  ]]>
   </title>
   <link> https://rousan.netlify.app/Pages/Physics/courses/Cosmology/Main_page/index.html </link>

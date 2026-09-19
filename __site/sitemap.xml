@@ -9,7 +9,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/04_results/index.html</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -21,7 +21,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/My_Own/Main_page/index.html</loc>
-    <lastmod>2026-07-24</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -40,6 +40,12 @@
 <url>
     <loc>https://rousan.netlify.app/Pages/Tags_page/index.html</loc>
     <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/glossary/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -68,6 +74,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/05_wilson/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>https://rousan.netlify.app/home_page/index.html</loc>
     <lastmod>2026-08-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -76,6 +88,12 @@
 <url>
     <loc>https://rousan.netlify.app/Pages/Maths/blogs/math_blog/index.html</loc>
     <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/07_running/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -117,7 +135,13 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/03_treecode/index.html</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -129,7 +153,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/06_beyond/index.html</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -148,6 +172,12 @@
 <url>
     <loc>https://rousan.netlify.app/Pages/Maths/courses/math_co/index.html</loc>
     <lastmod>2025-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/03_block_spins/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -212,6 +242,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/02_toolkit/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>https://rousan.netlify.app/franklin/index.html</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -236,6 +272,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/01_scale/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>https://rousan.netlify.app/Pages/art/index.html</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -243,13 +285,19 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/index.html</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/02_leapfrog/index.html</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/Main_page/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -279,13 +327,19 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/01_setup/index.html</loc>
-    <lastmod>2026-08-30</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html</loc>
     <lastmod>2026-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/08_eft/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -298,6 +352,12 @@
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/Physics_Home/index.html</loc>
     <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/06_wilson_fisher/index.html</loc>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>

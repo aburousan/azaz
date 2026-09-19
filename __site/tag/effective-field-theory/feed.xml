@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Rousan  ]]>
+    </title>
+    <link> https://rousan.netlify.app/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://rousan.netlify.app/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group VIII: Effective Field Theory  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/08_eft/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/08_eft/index.html </guid>
+  <description>
+    <![CDATA[  Part 8 of the renormalisation group course. Why physics works at all without a final theory: effective field theories as a multipole expansion, Fermi&#39;s theory as the low-energy shadow of the W boson, what renormalisable really means, why high-energy physics is hard, triviality, asymptotic freedom and safety, naturalness and where to go next.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>

@@ -1,0 +1,123 @@
+/* Interactive widgets for the renormalisation-group course.
+   Colours are tokens so the dark-mode switch (html.dark-mode) only has to
+   swap variables; the canvases read the same tokens from JS. */
+
+.rgw {
+  --rg-bg: #fbfaf6;
+  --rg-panel: #ffffff;
+  --rg-ink: #1c1c1c;
+  --rg-mute: #6b6b6b;
+  --rg-line: #d9d4c7;
+  --rg-blue: #1f4e9c;
+  --rg-red: #c0392b;
+  --rg-green: #1e8449;
+  --rg-orange: #d35400;
+  --rg-accent: #3c568e;
+
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(94vw, var(--w, 860px));
+  margin: 1.8rem 0;
+  padding: 14px 16px 12px;
+  background: var(--rg-bg);
+  border: 1px solid var(--rg-line);
+  border-radius: 10px;
+  color: var(--rg-ink);
+  font-size: 0.92rem;
+  box-sizing: border-box;
+}
+html.dark-mode .rgw {
+  --rg-bg: #201e1a;
+  --rg-panel: #2a2722;
+  --rg-ink: #ece6d8;
+  --rg-mute: #a79f8e;
+  --rg-line: #4a443a;
+  --rg-blue: #7fa8ea;
+  --rg-red: #ef7f72;
+  --rg-green: #6fcf97;
+  --rg-orange: #f5a25d;
+  --rg-accent: #9fb4e0;
+}
+
+.rgw-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 0 2px;
+  color: var(--rg-accent);
+}
+.rgw-sub { color: var(--rg-mute); margin: 0 0 10px; font-size: 0.86rem; }
+
+.rgw-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.rgw-controls label { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.rgw-controls input[type=range] { width: 170px; accent-color: var(--rg-accent); }
+.rgw-controls select {
+  font: inherit; padding: 2px 6px; border-radius: 6px;
+  background: var(--rg-panel); color: var(--rg-ink); border: 1px solid var(--rg-line);
+}
+.rgw-val { font-variant-numeric: tabular-nums; min-width: 3.6em; display: inline-block; }
+
+.rgw button {
+  font: inherit;
+  font-size: 0.86rem;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--rg-accent);
+  background: transparent;
+  color: var(--rg-accent);
+  cursor: pointer;
+}
+.rgw button:hover { background: var(--rg-accent); color: var(--rg-bg); }
+.rgw button.primary { background: var(--rg-accent); color: var(--rg-bg); }
+
+.rgw-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.rgw-row > * { flex: 1 1 300px; min-width: 0; }
+
+.rgw canvas {
+  display: block;
+  width: 100%;
+  background: var(--rg-panel);
+  border: 1px solid var(--rg-line);
+  border-radius: 6px;
+  touch-action: manipulation;
+}
+
+.rgw-readout {
+  margin-top: 10px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  color: var(--rg-ink);
+}
+.rgw-readout b { color: var(--rg-accent); font-weight: 600; }
+
+.rgw table.rgw-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+.rgw table.rgw-table th,
+.rgw table.rgw-table td {
+  border-bottom: 1px solid var(--rg-line);
+  padding: 3px 6px;
+  text-align: right;
+  color: var(--rg-ink);
+  background: transparent;
+}
+.rgw table.rgw-table th { color: var(--rg-mute); font-weight: 500; }
+.rgw table.rgw-table tr.rgw-hi td { color: var(--rg-accent); font-weight: 600; }
+.rgw-tablewrap { max-height: 240px; overflow: auto; }
+
+.rgw-note { color: var(--rg-mute); font-size: 0.82rem; margin-top: 8px; }
+
+@media (max-width: 560px) {
+  .rgw { padding: 10px; }
+  .rgw-controls input[type=range] { width: 120px; }
+}

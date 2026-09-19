@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Rousan  ]]>
+    </title>
+    <link> https://rousan.netlify.app/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://rousan.netlify.app/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group IV: Fixed Points and Universality  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html </guid>
+  <description>
+    <![CDATA[  Part 4 of the renormalisation group course. What a critical point looks like, why it is a fixed point of the RG, relevant and irrelevant directions as a ball on a mountain ridge, critical exponents from one number, universality as a river basin and the exact 2D critical temperature from a mirror symmetry. With a live 2D Ising simulation you can coarse-grain.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group III: Block Spins  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/03_block_spins/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/03_block_spins/index.html </guid>
+  <description>
+    <![CDATA[  Part 3 of the renormalisation group course. Kadanoff&#39;s block-spin idea done exactly on a line of spins, explained as a game of telephone: the recursion tanh K&#39; &#61; tanh^2 K, fixed points and a correlation length that never changes when you measure it properly. With an interactive widget.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>

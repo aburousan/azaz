@@ -157,3 +157,43 @@ R"""
   ~~~<div class="trim">~~~\fieldset{md-result}{result}{~~~~~~#1~~~~~~}~~~</div>~~~}
 
 \newcommand{\col}[2]{~~~<span style="color:~~~#1~~~">~~~!#2~~~</span>~~~}
+<!--
+ Exercise solution, folded away until clicked. Uses native <details>, so it
+ needs no script and starts closed on every page.
+-->
+\newcommand{\soln}[1]{~~~<details class="soln"><summary>Show solution</summary><div class="soln-body">~~~
+#1
+~~~</div></details>~~~}
+
+<!--
+ Analogy box for the course pages: the everyday picture behind an idea.
+-->
+\newcommand{\analogy}[1]{
+  \fieldset{analogy}{Picture it}{
+    #1
+  }
+}
+
+<!--
+ Previous / next buttons at the foot of a multi-part course page.
+ \coursenav{prev url}{prev label}{next url}{next label}; pass an empty url to leave a side blank.
+-->
+\newcommand{\coursenav}[4]{~~~<nav class="course-nav"><a class="cn-prev" href="!#1">← !#2</a><a class="cn-home" href="/Pages/Physics/courses/RG/Main_page/">Course home</a><a class="cn-next" href="!#3">!#4 →</a></nav>~~~}
+
+<!--
+ A light-hearted aside (anime references) for the course pages.
+-->
+\newcommand{\otaku}[1]{
+  \fieldset{otaku}{Otaku corner}{
+    #1
+  }
+}
+
+<!--
+ A light-hearted Durga Puja aside for the course pages.
+-->
+\newcommand{\puja}[1]{
+  \fieldset{puja}{Puja corner}{
+    #1
+  }
+}

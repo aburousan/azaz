@@ -15,6 +15,8 @@ Part 4 of my recreation of [Hernquist (1987)](/Pages/Physics/papers/hernquist198
 
 Everything below uses the paper's own parameters: a Plummer model with $M=1$, $r_0=0.2$, cutoff $R=1$, $G=1$, softening equal to the mean interparticle separation at the half-mass radius and $\delta t = 0.025$.
 
+Every time quoted on this page is in the unit $t_\ast = \sqrt{R^3/GM}$, the dynamical time [set out in part 1](/Pages/Physics/papers/hernquist1987/01_setup/#the_units_including_the_one_everybody_forgets). A 1000-step run therefore covers $t = 25$, or twenty-five dynamical times, which is about $1.2$ Myr for a $10^5 M_\odot$ cluster inside a parsec.
+
 ## Does it stay put?
 
 The first and most basic test. The model was constructed to be in equilibrium, so if the code is right, the cluster should sit there and do essentially nothing for a long time.
@@ -77,7 +79,7 @@ Number of particles goes right, time goes up. Below the crossing point the simpl
 
 At $N = 32768$ my tree is $24\times$ faster than the direct sum, and the gap keeps widening.
 
-Where exactly the crossover falls is the interesting part, and I got this badly wrong the first time I wrote it up, so let me do it carefully.
+Where exactly the crossover falls is the interesting part, and it is worth doing carefully.
 
 | | Hernquist (1987) | this work |
 | --- | --- | --- |
@@ -87,15 +89,15 @@ Where exactly the crossover falls is the interesting part, and I got this badly 
 At $\theta = 1$ my tree is **already faster at the smallest $N$ I measured**: at $N = 1024$ the direct sum takes $3.96$ ms and the tree $2.88$ ms, so the crossing has happened before the plot starts.
 
 \note{
-    **An earlier version of this page claimed the crossover landed at $N\approx1700$, "exactly what the paper estimates", and then argued that the ratio must be a property of the algorithm rather than the computer.** Both halves were wrong, and the second one was wrong in an instructive way, so I am leaving the wreckage visible instead of quietly deleting it.
+    It is tempting to expect the crossover to reproduce, and to treat agreement with 1987 as a confirmation that the code is right. It is not, and this is the one place in the project where reproducing the paper would have been the **suspicious** outcome.
 
     The crossover is the point where **two inner loops break even**, and how fast each of those loops runs is a fact about the machine, not about the mathematics. A direct sum is a tight, perfectly predictable, branch-free loop, which is exactly the shape of code a CRAY X-MP's vector units were built to devour. A tree walk is a pointer chase through a stack with an unpredictable branch at every node, which is the shape of code that machine was worst at. So on a CRAY the tree started a long way behind and only caught up near $N\approx1700$. On a modern out-of-order core the two loops are much closer in speed, so my tree catches up far sooner.
 
-    **The crossover has to be measured again on every architecture.** It is the one number in this entire project that I should have expected *not* to reproduce, and I talked myself into being pleased when it seemed to.
+    **The crossover has to be measured again on every architecture.** It is the one number in this entire project that should *not* be expected to reproduce.
 }
 
 \tip{
-    A useful way to tell the two kinds of number apart, which I wish I had had at the start. Ask whether the quantity would change if you reran the identical code on a different machine. The force error would not: it comes from truncating a series, and it is mathematics. The crossover would: it is a ratio of two wall-clock times. Anything in the second category is a benchmark, not a result, and agreement with 1987 is a coincidence rather than a confirmation.
+    A useful way to tell the two kinds of number apart. Ask whether the quantity would change if you reran the identical code on a different machine. The force error would not: it comes from truncating a series, and it is mathematics. The crossover would: it is a ratio of two wall-clock times. Anything in the second category is a benchmark, not a result, and agreement with 1987 is a coincidence rather than a confirmation.
 }
 
 ### What does the quadrupole cost?

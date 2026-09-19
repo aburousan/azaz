@@ -1,0 +1,690 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Renormalisation Group V — The Wilson–Fisher Fixed Point</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
+      fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+
+<link rel="stylesheet" href="/assets/Physics/courses/RG/rg.css">
+<script defer src="/assets/Physics/courses/RG/rg.js"></script>
+
+<div class="franklin-toc"><ol><li><a href="#integrating_out_the_shell">Integrating out the shell</a></li><li><a href="#the_flow_equations">The flow equations</a></li><li><a href="#the_fixed_points">The fixed points</a></li><li><a href="#exponents">Exponents</a><ol><li><a href="#how_good_is_it">How good is it?</a></li></ol></li><li><a href="#play_with_the_flow">Play with the flow</a></li><li><a href="#exercises">Exercises</a></li></ol></div>
+<h1 id="renormalisation_group_v_the_wilsonfisher_fixed_point"><a href="#renormalisation_group_v_the_wilsonfisher_fixed_point" class="header-anchor">Renormalisation Group V — The Wilson–Fisher Fixed Point</a></h1>
+<blockquote>
+<p><em>Part 5 of seven. previous: <a href="/Pages/Physics/courses/RG/04_wilson/">Wilson&#39;s shells</a> · <a href="/Pages/Physics/courses/RG/Main_page/">Course home</a> · next: <a href="/Pages/Physics/courses/RG/06_running/">Running couplings</a></em></p>
+</blockquote>
+<p>In Part 4 the free field gave us the Gaussian fixed point, and power counting showed that below four dimensions the quartic coupling destabilises it. Now we turn \(u\) on and do step 1 of the RG, integrating out the shell, for real. It&#39;s a one-loop calculation, and it&#39;s the calculation that earned Wilson his Nobel prize.</p>
+<h2 id="integrating_out_the_shell"><a href="#integrating_out_the_shell" class="header-anchor">Integrating out the shell</a></h2>
+<p>Split the interaction using \(\phi=\phi_<+\phi_>\):</p>
+\[ \frac u{4!}\int(\phi_<+\phi_>)^4 = \frac u{4!}\int\Big(\phi_<^4 + 4\phi_<^3\phi_> + 6\phi_<^2\phi_>^2 + 4\phi_<\phi_>^3 + \phi_>^4\Big). \]
+<p>Treat \(S_{\rm int}\) as small, and do the \(\phi_>\) integral with the free Gaussian weight of the fast modes, whose propagator is \(G(k)=1/(k^2+r)\) for \(k\) in the shell. The standard cumulant expansion of \(\int\mathcal D\phi_>e^{-S_0-S_{\rm int}}\) gives</p>
+\[ S'[\phi_<] = S_0[\phi_<] + \langle S_{\rm int}\rangle_> - \tfrac12\Big(\langle S_{\rm int}^2\rangle_> - \langle S_{\rm int}\rangle_>^2\Big) + \dots \]
+<p>where \(\langle\cdot\rangle_>\) averages over fast modes only. Each term is a set of Feynman diagrams, with fast propagators on the internal lines and slow fields on the external legs.</p>
+
+<div class="mfig" style="--w:820px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/phi4_diagrams.svg" alt="The tadpole and bubble diagrams with fast modes in the loop">
+  <p>The two one-loop diagrams, with only fast (shell) modes running round the loop. The tadpole renormalises the mass; the bubble renormalises the coupling.</p>
+</div>
+
+<p><strong>The mass.</strong> From \(\langle S_{\rm int}\rangle_>\), take the \(6\phi_<^2\phi_>^2\) term and contract the two fast fields: \(\langle\phi_>^2\rangle=\int_{\rm shell}G\). That gives \(\frac{u}{4!}\cdot6\cdot\int_{\rm shell}G\,\int\phi_<^2\). Comparing with \(\tfrac12\delta r\int\phi_<^2\):</p>
+\[ \delta r = \frac u2\int_{\rm shell}\frac{\mathrm d^dk}{(2\pi)^d}\,\frac1{k^2+r}. \]
+<p><strong>The coupling.</strong> From \(-\tfrac12\langle S_{\rm int}^2\rangle_c\), take two vertices, keep two slow legs on each, and join them with two fast propagators. Count the ways: choose which 2 of the 4 legs at each vertex are slow, \(\binom42^2=36\), then join the two fast legs at vertex 1 to the two at vertex 2 in \(2\) ways. That&#39;s \(72\) in all. So the term is \(-\tfrac12\left(\frac u{4!}\right)^2\cdot72\int_{\rm shell}G^2\int\phi_<^4 = -\frac{u^2}{16}\int_{\rm shell}G^2\int\phi_<^4\), evaluated at zero external momentum, which is fine for the local \(\phi^4\) term. Matching to \(\frac{\delta u}{4!}\int\phi_<^4\):</p>
+\[ \delta u = -\frac{3u^2}{2}\int_{\rm shell}\frac{\mathrm d^dk}{(2\pi)^d}\,\frac1{(k^2+r)^2}. \]
+<p>The minus sign matters: fluctuations <em>weaken</em> the coupling. You&#39;ll see in Part 6 that this coefficient, \(3/2\), is exactly what&#39;s needed for the field-theory beta function, an independent check on the counting.</p>
+<p><strong>The shell integral.</strong> For a thin shell, \(b=e^{\delta\ell}\) with \(\delta\ell\ll1\), the integrand is constant across the shell:</p>
+\[ \int_{\Lambda/b}^{\Lambda}\frac{\mathrm d^dk}{(2\pi)^d}F(k) = K_d\,\Lambda^d\,F(\Lambda)\,\delta\ell,\qquad K_d=\frac{S_d}{(2\pi)^d}=\frac{2}{(4\pi)^{d/2}\Gamma(d/2)}. \]
+<p>\(K_2=1/2\pi\), \(K_3=1/2\pi^2\), \(K_4=1/8\pi^2\).</p>
+<h2 id="the_flow_equations"><a href="#the_flow_equations" class="header-anchor">The flow equations</a></h2>
+<p>Now do steps 2 and 3, the rescaling from Part 4, which multiplies \(r\) by \(b^2\) and \(u\) by \(b^{4-d}\) &#40;at one loop the field rescaling is unchanged, since no \(k^2\phi^2\) term is generated&#41;. Work with dimensionless couplings, \(\tilde r=r/\Lambda^2\) and \(\tilde u=u\Lambda^{d-4}\), and let \(\delta\ell\to0\). The result is a pair of differential equations, with \(\ell\) the &quot;RG time&quot; running towards the infrared:</p>
+\[ \boxed{\;\frac{\mathrm d\tilde r}{\mathrm d\ell} = 2\tilde r + \frac{K_d}{2}\,\frac{\tilde u}{1+\tilde r},\qquad \frac{\mathrm d\tilde u}{\mathrm d\ell} = (4-d)\,\tilde u - \frac{3K_d}{2}\,\frac{\tilde u^2}{(1+\tilde r)^2}.\;} \]
+<p>Read them term by term. The first term of each is Part 4&#39;s tree-level scaling. The second terms are the fluctuations we just integrated out. The quartic coupling feeds the mass &#40;the tadpole&#41;, and it screens itself &#40;the bubble&#41;.</p>
+<p>These are the same equations as in Melo&#39;s notes &#40;their \(\beta_2,\beta_4\)&#41;, once you flip the sign of the RG time.</p>
+<h2 id="the_fixed_points"><a href="#the_fixed_points" class="header-anchor">The fixed points</a></h2>
+<p>Set \(\epsilon=4-d\) and look for zeros. Since the fixed point turns out to be at \(\tilde u=O(\epsilon)\) and \(\tilde r=O(\epsilon)\), to leading order we can drop \(\tilde r\) in the denominators and set \(K_d\to K_4=1/8\pi^2\):</p>
+<ul>
+<li><p><strong>Gaussian</strong>: \(\tilde r^*=\tilde u^*=0\).</p>
+</li>
+<li><p><strong>Wilson–Fisher</strong>: \(\epsilon\tilde u^*=\frac{3K_4}{2}\tilde u^{*2}\), giving</p>
+</li>
+</ul>
+\[ \boxed{\;\tilde u^* = \frac{2\epsilon}{3K_4}=\frac{16\pi^2}{3}\,\epsilon,\qquad \tilde r^* = -\frac{K_4\tilde u^*}{4} = -\frac\epsilon6.\;} \]
+<p>For \(\epsilon>0\) the new fixed point sits at positive coupling, which is where a physical &#40;stable&#41; \(\phi^4\) theory lives. For \(\epsilon\to0\) it merges with the Gaussian one.</p>
+
+<div class="mfig" style="--w:900px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/wf_flow.svg" alt="Beta function of the quartic coupling and the flow in the (r,u) plane in d = 3">
+  <p>Left: the right-hand side of the \(\tilde u\) equation. In \(d=4\) (black) it's negative for all \(\tilde u>0\), so the coupling always decreases towards the infrared and the only fixed point is \(\tilde u=0\). For \(\epsilon>0\) the parabola crosses zero again, and the crossing is the Wilson–Fisher point. Right: trajectories of the full one-loop flow in \(d=3\), integrated numerically. The critical surface (blue) runs into the Wilson–Fisher point.</p>
+</div>
+
+<h2 id="exponents"><a href="#exponents" class="header-anchor">Exponents</a></h2>
+<p>Linearise around Wilson–Fisher. To first order in \(\epsilon\) the stability matrix is triangular &#40;exercise 5.2&#41;, with eigenvalues</p>
+\[ y_t = 2-\frac\epsilon3, \qquad y_u=-\epsilon. \]
+<p>One relevant direction &#40;temperature&#41; and one irrelevant one, just as a critical point should have. The Gaussian point has lost the fight: there both eigenvalues are positive &#40;\(2\) and \(+\epsilon\)&#41;, so it can&#39;t be reached by tuning one knob. Every critical Ising system in \(d<4\) flows to Wilson–Fisher. The exponents follow:</p>
+\[ \nu = \frac1{y_t} = \frac12+\frac\epsilon{12}+O(\epsilon^2),\qquad \gamma = \nu(2-\eta) = 1+\frac\epsilon6+O(\epsilon^2), \]
+<p>since \(\eta\) first appears at two loops, \(\eta=\epsilon^2/54\). Everything above was checked in Wolfram:</p>
+<pre><code class="language-mathematica">betam &#61; 2 m2 &#43; Kd4 u/&#40;2 &#40;1 &#43; m2&#41;&#41;;
+betau &#61; eps u - 3 Kd4 u^2/&#40;2 &#40;1 &#43; m2&#41;^2&#41;;
+us  &#61; u /. Last&#91;Solve&#91;eps u - 3 Kd4 u^2/2 &#61;&#61; 0, u&#93;&#93;;        &#40;* 2 eps/&#40;3 Kd4&#41; *&#41;
+m2s &#61; m2 /. First&#91;Solve&#91;2 m2 &#43; Kd4 us/2 &#61;&#61; 0, m2&#93;&#93;;        &#40;* -eps/6 *&#41;
+yt  &#61; Simplify&#91;D&#91;betam, m2&#93; /. &#123;m2 -&gt; 0, u -&gt; us&#125;&#93;          &#40;* 2 - eps/3 *&#41;
+Series&#91;1/yt, &#123;eps, 0, 1&#125;&#93;                                   &#40;* 1/2 &#43; eps/12 *&#41;
+Simplify&#91;D&#91;betau, u&#93; /. &#123;m2 -&gt; 0, u -&gt; us&#125;&#93;                 &#40;* -eps *&#41;
+Simplify&#91;2/&#40;&#40;4 Pi&#41;^&#40;4/2&#41; Gamma&#91;4/2&#93;&#41; - 1/&#40;8 Pi^2&#41;&#93;          &#40;* 0: K_4 &#61; 1/&#40;8 Pi^2&#41; *&#41;</code></pre>
+<h3 id="how_good_is_it"><a href="#how_good_is_it" class="header-anchor">How good is it?</a></h3>
+<p>Set \(\epsilon=1\) for three dimensions. That&#39;s not small, and the expansion has no business working. Still:</p>
+<table><tr><th align="right"></th><th align="right">\(\nu\)</th><th align="right">\(\gamma\)</th></tr><tr><td align="right">mean field &#40;Gaussian&#41;</td><td align="right">0.5</td><td align="right">1</td></tr><tr><td align="right">one loop, \(\epsilon=1\)</td><td align="right">0.583</td><td align="right">1.167</td></tr><tr><td align="right">3D Ising, conformal bootstrap</td><td align="right">0.6300</td><td align="right">1.2371</td></tr></table>
+
+<div class="mfig" style="--w:620px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/epsilon_exponents.svg" alt="nu against epsilon compared with known values">
+  <p>The one-loop \(\nu\) against \(\epsilon\). It moves from mean field in the right direction and gets most of the way to the true 3D value. At \(\epsilon=2\) (the 2D Ising model) it's far off, as it should be. Higher orders, plus resummation, bring the 3D numbers within a fraction of a percent.</p>
+</div>
+
+<p>The first-order correction takes \(\nu\) two-thirds of the way from mean field to the true value. The reason this works is that the ε expansion is organised by the fixed point&#39;s structure, not by the size of the coupling. The deeper point is qualitative, and it&#39;s exact: below four dimensions the exponents are <em>not</em> mean-field, they are <em>universal</em>, and they are fixed by a single number \(\epsilon\) plus the symmetry.</p>
+<h2 id="play_with_the_flow"><a href="#play_with_the_flow" class="header-anchor">Play with the flow</a></h2>
+<p>The widget integrates the full one-loop equations above. Click to launch a theory from any point. Drag \(\epsilon\) and watch the Wilson–Fisher point appear out of the Gaussian one at \(\epsilon=0\). The readout shows both the leading-order formulas and the exact fixed point of these truncated equations. They differ at \(O(\epsilon^2)\), which is a reminder that only the leading order is trustworthy.</p>
+
+<div id="rg-wfflow" style="--w:880px"></div>
+
+<p>Things to try. Put \(\epsilon=0\) and click near the \(\tilde u\) axis: trajectories creep down towards zero coupling logarithmically slowly &#40;the marginal case&#41;. Put \(\epsilon=1\) and click just left and just right of the blue line: the two trajectories shadow each other towards Wilson–Fisher, then split to opposite phases. The time they spend near the fixed point is the critical region.</p>
+<h2 id="exercises"><a href="#exercises" class="header-anchor">Exercises</a></h2>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.1.</strong> Redo the counting of the bubble term, but for the tadpole: show that \(\langle S_{\rm int}\rangle_>\) contributes \(\frac u4\langle\phi_>^2\rangle\int\phi_<^2\) and hence \(\delta r=\frac u2\int_{\rm shell}G\). 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  The \(\phi_<^2\phi_>^2\) term appears with coefficient \(\binom42=6\) in the expansion of \((\phi_<+\phi_>)^4\). Averaging replaces \(\phi_>^2\) by \(\langle\phi_>^2\rangle=\int_{\rm shell}\frac{\mathrm d^dk}{(2\pi)^d}G(k)\). So the term is \(\frac u{24}\cdot6\langle\phi_>^2\rangle\int\phi_<^2=\frac u4\langle\phi_>^2\rangle\int\phi_<^2\). Setting that equal to \(\frac12\delta r\int\phi_<^2\) gives \(\delta r=\frac u2\langle\phi_>^2\rangle\). &#40;The \(\phi_<^3\phi_>\) and \(\phi_<\phi_>^3\) terms average to zero, since they have an odd number of fast fields.&#41; </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.2.</strong> Compute the stability matrix \(M_{ij}=\partial(\mathrm d g_i/\mathrm d\ell)/\partial g_j\) at the Wilson–Fisher point, to first order in \(\epsilon\), and show its eigenvalues are \(2-\epsilon/3\) and \(-\epsilon\). 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body"> \(\partial_r\dot r = 2-\frac{K_4\tilde u^*}{2(1+\tilde r^*)^2}\approx2-\frac\epsilon3\). \(\partial_u\dot r=\frac{K_4}{2}\). \(\partial_r\dot u = 3K_4\tilde u^{*2}/(1+\tilde r^*)^3 = O(\epsilon^2)\), so drop it. \(\partial_u\dot u = \epsilon-3K_4\tilde u^*=\epsilon-2\epsilon=-\epsilon\). To this order the matrix is upper triangular, and its eigenvalues are its diagonal entries: \(2-\epsilon/3\) and \(-\epsilon\). Melo&#39;s notes get the same, \(-2+\epsilon/3\) and \(\epsilon\), with the opposite sign convention for RG time. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.3.</strong> <em>The O&#40;N&#41; model.</em> Let \(\boldsymbol\phi\) have \(N\) components and interaction \(\frac u{4!}(\boldsymbol\phi\cdot\boldsymbol\phi)^2\). The combinatorics change: the tadpole factor becomes \(\frac{N+2}{6}u\) &#40;was \(\frac12u\)&#41; and the bubble factor \(\frac{N+8}{6}u^2\) &#40;was \(\frac32u^2\)&#41;. Find \(\tilde u^*\) and \(\nu\) to first order in \(\epsilon\). Check that \(N=1\) gives the Ising result, and find \(\nu\) as \(N\to\infty\). &#40;Longer.&#41; 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body"> \(\dot{\tilde u}=\epsilon\tilde u-\frac{N+8}6K_4\tilde u^2\), so \(\tilde u^*=\frac{6\epsilon}{(N+8)K_4}\). Then \(y_t=2-\frac{N+2}6K_4\tilde u^*=2-\frac{N+2}{N+8}\epsilon\) and \(\nu=\frac12+\frac{N+2}{4(N+8)}\epsilon\). For \(N=1\) that&#39;s \(\frac12+\frac{3}{36}\epsilon=\frac12+\frac\epsilon{12}\). As \(N\to\infty\), \(y_t\to2-\epsilon=d-2\), so \(\nu=1/(d-2)\), which is the exact answer for the large-\(N\) &#40;spherical&#41; model. At \(\epsilon=1\): XY magnets and superfluid helium &#40;\(N=2\)&#41; get \(0.600\) against a measured \(0.6717\), and Heisenberg magnets &#40;\(N=3\)&#41; get \(0.614\) against \(0.711\). Different \(N\) means a different universality class: the symmetry of the order parameter is one of the few things the fixed point remembers. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.4.</strong> In \(d=4\) exactly, solve \(\mathrm d\tilde u/\mathrm d\ell=-\frac{3}{16\pi^2}\tilde u^2\) starting from \(\tilde u_0\). How does the coupling behave at large \(\ell\) &#40;the infrared&#41;? Run backwards to the ultraviolet, \(\ell\to-\infty\). What goes wrong? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  Separate variables: \(\frac{1}{\tilde u(\ell)}=\frac1{\tilde u_0}+\frac{3\ell}{16\pi^2}\). In the infrared &#40;\(\ell\to\infty\)&#41; the coupling goes to zero like \(\frac{16\pi^2}{3\ell}\): marginally irrelevant, so the theory becomes free at long distance, but only logarithmically. Towards the ultraviolet &#40;\(\ell<0\)&#41; the denominator vanishes at \(\ell=-\frac{16\pi^2}{3\tilde u_0}\): the coupling blows up at a finite scale, the <strong>Landau pole</strong>. We meet this again in Part 6, as a statement about QED, and in Part 7, as &quot;triviality&quot;. </div></details></p>
+
+<button onclick="window.history.back()">Go Back</button>
+
+<div id="custom-comments-container"></div>
+<link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+<script type="module" src="/assets/js/custom_comments.js?v=5"></script>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat: opt-out, remembered per visitor. The script is only loaded
+         when the cat is wanted, so switching it off costs nothing on later pages. -->
+    <style>
+      #oneko-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 1000;
+        width: 34px; height: 34px; padding: 0;
+        border: 1px solid rgba(140,140,140,0.35); border-radius: 50%;
+        background: rgba(250,248,244,0.82); color: #7a6a4a;
+        font-size: 15px; line-height: 1; cursor: pointer;
+        opacity: 0.42; transition: opacity 0.2s, transform 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #oneko-toggle:hover { opacity: 1; transform: scale(1.08); }
+      html.dark-mode #oneko-toggle {
+        background: rgba(38,36,33,0.82); color: #cda863;
+        border-color: rgba(180,170,150,0.28);
+      }
+      html.oneko-off #oneko { display: none !important; }
+      @media print { #oneko-toggle { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = 'oneko-enabled';
+        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var loaded = false;
+
+        function loadCat() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '/assets/oneko.js?v=62';
+          s.setAttribute('data-cat', '/assets/oneko.gif');
+          document.body.appendChild(s);
+        }
+
+        function paint(btn) {
+          btn.textContent = on ? '🐈' : '🐾';
+          btn.title = on ? 'Hide the cat' : 'Bring the cat back';
+          btn.setAttribute('aria-label', btn.title);
+          document.documentElement.classList.toggle('oneko-off', !on);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.createElement('button');
+          btn.id = 'oneko-toggle';
+          btn.type = 'button';
+          paint(btn);
+          btn.addEventListener('click', function () {
+            on = !on;
+            localStorage.setItem(KEY, on ? '1' : '0');
+            paint(btn);
+            if (on) loadCat();
+          });
+          document.body.appendChild(btn);
+          if (on) loadCat();
+        });
+      })();
+    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

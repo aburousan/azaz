@@ -1,0 +1,718 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Renormalisation Group III — Fixed Points and Universality</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
+      fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+
+<link rel="stylesheet" href="/assets/Physics/courses/RG/rg.css">
+<script defer src="/assets/Physics/courses/RG/rg.js"></script>
+
+<div class="franklin-toc"><ol><li><a href="#what_a_critical_point_looks_like">What a critical point looks like</a></li><li><a href="#why_the_critical_point_is_a_fixed_point">Why the critical point is a fixed point</a></li><li><a href="#linearising_the_flow">Linearising the flow</a></li><li><a href="#many_couplings_and_universality">Many couplings, and universality</a></li><li><a href="#all_the_exponents_from_two_numbers">All the exponents from two numbers</a></li><li><a href="#an_approximate_recursion_in_two_dimensions">An approximate recursion in two dimensions</a></li><li><a href="#exercises">Exercises</a></li></ol></div>
+<h1 id="renormalisation_group_iii_fixed_points_and_universality"><a href="#renormalisation_group_iii_fixed_points_and_universality" class="header-anchor">Renormalisation Group III — Fixed Points and Universality</a></h1>
+<blockquote>
+<p><em>Part 3 of seven. previous: <a href="/Pages/Physics/courses/RG/02_block_spins/">Block spins</a> · <a href="/Pages/Physics/courses/RG/Main_page/">Course home</a> · next: <a href="/Pages/Physics/courses/RG/04_wilson/">Wilson&#39;s shells</a></em></p>
+</blockquote>
+<p>The 1D chain had only trivial fixed points, because it has no phase transition. In two and three dimensions the Ising model does order below a critical temperature \(T_c\), and at \(T_c\) something remarkable happens. This part is about what.</p>
+<h2 id="what_a_critical_point_looks_like"><a href="#what_a_critical_point_looks_like" class="header-anchor">What a critical point looks like</a></h2>
+
+<div class="mfig" style="--w:860px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/ising_snapshots.svg" alt="2D Ising configurations above, at and below the critical temperature">
+  <p>Three snapshots of a 256×256 Ising model, sampled with the Wolff cluster algorithm. Hot: small islands, short correlations. Cold: one colour wins. Critical: islands inside lakes inside islands, at every size up to the box itself.</p>
+</div>
+
+<p>At \(T_c\) the correlation length diverges. Measured near \(T_c\) it follows a power law,</p>
+\[ \xi \propto |T-T_c|^{-\nu}, \]
+<p>and similarly the specific heat goes like \(|T-T_c|^{-\alpha}\), the magnetisation below \(T_c\) like \((T_c-T)^{\beta}\), and the susceptibility like \(|T-T_c|^{-\gamma}\). The numbers \(\nu,\alpha,\beta,\gamma\) are the <strong>critical exponents</strong>. Two facts about them were deeply puzzling before the RG:</p>
+<ol>
+<li><p>They are often not simple fractions. For the 3D Ising model \(\nu=0.6300\) and \(\beta=0.3265\). Nothing in the Hamiltonian looks like either number.</p>
+</li>
+<li><p>They are <strong>universal</strong>. A uniaxial magnet, the liquid–gas critical point of water or xenon, and a binary alloy ordering on its lattice all share the same exponents, although the microscopic physics has nothing in common.</p>
+</li>
+</ol>
+<p>Both facts come out of one picture.</p>
+<h2 id="why_the_critical_point_is_a_fixed_point"><a href="#why_the_critical_point_is_a_fixed_point" class="header-anchor">Why the critical point is a fixed point</a></h2>
+<p>Recall the rule from Part 2: one RG step with scale factor \(b\) maps the couplings \(K\to K'\) and shrinks the correlation length in lattice units, \(\xi(K')=\xi(K)/b\). At \(T_c\), \(\xi=\infty\), and \(\infty/b=\infty\), so <strong>the critical point flows to a point with infinite correlation length</strong>, which has to be a fixed point \(K^*\). And the fixed point can&#39;t be at \(K=0\) or \(K=\infty\), where \(\xi=0\). It is a genuinely new, nontrivial fixed point.</p>
+<p>You can see this with your own eyes. Block-spin the snapshots:</p>
+
+<div class="mfig" style="--w:860px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/self_similar.svg" alt="Three rounds of 2x2 majority blocking above, at and below T_c">
+  <p>Three rounds of 2×2 majority-rule blocking. Above \(T_c\) (top) the picture flows towards noise, the \(K=0\) fixed point. Below \(T_c\) (bottom) it flows to a uniform state, the \(K=\infty\) fixed point. At \(T_c\) (middle) it stays statistically the same. That is the nontrivial fixed point.</p>
+</div>
+
+<p>Now do it live. The simulation below runs in your browser.</p>
+
+<div id="rg-ising"></div>
+
+<p>Set \(T/T_c=1.05\) and watch: the original panel still looks critical-ish, but by the third blocking the noise has won. Move to \(0.97\) and the opposite happens. The closer you get to \(T_c\), the more blocking steps it takes to tell which way the flow is going. That delay is a diverging correlation length, seen from the RG side.</p>
+<h2 id="linearising_the_flow"><a href="#linearising_the_flow" class="header-anchor">Linearising the flow</a></h2>
+<p>Near a fixed point, small deviations grow or shrink geometrically. With one coupling, write \(K=K^*+\delta K\) and expand the RG map to first order:</p>
+\[ \delta K' = \Lambda\,\delta K, \qquad \Lambda = R'(K^*) \equiv b^{\,y}. \]
+<p>The exponent \(y\) is defined so that it doesn&#39;t depend on the arbitrary step size \(b\) &#40;two steps of \(b\) must equal one step of \(b^2\)&#41;. Three cases:</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+  </p>
+<ul>
+<li><p>\(y>0\): \(\delta K\)<strong>grows</strong> under the flow. The coupling is <strong>relevant</strong>. Any small deviation from the fixed point is amplified at large scales.</p>
+</li>
+<li><p>\(y<0\): \(\delta K\)<strong>shrinks</strong>. The coupling is <strong>irrelevant</strong>. Its effect is washed out at large scales.</p>
+</li>
+<li><p>\(y=0\): <strong>marginal</strong>. Linear analysis can&#39;t decide, and you need the next order &#40;this case is the drama of Parts 5 and 6&#41;.</p>
+</li>
+</ul>
+<p>
+  </fieldset>
+  
+<p>Temperature must be relevant at a critical point, because being slightly off \(T_c\) is exactly what makes the system flow away. Call \(t=(T-T_c)/T_c\), and let its eigenvalue be \(y_t\). Then:</p>
+\[ \xi(t) = b\,\xi(b^{y_t}t). \]
+<p>This holds for any \(b\), so choose \(b=|t|^{-1/y_t}\) so that the argument on the right is \(\pm1\):</p>
+\[ \xi(t) = |t|^{-1/y_t}\,\xi(\pm1) \quad\Longrightarrow\quad \boxed{\;\nu = \frac1{y_t}.\;} \]
+<p>A critical exponent is <strong>the inverse of an eigenvalue of the linearised RG at the fixed point</strong>. It&#39;s a property of the fixed point, not of the microscopic model you started from. That already explains why \(\nu\) needn&#39;t be a nice fraction: it&#39;s whatever the derivative of a complicated map happens to be.</p>
+<h2 id="many_couplings_and_universality"><a href="#many_couplings_and_universality" class="header-anchor">Many couplings, and universality</a></h2>
+<p>Real coarse-graining generates new couplings: next-nearest-neighbour bonds, four-spin terms, and so on. So the RG really acts on an infinite-dimensional space of couplings \(\{K_1,K_2,\dots\}\). Near a fixed point, linearise as before. You get a matrix \(\partial K'_a/\partial K_b\), and its eigenvectors &#40;&quot;scaling fields&quot;&#41; each come with an eigenvalue \(b^{y_i}\).</p>
+<p>Here is the key fact. Typically <strong>only a few eigenvalues are relevant</strong>. For the Ising fixed point there are exactly two: temperature \(t\) and magnetic field \(h\). All the others, infinitely many, are irrelevant.</p>
+
+<div class="mfig" style="--w:720px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/fixed_point_flows.svg" alt="Flow near a fixed point with one relevant and one irrelevant direction">
+  <p>The flow near a fixed point, projected onto one relevant coupling (horizontal) and one irrelevant one (vertical). The <b>critical surface</b> (blue) is the set of all theories that flow <i>into</i> the fixed point. Start slightly off it and you first approach the fixed point, then peel away to one phase or the other.</p>
+</div>
+
+<p>The irrelevant directions span the <strong>critical surface</strong>, the set of all microscopic Hamiltonians that are exactly critical. A real magnet, with its messy crystal structure and longer-range interactions, sits somewhere on the surface when tuned to \(T_c\). So does a liquid at its critical point, once you identify density with magnetisation. Under the flow they all fall into the <em>same</em> fixed point, forgetting everything about where they started except the directions that are relevant.</p>
+
+<div class="mfig" style="--w:720px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/universality.svg" alt="Different microscopic systems flowing to one fixed point">
+  <p>Universality in one picture. The exponents are properties of the destination, so every system that arrives there shares them. What decides the destination is coarse information: the dimension of space, the symmetry of the order parameter (up/down here), and whether interactions are short-ranged.</p>
+</div>
+
+<p>This is universality. Two systems are in the same <strong>universality class</strong> when they flow to the same fixed point. Measurements on fluids like xenon and sulfur hexafluoride near their liquid–gas critical points give \(\beta\approx0.32\)–\(0.33\), in line with the 3D Ising value \(0.3265\).</p>
+<p>It also explains why a magnet needs two knobs tuned &#40;temperature and field&#41; to reach criticality: the number of knobs you must tune equals the number of relevant directions.</p>
+<h2 id="all_the_exponents_from_two_numbers"><a href="#all_the_exponents_from_two_numbers" class="header-anchor">All the exponents from two numbers</a></h2>
+<p>The free energy per site \(f\) behaves like a density. After one RG step each block covers \(b^d\) old sites, so the singular part of \(f\) obeys</p>
+\[ f(t,h) = b^{-d}\,f(b^{y_t}t,\ b^{y_h}h). \]
+<p>Differentiating this gives every thermodynamic exponent in terms of \(y_t\) and \(y_h\) &#40;you&#39;ll derive \(\beta\) in exercise 3.2&#41;:</p>
+\[ \nu=\frac1{y_t},\quad \alpha = 2-\frac{d}{y_t},\quad \beta=\frac{d-y_h}{y_t},\quad \gamma=\frac{2y_h-d}{y_t},\quad \delta=\frac{y_h}{d-y_h},\quad \eta=d+2-2y_h. \]
+<p>Six exponents from two numbers means four relations between them, and these hold identically:</p>
+\[ \alpha+2\beta+\gamma=2\ \ (\text{Rushbrooke}),\qquad \gamma=\beta(\delta-1)\ \ (\text{Widom}),\qquad \gamma=\nu(2-\eta)\ \ (\text{Fisher}),\qquad d\nu=2-\alpha\ \ (\text{Josephson}). \]
+<p>These relations were found in experiments before anyone could explain them. Checking them symbolically:</p>
+<pre><code class="language-mathematica">al &#61; 2 - d/yt; be &#61; &#40;d - yh&#41;/yt; ga &#61; &#40;2 yh - d&#41;/yt;
+de &#61; yh/&#40;d - yh&#41;; nu &#61; 1/yt; eta &#61; d &#43; 2 - 2 yh;
+Simplify&#91;&#123;al &#43; 2 be &#43; ga - 2, ga - be &#40;de - 1&#41;, ga - nu &#40;2 - eta&#41;, d nu - &#40;2 - al&#41;&#125;&#93;
+&#40;* &#123;0, 0, 0, 0&#125; *&#41;
+&#123;nu, al, be, ga, de, eta&#125; /. &#123;d -&gt; 2, yt -&gt; 1, yh -&gt; 15/8&#125;
+&#40;* &#123;1, 0, 1/8, 7/4, 15, 1/4&#125;  -- Onsager&#39;s exact 2D Ising exponents *&#41;</code></pre>
+<p>For the 2D Ising model, Onsager&#39;s exact solution corresponds to \(y_t=1\) and \(y_h=15/8\).</p>
+<h2 id="an_approximate_recursion_in_two_dimensions"><a href="#an_approximate_recursion_in_two_dimensions" class="header-anchor">An approximate recursion in two dimensions</a></h2>
+<p>Can we find the 2D fixed point with a pencil? Not exactly: majority rule in 2D generates infinitely many couplings. The simplest approximation that keeps a single coupling is the <strong>Migdal–Kadanoff</strong> scheme. On the square lattice with \(b=2\), first move half the bonds onto their neighbours, which leaves a set of one-dimensional chains with doubled coupling \(2K\). Then decimate those chains exactly as in Part 2. The result is</p>
+\[ K' = \operatorname{artanh}\!\big(\tanh^2 2K\big) = \tfrac12\ln\cosh 4K. \]
+<p>Unlike the 1D map, this one crosses the diagonal:</p>
+
+<div class="mfig" style="--w:600px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/mk_cobweb.svg" alt="Migdal-Kadanoff recursion with an unstable fixed point">
+  <p>Starting a hair on either side of \(K^*\), iteration runs away in opposite directions: to the hot fixed point or the cold one. \(K^*\) is an <b>unstable</b> fixed point, and temperature is relevant there. That's a phase transition.</p>
+</div>
+
+<p>Solving numerically &#40;Wolfram&#39;s <code>FindRoot</code>, cross-checked in Python and JavaScript&#41;: \(K^*=0.3047\), \(R'(K^*)=1.6786\), so \(y_t=\log_2 1.6786=0.7472\) and \(\nu=1.338\).</p>
+<p>Compare with the exact answer, \(K_c=\tfrac12\ln(1+\sqrt2)=0.4407\) and \(\nu=1\). The Migdal–Kadanoff scheme gets the structure right &#40;there is an unstable fixed point, temperature is relevant&#41; and the numbers wrong by 30&#37;. That&#39;s typical of uncontrolled real-space approximations, and it&#39;s the reason Wilson&#39;s momentum-space method, with a small parameter to expand in, was such a breakthrough. We build it next.</p>
+<h2 id="exercises"><a href="#exercises" class="header-anchor">Exercises</a></h2>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>3.1.</strong> Using the Migdal–Kadanoff map \(R(K)=\tfrac12\ln\cosh4K\), show that \(R'(K)=2\tanh 4K\) and so \(y_t = 1+\log_2\tanh(4K^*)\). With \(K^*=0.304689\), evaluate \(y_t\). 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body"> \(R'(K)=\tfrac12\cdot\frac{4\sinh4K}{\cosh4K}=2\tanh4K\). Then \(y_t=\log_2R'(K^*)=1+\log_2\tanh(4K^*)\). With \(4K^*=1.218756\), \(\tanh=0.839287\), so \(y_t=1+\log_2(0.839287)=1-0.25277=0.74724\) and \(\nu=1/y_t=1.338\), matching the value quoted above. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>3.2.</strong> Starting from \(f(t,h)=b^{-d}f(b^{y_t}t,b^{y_h}h)\), derive \(\beta=(d-y_h)/y_t\). &#40;Hint: \(m=-\partial f/\partial h\) at \(h=0\), then choose \(b\) as in the derivation of \(\nu\).&#41; 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  Differentiate both sides with respect to \(h\): \(m(t,h)=b^{-d+y_h}m(b^{y_t}t,b^{y_h}h)\). Set \(h=0\) and choose \(b=|t|^{-1/y_t}\): \(m(t,0)=|t|^{(d-y_h)/y_t}m(\pm1,0)\). Below \(T_c\), \(m\propto|t|^\beta\), so \(\beta=(d-y_h)/y_t\). For 2D Ising, \((2-15/8)/1=1/8\). </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>3.3.</strong> A liquid–gas critical point is reached by tuning temperature <em>and</em> pressure. Why exactly two knobs? What plays the role of the magnetic field? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  The Ising fixed point has two relevant directions, so a generic system needs two parameters tuned to land on the critical surface. For a fluid the order parameter is \(\rho-\rho_c\), the deviation of density from its critical value. The &quot;field&quot; conjugate to it is the deviation of the chemical potential &#40;equivalently pressure&#41; from its value on the coexistence curve. Tuning pressure to that curve sets \(h=0\), and tuning temperature to \(T_c\) sets \(t=0\). The asymmetry between liquid and gas is an irrelevant coupling, which is why the fluid still lands in the Ising class. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>3.4.</strong> In the widget, find the temperature where the third blocked panel stops looking like the original. Explain why this temperature moves towards \(T_c\) as you add more blocking steps. 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  After \(n\) steps you are looking at scale \(2^n\). The blocked picture looks critical as long as \(2^n\lesssim\xi(t)\propto|t|^{-\nu}\), since up to the correlation length the system can&#39;t tell it&#39;s off criticality. So you notice the deviation when \(|t|\sim2^{-n/\nu}=2^{-n}\) in 2D &#40;\(\nu=1\)&#41;. Each extra blocking step halves the window around \(T_c\) in which the picture still looks critical. On a 128×128 lattice the window can&#39;t shrink below \(|t|\sim1/128\), which is why the widget stays critical-looking in a small band. </div></details></p>
+
+<button onclick="window.history.back()">Go Back</button>
+
+<div id="custom-comments-container"></div>
+<link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+<script type="module" src="/assets/js/custom_comments.js?v=5"></script>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat: opt-out, remembered per visitor. The script is only loaded
+         when the cat is wanted, so switching it off costs nothing on later pages. -->
+    <style>
+      #oneko-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 1000;
+        width: 34px; height: 34px; padding: 0;
+        border: 1px solid rgba(140,140,140,0.35); border-radius: 50%;
+        background: rgba(250,248,244,0.82); color: #7a6a4a;
+        font-size: 15px; line-height: 1; cursor: pointer;
+        opacity: 0.42; transition: opacity 0.2s, transform 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #oneko-toggle:hover { opacity: 1; transform: scale(1.08); }
+      html.dark-mode #oneko-toggle {
+        background: rgba(38,36,33,0.82); color: #cda863;
+        border-color: rgba(180,170,150,0.28);
+      }
+      html.oneko-off #oneko { display: none !important; }
+      @media print { #oneko-toggle { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = 'oneko-enabled';
+        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var loaded = false;
+
+        function loadCat() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '/assets/oneko.js?v=62';
+          s.setAttribute('data-cat', '/assets/oneko.gif');
+          document.body.appendChild(s);
+        }
+
+        function paint(btn) {
+          btn.textContent = on ? '🐈' : '🐾';
+          btn.title = on ? 'Hide the cat' : 'Bring the cat back';
+          btn.setAttribute('aria-label', btn.title);
+          document.documentElement.classList.toggle('oneko-off', !on);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.createElement('button');
+          btn.id = 'oneko-toggle';
+          btn.type = 'button';
+          paint(btn);
+          btn.addEventListener('click', function () {
+            on = !on;
+            localStorage.setItem(KEY, on ? '1' : '0');
+            paint(btn);
+            if (on) loadCat();
+          });
+          document.body.appendChild(btn);
+          if (on) loadCat();
+        });
+      })();
+    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

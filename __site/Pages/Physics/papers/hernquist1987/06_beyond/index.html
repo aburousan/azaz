@@ -269,7 +269,7 @@
   </script>
   
 <div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#the_gap_in_hardware">The gap in hardware</a></li><li><a href="#going_one_order_further_the_octupole">Going one order further: the octupole</a><ol><li><a href="#the_n3_term">The \(n=3\) term</a></li><li><a href="#the_force">The force</a></li><li><a href="#shifting_it_up_the_tree">Shifting it up the tree</a></li></ol></li><li><a href="#does_it_work">Does it work?</a></li><li><a href="#but_is_it_worth_it">But is it worth it?</a><ol><li><a href="#doing_it_properly_with_a_cost_model">Doing it properly, with a cost model</a></li><li><a href="#eliminating_theta">Eliminating \(\theta\)</a></li><li><a href="#the_answer_which_is_not_the_one_i_wanted">The answer, which is not the one I wanted</a></li></ol></li><li><a href="#can_the_opening_test_be_repaired">Can the opening test be repaired?</a><ol><li><a href="#comparing_them_fairly">Comparing them fairly</a></li></ol></li><li><a href="#making_a_tree_code_misbehave_on_purpose">Making a tree code misbehave on purpose</a><ol><li><a href="#what_actually_went_wrong">What actually went wrong</a></li><li><a href="#and_the_repairs_still_do_not_win">And the repairs still do not win</a></li><li><a href="#why_the_guaranteed_test_loses">Why the guaranteed test loses</a></li></ol></li><li><a href="#a_better_integrator_not_so_fast">A better integrator? Not so fast</a><ol><li><a href="#why_more_accuracy_is_not_always_buyable">Why more accuracy is not always buyable</a></li><li><a href="#mapping_the_floor">Mapping the floor</a></li></ol></li><li><a href="#a_million_particles">A million particles</a><ol><li><a href="#where_the_papers_error_law_runs_out">Where the paper&#39;s error law runs out</a></li></ol></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#the_gap_in_hardware">The gap in hardware</a></li><li><a href="#going_one_order_further_the_octupole">Going one order further: the octupole</a><ol><li><a href="#the_n3_term">The \(n=3\) term</a></li><li><a href="#the_force">The force</a></li><li><a href="#shifting_it_up_the_tree">Shifting it up the tree</a></li></ol></li><li><a href="#does_it_work">Does it work?</a></li><li><a href="#but_is_it_worth_it">But is it worth it?</a><ol><li><a href="#doing_it_properly_with_a_cost_model">Doing it properly, with a cost model</a></li><li><a href="#eliminating_theta">Eliminating \(\theta\)</a></li><li><a href="#the_answer">The answer</a></li></ol></li><li><a href="#can_the_opening_test_be_repaired">Can the opening test be repaired?</a><ol><li><a href="#comparing_them_fairly">Comparing them fairly</a></li></ol></li><li><a href="#making_a_tree_code_misbehave_on_purpose">Making a tree code misbehave on purpose</a><ol><li><a href="#what_actually_went_wrong">What actually went wrong</a></li><li><a href="#and_the_repairs_still_do_not_win">And the repairs still do not win</a></li><li><a href="#why_the_guaranteed_test_loses">Why the guaranteed test loses</a></li></ol></li><li><a href="#a_better_integrator_not_so_fast">A better integrator? Not so fast</a><ol><li><a href="#why_more_accuracy_is_not_always_buyable">Why more accuracy is not always buyable</a></li><li><a href="#mapping_the_floor">Mapping the floor</a></li></ol></li><li><a href="#a_million_particles">A million particles</a><ol><li><a href="#where_the_papers_error_law_runs_out">Where the paper&#39;s error law runs out</a></li></ol></li></ol></div>
 <h1 id="ol_start6_doing_better_than_1987"><a href="#ol_start6_doing_better_than_1987" class="header-anchor"><ol start="6">
 <li><p>Doing better than 1987</p>
 </li>
@@ -301,7 +301,7 @@ P_3(x) = \frac{5x^3 - 3x}{2}
 \]
 <p>so the \(n=3\) contribution to the potential is</p>
 \[
-\varphi_3 = -\frac{G}{d^4}\sum_\alpha m_\alpha\,s_\alpha^3\,P_3(\cos\gamma_\alpha)
+\phi_3 = -\frac{G}{d^4}\sum_\alpha m_\alpha\,s_\alpha^3\,P_3(\cos\gamma_\alpha)
 = -\frac{G}{d^4}\sum_\alpha m_\alpha\,\frac{5(\hat n\cdot\vec s_\alpha)^3 - 3s_\alpha^2(\hat n\cdot\vec s_\alpha)}{2}
 \]
 <p>using \(s_\alpha\cos\gamma_\alpha = \hat n\cdot\vec s_\alpha\) again &#40;and dropping the \(\alpha\) on the components to keep the indices readable&#41;. Now write it in index notation. The cube gives \((\hat n\cdot\vec s)^3 = \hat n_i\hat n_j\hat n_k\,s_is_js_k\), and for the second piece we need something symmetric in \(ijk\) to contract against \(\hat n_i\hat n_j\hat n_k\). Using \(\hat n\cdot\hat n = 1\),</p>
@@ -314,7 +314,7 @@ P_3(x) = \frac{5x^3 - 3x}{2}
 \]
 <p>and</p>
 \[
-\varphi_3 = -\frac{G}{2}\,\frac{O_{ijk}\,d_id_jd_k}{d^7}
+\phi_3 = -\frac{G}{2}\,\frac{O_{ijk}\,d_id_jd_k}{d^7}
 \]
 <p>Like the quadrupole, this tensor is <strong>traceless</strong>. Contract any pair of indices:</p>
 \[
@@ -326,7 +326,7 @@ O_{ill} = \sum_\alpha m_\alpha\left[5s_i\,s^2 - s^2\big(\underbrace{3s_i}_{\delt
 \[
 \boxed{\;a_l^{(3)} = \frac{3G}{2}\,\frac{O_{ljk}d_jd_k}{d^7} \;-\; \frac{7G}{2}\,\frac{S_3\,d_l}{d^9}\;}
 \]
-<p>I checked all three claims in Mathematica before writing a line of Julia: that the \(P_3\) term really equals \(\tfrac12\hat n_i\hat n_j\hat n_k O_{ijk}\), that \(O\) is traceless and that the acceleration is \(-\nabla\varphi_3\):</p>
+<p>I checked all three claims in Mathematica before writing a line of Julia: that the \(P_3\) term really equals \(\tfrac12\hat n_i\hat n_j\hat n_k O_{ijk}\), that \(O\) is traceless and that the acceleration is \(-\nabla\phi_3\):</p>
 <pre><code class="language-mathematica">legTerm3 &#61; s2^&#40;3/2&#41; LegendreP&#91;3, &#40;xk . nh&#41;/Sqrt&#91;s2&#93;&#93;;
 O3 &#61; Table&#91;mk &#40;5 xk&#91;&#91;i&#93;&#93; xk&#91;&#91;j&#93;&#93; xk&#91;&#91;k&#93;&#93;
         - s2 &#40;xk&#91;&#91;i&#93;&#93; KroneckerDelta&#91;j, k&#93; &#43; xk&#91;&#91;j&#93;&#93; KroneckerDelta&#91;i, k&#93;
@@ -373,18 +373,18 @@ O_{ijk} = 5M^{(3)}_{ijk} - \left(\delta_{jk}T_i + \delta_{ik}T_j + \delta_{ij}T_
   
 <h2 id="does_it_work"><a href="#does_it_work" class="header-anchor">Does it work?</a></h2>
 <p>First the clean test, on a single cell, exactly as <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#how_good_is_it">in part 3</a> but with the third curve added. The prediction is that the errors should fall as \((s/d)^2\), \((s/d)^3\) and \((s/d)^4\):</p>
-<div id="fdpimk" style=""></div>
+<div id="fdpwgs" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpimk");
+graphDiv = document.getElementById("fdpwgs");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/multipole_error_3.json');
 </script>
 
 <p>Same plot as in part 3, now with a third curve. Each extra term pushes the line down and makes it steeper, and the slopes come out 2, 3 and 4 exactly as the theory says.</p>
 <p>Fitted slopes: <strong>1.99, 3.01, 4.00</strong>. The theory says 2, 3, 4.</p>
 <p>Now in the real tree, at \(N = 32768\), averaged over three realisations:</p>
-<div id="fdpedm" style=""></div>
+<div id="fdpmuv" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpedm");
+graphDiv = document.getElementById("fdpmuv");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_theta_3.json');
 </script>
 
@@ -393,16 +393,16 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
 <p>At \(\theta = 0.5\) the octupole is <strong>10 times more accurate than the monopole</strong> and 2.7 times better than the quadrupole. At \(\theta = 0.2\) it is <strong>50 times</strong> better than the monopole. The gain grows as \(\theta\) shrinks, exactly as the \((s/d)^4\) law demands.</p>
 <h2 id="but_is_it_worth_it"><a href="#but_is_it_worth_it" class="header-anchor">But is it worth it?</a></h2>
 <p>Accuracy alone is the wrong question. The octupole costs more per cell, so the honest comparison is <strong>error against cost</strong>. If I can reach the same accuracy more cheaply by just lowering \(\theta\) with cheaper cells, the octupole is a waste of effort.</p>
-<div id="fdpmpb" style=""></div>
+<div id="fdpzpx" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpmpb");
+graphDiv = document.getElementById("fdpzpx");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/pareto.json');
 </script>
 
 <p>Cost goes right, error goes up, one point per setting, and you want to be at the bottom left. The useful thing here is which points nobody beats on both counts at once.</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      <strong>The costs on that figure are from a threaded run and should not be read as absolute times.</strong> I originally quoted them as if they were, and then compared one of them against a single-CPU CRAY number, which was a straightforward mistake. The <em>shape</em> of the frontier survives, because all three orders were threaded the same way, but every number below has been redone on <strong>one core</strong>. If you are comparing against anything historical, that is the only currency that means anything. 
+      <strong>The costs on that figure come from a threaded run, so read them as relative and not as absolute times.</strong> The <em>shape</em> of the frontier is meaningful, because all three orders were threaded the same way, but every number quoted below is measured on <strong>one core</strong>. Core-seconds is the only currency in which a comparison against 1987 hardware means anything, and it is easy to gain a factor of 40 by quietly changing the units of the vertical axis. 
   </fieldset>
   
 <h3 id="doing_it_properly_with_a_cost_model"><a href="#doing_it_properly_with_a_cost_model" class="header-anchor">Doing it properly, with a cost model</a></h3>
@@ -449,7 +449,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/pa
 <p>
   </fieldset>
   
-<h3 id="the_answer_which_is_not_the_one_i_wanted"><a href="#the_answer_which_is_not_the_one_i_wanted" class="header-anchor">The answer, which is not the one I wanted</a></h3>
+<h3 id="the_answer"><a href="#the_answer" class="header-anchor">The answer</a></h3>
 <p><strong>The quadrupole owns the middle of the range.</strong> For any target accuracy between about \(2\%\) and \(5\times10^{-5}\), which is where essentially every real astrophysical simulation lives, the cheapest route is a quadrupole tree with \(\theta\) tuned to suit. The monopole wins only at the crude end. The octupole only starts paying for itself below one part in twenty thousand.</p>
 <p>So the practical rules for this code are short:</p>
 <ol>
@@ -477,7 +477,7 @@ B_p = \max_c\left(\left|\vec R_c\right| + B_c\right)
 \]
 <p>and by the triangle inequality \(B_p \ge b_{\max}^{\text{true}}\), so accepting only when \(B/d<\theta<1\)<strong>guarantees</strong> convergence. It can of course be stricter than the exact radius would be, and in my tree it is: a well-filled cell has \(B\) between \(0.72s\) and \(0.85s\) depending on \(\theta\), which is only \(4\) to \(11\%\) above the exact \(b_{\max}\), so the bound is tight.</p>
 <h3 id="comparing_them_fairly"><a href="#comparing_them_fairly" class="header-anchor">Comparing them fairly</a></h3>
-<p>Here is the trap, and I fell into it first time round. <strong>The three tests are not equally strict at the same \(\theta\).</strong> Since \(B\) is usually smaller than \(s\), the safe-radius test <em>accepts more</em> at the same numerical \(\theta\) and is therefore looser, while the offset-aware test is stricter. Comparing them at fixed \(\theta\) measures nothing except how each one has been normalised.</p>
+<p>Here is the trap. <strong>The three tests are not equally strict at the same \(\theta\).</strong> Since \(B\) is usually smaller than \(s\), the safe-radius test <em>accepts more</em> at the same numerical \(\theta\) and is therefore looser, while the offset-aware test is stricter. Comparing them at fixed \(\theta\) measures nothing except how each one has been normalised.</p>
 
   <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
       The only fair comparison is <strong>at equal cost</strong>: interpolate every criterion onto a common mean number of accepted terms per particle, then compare the errors there. Whenever somebody shows you a new acceptance criterion that beats the old one, the first question to ask is whether the comparison was at matched \(\theta\) or matched work. At matched \(\theta\) you can make almost anything look good by making it slightly stricter. 
@@ -550,9 +550,9 @@ function yoshida4_step&#33;&#40;pos, vel, acc, tree, mass, dt, cfg&#41;
 end</code></pre>
 <p>On a two-body orbit it behaves exactly as advertised: halving \(\delta t\) cuts the energy error by about sixteen, confirming fourth order.</p>
 <p>But it costs <strong>three force evaluations per step</strong>. So the fair comparison holds the number of force evaluations fixed, letting Yoshida take steps three times longer:</p>
-<div id="fdpkzf" style=""></div>
+<div id="fdphzz" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpkzf");
+graphDiv = document.getElementById("fdphzz");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_equal_cost.json');
 </script>
 
@@ -580,9 +580,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/in
   
 <h3 id="mapping_the_floor"><a href="#mapping_the_floor" class="header-anchor">Mapping the floor</a></h3>
 <p>So I went and measured the floor for every \(\theta\). \(N = 4096\), integrated to \(t = 12.5\), shrinking \(\delta t\) by factors of two:</p>
-<div id="fdpcfb" style=""></div>
+<div id="fdpltk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpcfb");
+graphDiv = document.getElementById("fdpltk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_budget.json');
 </script>
 
@@ -610,17 +610,17 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
   
 <h2 id="a_million_particles"><a href="#a_million_particles" class="header-anchor">A million particles</a></h2>
 <p>The paper&#39;s largest run was \(N = 32768\). Going to \(2^{20} \approx 10^6\) extends the lever arm on both scaling laws by more than a decade, which is the only honest way to check that \(N\log N\) is a real law and not a fit over too short a range.</p>
-<div id="fdplui" style=""></div>
+<div id="fdpeem" style=""></div>
 <script>
-graphDiv = document.getElementById("fdplui");
+graphDiv = document.getElementById("fdpeem");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_timing.json');
 </script>
 
 <p>Particles go right, time per force evaluation goes up, all the way to a million particles. The line stays straight, so the \(N\log N\) promise holds well beyond what the paper could test.</p>
 <p>The counting argument from <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#why_this_gives_n_log_n">part 3</a> predicted that each level of the tree contributes a constant number of terms, so \(\langle n_\text{terms}\rangle\) should be <strong>linear in \(\log N\)</strong>. Over five doublings that was suggestive; over seven it is a straight line:</p>
-<div id="fdpyhz" style=""></div>
+<div id="fdpfdo" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpyhz");
+graphDiv = document.getElementById("fdpfdo");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_nterms.json');
 </script>
 
@@ -635,9 +635,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/la
 <h3 id="where_the_papers_error_law_runs_out"><a href="#where_the_papers_error_law_runs_out" class="header-anchor">Where the paper&#39;s error law runs out</a></h3>
 <p>Now the one that genuinely revises something. The paper reports that the force error decays as \(\sim N^{-1/5}\), fitted over its range of \(1024 \le N \le 32768\). Over exactly that range I reproduce it: my exponent is \(-0.18\), which is \(-1/5\) to the accuracy anyone could ask.</p>
 <p>But push it further:</p>
-<div id="fdpvoz" style=""></div>
+<div id="fdppfz" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpvoz");
+graphDiv = document.getElementById("fdppfz");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_error.json');
 </script>
 
@@ -660,7 +660,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/la
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 30, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 08, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

@@ -1,0 +1,840 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Renormalisation Group V: Wilson's Momentum Shells</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
+      fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#from_spins_to_a_smooth_field">From spins to a smooth field</a></li><li><a href="#the_field_as_a_sum_of_waves">The field as a sum of waves</a></li><li><a href="#one_rg_step_in_three_moves">One RG step, in three moves</a></li><li><a href="#the_free_field_the_gaussian_fixed_point">The free field: the Gaussian fixed point</a></li><li><a href="#averaging_over_the_free_field_one_mode_at_a_time">Averaging over the free field, one mode at a time</a><ol><li><a href="#wicks_theorem_averages_of_more_fields">Wick&#39;s theorem: averages of more fields</a></li></ol></li><li><a href="#what_the_free_field_looks_like_its_correlation_function">What the free field looks like: its correlation function</a></li><li><a href="#scaling_dimensions_power_counting_is_an_rg_fact">Scaling dimensions: power counting is an RG fact</a></li><li><a href="#why_four_dimensions_is_special">Why four dimensions is special</a></li><li><a href="#the_same_answer_from_fluctuations_the_ginzburg_criterion">The same answer from fluctuations: the Ginzburg criterion</a></li><li><a href="#exercises">Exercises</a></li></ol></div>
+<h1 id="renormalisation_group_v_wilsons_momentum_shells"><a href="#renormalisation_group_v_wilsons_momentum_shells" class="header-anchor">Renormalisation Group V: Wilson&#39;s Momentum Shells</a></h1>
+<blockquote>
+<p><em>Part 5 of eight. previous: <a href="/Pages/Physics/courses/RG/04_fixed_points/">Fixed points and universality</a> · <a href="/Pages/Physics/courses/RG/Main_page/">Course home</a> · <a href="/Pages/Physics/courses/RG/glossary/">Glossary</a> · next: <a href="/Pages/Physics/courses/RG/06_wilson_fisher/">The Wilson-Fisher point</a></em></p>
+</blockquote>
+<p>Coarse-graining in real space &#40;voting in blocks&#41; gave us the right ideas but rough numbers. Wilson&#39;s move was to coarse-grain in <em>momentum</em> space instead. There, &quot;throw away small details&quot; becomes &quot;throw away the fastest wiggles&quot; and perturbation theory gives controlled answers. This part sets up the machinery on a free field, where everything is exact. Part 6 switches on the interaction.</p>
+<h2 id="from_spins_to_a_smooth_field"><a href="#from_spins_to_a_smooth_field" class="header-anchor">From spins to a smooth field</a></h2>
+<p>Block-spin a magnet enough times and each block spin is an average over thousands of original spins. At that point it&#39;s better to treat it as a smooth number, the local magnetisation \(\phi(\mathbf x)\), rather than as \(\pm1\).</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Look at a newspaper photo under a magnifying glass and you see separate black dots. Step back and you see smooth shades of grey. The field \(\phi(\mathbf x)\) is the &quot;shade of grey&quot; description of the magnet: the average of many spins, smooth enough to use calculus on. 
+  </fieldset>
+  
+<p>What&#39;s the most general formula for the energy of such a field? Landau and Ginzburg&#39;s answer was to write down everything the symmetry allows, as a series in powers of \(\phi\) and its slope and keep the first few terms. The up/down symmetry \(\phi\to-\phi\) rules out odd powers, which leaves</p>
+\[ S[\phi] = \int\mathrm d^dx\left[\tfrac12(\nabla\phi)^2 + \tfrac12 r\,\phi^2 + \frac{u}{4!}\phi^4\right], \]
+<p>where \(r\) is proportional to \(T-T_0\) and changes sign near the transition. The partition function becomes \(Z=\int\mathcal D\phi\,e^{-S[\phi]}\).</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Tong reminds us that this &quot;path integral&quot; isn&#39;t mysterious: it&#39;s just one ordinary integral over \(\phi\) for every little box of space, all done together. Infinitely many ordinary integrals, nothing more. 
+  </fieldset>
+  
+<p>This is exactly the Euclidean \(\phi^4\) theory from Part 1, with \(r=m^2\) and \(u=\lambda\). <strong>A statistical field theory in \(d\) dimensions and a quantum field theory in \(d\) spacetime dimensions are the same mathematical object</strong>, as Part 2 showed with the Wick rotation. That&#39;s why a course about magnets is also a course about particles.</p>
+<p>The underlying lattice spacing \(a\) means no wave on the field can be shorter than \(a\). In momentum language, the field only has components with \(|\mathbf k|<\Lambda\sim\pi/a\). That&#39;s the cutoff and here it&#39;s completely physical: it&#39;s the size of the atoms.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>Reading alongside.</strong> <a href="https://davidtong.org/teaching/statistical-field-theory/">Tong&#39;s notes</a> build this action from the Ising model in §1.3 and do the free field in §3.3. Peskin &amp; Schroeder §12.1 is the particle physicist&#39;s version of this same section. 
+  </fieldset>
+  
+<h2 id="the_field_as_a_sum_of_waves"><a href="#the_field_as_a_sum_of_waves" class="header-anchor">The field as a sum of waves</a></h2>
+<p>Wilson&#39;s method works with the <strong>waves</strong> that make up the field, so let&#39;s set that up carefully. Any field can be written as a sum &#40;an integral&#41; of waves, each with a wavevector \(\mathbf k\):</p>
+\[ \phi(\mathbf x)=\int\frac{\mathrm d^dk}{(2\pi)^d}\,e^{i\mathbf k\cdot\mathbf x}\,\phi(\mathbf k). \]
+<p>Since \(\phi(\mathbf x)\) is real, \(\phi(-\mathbf k)=\phi(\mathbf k)^*\). A large \(|\mathbf k|\) is a short, fast wiggle and a small \(|\mathbf k|\) is a long, slow swell. Each wave is called a <strong>mode</strong>.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      It&#39;s like the equaliser on a music system. Instead of the sound wave itself, it shows how much bass, midrange and treble there is. Writing \(\phi\) in terms of \(\phi(\mathbf k)\) is looking at the field on the equaliser: one slider per wavevector. 
+  </fieldset>
+  
+<p>Now rewrite the free part of the action in terms of the waves. Take the stiffness term first. Each \(\nabla\) acting on \(e^{i\mathbf k\cdot\mathbf x}\) just brings down \(i\mathbf k\), so</p>
+\[ \int\mathrm d^dx\,(\nabla\phi)^2 = \int\frac{\mathrm d^dk}{(2\pi)^d}\frac{\mathrm d^dk'}{(2\pi)^d}\,(i\mathbf k)\cdot(i\mathbf k')\,\phi(\mathbf k)\phi(\mathbf k')\int\mathrm d^dx\,e^{i(\mathbf k+\mathbf k')\cdot\mathbf x}. \]
+<p>The last integral is the key fact about waves: adding up \(e^{i(\mathbf k+\mathbf k')\cdot\mathbf x}\) over all of space gives zero unless the two waves exactly cancel, \(\mathbf k'=-\mathbf k\). Precisely, \(\int\mathrm d^dx\,e^{i(\mathbf k+\mathbf k')\cdot\mathbf x}=(2\pi)^d\,\delta^d(\mathbf k+\mathbf k')\). The delta function removes the \(\mathbf k'\) integral and sets \(\mathbf k'=-\mathbf k\), so \((i\mathbf k)\cdot(i\mathbf k') = (i\mathbf k)\cdot(-i\mathbf k)=k^2\) and \(\phi(\mathbf k)\phi(-\mathbf k)=|\phi(\mathbf k)|^2\). The mass term works the same way without the \(k\)&#39;s. Together:</p>
+\[ S_0=\int\mathrm d^dx\left[\tfrac12(\nabla\phi)^2+\tfrac12r\phi^2\right] = \int\frac{\mathrm d^dk}{(2\pi)^d}\;\tfrac12\,(k^2+r)\,|\phi(\mathbf k)|^2. \]
+<p>This is a big simplification. In position space, neighbouring points are tied together by the stiffness term. In wave language, <strong>every mode is on its own</strong>: the action is a separate sum over modes, with no mode talking to any other.</p>
+<p>The \(\phi^4\) term is different. Written in waves, it contains four modes at once, \(\phi(\mathbf k_1)\phi(\mathbf k_2)\phi(\mathbf k_3)\phi(\mathbf k_4)\), with the same kind of delta function forcing \(\mathbf k_1+\mathbf k_2+\mathbf k_3+\mathbf k_4=0\). So the interaction lets modes with different wavevectors affect each other, as long as their wavevectors add to zero. That&#39;s the only reason coarse-graining is ever hard.</p>
+<h2 id="one_rg_step_in_three_moves"><a href="#one_rg_step_in_three_moves" class="header-anchor">One RG step, in three moves</a></h2>
+<p>Split every wave in the field into slow and fast parts:</p>
+\[ \phi(\mathbf x) = \phi_{\rm s}(\mathbf x) + \phi_{\rm f}(\mathbf x), \qquad \phi_{\rm s}:\ |\mathbf k|<\Lambda/b,\qquad \phi_{\rm f}:\ \Lambda/b<|\mathbf k|<\Lambda. \]
+<p>The subscripts are nothing clever: \({\rm s}\) for slow, \({\rm f}\) for fast. &#40;Most books write \(\phi_<\) with \(\phi_>\) instead, meaning below the shell with above it. Same split, harder to read at a glance.&#41; The fast part \(\phi_{\rm f}\) lives in a thin <strong>shell</strong> in momentum space, just below the cutoff.</p>
+
+<div class="mfig" style="--w:620px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/momentum_shell.svg" alt="The momentum shell and the three steps of a Wilsonian RG step">
+  <p>One RG step. Integrate out the fast modes in the shell (red), stretch momenta so the cutoff is back at \(\Lambda\), then rescale the field so its stiffness term looks the same as before. What's left over is a change in the couplings.</p>
+</div>
+
+<p><strong>Move 1: coarse-grain.</strong> Integrate out the shell. That defines a new action for the slow modes alone:</p>
+\[ e^{-S'[\phi_{\rm s}]} = \int\mathcal D\phi_{\rm f}\,e^{-S[\phi_{\rm s}+\phi_{\rm f}]}. \]
+<p>Any question about long-distance physics gets the same answer from \(S'\) as from \(S\). We&#39;ve changed the description, not the physics.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Think of an old radio in a Kolkata tea stall playing a Rabindrasangeet song. It can&#39;t reproduce the treble, which is like a low-pass filter that removes the high notes. You still recognise the tune perfectly. The treble is gone, but if the instruments were interacting &#40;say, two high notes beating together to make a low hum&#41;, that low hum stays in the bass. So the bass you&#39;re left with isn&#39;t quite the original bass: the treble has left its fingerprints on it. Integrating out the fast modes is the same. They&#39;re gone, but their effect on the slow modes stays, as shifted couplings. Tong adds that this step is just averaging: you treat the fast modes as random noise and average over it. 
+  </fieldset>
+  
+<p><strong>Move 2: zoom out.</strong> The new theory has cutoff \(\Lambda/b\), so it can&#39;t be compared directly with the old one. Tong calls them &quot;apples and oranges&quot;. So stretch momenta, \(\mathbf k'=b\mathbf k\) &#40;equivalently, shrink lengths, \(\mathbf x'=\mathbf x/b\)&#41;, which puts the cutoff back at \(\Lambda\). This is exactly &quot;stepping back from the picture&quot;: everything looks smaller.</p>
+<p><strong>Move 3: fix the contrast.</strong> Rescale the field, \(\phi'=\zeta^{-1}\phi_{\rm s}\), choosing \(\zeta\) so that the stiffness term \(\tfrac12(\nabla\phi)^2\) keeps its standard form. Without this step the stiffness would just drift and we&#39;d never find a fixed point.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      When you shrink a photo on your phone, it can come out darker or washed out, so you adjust the brightness to make it look normal again. Rescaling the field is that brightness adjustment. It doesn&#39;t change what&#39;s in the picture, it just makes pictures at different zoom levels comparable. 
+  </fieldset>
+  
+<p>After the three moves, the action has the same form with new couplings \((r',u',\dots)\). That&#39;s the RG map, now for a field.</p>
+<h2 id="the_free_field_the_gaussian_fixed_point"><a href="#the_free_field_the_gaussian_fixed_point" class="header-anchor">The free field: the Gaussian fixed point</a></h2>
+<p>Switch the interaction off, \(u=0\). In momentum space the action is then a sum over separate waves that don&#39;t talk to each other,</p>
+\[ S = \int_{|\mathbf k|<\Lambda}\frac{\mathrm d^dk}{(2\pi)^d}\,\tfrac12(k^2+r)\,|\phi(\mathbf k)|^2, \]
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      It&#39;s like a guitar with strings that don&#39;t touch. Removing the high strings has no effect at all on the low ones. So Move 1 does nothing here except produce a constant. 
+  </fieldset>
+  
+<p>Now Moves 2 and 3. Put \(\mathbf k=\mathbf k'/b\), so \(\mathrm d^dk=b^{-d}\mathrm d^dk'\) and \(k^2=b^{-2}k'^2\) and set \(\phi_{\rm s}(\mathbf k'/b)=\zeta\,\phi'(\mathbf k')\):</p>
+\[ S' = \int_{|\mathbf k'|<\Lambda}\frac{\mathrm d^dk'}{(2\pi)^d}\,\tfrac12\, b^{-d}\zeta^2\big(b^{-2}k'^2 + r\big)|\phi'(\mathbf k')|^2. \]
+<p>To keep the coefficient of \(k'^2\) equal to one we need \(\zeta^2=b^{d+2}\) and then</p>
+\[ \boxed{\; r' = b^2 r.\;} \]
+<p>So \(r=0\) is a fixed point: the free, massless field. It&#39;s called the <strong>Gaussian fixed point</strong>, because the weight \(e^{-S}\) is a Gaussian. It has one relevant direction, \(r\), with \(y_r=2\), so \(\nu=1/y_r=\tfrac12\). That&#39;s exactly the <strong>mean-field</strong> value.</p>
+
+  <fieldset class=" puja"><legend class=" puja-legend"> Puja corner</legend>
+      The Gaussian fixed point is the <strong>free</strong> theory: no interactions, no coupling, nobody to hold hands with at Maddox Square. Single readers, this one is about you. The good news is that it&#39;s a fixed point, so you look exactly the same at every scale. Nobody can ever say you&#39;ve changed. 
+  </fieldset>
+  
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Tong describes mean-field theory as each spin feeling only the <em>average</em> pull of its neighbours, ignoring the fact that the neighbours jiggle. Near the Gaussian fixed point that&#39;s a good approximation. It works best when each spin has lots of neighbours, because many jiggles average out, which is why mean field gets better in higher dimensions. 
+  </fieldset>
+  
+<h2 id="averaging_over_the_free_field_one_mode_at_a_time"><a href="#averaging_over_the_free_field_one_mode_at_a_time" class="header-anchor">Averaging over the free field, one mode at a time</a></h2>
+<p>To integrate out the fast modes in Part 6, we&#39;ll need averages like \(\langle\phi(\mathbf k)\phi(\mathbf k')\rangle\) over the free weight \(e^{-S_0}\). Since every mode is on its own, each one is just an ordinary Gaussian integral.</p>
+<p>Take one variable \(x\) with weight \(e^{-ax^2/2}\). Its normalisation is \(Z(a)=\int\mathrm d x\,e^{-ax^2/2}=\sqrt{2\pi/a}\). Differentiating with respect to \(a\) brings down \(-x^2/2\), so</p>
+\[ \langle x^2\rangle = \frac{\int x^2e^{-ax^2/2}\mathrm d x}{\int e^{-ax^2/2}\mathrm d x} = -2\,\frac{\mathrm d\ln Z}{\mathrm d a} = -2\cdot\left(-\frac{1}{2a}\right) = \frac1a. \]
+<p>For the mode with wavevector \(\mathbf k\), the &quot;\(a\)&quot; is \(k^2+r\). Different modes are independent, so their average is zero unless they&#39;re the same mode &#40;really \(\mathbf k\) and \(-\mathbf k\), since \(\phi(-\mathbf k)=\phi(\mathbf k)^*\)&#41;:</p>
+\[ \boxed{\;\langle\phi(\mathbf k)\phi(\mathbf k')\rangle = (2\pi)^d\,\delta^d(\mathbf k+\mathbf k')\;\frac1{k^2+r}\equiv(2\pi)^d\,\delta^d(\mathbf k+\mathbf k')\,G(k).\;} \]
+<p>This \(G(k)\) is the <strong>propagator</strong> from Part 1, now found as a simple average. The delta function says different modes don&#39;t know about each other.</p>
+<h3 id="wicks_theorem_averages_of_more_fields"><a href="#wicks_theorem_averages_of_more_fields" class="header-anchor">Wick&#39;s theorem: averages of more fields</a></h3>
+<p>Three words are about to be used over and over, so here is what each one means.</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>Average.</strong> The bracket \(\langle A\rangle\) means &quot;add up \(A\) over every possible shape of the field, weighting each shape by \(e^{-S_0}\), then divide by the total weight&quot;:</p>
+\[ \langle A\rangle=\frac{1}{Z_0}\int\mathcal D\phi\;A\;e^{-S_0[\phi]},\qquad Z_0=\int\mathcal D\phi\;e^{-S_0[\phi]}. \]
+<p>It is an ordinary weighted average. Think of a class average where better answers count for more.</p>
+<p><strong>Gaussian.</strong> A weight is called Gaussian when the thing in the exponent is quadratic in the variables, so squares only. Our \(S_0\) is quadratic, so the free theory is Gaussian. Everything below is a property of that bell-shaped weight. No quantum mechanics is involved.</p>
+<p><strong>Contraction.</strong> To <em>contract</em> two fields means to take that pair out of the list and replace it by its propagator \(G\). A <em>pairing</em> is one complete way of contracting the whole list with nobody left over. Those two words are the entire vocabulary of the theorem. 
+  </fieldset>
+  
+<p>What about four fields? For one Gaussian variable, the same differentiation trick gives \(\langle x^4\rangle=3/a^2=3\langle x^2\rangle^2\). The 3 has a simple meaning: it&#39;s the number of ways to split four things into two pairs. For many Gaussian variables:</p>
+\[ \langle x_1x_2x_3x_4\rangle = \langle x_1x_2\rangle\langle x_3x_4\rangle + \langle x_1x_3\rangle\langle x_2x_4\rangle + \langle x_1x_4\rangle\langle x_2x_3\rangle. \]
+<p>This is <strong>Wick&#39;s theorem</strong>. The average of any product of Gaussian variables is the sum over all ways of pairing them up, each pair giving a propagator. Averages of an odd number of fields are zero, because there&#39;s always one left over with no partner.</p>
+<p><strong>Why it&#39;s true.</strong> The trick is to add a <em>source</em>: an extra term \(Jx\) in the exponent, where \(J\) is just a number we are free to choose. Complete the square, \(-\tfrac a2x^2+Jx=-\tfrac a2\big(x-\tfrac Ja\big)^2+\tfrac{J^2}{2a}\), then shift the integration variable by \(J/a\). The shifted integral is the same one as before, so it cancels against the denominator:</p>
+\[ \big\langle e^{Jx}\big\rangle=\frac{\int\mathrm d x\;e^{-ax^2/2+Jx}}{\int\mathrm d x\;e^{-ax^2/2}}=e^{J^2/2a}=e^{J^2\langle x^2\rangle/2}. \]
+<p>Now expand both sides in powers of \(J\). On the left, \(\sum_n J^n\langle x^n\rangle/n!\). On the right, only even powers survive, since the exponent carries \(J^2\). Matching the coefficient of \(J^{2n}\):</p>
+\[ \frac{\langle x^{2n}\rangle}{(2n)!}=\frac1{n!}\left(\frac{\langle x^2\rangle}{2}\right)^{n} \qquad\Longrightarrow\qquad \langle x^{2n}\rangle=\frac{(2n)!}{2^n\,n!}\,\langle x^2\rangle^n=(2n-1)!!\;\langle x^2\rangle^n. \]
+<p>Two things drop out at once.</p>
+<ul>
+<li><p><strong>Odd averages vanish.</strong> The right-hand side has no odd powers of \(J\), so there is nothing for \(\langle x\rangle\), \(\langle x^3\rangle\), \(\langle x^5\rangle\) to match. They are all zero.</p>
+</li>
+<li><p><strong>The number is the number of pairings.</strong> \((2n-1)!!\) means \(1\cdot3\cdot5\cdots(2n-1)\), the double factorial. It counts pairings directly: the first field picks a partner in \(2n-1\) ways, the first of the ones still free picks in \(2n-3\) ways, down to the last pair with one way. Four fields give \(3\), six give \(5\cdot3=15\), eight give \(105\). So the combinatorial factor in the formula <em>is</em> the count of pairings, not a coincidence.</p>
+</li>
+</ul>
+<p>Nothing there used more than one variable. Give each variable its own source and the same completion of the square gives \(\big\langle e^{\sum_iJ_ix_i}\big\rangle=\exp\big(\tfrac12\sum_{i,j}J_iJ_j\langle x_ix_j\rangle\big)\), whose expansion is the sum over pairings with one propagator per pair. That is all we need here, because \(S_0\) is diagonal in momentum: the free field literally <em>is</em> a pile of independent Gaussian variables, one per mode. Wick&#39;s theorem for fields is the one-variable result applied mode by mode.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Think of a dance where everyone must have exactly one partner. Four dancers can be paired in 3 ways, six dancers in \(5\times3=15\) ways and so on. Wick&#39;s theorem says a Gaussian average is just &quot;add up every possible way of pairing the dancers&quot;. An odd number of dancers means somebody sits out and the whole average is zero. 
+  </fieldset>
+  
+
+  <fieldset class=" puja"><legend class=" puja-legend"> Puja corner</legend>
+      Pandal hopping in a group of four: the only question is who walks with whom. Three possible arrangements, which is exactly \(\langle x^4\rangle=3\langle x^2\rangle^2\). With five in the group somebody walks alone the whole evening, so that average is zero. Every single reader has now understood Wick&#39;s theorem at a deeper level than intended. 
+  </fieldset>
+  
+<p>&#40;Checked in Wolfram: \(\langle x^2\rangle=1/a\), \(\langle x^4\rangle=3\langle x^2\rangle^2\), the generating function \(\langle e^{Jx}\rangle=e^{J^2/2a}\), the moments \(\langle x^{2n}\rangle=(2n-1)!!/a^n\) up to \(n=4\) and the vanishing of the odd ones. Tong §3.4 proves the operator form of the same statement, where the fields do not commute. In this course the fields are ordinary numbers inside an integral, so the argument above is the whole proof.&#41;</p>
+<h2 id="what_the_free_field_looks_like_its_correlation_function"><a href="#what_the_free_field_looks_like_its_correlation_function" class="header-anchor">What the free field looks like: its correlation function</a></h2>
+<p>Go back to position space. How strongly is the field at one point related to the field a distance \(R\) away? Transform \(G(k)\) back:</p>
+\[ \langle\phi(\mathbf x)\phi(0)\rangle = \int\frac{\mathrm d^dk}{(2\pi)^d}\,\frac{e^{i\mathbf k\cdot\mathbf x}}{k^2+r}. \]
+<p>In three dimensions, use spherical coordinates with \(\mathbf x\) along the \(z\) axis. The angular integral gives \(\int_{-1}^1 e^{ikR\cos\theta}\,\mathrm d(\cos\theta)=\frac{2\sin kR}{kR}\) and what&#39;s left is a standard integral:</p>
+\[ \langle\phi(\mathbf x)\phi(0)\rangle = \frac{1}{2\pi^2R}\int_0^\infty\frac{k\sin kR}{k^2+r}\,\mathrm d k = \frac{e^{-R/\xi}}{4\pi R},\qquad \xi=\frac1{\sqrt r}. \]
+<p>&#40;Checked in Wolfram.&#41; Far away, the correlation dies off exponentially over the <strong>correlation length</strong> \(\xi=r^{-1/2}\). Since \(r\propto T-T_c\), this gives \(\xi\propto|T-T_c|^{-1/2}\), so \(\nu=\tfrac12\), as found above.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Tong&#39;s picture: the correlation function is how the rubber sheet responds if you poke it at one point. Away from the critical point, the dent heals over a distance \(\xi\). At the critical point &#40;\(r=0\)&#41; the dent never fully heals, it just fades slowly like \(1/R\). A poke is felt everywhere. 
+  </fieldset>
+  
+
+<div class="mfig" style="--w:640px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/correlator_ginzburg.svg" alt="The free correlation function in 3D and the Ginzburg ratio">
+  <p>Left: the free correlator in 3D for three correlation lengths. At the critical point it becomes a pure power, \(1/4\pi R\). Right: the Ginzburg ratio, which measures how big fluctuations are compared with the mean-field magnetisation (explained below). Only for \(d>4\) does it stay small near \(T_c\).</p>
+</div>
+
+<p>At the critical point the correlator is a pure power law, \(1/R^{d-2}\) in \(d\) dimensions. Critical correlations are usually written as \(1/R^{d-2+\eta}\), so the free field has \(\eta=0\). Real 3D magnets have \(\eta=0.036\), which is small but not zero. That tiny difference comes from interactions and it first appears at two loops &#40;Part 6&#41;.</p>
+<h2 id="scaling_dimensions_power_counting_is_an_rg_fact"><a href="#scaling_dimensions_power_counting_is_an_rg_fact" class="header-anchor">Scaling dimensions: power counting is an RG fact</a></h2>
+<p>In real space the same rescaling reads \(\mathbf x'=\mathbf x/b\) and \(\phi'(\mathbf x')=b^{(d-2)/2}\phi(\mathbf x)\) &#40;exercise 5.1&#41;. The number \((d-2)/2\) is the <strong>scaling dimension</strong> of \(\phi\) at the Gaussian fixed point. It&#39;s the same as the mass dimension \([\phi]\) from Part 1, now showing up as an RG growth rate.</p>
+<p>Add any term \(g_n\int\mathrm d^dx\,\phi^n\) and ask how \(g_n\) changes when you zoom out. Since \(\mathrm d^dx=b^d\mathrm d^dx'\) and \(\phi^n=b^{-n(d-2)/2}\phi'^n\),</p>
+\[ g_n' = b^{\,y_n}g_n,\qquad y_n = d-n\,\frac{d-2}{2} = [g_n]. \]
+<p>So near the Gaussian fixed point, <strong>how a coupling grows under the RG is just its mass dimension</strong>. Positive dimension means relevant, zero means marginal, negative means irrelevant. Terms with derivatives work the same way, with each derivative costing one unit.</p>
+<p>The same counting works for a magnetic field, which enters the action as \(-h\int\mathrm d^dx\,\phi\). That&#39;s the case \(n=1\): \(y_h=d-\frac{d-2}{2}=\frac{d+2}{2}\). So at the free fixed point the two relevant couplings are temperature, with \(y_t=2\) and field, with \(y_h=\frac{d+2}2\). Put these into the exponent formulas of Part 4 with \(d=4\): \(\nu=\tfrac12\), \(\gamma=\frac{2y_h-d}{y_t}=1\), \(\beta=\frac{d-y_h}{y_t}=\tfrac12\), \(\delta=\frac{y_h}{d-y_h}=3\) and \(\eta=d+2-2y_h=0\). These are exactly the mean-field &#40;Landau&#41; exponents. &#40;Above four dimensions the formulas for \(\beta\) and \(\delta\) need extra care, because the irrelevant \(u\) still controls the size of the magnetisation. This is a subtle point, discussed in Tong §3.3.2.&#41;</p>
+
+<div class="mfig" style="--w:560px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/power_counting.svg" alt="Power counting of phi^n operators in four dimensions">
+  <p>Power counting in four dimensions. The quartic coupling sits right on the boundary (marginal). Anything with more fields or more derivatives is irrelevant.</p>
+</div>
+
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Irrelevant couplings are like the fine print on a billboard. Up close you can read every word. Step back and it becomes a grey smudge long before the big headline does. The headline is the relevant and marginal couplings: they&#39;re what you can still read from far away. 
+  </fieldset>
+  
+<p>This is why you only ever write a few terms in a Lagrangian. An irrelevant coupling \(g\) with \([g]=-p\) affects things at energy \(E\) in the combination \(gE^p\), which is suppressed by \((E/\Lambda)^p\) if \(g\sim\Lambda^{-p}\). By the time you coarse-grain down to the scales where you measure things, only the relevant and marginal couplings are left. So the theory you see at low energy is <em>forced</em> to be simple. &quot;Renormalisable&quot; theories, the ones with only non-negative-dimension couplings, aren&#39;t a lucky choice by nature. They&#39;re what <em>any</em> theory looks like from far enough away. Part 8 comes back to this.</p>
+<h2 id="why_four_dimensions_is_special"><a href="#why_four_dimensions_is_special" class="header-anchor">Why four dimensions is special</a></h2>
+<p>Apply the formula to the quartic coupling: \(y_4=4-d\).</p>
+<ul>
+<li><p><strong>\(d>4\)</strong>: \(u\) is irrelevant at the Gaussian point. A critical system flows to the free theory and the mean-field exponents &#40;\(\nu=\tfrac12\) and friends&#41; are exactly right.</p>
+</li>
+<li><p><strong>\(d=4\)</strong>: \(u\) is marginal. The simple counting can&#39;t decide, so we need loops. Part 6 shows \(u\) is <em>marginally irrelevant</em>: it dies away, but only very slowly, like a logarithm.</p>
+</li>
+<li><p><strong>\(d<4\)</strong>: \(u\) is <strong>relevant</strong>. The Gaussian point now has a second unstable direction, so a critical system can&#39;t flow into it. It must flow somewhere else, to a fixed point with \(u^*\neq0\), whose exponents differ from mean field. That&#39;s why \(\nu\) for real 3D magnets is \(0.63\), not \(0.5\).</p>
+</li>
+</ul>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Tong points out that an experimenter controls the temperature, but has no knob for \(u\), which is set by the messy atomic details. If \(u\) is irrelevant &#40;\(d>4\)&#41;, that doesn&#39;t matter, because the system drives itself to the free fixed point. If \(u\) is relevant &#40;\(d<4\)&#41;, the system drives itself somewhere else entirely and the mean-field predictions fail. That&#39;s the whole reason real magnets don&#39;t follow mean-field theory. 
+  </fieldset>
+  
+<p>Four is called the <strong>upper critical dimension</strong> of the Ising class. Wilson and Fisher&#39;s idea was to work in \(d=4-\epsilon\) dimensions, where the new fixed point sits at a small coupling \(u^*\) of size \(\epsilon\), so perturbation theory can handle it. That&#39;s Part 6.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      If you read Melo&#39;s notes alongside this course, they use dimensionless couplings \(g_2=m^2/\Lambda^2\) and \(g_4=\lambda\Lambda^{d-4}\) and write the flow as \(\Lambda\,\mathrm d g/\mathrm d\Lambda\). Lowering \(\Lambda\) means flowing towards long distances, so their \(\Lambda\,\mathrm d/\mathrm d\Lambda\) is minus our \(\mathrm d/\mathrm d\ell\), with \(b=e^{\ell}\). The free-field result above reads \(\Lambda\,\mathrm d g_2/\mathrm d\Lambda=-2g_2\) in their notation. 
+  </fieldset>
+  
+<h2 id="the_same_answer_from_fluctuations_the_ginzburg_criterion"><a href="#the_same_answer_from_fluctuations_the_ginzburg_criterion" class="header-anchor">The same answer from fluctuations: the Ginzburg criterion</a></h2>
+<p>There&#39;s a second, very physical way to see why four dimensions is special, due to Ginzburg and explained in Tong §2.2.4. Mean-field theory replaces the field by its average value. That&#39;s only fair if the fluctuations around the average are small compared with the average itself.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      During the monsoon, a street in Kolkata might have an <em>average</em> water depth of 2 cm. But if the puddles are 30 cm deep, the average tells you nothing about whether your shoes will get wet. Mean field is the average depth. It&#39;s trustworthy only if the puddles, the fluctuations, are small compared with it. 
+  </fieldset>
+  
+<p>Let&#39;s compare the two, below \(T_c\) where \(r<0\).</p>
+<p><strong>The average.</strong> Minimising the potential \(\tfrac12r\phi^2+\frac{u}{4!}\phi^4\) gives \(r\phi+\frac u6\phi^3=0\), so the mean-field magnetisation is \(m_0^2=\frac{6|r|}{u}\).</p>
+<p><strong>The fluctuations.</strong> Add up the correlation function over one correlation volume &#40;a ball of radius \(\xi\)&#41;. Inside that ball the correlator is roughly \(1/R^{d-2}\) and the ball&#39;s shells have area \(\propto R^{d-1}\), so</p>
+\[ \int_{|x|<\xi}\mathrm d^dx\,\langle\phi(x)\phi(0)\rangle\sim\int_0^\xi\frac{R^{d-1}}{R^{d-2}}\,\mathrm d R=\int_0^\xi R\,\mathrm d R=\frac{\xi^2}{2}. \]
+<p><strong>The ratio.</strong> Divide by the same volume filled with the mean field, \(\xi^d m_0^2\):</p>
+\[ \text{Ratio}\sim\frac{\xi^2}{\xi^dm_0^2}=\frac{\xi^{2-d}}{m_0^2}. \]
+<p>With \(\xi=|r|^{-1/2}\) and \(m_0^2=6|r|/u\),</p>
+\[ \text{Ratio}\sim\frac{|r|^{(d-2)/2}}{6|r|/u}=\frac u6\,|r|^{(d-4)/2}\propto|T-T_c|^{(d-4)/2}. \]
+<p>&#40;Checked in Wolfram.&#41; Near the critical point \(|T-T_c|\to0\), so:</p>
+<ul>
+<li><p>for \(d>4\) the power is positive and the ratio goes to <em>zero</em>: fluctuations become negligible and mean field is exact;</p>
+</li>
+<li><p>for \(d<4\) the power is negative and the ratio goes to <em>infinity</em>: fluctuations swamp the average and mean field fails;</p>
+</li>
+<li><p>for \(d=4\) it&#39;s borderline and the answer involves logarithms.</p>
+</li>
+</ul>
+<p>Tong&#39;s summary is that below four dimensions mean-field theory &quot;predicts its own demise&quot;. This is the same \(d=4\) we found from power counting, reached in a completely different way.</p>
+<h2 id="exercises"><a href="#exercises" class="header-anchor">Exercises</a></h2>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.1.</strong> Show that the Fourier-space rescaling \(\phi_{\rm s}(\mathbf k'/b)=\zeta\,\phi'(\mathbf k')\) with \(\zeta^2=b^{d+2}\) is the same as \(\phi'(\mathbf x')=b^{(d-2)/2}\phi_{\rm s}(\mathbf x)\) in real space, where \(\mathbf x'=\mathbf x/b\). Use \(\phi(\mathbf x)=\int\frac{\mathrm d^dk}{(2\pi)^d}e^{i\mathbf k\cdot\mathbf x}\phi(\mathbf k)\). 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body"> \(\phi'(\mathbf x')=\int\frac{\mathrm d^dk'}{(2\pi)^d}e^{i\mathbf k'\cdot\mathbf x'}\zeta^{-1}\phi_{\rm s}(\mathbf k'/b)\). Substitute \(\mathbf k'=b\mathbf k\): then \(\mathrm d^dk'=b^d\mathrm d^dk\) and \(\mathbf k'\cdot\mathbf x'=\mathbf k\cdot\mathbf x\), so \(\phi'(\mathbf x')=b^d\zeta^{-1}\phi_{\rm s}(\mathbf x)=b^{d-(d+2)/2}\phi_{\rm s}(\mathbf x)=b^{(d-2)/2}\phi_{\rm s}(\mathbf x)\). </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.2.</strong> Classify \(\phi^2,\phi^4,\phi^6\) as relevant, marginal or irrelevant at the Gaussian fixed point in \(d=3\). In which dimension is a \(\phi^3\) coupling marginal? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  In \(d=3\), \([\phi]=\tfrac12\), so \(y_n=3-n/2\): \(y_2=2\) &#40;relevant&#41;, \(y_4=1\) &#40;relevant&#41;, \(y_6=0\) &#40;marginal&#41;. For \(\phi^3\): \(y_3=d-3(d-2)/2=(6-d)/2\), which is zero at \(d=6\). That&#39;s why \(\phi^3\) theory in six dimensions is the standard toy model for percolation and for asymptotic freedom. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.3.</strong> Find how the coupling of \((\nabla\phi)^2\phi^2\) scales at the Gaussian fixed point in general \(d\). Is it ever relevant for \(d\geq2\)? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  The term has dimension \(2+4\cdot\frac{d-2}{2}=2d-2\), so \(y=d-(2d-2)=2-d\). It&#39;s marginal in \(d=2\) and irrelevant for every \(d>2\). In \(d=4\), \(y=-2\), as in the figure. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.4.</strong> Suppose an irrelevant coupling \(g_6\) has \([g_6]=-2\) and naturally \(g_6\sim1/\Lambda^2\). Roughly how much is its effect suppressed at \(E=100\) GeV if \(\Lambda=10\) TeV? What if \(\Lambda\) is the Planck scale? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  Its effect comes in as \(g_6E^2\sim(E/\Lambda)^2\). For \(\Lambda=10\) TeV that&#39;s \((0.01)^2=10^{-4}\): small, but within reach of precision experiments, which is how colliders search for new physics indirectly. For \(\Lambda=1.2\times10^{19}\) GeV it&#39;s about \(7\times10^{-35}\), far too small to ever measure. That&#39;s why the Standard Model can be tested so precisely without knowing anything about quantum gravity. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.5.</strong> Show that \(\langle x^6\rangle=15\langle x^2\rangle^3\) for one Gaussian variable and check that 15 is the number of ways to split six things into three pairs. 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  From \(Z(a)=\sqrt{2\pi}\,a^{-1/2}\), each \(-2\,\mathrm d/\mathrm d a\) brings down \(x^2\). So \(\langle x^6\rangle=\frac{(-2)^3}{Z}\frac{\mathrm d^3Z}{\mathrm d a^3}\). The derivatives of \(a^{-1/2}\) give \((-\tfrac12)(-\tfrac32)(-\tfrac52)a^{-7/2}\), so \(\langle x^6\rangle=(-8)(-\tfrac{15}{8})a^{-3}=15/a^3=15\langle x^2\rangle^3\). Counting pairings: the first thing can pair with any of the other 5, then the first remaining thing with any of 3 and the last two are forced: \(5\times3\times1=15\). In general \(2n\) things can be paired in \((2n-1)\times(2n-3)\times\dots\times1\) ways. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.6.</strong> Find the mean-field magnetisation below \(T_c\) by minimising \(V(\phi)=\tfrac12r\phi^2+\frac u{4!}\phi^4\) with \(r<0\). How does it depend on \(T_c-T\)? Which exponent is that? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body"> \(V'(\phi)=r\phi+\frac u6\phi^3=0\) gives \(\phi=0\) or \(\phi^2=-6r/u=6|r|/u\). For \(r<0\) the nonzero solution has lower energy. Since \(r\propto T-T_c\), \(m_0=\sqrt{6|r|/u}\propto(T_c-T)^{1/2}\), which is the mean-field value \(\beta=\tfrac12\). It agrees with the power-counting result above for \(d=4\). </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>5.7.</strong> Repeat the Ginzburg estimate in \(d=3\), keeping the factor of \(u\). Show that mean field fails once \(|r|\lesssim u^2\) &#40;up to numbers of order one&#41;. Why does a <em>weakly</em> interacting system still eventually fail? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  In \(d=3\) the ratio is \(\frac u6|r|^{-1/2}\), which is large once \(|r|^{1/2}\lesssim u\), that is \(|r|\lesssim u^2\). A small \(u\) makes that window tiny, so weakly interacting systems follow mean field until you get <em>very</em> close to \(T_c\). Mean-field superconductors are the famous example, where the window is so small it&#39;s almost never seen. But any \(u>0\) gives some window, because the fluctuations grow without limit as \(|r|\to0\) while the average shrinks to zero. </div></details></p>
+<nav class="course-nav"><a class="cn-prev" href="/Pages/Physics/courses/RG/04_fixed_points/">← Part 4: Fixed points and universality</a><a class="cn-home" href="/Pages/Physics/courses/RG/Main_page/">Course home</a><a class="cn-next" href="/Pages/Physics/courses/RG/06_wilson_fisher/">Part 6: The Wilson-Fisher point →</a></nav>
+<div id="custom-comments-container"></div>
+<link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+<script type="module" src="/assets/js/custom_comments.js?v=5"></script>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat: opt-out, remembered per visitor. The script is only loaded
+         when the cat is wanted, so switching it off costs nothing on later pages. -->
+    <style>
+      #oneko-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 1000;
+        width: 34px; height: 34px; padding: 0;
+        border: 1px solid rgba(140,140,140,0.35); border-radius: 50%;
+        background: rgba(250,248,244,0.82); color: #7a6a4a;
+        font-size: 15px; line-height: 1; cursor: pointer;
+        opacity: 0.42; transition: opacity 0.2s, transform 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #oneko-toggle:hover { opacity: 1; transform: scale(1.08); }
+      html.dark-mode #oneko-toggle {
+        background: rgba(38,36,33,0.82); color: #cda863;
+        border-color: rgba(180,170,150,0.28);
+      }
+      html.oneko-off #oneko { display: none !important; }
+      @media print { #oneko-toggle { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = 'oneko-enabled';
+        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var loaded = false;
+
+        function loadCat() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '/assets/oneko.js?v=62';
+          s.setAttribute('data-cat', '/assets/oneko.gif');
+          document.body.appendChild(s);
+        }
+
+        function paint(btn) {
+          btn.textContent = on ? '🐈' : '🐾';
+          btn.title = on ? 'Hide the cat' : 'Bring the cat back';
+          btn.setAttribute('aria-label', btn.title);
+          document.documentElement.classList.toggle('oneko-off', !on);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.createElement('button');
+          btn.id = 'oneko-toggle';
+          btn.type = 'button';
+          paint(btn);
+          btn.addEventListener('click', function () {
+            on = !on;
+            localStorage.setItem(KEY, on ? '1' : '0');
+            paint(btn);
+            if (on) loadCat();
+          });
+          document.body.appendChild(btn);
+          if (on) loadCat();
+        });
+      })();
+    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

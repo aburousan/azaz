@@ -123,3 +123,128 @@ h5 a:visited { color: #1c1c1c !important; }
   .sidebar .author__name, .sidebar .author__bio { text-align: center; }
   .sidebar .author__urls li { text-align: center; }
 }
+
+/* ===========================================================
+   Folded exercise solutions: \soln{...} in config.md.
+   =========================================================== */
+details.soln {
+  margin: 0.2rem 0 1.6rem;
+  border: 1px solid #d9d4c7;
+  border-radius: 8px;
+  background: rgba(60, 86, 142, 0.04);
+}
+details.soln > summary {
+  cursor: pointer;
+  padding: 0.45rem 0.9rem;
+  font-weight: 600;
+  font-size: 0.92em;
+  color: #3c568e;
+  list-style: none;
+  user-select: none;
+}
+details.soln > summary::-webkit-details-marker { display: none; }
+details.soln > summary::before { content: "▸  "; }
+details.soln[open] > summary::before { content: "▾  "; }
+details.soln[open] > summary { border-bottom: 1px solid #d9d4c7; }
+details.soln .soln-body { padding: 0.6rem 1rem 0.4rem; }
+html.dark-mode details.soln { border-color: #4a443a; background: rgba(159, 180, 224, 0.05); }
+html.dark-mode details.soln > summary { color: #9fb4e0; }
+html.dark-mode details.soln[open] > summary { border-bottom-color: #4a443a; }
+
+/* ===========================================================
+   \analogy{...}: the everyday picture behind an idea.
+   =========================================================== */
+fieldset.analogy {
+  margin: 1.2em 0 1.8em;
+  background-color: #e8f1ea;
+  border: 0;
+  border-left: 4px solid #1e8449;
+  border-radius: 7px;
+  font-size: 0.96em;
+}
+.analogy-legend {
+  color: #fff;
+  background-color: #1e8449;
+  padding: 0 .55em .1em;
+  border-radius: 5px;
+  font-variant: small-caps;
+  font-size: 0.95em;
+}
+html.dark-mode fieldset.analogy { background-color: #13201a; color: var(--d-text); border-left-color: #6fcf97; }
+html.dark-mode .analogy-legend { background-color: #6fcf97; color: #10160f; }
+
+/* ===========================================================
+   \coursenav{...}: previous / home / next at the foot of a page.
+   =========================================================== */
+nav.course-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 10px;
+  margin: 2.4rem 0 1.4rem;
+  flex-wrap: wrap;
+}
+nav.course-nav a {
+  flex: 1 1 0;
+  min-width: 140px;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #3c568e;
+  border-radius: 8px;
+  color: #3c568e !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  font-size: 0.92em;
+}
+nav.course-nav a:hover { background: #3c568e; color: #fff !important; }
+nav.course-nav .cn-prev { text-align: left; }
+nav.course-nav .cn-home { text-align: center; flex: 0 1 auto; }
+nav.course-nav .cn-next { text-align: right; }
+nav.course-nav a[href=""] { visibility: hidden; }
+html.dark-mode nav.course-nav a { border-color: #9fb4e0; color: #9fb4e0 !important; }
+html.dark-mode nav.course-nav a:hover { background: #9fb4e0; color: #1a1a1a !important; }
+
+/* ===========================================================
+   \otaku{...}: a light-hearted aside, kept visually quieter.
+   =========================================================== */
+fieldset.otaku {
+  margin: 1em 0 1.6em;
+  background-color: #fbeff5;
+  border: 0;
+  border-left: 4px solid #b03a7a;
+  border-radius: 7px;
+  font-size: 0.9em;
+  font-style: italic;
+}
+.otaku-legend {
+  color: #fff;
+  background-color: #b03a7a;
+  padding: 0 .55em .1em;
+  border-radius: 5px;
+  font-variant: small-caps;
+  font-style: normal;
+  font-size: 0.95em;
+}
+html.dark-mode fieldset.otaku { background-color: #24141d; color: var(--d-text); border-left-color: #e58bbd; }
+html.dark-mode .otaku-legend { background-color: #e58bbd; color: #1a0f15; }
+
+/* \puja{...}: a Durga Puja joke, styled like the otaku aside */
+fieldset.puja {
+  margin: 1em 0 1.6em;
+  background-color: #fff3e6;
+  border: 0;
+  border-left: 4px solid #c0392b;
+  border-radius: 7px;
+  font-size: 0.9em;
+  font-style: italic;
+}
+.puja-legend {
+  color: #fff;
+  background-color: #c0392b;
+  padding: 0 .55em .1em;
+  border-radius: 5px;
+  font-variant: small-caps;
+  font-style: normal;
+  font-size: 0.95em;
+}
+html.dark-mode fieldset.puja { background-color: #261a12; color: var(--d-text); border-left-color: #ef7f72; }
+html.dark-mode .puja-legend { background-color: #ef7f72; color: #1a0f0c; }

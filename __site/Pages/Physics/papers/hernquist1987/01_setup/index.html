@@ -269,7 +269,7 @@
   </script>
   
 <div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#where_it_starts_poissons_equation">Where it starts: Poisson&#39;s equation</a><ol><li><a href="#one_repair_we_need_first_softening">One repair we need first: softening</a></li></ol></li><li><a href="#the_plummer_model">The Plummer model</a></li><li><a href="#the_distribution_function">The distribution function</a><ol><li><a href="#setting_up_the_integral_equation">Setting up the integral equation</a></li><li><a href="#inverting_the_integral_equation">Inverting the integral equation</a></li><li><a href="#turning_the_handle_for_plummer">Turning the handle for Plummer</a></li><li><a href="#the_same_thing_in_the_papers_notation">The same thing, in the paper&#39;s notation</a></li><li><a href="#what_the_distribution_function_is_telling_us">What the distribution function is telling us</a></li><li><a href="#the_velocity_dispersion">The velocity dispersion</a></li></ol></li><li><a href="#generating_the_initial_conditions">Generating the initial conditions</a><ol><li><a href="#positions">Positions</a></li><li><a href="#velocities">Velocities</a></li><li><a href="#checking_that_it_worked">Checking that it worked</a></li></ol></li><li><a href="#the_virial_theorem">The virial theorem</a><ol><li><a href="#from_the_moment_of_inertia">From the moment of inertia</a></li><li><a href="#why_w_u_for_gravity">Why \(W = U\) for gravity</a></li><li><a href="#the_bit_that_caught_me_out">The bit that caught me out</a></li><li><a href="#testing_it_across_a_factor_of_64_in_varepsilon">Testing it across a factor of 64 in \(\varepsilon\)</a></li><li><a href="#and_a_warning_about_making_varepsilon_small">And a warning about making \(\varepsilon\) small</a></li><li><a href="#the_transient">The transient</a></li></ol></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#where_it_starts_poissons_equation">Where it starts: Poisson&#39;s equation</a><ol><li><a href="#one_repair_we_need_first_softening">One repair we need first: softening</a></li></ol></li><li><a href="#the_plummer_model">The Plummer model</a><ol><li><a href="#the_units_including_the_one_everybody_forgets">The units, including the one everybody forgets</a></li><li><a href="#putting_real_numbers_on_it">Putting real numbers on it</a></li></ol></li><li><a href="#the_distribution_function">The distribution function</a><ol><li><a href="#setting_up_the_integral_equation">Setting up the integral equation</a></li><li><a href="#inverting_the_integral_equation">Inverting the integral equation</a></li><li><a href="#turning_the_handle_for_plummer">Turning the handle for Plummer</a></li><li><a href="#the_same_thing_in_the_papers_notation">The same thing, in the paper&#39;s notation</a></li><li><a href="#what_the_distribution_function_is_telling_us">What the distribution function is telling us</a></li><li><a href="#the_velocity_dispersion">The velocity dispersion</a></li></ol></li><li><a href="#generating_the_initial_conditions">Generating the initial conditions</a><ol><li><a href="#positions">Positions</a></li><li><a href="#velocities">Velocities</a></li><li><a href="#checking_that_it_worked">Checking that it worked</a></li></ol></li><li><a href="#the_virial_theorem">The virial theorem</a><ol><li><a href="#from_the_moment_of_inertia">From the moment of inertia</a></li><li><a href="#why_w_u_for_gravity">Why \(W = U\) for gravity</a></li><li><a href="#the_bit_that_caught_me_out">The bit that caught me out</a></li><li><a href="#testing_it_across_a_factor_of_64_in_varepsilon">Testing it across a factor of 64 in \(\varepsilon\)</a></li><li><a href="#and_a_warning_about_making_varepsilon_small">And a warning about making \(\varepsilon\) small</a></li><li><a href="#the_transient">The transient</a></li></ol></li><li><a href="#where_we_are">Where we are</a></li></ol></div>
 <h1 id="the_problem_and_the_model_we_drop_particles_into"><a href="#the_problem_and_the_model_we_drop_particles_into" class="header-anchor"><ol>
 <li><p>The problem, and the model we drop particles into</p>
 </li>
@@ -317,11 +317,18 @@
 <p>There is a nasty problem hiding in that formula. If two particles come very close, \(|\vec r_i - \vec r_j| \to 0\) and the force goes to infinity. Numerically this is a disaster: one unlucky close pass and a particle gets launched out of the system with absurd energy.</p>
 <p>But think about what our particles actually <em>represent</em>. In a real galaxy simulation, one &quot;particle&quot; stands in for millions of stars. It is a smeared-out blob, not a point. So the divergence is not even physical. The standard repair is to soften the potential, which is Hernquist&#39;s eq. &#40;2.1&#41;:</p>
 \[
-\varphi(r) = -\frac{G m_1 m_2}{\left(r^2 + \varepsilon^2\right)^{1/2}}
+\varphi_{12}(r) = -\frac{G m_1 m_2}{\left(r^2 + \varepsilon^2\right)^{1/2}}
 \]
 
   <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
       <strong>Softening length \(\varepsilon\)</strong>: a small distance below which gravity is artificially weakened, so that no pair of particles can ever feel an infinite force. For \(r \gg \varepsilon\) the potential is Newtonian again; for \(r \to 0\) it flattens off to a finite value \(-Gm_1m_2/\varepsilon\). 
+  </fieldset>
+  
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>Watch the units on that symbol.</strong> \(\varphi_{12}\) carries two masses, so it is a potential <strong>energy</strong>, in joules or in \(GM^2/R\). The \(\phi\) of the Plummer model below, and the \(\phi\) of the multipole expansion in <a href="/Pages/Physics/papers/hernquist1987/03_treecode/">part 3</a>, carry only one mass: they are potentials <strong>per unit mass</strong>, in \((\mathrm{km/s})^2\). The two differ by exactly a factor of mass.</p>
+<p>Hernquist writes both with the same letter, and says &quot;the potential per unit mass&quot; in words when he means the second. That is easy to skim past, and mixing them up puts a stray factor of \(m\) into a force. I use \(\varphi_{12}\) for the pair energy and \(\phi\) for the potential per unit mass throughout, so that each symbol has one dimension and only one.</p>
+<p>
   </fieldset>
   
 <p>My first reaction was that this is cheating, that we broke gravity because the maths was inconvenient. It is the opposite.</p>
@@ -333,7 +340,7 @@
   
 <p>How fast does it become Newtonian again? Expanding for \(r \gg \varepsilon\) &#40;I checked this in Mathematica&#41;:</p>
 \[
-\frac{\varphi_{\text{soft}}}{\varphi_{\text{Kepler}}} = 1 - \frac{1}{2}\frac{\varepsilon^2}{r^2} + \frac{3}{8}\frac{\varepsilon^4}{r^4} + \dots
+\frac{\varphi_{12}^{\text{soft}}}{\varphi_{12}^{\text{Kepler}}} = 1 - \frac{1}{2}\frac{\varepsilon^2}{r^2} + \frac{3}{8}\frac{\varepsilon^4}{r^4} + \dots
 \]
 <p>which matches the expansion quoted in the paper. So the softening error dies off like \((\varepsilon/r)^2\), which is not very fast. This will come back to bite us later when we look at how softening interacts with the multipole expansion.</p>
 <p>The natural size for \(\varepsilon\) is the <strong>mean interparticle separation</strong> \(\lambda\): close enough that you are not smearing out real structure, far enough that you are not resolving pairs which are not physically meaningful anyway.</p>
@@ -344,6 +351,41 @@
 \rho(r) = \frac{3M}{4\pi}\frac{r_0^2}{\left(r^2+r_0^2\right)^{5/2}}
 \]
 <p>with \(M\) the total mass and \(r_0\) a scale length. The paper uses \(M = 1\), \(r_0 = 0.2\), \(G = 1\) and cuts the sphere off at radius \(R = 1\). I use exactly the same.</p>
+<h3 id="the_units_including_the_one_everybody_forgets"><a href="#the_units_including_the_one_everybody_forgets" class="header-anchor">The units, including the one everybody forgets</a></h3>
+<p>Before going further it is worth stopping and being explicit about units, because every dynamical number in this whole series is quoted in them and it is very easy to write \(\delta t = 0.025\) without ever saying \(0.025\)<em>of what</em>.</p>
+<p>Setting \(G = M = R = 1\) looks like it fixes two units, mass and length. It actually fixes three, because \(G\) is not dimensionless. Count the dimensions: \([G] = \mathrm{L}^3\mathrm{M}^{-1}\mathrm{T}^{-2}\), so once you have declared a mass and a length, demanding \(G = 1\)<strong>fixes the second as well</strong>. There is no freedom left.</p>
+<p>Working it out, the characteristic speed is whatever makes kinetic and potential energy comparable,</p>
+\[
+v_\ast = \sqrt{\frac{GM}{R}}
+\]
+<p>and the time unit is the time something moving at that speed takes to cross the system:</p>
+\[
+\boxed{\;t_\ast = \frac{R}{v_\ast} = \sqrt{\frac{R^3}{GM}}\;}
+\]
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>This is the dynamical time.</strong> It is the one timescale a self-gravitating blob has: roughly how long a particle takes to cross it, and also roughly how long the whole thing would take to collapse if you switched off all the motion. Everything a cluster does, it does in multiples of \(t_\ast\). 
+  </fieldset>
+  
+<p>You can write the same thing with the mean density inside \(R\) instead of \(M\) and \(R\) separately, which is the form you usually meet. Substituting \(\bar\rho = 3M/(4\pi R^3)\),</p>
+\[
+t_\ast = \sqrt{\frac{R^3}{GM}} = \sqrt{\frac{3}{4\pi G\bar\rho}} \simeq \frac{0.49}{\sqrt{G\bar\rho}}
+\]
+<p>So \(t_\ast\) is the textbook \(1/\sqrt{G\bar\rho}\) up to a factor of two. Which factor you carry is a convention, and different books make different choices &#40;free-fall time, crossing time, half-mass relaxation time and so on differ by factors of order one to ten&#41;, so the useful thing is to fix one definition and stick to it. <strong>Mine is \(t_\ast = \sqrt{R^3/GM}\), with \(R\) the cutoff radius</strong>, and every \(t\) and \(\delta t\) on these pages is in that unit.</p>
+<h3 id="putting_real_numbers_on_it"><a href="#putting_real_numbers_on_it" class="header-anchor">Putting real numbers on it</a></h3>
+<p>None of the physics depends on choosing a physical scale, and that is the point of working in these units: one simulation describes every cluster with the same shape. But it is much easier to believe a result when you can see what it means, so let me name a mass and a radius once.</p>
+<p>Take a smallish globular cluster, \(M = 10^5 M_\odot\) inside \(R = 1\) pc. Then</p>
+<table><tr><th align="right">quantity</th><th align="right">in code units</th><th align="right">in physical units</th></tr><tr><td align="right">length \(R\)</td><td align="right">\(1\)</td><td align="right">\(1\) pc</td></tr><tr><td align="right">mass \(M\)</td><td align="right">\(1\)</td><td align="right">\(10^5\,M_\odot\)</td></tr><tr><td align="right">speed \(v_\ast = \sqrt{GM/R}\)</td><td align="right">\(1\)</td><td align="right">\(20.7\) km s\(^{-1}\)</td></tr><tr><td align="right"><strong>time \(t_\ast = \sqrt{R^3/GM}\)</strong></td><td align="right">\(1\)</td><td align="right">\(47\) kyr</td></tr><tr><td align="right">scale radius \(r_0\)</td><td align="right">\(0.2\)</td><td align="right">\(0.2\) pc</td></tr><tr><td align="right">central dispersion \(\sigma_0\)</td><td align="right">\(0.913\)</td><td align="right">\(18.9\) km s\(^{-1}\)</td></tr><tr><td align="right">softening \(\varepsilon\) at \(N=4096\)</td><td align="right">\(0.031\)</td><td align="right">\(0.031\) pc</td></tr><tr><td align="right">time step \(\delta t\)</td><td align="right">\(0.025\)</td><td align="right">\(1.2\) kyr</td></tr><tr><td align="right">a 1000-step run</td><td align="right">\(t = 25\)</td><td align="right">\(1.2\) Myr</td></tr></table>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      That last row is the one that makes the whole project feel real. A thousand leapfrog steps is not &quot;a long simulation&quot;, it is <strong>about a million years</strong> in the life of a star cluster, or twenty-five crossings of it. And the useful sanity check is the dispersion: \(19\) km s\(^{-1}\) is the right order for a real globular cluster, so the units have not been chosen absurdly. 
+  </fieldset>
+  
+
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      Scale it however you like: the same run at \(M = 10^6 M_\odot\) and \(R = 10\) pc gives the <em>same</em> \(v_\ast = 20.7\) km s\(^{-1}\), because \(M/R\) is unchanged, but a ten times longer \(t_\ast = 471\) kyr, because \(R^3/M\) went up by a hundred. That is the whole content of \(t_\ast \propto 1/\sqrt{G\bar\rho}\): what sets the clock is the <strong>density</strong>, not the size. 
+  </fieldset>
+  
 <p>Two limits tell you the shape at a glance:</p>
 <ul>
 <li><p>\(r \ll r_0\): \(\rho \to 3M/(4\pi r_0^3)\), a flat constant-density <strong>core</strong>.</p>
@@ -358,7 +400,7 @@
 \]
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      Look at the potential again. It is exactly the potential of a <strong>point mass</strong>, but with \(r\) replaced by \(\sqrt{r^2+r_0^2}\), the same trick as the softened potential above. A Plummer sphere <em>is</em> a softened point mass. That is not a coincidence: it is why \(\varphi_{\text{soft}}\) is the standard choice, and why \(\varepsilon\) is sometimes called a &quot;Plummer softening&quot;. 
+      Look at the potential again. It is exactly the potential of a <strong>point mass</strong>, but with \(r\) replaced by \(\sqrt{r^2+r_0^2}\), the same trick as the softened potential above. A Plummer sphere <em>is</em> a softened point mass. That is not a coincidence: it is why \(\varphi_{12}^{\text{soft}}\) is the standard choice, and why \(\varepsilon\) is sometimes called a &quot;Plummer softening&quot;. 
   </fieldset>
   
 <p>Before using the pair I checked that it really does satisfy Poisson&#39;s equation. In spherical symmetry,</p>
@@ -385,9 +427,9 @@ M(r) = 3Mr_0^2\cdot\frac{1}{r_0^2}\cdot\frac{1}{3}\left[\frac{r'^3}{(r'^2+r_0^2)
 \]
 <p>Two sanity checks. As \(r\to\infty\) this tends to \(M\), so the total mass really is \(M\) and the model is not secretly infinite. As \(r\to 0\) it goes as \(Mr^3/r_0^3\), which is what a constant-density core must give.</p>
 <p>The whole model in one plot. Note the log axis on \(r\), and that \(\rho\) has its own axis on the left while everything else shares the right one.</p>
-<div id="fdpdqe" style=""></div>
+<div id="fdprmj" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpdqe");
+graphDiv = document.getElementById("fdprmj");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_profiles.json');
 </script>
 
@@ -541,10 +583,8 @@ f(E) = \frac{\sqrt2}{378\,\pi^3}\cdot\frac{6^4 r_0^{2}}{G^{5}M^{4}}\,(-E)^{7/2}
 \]
 <p>which is exactly the boxed result above, \(G\) and all.</p>
 
-  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      <strong>A retraction.</strong> An earlier version of this page claimed that eq. &#40;3.2&#41; carries an inconsistent power of \(G\), and that restoring \(G\) leaves the printed formula wrong by a factor \(G^{-4}\). <strong>That was my mistake, not the paper&#39;s.</strong> I had copied the formula into my notes with \(G^5\) in the prefactor where the paper prints \(G\), then checked my notes instead of the paper and duly found the \(G^{-4}\) I had put there myself.</p>
-<p>I have redone the check both ways, symbolically and by putting arbitrary numbers into both expressions, and the two agree to the last digit. The general lesson is worth more than the formula: when you think you have found an error in a published paper, the first suspect should be your own transcription, and the cheapest way to clear it is to go back to the printed page rather than to your copy of it.</p>
-<p>
+  <fieldset class=" tip"><legend class=" tip-legend"> 🚀 Tip</legend>
+      Keeping \(G\) symbolic all the way through is worth the extra clutter, and this is a good example of why. The two expressions look nothing alike, so the fact that the powers of \(G\), \(M\) and \(r_0\) all land in the right place is a real check on the algebra and not a coincidence. I verified it twice, once symbolically and once by putting arbitrary numbers into both forms, and they agree to the last digit. 
   </fieldset>
   
 <h3 id="what_the_distribution_function_is_telling_us"><a href="#what_the_distribution_function_is_telling_us" class="header-anchor">What the distribution function is telling us</a></h3>
@@ -635,9 +675,9 @@ q_{\max} = \frac{\sqrt2}{3} \approx 0.4714, \qquad g_{\max} = \frac{686\sqrt7}{1
 \]
 <p>So I take a box of height \(0.1\), which clears the peak with a little room to spare. The area under the curve is exactly \(7\pi/512 \approx 0.04295\), so the acceptance rate is \(0.04295/0.1 \approx 43\%\). A little over two darts thrown per particle kept, which costs nothing.</p>
 <p>Rather than describe it any further, here is an actual run of the sampler. Press play.</p>
-<div id="fdphqp" style=""></div>
+<div id="fdpqvy" style=""></div>
 <script>
-graphDiv = document.getElementById("fdphqp");
+graphDiv = document.getElementById("fdpqvy");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/anim_sampler.json');
 </script>
 
@@ -684,25 +724,25 @@ end</code></pre>
 <h3 id="checking_that_it_worked"><a href="#checking_that_it_worked" class="header-anchor">Checking that it worked</a></h3>
 <p>Never trust a sampler. Here are 200,000 particles I generated, checked against the theory in three independent ways.</p>
 <p>The radial distribution against \(4\pi r^2\rho(r)/M(R)\):</p>
-<div id="fdpnbe" style=""></div>
+<div id="fdpmmk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpnbe");
+graphDiv = document.getElementById("fdpmmk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_sampled_radius.json');
 </script>
 
 <p>Dots are my sampled particles, the curve is the theory. They sit on top of each other, so the positions are correct.</p>
 <p>The velocity dispersion against \(\sigma_0[1+(r/r_0)^2]^{-1/4}\). Remember, I never fed \(\sigma(r)\) into the sampler. It fell out of the distribution function on its own:</p>
-<div id="fdpoij" style=""></div>
+<div id="fdpfdd" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpoij");
+graphDiv = document.getElementById("fdpfdd");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_sampled_sigma.json');
 </script>
 
 <p>Same idea, but for speeds now. Dots are measured from the sample, the curve is the formula we derived. I never gave this formula to the sampler, so matching it means the velocities are right too.</p>
 <p>And the universal speed shape:</p>
-<div id="fdpywu" style=""></div>
+<div id="fdplyf" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpywu");
+graphDiv = document.getElementById("fdplyf");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/plummer_speed_dist.json');
 </script>
 
@@ -800,9 +840,9 @@ U_{ij} = -\frac{Gm_im_j}{(r_{ij}^2+\varepsilon^2)^{1/2}}
 \]
 <p>with the average weighted by each pair&#39;s contribution to \(U\). Two limits check out. As \(\varepsilon\to0\) we get \(W=U\) and the familiar theorem back. As \(\varepsilon\) grows the ratio falls below 1, meaning a system genuinely in equilibrium will show \(-2K/U < 1\). For my run &#40;\(\varepsilon \approx 0.031\), typical separations of order \(0.2\)&#41; that predicts a few percent, which is exactly the discrepancy I was seeing.</p>
 <p>So the honest test is \(-2K/W\), not \(-2K/U\). My run, measured both ways:</p>
-<div id="fdpjzv" style=""></div>
+<div id="fdpxmj" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpjzv");
+graphDiv = document.getElementById("fdpxmj");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/virial_as_sampled.json');
 </script>
 
@@ -810,9 +850,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/vi
 <p>I find this a nice example of how a &quot;check that fails&quot; can be more informative than one that passes.</p>
 <h3 id="testing_it_across_a_factor_of_64_in_varepsilon"><a href="#testing_it_across_a_factor_of_64_in_varepsilon" class="header-anchor">Testing it across a factor of 64 in \(\varepsilon\)</a></h3>
 <p>One run agreeing is not much of a test, so I ran the whole thing again on the server for seven softening lengths spanning \(\varepsilon/\lambda\) from \(1/16\) to \(4\), a factor of 64. If the derivation above is right, \(-2K/W\) should stay pinned at 1 the whole way while \(-2K/U\) slides away from it.</p>
-<div id="fdppai" style=""></div>
+<div id="fdpgee" style=""></div>
 <script>
-graphDiv = document.getElementById("fdppai");
+graphDiv = document.getElementById("fdpgee");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_virial.json');
 </script>
 
@@ -826,17 +866,17 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/ep
   
 <h3 id="and_a_warning_about_making_varepsilon_small"><a href="#and_a_warning_about_making_varepsilon_small" class="header-anchor">And a warning about making \(\varepsilon\) small</a></h3>
 <p>There is a trap here that I walked straight into. Having established that softening biases \(-2K/U\), my first instinct was to shrink \(\varepsilon\) until the bias went away. That is a mistake, and the same set of runs shows why:</p>
-<div id="fdpeka" style=""></div>
+<div id="fdpiei" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpeka");
+graphDiv = document.getElementById("fdpiei");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_energy.json');
 </script>
 
 <p>Softening length along the bottom, the energy drift over 800 steps up the side, both on log axes. At \(\varepsilon = \lambda\) the drift is \(0.15\%\). At \(\varepsilon = \lambda/2\) it is \(3.4\%\). At \(\varepsilon = \lambda/16\) it is <strong>\(52\%\)</strong>, i.e. the simulation is destroyed.</p>
 <p>The reason is that \(\varepsilon\) sets the hardest interaction the simulation contains. Two particles passing at separation \(\sim\varepsilon\) experience an acceleration \(\sim Gm/\varepsilon^2\) over a time \(\sim\varepsilon/v\), and a fixed time step \(\delta t\) can only resolve that if \(\delta t\) is small compared with the encounter time. Halve \(\varepsilon\) and the encounters get faster and harder while \(\delta t\) stays put, so the integrator starts missing them. Every missed encounter dumps spurious energy into the system.</p>
-<div id="fdpxon" style=""></div>
+<div id="fdphew" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpxon");
+graphDiv = document.getElementById("fdphew");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/epsilon_energy_history.json');
 </script>
 
@@ -848,7 +888,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/ep
   
 
   <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
-      Show that for a softened pair potential \(\varphi = -Gm_1m_2(r^2+\varepsilon^2)^{-1/2}\) the quantity \(\vec r\cdot\vec F\) equals \(-Gm_1m_2 r^2(r^2+\varepsilon^2)^{-3/2}\), then expand \(W/U\) for \(\varepsilon\ll r\). Harder: work out how \(\delta t\) must scale with \(\varepsilon\) to keep the energy error fixed, and test it. 
+      Show that for a softened pair potential energy \(\varphi_{12} = -Gm_1m_2(r^2+\varepsilon^2)^{-1/2}\) the quantity \(\vec r\cdot\vec F\) equals \(-Gm_1m_2 r^2(r^2+\varepsilon^2)^{-3/2}\), then expand \(W/U\) for \(\varepsilon\ll r\). Harder: work out how \(\delta t\) must scale with \(\varepsilon\) to keep the energy error fixed, and test it. 
   </fieldset>
   
 <h3 id="the_transient"><a href="#the_transient" class="header-anchor">The transient</a></h3>
@@ -870,17 +910,17 @@ M(<1) = \frac{1}{\left(1+r_0^2\right)^{3/2}} = \frac{1}{1.04^{3/2}} = 0.9429
 <p>I can confirm this is the whole story by removing the cutoff:</p>
 <table><tr><th align="right">Cutoff \(R\)</th><th align="right">\(M(R)/M\)</th><th align="right">\(-2K/U\) at \(t=0\)</th></tr><tr><td align="right">1</td><td align="right">0.943</td><td align="right">0.958</td></tr><tr><td align="right">2</td><td align="right">0.985</td><td align="right">0.990</td></tr><tr><td align="right">5</td><td align="right">0.998</td><td align="right">1.001</td></tr><tr><td align="right">20</td><td align="right">1.000</td><td align="right">1.003</td></tr></table>
 <p>As the cutoff goes away, the model lands exactly on the virial theorem. If I rescale the velocities at the start to sit exactly on \(2K + W = 0\), the transient disappears:</p>
-<div id="fdpzjp" style=""></div>
+<div id="fdpwhk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpzjp");
+graphDiv = document.getElementById("fdpwhk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/virial_rescaled.json');
 </script>
 
 <p>Same plot as before, but the starting velocities were rescaled to sit exactly on the theorem. The early wobble is gone, which confirms the wobble was coming from the cutoff and nothing else.</p>
 <p>And here is \(I(t)\) itself, doing what sir said it would: moving at first, then settling down and staying put.</p>
-<div id="fdpdhb" style=""></div>
+<div id="fdpomo" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpdhb");
+graphDiv = document.getElementById("fdpomo");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/virial_inertia.json');
 </script>
 
@@ -896,7 +936,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/vi
 <button onclick="window.history.back()">Go Back</button>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: August 30, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 08, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

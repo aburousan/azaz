@@ -159,6 +159,170 @@ At $\theta = 0.2$ the walk is fussy: 161 terms, descending nearly to individual 
 
 Also notice the *spatial pattern*. Nearby particles are always handled individually, and the cells used get bigger the further away they are. The method automatically spends its effort where the force is largest and the geometry matters most.
 
+## A worked example: the force on one particle
+
+Everything above is the idea. Before the algebra, let me do one force calculation completely by hand, because the first question everybody asks is a very concrete one and the answer is not what you would guess.
+
+### "I have four particles and I want the force on the fourth. Where do I start?"
+
+Start by not building a tree.
+
+With four particles the honest answer is **pair by pair**. The force on particle 4 is three terms:
+
+$$
+\vec a_4 = -G\left[\;m_1\frac{\vec r_4-\vec r_1}{\left|\vec r_4-\vec r_1\right|^3}
++ m_2\frac{\vec r_4-\vec r_2}{\left|\vec r_4-\vec r_2\right|^3}
++ m_3\frac{\vec r_4-\vec r_3}{\left|\vec r_4-\vec r_3\right|^3}\;\right]
+$$
+
+and that is the whole calculation. Building a tree for four particles would cost more than the three subtractions it saves you. A tree only starts winning somewhere above a thousand particles, and [part 4 measures exactly where](/Pages/Physics/papers/hernquist1987/04_results/#when_is_it_actually_worth_it).
+
+So the real question is not "how do I do four", it is "what changes when there are a million", and the answer is a procedure whose every step is still visible at eight. Let me do it at eight.
+
+### The mistake in the question
+
+There is a hidden assumption in "*first build a box around the other three*", and it is worth pulling out, because it is the thing that makes the whole method economical.
+
+**The box does not go around the other particles. It goes around all of them, target included, and it is built once.**
+
+Not once per particle: **once per time step**, for the whole system. Then that one tree answers the question "what is the force on me?" for every one of the $N$ particles in turn. Building costs $O(N\log N)$ once; each of the $N$ walks then costs $O(\log N)$.
+
+\note{
+    That reuse is the entire economy of the method, and it is easy to throw away by accident. If you rebuilt the tree for each target, so as to leave the target out, you would pay $O(N\log N)$ per particle and $O(N^2\log N)$ in total, which is **worse than the direct sum you were trying to avoid**. The tree has to be a fact about the system, not about the target.
+}
+
+The price of keeping the target inside its own tree is that the walk must not let a particle pull on itself. That costs one comparison: when the walk reaches a leaf, check whether the leaf *is* the target, and if so skip it. (There is a second, subtler version of the same trap, where the target sits inside a large cell that gets accepted whole, and its own mass is then part of the lump pulling on it. That one needs a geometric check, and it is [dealt with further down](#one_trap_a_particle_pulling_on_itself).)
+
+### Eight particles, drawn
+
+Here is the smallest example I can draw where the tree actually does something. Eight equal particles of mass $1/8$ in a unit square: the target (red), two close neighbours, and a tight clump of five in the far corner. Opening angle $\theta = 0.7$.
+
+~~~
+<div style="max-width:640px;margin:1.5rem auto">
+<svg viewBox="0 0 620 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+  <rect x="30.0" y="20.0" width="250.0" height="250.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="30.0" y="145.0" width="125.0" height="125.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="30.0" y="207.5" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="61.2" y="238.8" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="30.0" y="207.5" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="30.0" y="145.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="155.0" y="20.0" width="125.0" height="125.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="217.5" y="82.5" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="155.0" y="20.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="217.5" y="20.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="217.5" y="51.2" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="233.1" y="66.9" width="15.6" height="15.6" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="217.5" y="51.2" width="15.6" height="15.6" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="225.3" y="59.1" width="7.8" height="7.8" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="217.5" y="51.2" width="7.8" height="7.8" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="340.0" y="20.0" width="250.0" height="250.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="340.0" y="145.0" width="125.0" height="125.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="340.0" y="207.5" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="371.2" y="238.8" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="340.0" y="207.5" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="340.0" y="145.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="465.0" y="20.0" width="125.0" height="125.0" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="527.5" y="82.5" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="465.0" y="20.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="527.5" y="20.0" width="62.5" height="62.5" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="527.5" y="51.2" width="31.2" height="31.2" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="543.1" y="66.9" width="15.6" height="15.6" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="527.5" y="51.2" width="15.6" height="15.6" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="535.3" y="59.1" width="7.8" height="7.8" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <rect x="527.5" y="51.2" width="7.8" height="7.8" fill="none" stroke="#8A8F98" stroke-width="0.8"/>
+  <circle cx="55.0" cy="232.5" r="5.5" fill="#E5646E"/>
+  <text x="63.0" y="236.5" fill="#8A8F98" font-size="11">1</text>
+  <circle cx="85.0" cy="245.0" r="3.5" fill="#4C8DF6"/>
+  <text x="93.0" y="249.0" fill="#8A8F98" font-size="11">2</text>
+  <circle cx="67.5" cy="195.0" r="3.5" fill="#4C8DF6"/>
+  <text x="75.5" y="199.0" fill="#8A8F98" font-size="11">3</text>
+  <circle cx="215.0" cy="77.5" r="3.5" fill="#4C8DF6"/>
+  <text x="223.0" y="81.5" fill="#8A8F98" font-size="11">4</text>
+  <circle cx="232.5" cy="85.0" r="3.5" fill="#4C8DF6"/>
+  <text x="240.5" y="89.0" fill="#8A8F98" font-size="11">5</text>
+  <circle cx="227.5" cy="62.5" r="3.5" fill="#4C8DF6"/>
+  <text x="235.5" y="66.5" fill="#8A8F98" font-size="11">6</text>
+  <circle cx="245.0" cy="70.0" r="3.5" fill="#4C8DF6"/>
+  <text x="253.0" y="74.0" fill="#8A8F98" font-size="11">7</text>
+  <circle cx="220.0" cy="55.0" r="3.5" fill="#4C8DF6"/>
+  <text x="228.0" y="59.0" fill="#8A8F98" font-size="11">8</text>
+  <rect x="465.0" y="20.0" width="125.0" height="125.0" fill="#3FBF8F" fill-opacity="0.13" stroke="#3FBF8F" stroke-width="2"/>
+  <line x1="365.0" y1="232.5" x2="538.0" y2="70.0" stroke="#3FBF8F" stroke-width="2.2"/>
+  <circle cx="538.0" cy="70.0" r="5" fill="#3FBF8F"/>
+  <line x1="365.0" y1="232.5" x2="395.0" y2="245.0" stroke="#E5646E" stroke-width="1.6"/>
+  <line x1="365.0" y1="232.5" x2="377.5" y2="195.0" stroke="#E5646E" stroke-width="1.6"/>
+  <circle cx="365.0" cy="232.5" r="5.5" fill="#E5646E"/>
+  <circle cx="395.0" cy="245.0" r="3.5" fill="#E5646E"/>
+  <circle cx="377.5" cy="195.0" r="3.5" fill="#E5646E"/>
+  <circle cx="525.0" cy="77.5" r="2.6" fill="#8A8F98"/>
+  <circle cx="542.5" cy="85.0" r="2.6" fill="#8A8F98"/>
+  <circle cx="537.5" cy="62.5" r="2.6" fill="#8A8F98"/>
+  <circle cx="555.0" cy="70.0" r="2.6" fill="#8A8F98"/>
+  <circle cx="530.0" cy="55.0" r="2.6" fill="#8A8F98"/>
+  <text x="155" y="292" fill="#8A8F98" font-size="13" text-anchor="middle">(a) one box around everybody, cut until each holds one</text>
+  <text x="465" y="292" fill="#8A8F98" font-size="13" text-anchor="middle">(b) the three terms the walk actually adds</text>
+</svg>
+</div>
+~~~
+
+### Step 0: put a box round everything
+
+One square, from $(0,0)$ to $(1,1)$, containing all eight. This is the **root**.
+
+### Step 1: cut until every box holds at most one particle
+
+Cut the root into four (eight in 3D). Any piece still holding more than one particle gets cut again. Stop when every piece holds one or none. Panel (a) is the result: deep cutting in the crowded bottom-left where the target and its neighbours sit, deep cutting in the far clump, and nothing at all in the two empty quadrants.
+
+### Step 2: fill in what each box knows about itself
+
+Sweep upwards from the leaves. Every box records its total mass and its centre of mass, adding up its children. This is $O(N)$ and it happens once. For the far quadrant it gives
+
+$$
+m = 5\times\tfrac18 = 0.625, \qquad \text{centre of mass} = (0.7920,\;0.8000)
+$$
+
+### Step 3: walk, starting from the root
+
+Now the actual force calculation. Put the root on a stack. Repeatedly take one box off, and ask one question about it: **is $s/d < \theta$?**, where $s$ is the width of the box and $d$ is the distance from the target to that box's centre of mass.
+
+Three outcomes. If the box is empty, drop it. If it holds a single particle, add that particle directly (unless it is the target itself). Otherwise apply the test: if it passes, add one term for the whole box; if it fails, throw the box away and push its children.
+
+Here is the complete trace. Every number is measured from the actual run:
+
+| step | box | $s$ | $d$ | $s/d$ | decision |
+| --- | --- | --- | --- | --- | --- |
+| 1 | root | $1.000$ | $0.617$ | $1.620$ | too wide, **open** |
+| 2 | root.SW | $0.500$ | $0.066$ | $7.605$ | far too wide, **open** |
+| 3 | root.SW.SW | $0.250$ | $0.065$ | $3.846$ | still too wide, **open** |
+| 4 | root.SW.SW.SE | leaf | $0.130$ | | **add particle 2** |
+| 5 | root.SW.SW.NW | leaf | | | this *is* the target, skip |
+| 6 | root.SW.NW | leaf | $0.158$ | | **add particle 3** |
+| 7 | root.NE | $0.500$ | $0.949$ | $\mathbf{0.527}$ | passes, **accept: 5 particles in one term** |
+
+Seven steps, and the walk is done. Panel (b) is what it added: two red lines to the individual neighbours, and one green line to the centre of mass of the far clump.
+
+\tip{
+    Read steps 2 and 3 again. The $s/d$ values are $7.6$ and $3.8$, wildly failing the test, because the target is *inside* those boxes and $d$ is tiny. A box you are standing in can never be accepted, which is the geometric reason the walk always descends to individual particles in your own neighbourhood and never approximates the things nearest to you. That is exactly the right instinct: nearby particles dominate the force, so they are the ones you must not approximate.
+}
+
+### What it cost, and what it got
+
+| | direct sum | tree at $\theta=0.7$ |
+| --- | --- | --- |
+| terms added | $7$ | $3$ |
+| acceleration on the target | $(+8.914934,\;+2.374070)$ | $(+8.914032,\;+2.373354)$ |
+| relative error | $0$ | $0.012\%$ |
+
+Five particles were replaced by one point mass, and the answer moved in the fifth significant figure.
+
+\note{
+    At $N=8$ this saves four terms, which is nothing. The point is what happens to that table as $N$ grows. The far clump would still be **one term** if it held five thousand particles instead of five, because the test only looks at how wide it is and how far away, not at what is inside. That is why the count per particle grows like $\log N$ and not like $N$, and the [next section but one](#why_this_gives_n_log_n) turns that into a number.
+}
+
+\prob{
+    Do this by hand. Take the eight positions above ($(0.10,0.15)$, $(0.22,0.10)$, $(0.15,0.30)$, then $(0.74,0.77)$, $(0.81,0.74)$, $(0.79,0.83)$, $(0.86,0.80)$, $(0.76,0.86)$, all of mass $1/8$), draw the quadtree on graph paper and reproduce the trace. Then change $\theta$ to $0.3$ and redo it: the far quadrant now fails the test, so you have to open it and you end up with more terms. Then set $\theta = 1.5$ and watch the walk try to accept a box the target is nearly touching.
+}
+
 ## The multipole expansion
 
 Now the real content. When we "accept" a cell, what exactly do we replace it with?
@@ -169,10 +333,10 @@ The crude answer is: a point mass at its centre of mass. That is the **monopole*
 
 Take one cell. Put the origin at its **centre of mass**. The cell contains particles of mass $m_k$ at positions $\vec s_k$, which are small, of order the cell size $s$. We want the potential at a field point $\vec d$ which is far away ($d \gg s$). Let $\gamma_k$ be the angle between $\vec d$ and $\vec s_k$.
 
-The exact potential is just the sum over particles:
+The exact potential, per unit mass, is just the sum over particles:
 
 $$
-\varphi(\vec d) = -G\sum_k \frac{m_k}{\left|\vec d - \vec s_k\right|}
+\phi(\vec d) = -G\sum_k \frac{m_k}{\left|\vec d - \vec s_k\right|}
 $$
 
 Everything now comes from expanding that denominator.
@@ -248,7 +412,7 @@ Table[FullSimplify[SeriesCoefficient[1/Sqrt[d^2 - 2 d s ct + s^2], {s, 0, n}]
 Substituting back into the potential:
 
 $$
-\varphi(\vec d) = -\frac{G}{d}\left[\underbrace{\sum_k m_k}_{n=0} + \frac{1}{d}\underbrace{\sum_k m_k s_k\cos\gamma_k}_{n=1} + \frac{1}{d^2}\underbrace{\sum_k m_k s_k^2\,\frac{3\cos^2\gamma_k-1}{2}}_{n=2} + \dots\right]
+\phi(\vec d) = -\frac{G}{d}\left[\underbrace{\sum_k m_k}_{n=0} + \frac{1}{d}\underbrace{\sum_k m_k s_k\cos\gamma_k}_{n=1} + \frac{1}{d^2}\underbrace{\sum_k m_k s_k^2\,\frac{3\cos^2\gamma_k-1}{2}}_{n=2} + \dots\right]
 $$
 
 Let me take these one at a time.
@@ -373,10 +537,10 @@ Physically, $\mathbf{Q}$ measures **how far from spherical the cell is**. The cl
 Putting the surviving terms together, and using $\hat n\cdot\mathbf{Q}\cdot\hat n = \vec d\cdot\mathbf{Q}\cdot\vec d / d^2$:
 
 $$
-\boxed{\;\varphi(\vec d) = -\frac{GM}{d} - \frac{1}{2}\frac{G}{d^5}\,\vec d\cdot\mathbf{Q}\cdot\vec d\;}
+\boxed{\;\phi(\vec d) = -\frac{GM}{d} - \frac{1}{2}\frac{G}{d^5}\,\vec d\cdot\mathbf{Q}\cdot\vec d\;}
 $$
 
-which is the paper's eq. (2.2). The acceleration follows by $\vec a = -\nabla\varphi$. I did that gradient in index notation, since it is exactly the sort of thing I get wrong by a factor of two.
+which is the paper's eq. (2.2). The acceleration follows by $\vec a = -\nabla\phi$. I did that gradient in index notation, since it is exactly the sort of thing I get wrong by a factor of two.
 
 We need $\partial_k$ of $S/d^5$, where $S \equiv d_iQ_{ij}d_j$. Two ingredients. First, the derivative of the distance itself:
 
@@ -397,7 +561,7 @@ $$
 = \frac{2Q_{kj}d_j}{d^5} - \frac{5\,S\,d_k}{d^7}
 $$
 
-Therefore, remembering the $-\tfrac12 G$ prefactor in $\varphi$ and the overall minus in $\vec a = -\nabla\varphi$, the two signs cancel and the $\tfrac12$ eats the 2:
+Therefore, remembering the $-\tfrac12 G$ prefactor in $\phi$ and the overall minus in $\vec a = -\nabla\phi$, the two signs cancel and the $\tfrac12$ eats the 2:
 
 $$
 a_k^{\text{quad}} = -\partial_k\left(-\frac{G}{2}\frac{S}{d^5}\right) = \frac{G}{2}\left(\frac{2Q_{kj}d_j}{d^5} - \frac{5Sd_k}{d^7}\right) = \frac{G\,Q_{kj}d_j}{d^5} - \frac{5G}{2}\frac{S\,d_k}{d^7}
@@ -441,7 +605,7 @@ Fitting slopes on the small-$s/d$ end gives **2.00** for the monopole and **3.03
 
 ## The test does not test what you think it tests
 
-I used to finish the section above with a sentence like this: *the expansion parameter is $s/d$, the series converges only for $s/d<1$, so keep $\theta$ below about 1.* It sounds fine. It is wrong, and the way it is wrong is worth a section of its own, because it is the single most instructive mistake I made in this whole project.
+The obvious thing to say at this point is: *the expansion parameter is $s/d$, the series converges only for $s/d<1$, so keep $\theta$ below about 1.* It sounds fine. It is wrong, and the way it is wrong is worth a section of its own, because it is the single most instructive thing in the whole method.
 
 Go back to the convergence condition. The Legendre series converges when $|t|<1$ with $t = |\vec s_\alpha|/d$, and that has to hold for **every particle $\alpha$ in the cell**, not for some average or typical size. So the quantity that decides convergence is
 
@@ -1066,11 +1230,9 @@ end
 
 ## What softening does to the expansion
 
-Now a correction to something I had wrong for a long time, and which turned out to be much more interesting than the thing I thought I was right about.
+Look at the softening in the quadrupole branch of that code. Every $r^n$ has become $(r^2+\varepsilon^2)^{n/2}$. Hernquist calls this an *ad hoc* softening of the quadrupole terms. It is tempting to claim the substituted version is better than that, because it is "exactly $-\nabla$ of a consistently softened quadrupole potential".
 
-Look at the softening in the quadrupole branch of that code. Every $r^n$ has become $(r^2+\varepsilon^2)^{n/2}$. Hernquist calls this an *ad hoc* softening of the quadrupole terms, and I used to write that my version was better because it is "exactly $-\nabla$ of a consistently softened quadrupole potential".
-
-Half of that is true. Write $\tilde r = \sqrt{d^2+\varepsilon^2}$ and notice that $\partial_k \tilde r = d_k/\tilde r$, which is the same form as $\partial_k d = d_k/d$. So the whole gradient calculation from earlier goes through unchanged with $d\to\tilde r$ in the denominators, and the substituted acceleration really is exactly minus the gradient of the substituted potential. It is a consistent pair.
+Half of that claim is true. Write $\tilde r = \sqrt{d^2+\varepsilon^2}$ and notice that $\partial_k \tilde r = d_k/\tilde r$, which is the same form as $\partial_k d = d_k/d$. So the whole gradient calculation from earlier goes through unchanged with $d\to\tilde r$ in the denominators, and the substituted acceleration really is exactly minus the gradient of the substituted potential. It is a consistent pair.
 
 What it is **not** is the multipole expansion of the softened force law. And those are different things.
 
@@ -1093,7 +1255,7 @@ $$
 Contracting with the **raw** second moment $M^{(2)}_{ij} = \sum_\alpha m_\alpha s_is_j$ gives the exact softened quadrupole term:
 
 $$
-\boxed{\;\varphi_2^{\,\varepsilon}
+\boxed{\;\phi_2^{\,\varepsilon}
 = -\frac{G}{2}\,
 \frac{3M^{(2)}_{ij}d_id_j - \left(d^2+\varepsilon^2\right)\operatorname{tr}\mathbf{M}^{(2)}}
 {\left(d^2+\varepsilon^2\right)^{5/2}}\;}
@@ -1108,7 +1270,7 @@ $$
 The two expressions are **identical except that one carries $d^2$ where the other carries $d^2+\varepsilon^2$**, and only in the trace piece. Subtracting, the entire difference is one term:
 
 $$
-\varphi_2^{\,\varepsilon} - \varphi_2^{\,\text{substituted}}
+\phi_2^{\,\varepsilon} - \phi_2^{\,\text{substituted}}
 = \frac{G\,\varepsilon^2\operatorname{tr}\mathbf{M}^{(2)}}{2\left(d^2+\varepsilon^2\right)^{5/2}}
 $$
 
@@ -1139,7 +1301,7 @@ Once the kernel has a source sitting on top of the field point, the trace no lon
 Very little at sensible settings, which is why the historical prescription has survived. Compare the missing term to the monopole:
 
 $$
-\frac{\left|\varphi_2^{\,\varepsilon}-\varphi_2^{\,\text{substituted}}\right|}{\left|\varphi_0\right|}
+\frac{\left|\phi_2^{\,\varepsilon}-\phi_2^{\,\text{substituted}}\right|}{\left|\phi_0\right|}
 = \frac{\varepsilon^2\left\langle s^2\right\rangle}{2\left(d^2+\varepsilon^2\right)^2}
 $$
 

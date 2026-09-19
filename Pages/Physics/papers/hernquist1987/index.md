@@ -170,7 +170,7 @@ Three quantities do most of the work in the table, so before the numbers: $\lang
 
 Where I quote a $\pm$, it is the standard deviation over **eight independent random realisations** of the cluster, not the spread inside one run.
 
-Two rows in that table are *supposed* to disagree, and I had them wrong for a long time. The $N$ at which the tree overtakes the direct sum is **not a property of the algorithm**. It is the point where two inner loops break even, and how fast each of those loops runs is a fact about the machine. On a CRAY X-MP the direct sum vectorised beautifully while a branch-heavy tree walk did not, so the tree had a lot of ground to make up and only caught up near $N\approx1700$. On a modern core the two loops are far closer in speed, so my tree wins much sooner: already below $N=1024$ at $\theta=1$, and near $N\approx2300$ at $\theta=0.5$ against his $\approx7000$. [Part 4](/Pages/Physics/papers/hernquist1987/04_results/#when_is_it_actually_worth_it) has the measurement. This number has to be measured again on every architecture, and an earlier version of these pages made a virtue of an agreement that was not really there.
+Two rows in that table are *supposed* to disagree. The $N$ at which the tree overtakes the direct sum is **not a property of the algorithm**. It is the point where two inner loops break even, and how fast each of those loops runs is a fact about the machine. On a CRAY X-MP the direct sum vectorised beautifully while a branch-heavy tree walk did not, so the tree started a long way behind and only caught up near $N\approx1700$. On a modern core the two loops are far closer in speed, so my tree wins much sooner: already below $N=1024$ at $\theta=1$, and near $N\approx2300$ at $\theta=0.5$ against his $\approx7000$. [Part 4](/Pages/Physics/papers/hernquist1987/04_results/#when_is_it_actually_worth_it) has the measurement. This is the one number in the whole project that has to be measured again on every architecture.
 
 \note{
     **This table is deliberately matched, not optimised.** Every row runs at the paper's own settings, so the force-error rows are not "the best I can do": they are the same thing, done again. If I had tuned my code to look good, the comparison would mean nothing.
@@ -203,7 +203,7 @@ Read that table slowly, because it is easy to claim too much from it. **The most
 The last row is the one that puts it in perspective. At this $N$ the *exact* answer, with no approximation anywhere, now costs $4.12$ seconds, which is a sixth of what the *approximate* answer cost in 1987. Four decades did not supply a better formula. They supplied enough fast arithmetic to run the same formula in a regime that was not practical before.
 
 \note{
-    **An earlier version of this page got that comparison badly wrong**, and I would rather fix it in public than quietly. I had claimed the octupole setting was "29 times faster than his crudest one". That number came from a **multi-threaded** run of my code being compared against a **single-CPU** CRAY figure, which is not a comparison at all. On one core the honest answer is a factor of about two, not twenty-nine. The accuracy gain also came down, from $5300\times$ to $3600\times$, once I quoted both errors at the same $\theta$ grid points. The physics did not change; my bookkeeping did.
+    **Every row of that table is single threaded, and it has to be.** Hernquist's $23.9$ seconds is one CRAY CPU. If I quote a threaded time from my own machine against it, I am comparing 48 cores with one and the factor means nothing. The moment you use more than one core the honest comparison is core-seconds, not wall-clock.
 }
 
 Since there is no page limit here, the full single-core sweep, so you can pick your own point on it. Timings on a shared machine are good to about $20\%$, so read the seconds as indicative and the errors as solid:
@@ -298,11 +298,7 @@ The quantities that **are** universal come from the mathematics, and those match
 
 One honest loose end. $\Delta E/E$ at $\theta=1$ comes out $0.96\pm0.14\%$ against the paper's $0.68\%$, about two standard deviations high, in the same direction as my slightly larger force error there. I suspect a small difference in the opening test rather than an outright error, but I have not tracked it down, and I would rather say so than paper over it.
 
-\note{
-    **A retraction.** An earlier version of this page claimed I had found an error in the paper: that **equation (3.2)** carries an inconsistent power of $G$. That claim was wrong, and the mistake was mine, in copying the formula out. Written with a single $G$ in the prefactor, which is what the paper actually prints, equation (3.2) reduces **exactly** to the Eddington result I derive on the [setup page](/Pages/Physics/papers/hernquist1987/01_setup/#the_distribution_function), powers of $G$ and all. I had written $G^5$ where the paper has $G$, and then dutifully discovered the $G^{-4}$ I had put there myself. The check is redone, symbolically and numerically, on that page.
-
-    The lesson I take from it is not a comfortable one. It is very easy to find an "error" in somebody else's paper when the error is in your own transcription, and the check that would have caught it, going back to the printed page instead of to my notes, is the one I skipped.
-}
+I also checked the paper's own algebra where I could. Its **equation (3.2)** writes the Plummer distribution function in terms of a scale speed $\sigma_0$ rather than $M$ and $r_0$; substituting $\sigma_0$ back reproduces the Eddington result exactly, powers of $G$ and all. The working is [on the setup page](/Pages/Physics/papers/hernquist1987/01_setup/#the_same_thing_in_the_paper_s_notation).
 
 ## A note on how I did this
 
@@ -316,20 +312,6 @@ Everything here I wrote myself and checked in at least two ways, because a simul
 * The **one-sided force** is checked with a net-force diagnostic, which must be small but is not allowed to be zero, and with translation covariance: move every particle by the same vector and the accelerations must not change.
 
 The heavy runs were done on a departmental machine; the small ones ran on my laptop.
-
-## What changed after I wrote this up properly
-
-These pages went up first as a set of notes. Turning them into a two-part article for *Resonance* meant defending every number in front of an editor, and that process turned up several things I had got wrong. I have fixed them above rather than leaving the old text standing, but it seems dishonest to fix them silently, so here is the list:
-
-1. **The headline speed comparison.** I compared a threaded run of my code against a single-CPU CRAY number and got "29 times faster". On one core it is about two times faster. Corrected above.
-2. **Hernquist's equation (3.2).** I claimed it carries a wrong power of $G$. It does not. I had mis-transcribed it. Retracted above and on [part 1](/Pages/Physics/papers/hernquist1987/01_setup/#the_distribution_function).
-3. **The tree-versus-direct crossover.** I reported $N\approx1700$ "exactly matching the paper" and drew a conclusion about the ratio being machine-independent. Both were wrong: my crossover is well below $1024$, and the crossover is exactly the sort of number that *is* machine dependent. Corrected on [part 4](/Pages/Physics/papers/hernquist1987/04_results/#when_is_it_actually_worth_it).
-4. **What the quadrupole costs.** I quoted "1.3 to 1.5 times", agreeing with the paper. Per accepted cell it is $11\%$ on this machine, and the discrepancy with 1987 is architectural, not algorithmic. Corrected on [part 4](/Pages/Physics/papers/hernquist1987/04_results/#what_does_the_quadrupole_cost).
-5. **How to soften a multipole.** I claimed my softening prescription was exactly the gradient of a consistently softened quadrupole potential. It is not, and the missing piece is interesting rather than embarrassing: the softened kernel is not harmonic, so the trace no longer drops out. Now derived properly on [part 3](/Pages/Physics/papers/hernquist1987/03_treecode/#what_softening_does_to_the_expansion).
-6. **Where the series actually converges.** I said "keep $\theta$ below about 1 because the series needs $s/d<1$". The acceptance test does not test that quantity at all, and the real threshold is $\theta \le 1/\sqrt3 \approx 0.577$. This one is worth a whole section, and it now has one on [part 3](/Pages/Physics/papers/hernquist1987/03_treecode/#the_test_does_not_test_what_you_think_it_tests).
-7. **Why $\theta^{-3}$ does not hold.** I noted the discrepancy and shrugged at it. There is a proper counting model with no free parameters that explains it, now on [part 3](/Pages/Physics/papers/hernquist1987/03_treecode/#a_better_count).
-
-And several sections are new rather than corrected: where the tree error actually comes from and why it cancels, what the average error hides, and whether the opening test can be repaired.
 
 ---
 

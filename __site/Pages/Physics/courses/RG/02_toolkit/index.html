@@ -1,0 +1,1098 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Renormalisation Group II: Loops, Infinities and Cutoffs from Scratch</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
+      fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+
+<link rel="stylesheet" href="/assets/Physics/courses/RG/rg.css">
+<script defer src="/assets/Physics/courses/RG/rg.js"></script>
+
+<div class="franklin-toc"><ol><li><a href="#where_feynman_diagrams_come_from"><ol>
+<li><p>Where Feynman diagrams come from</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start2_where_loop_integrals_come_from"><ol start="2">
+<li><p>Where loop integrals come from</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start3_why_we_rotate_to_euclidean_space"><ol start="3">
+<li><p>Why we rotate to Euclidean space</p>
+</li>
+</ol>
+</a><ol><li><a href="#doing_the_rotation_by_computer">Doing the rotation by computer</a></li><li><a href="#why_this_also_joins_qft_to_statistical_physics">Why this also joins QFT to statistical physics</a></li></ol></li><li><a href="#ol_start4_why_loop_integrals_blow_up"><ol start="4">
+<li><p>Why loop integrals blow up</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start5_the_cutoff_and_other_ways_to_regularise"><ol start="5">
+<li><p>The cutoff and other ways to regularise</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start6_doing_a_loop_integral_from_start_to_finish"><ol start="6">
+<li><p>Doing a loop integral from start to finish</p>
+</li>
+</ol>
+</a><ol><li><a href="#step_1_write_the_integral">Step 1: write the integral</a></li><li><a href="#step_2_feynman_parameters">Step 2: Feynman parameters</a></li><li><a href="#step_3_complete_the_square">Step 3: complete the square</a></li><li><a href="#step_4_tidy_up_the_numerator">Step 4: tidy up the numerator</a></li><li><a href="#step_5_spherical_coordinates_and_the_master_formula">Step 5: spherical coordinates and the master formula</a></li><li><a href="#step_6_let_d_approach_4">Step 6: let \(d\) approach 4</a></li></ol></li><li><a href="#ol_start7_same_integral_three_regulators"><ol start="7">
+<li><p>Same integral, three regulators</p>
+</li>
+</ol>
+</a></li><li><a href="#ol_start8_renormalisation_trade_the_made-up_numbers_for_measured_ones"><ol start="8">
+<li><p>Renormalisation: trade the made-up numbers for measured ones</p>
+</li>
+</ol>
+</a><ol><li><a href="#why_only_a_few_numbers_ever_need_fixing">Why only a few numbers ever need fixing</a></li><li><a href="#counterterms_as_extra_feynman_rules">Counterterms as extra Feynman rules</a></li><li><a href="#beyond_one_loop">Beyond one loop</a></li></ol></li><li><a href="#ol_start9_hold_the_physics_fixed_and_move_the_cutoff"><ol start="9">
+<li><p>Hold the physics fixed and move the cutoff</p>
+</li>
+</ol>
+</a></li><li><a href="#exercises">Exercises</a></li></ol></div>
+<h1 id="renormalisation_group_ii_loops_infinities_and_cutoffs_from_scratch"><a href="#renormalisation_group_ii_loops_infinities_and_cutoffs_from_scratch" class="header-anchor">Renormalisation Group II: Loops, Infinities and Cutoffs from Scratch</a></h1>
+<blockquote>
+<p><em>Part 2 of eight. previous: <a href="/Pages/Physics/courses/RG/01_scale/">Why scale matters</a> · <a href="/Pages/Physics/courses/RG/Main_page/">Course home</a> · <a href="/Pages/Physics/courses/RG/glossary/">Glossary</a> · next: <a href="/Pages/Physics/courses/RG/03_block_spins/">Block spins</a></em></p>
+</blockquote>
+<p>Part 1 pulled Feynman rules out of thin air and used words like <em>loop</em>, <em>Euclidean</em>, <em>cutoff</em> and <em>regularise</em> without explaining them. This part builds all of it slowly, starting from the path integral itself: first where the diagrams and their rules come from, then why loops diverge, what a cutoff is and what renormalisation actually does. If you have Peskin &amp; Schroeder or Ashok Das&#39;s <em>Field Theory: A Path Integral Approach</em>, the matching sections are mentioned as we go, but you don&#39;t need them.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>What&#39;s in this part and what you can skip first time.</strong> This is the longest page in the course, so here&#39;s the map:</p>
+<ol>
+<li><p><strong>Where Feynman diagrams come from.</strong> The rules of Part 1, derived.</p>
+</li>
+<li><p><strong>Where loop integrals come from.</strong> Why a loop leaves one momentum free.</p>
+</li>
+<li><p><strong>The Wick rotation.</strong> Why we work in &quot;imaginary time&quot; and why that links particles to magnets.</p>
+</li>
+<li><p><strong>Why loops blow up</strong> and how to tell how badly, just by counting powers.</p>
+</li>
+<li><p><strong>The cutoff</strong> and the other ways to make an integral finite.</p>
+</li>
+<li><p><strong>One loop integral from start to finish.</strong> The standard recipe. <em>Skippable on a first reading:</em> it&#39;s technique and you can come back when you need it.</p>
+</li>
+<li><p><strong>The same integral, three ways</strong>, showing what does and doesn&#39;t depend on the regulator. This is the heart of the page.</p>
+</li>
+<li><p><strong>Renormalisation</strong>, plus what changes beyond one loop. <em>The &quot;beyond one loop&quot; part is skippable first time.</em></p>
+</li>
+<li><p><strong>An interactive widget</strong> where you move the cutoff and watch the bare parameters chase it.</p>
+</li>
+</ol>
+<p>If you only read two sections, read 1 and 7. 
+  </fieldset>
+  
+<h2 id="where_feynman_diagrams_come_from"><a href="#where_feynman_diagrams_come_from" class="header-anchor"><ol>
+<li><p>Where Feynman diagrams come from</p>
+</li>
+</ol>
+</a></h2>
+<p>Part 1 pulled three rules out of thin air: a line means \(1/(k^2+m^2)\), a vertex means \(\lambda_0/4!\) with a minus sign and a loop means &quot;integrate over \(k\)&quot;. None of that was justified. Here is where all of it comes from, in one calculation.</p>
+<p>Everything in this theory is an average over field shapes, weighted by \(e^{-S}\):</p>
+\[ \langle\,\cdots\rangle = \frac{\int\mathcal D\phi\;(\cdots)\;e^{-S_0[\phi]-S_{\rm int}[\phi]}}{\int\mathcal D\phi\;e^{-S_0[\phi]-S_{\rm int}[\phi]}},\qquad S_{\rm int}=\frac{\lambda_0}{4!}\int\mathrm d^dz\,\phi(z)^4. \]
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+   \(\int\mathcal D\phi\) looks frightening, but it&#39;s just &quot;try every possible shape of the field and weight each one&quot;. Think of an exam where instead of one answer you average over every student&#39;s answer sheet, weighting each by how good it is. The weight \(e^{-S}\) is high for smooth, low-energy shapes and tiny for wild ones. 
+  </fieldset>
+  
+<p>Two facts do all the work, both proved in <a href="/Pages/Physics/courses/RG/05_wilson/">Part 5</a>:</p>
+<ol>
+<li><p><strong>Without the interaction</strong>, the average of two fields is the propagator: \(\langle\phi(x)\phi(y)\rangle_0=G(x-y)\), which in momentum space is \(1/(k^2+m^2)\). That&#39;s where the line comes from.</p>
+</li>
+<li><p><strong>Wick&#39;s theorem</strong>: with the free weight, the average of any number of fields is the sum over all ways of pairing them up, each pair giving a propagator. Averages of an odd number vanish. To <em>pair</em> two fields, also called <em>contracting</em> them, means nothing more than taking those two out of the list and writing \(G\) for them. Part 5 derives the theorem in three lines from a source trick, so you never have to take it on faith.</p>
+</li>
+</ol>
+<p>Now expand the exponential, since \(\lambda_0\) is small:</p>
+\[ e^{-S_{\rm int}} = 1 - \frac{\lambda_0}{4!}\int\mathrm d^dz\,\phi(z)^4 + \dots \]
+<p><strong>Every vertex comes with a minus sign</strong>, simply because the exponential expands with alternating signs. That&#39;s the minus sign Part 1 used without explaining.</p>
+<p>Take the two-point function \(\langle\phi(x)\phi(y)\rangle\) and keep the first-order term:</p>
+\[ -\frac{\lambda_0}{4!}\int\mathrm d^dz\;\big\langle\phi(x)\,\phi(y)\,\phi(z)\phi(z)\phi(z)\phi(z)\big\rangle_0 . \]
+<p>Six fields, so Wick&#39;s theorem gives \(5\times3\times1=15\) pairings. Sort them into two kinds:</p>
+<ul>
+<li><p><strong>3 pairings</strong> join \(x\) straight to \(y\) and pair the four \(z\)&#39;s among themselves. The diagram falls into two disconnected pieces and such pieces are exactly cancelled by the denominator of the average. Ignore them.</p>
+</li>
+<li><p><strong>12 pairings</strong> connect everything: \(x\) pairs with one of the four \(\phi(z)\) &#40;4 choices&#41;, \(y\) with one of the remaining three &#40;3 choices&#41; and the last two \(\phi(z)\) pair with each other &#40;1 way&#41;. That&#39;s \(4\times3\times1=12\).</p>
+</li>
+</ul>
+<p>So the term is</p>
+\[ -\frac{\lambda_0}{4!}\cdot 12\int\mathrm d^dz\;G(x-z)\,G(z-y)\,G(0) = -\frac{\lambda_0}{2}\int\mathrm d^dz\;G(x-z)\,G(z-y)\,G(0). \]
+<p>Look at what each piece became. The two propagators \(G(x-z)\) and \(G(z-y)\) are <strong>the particle travelling in and out</strong>. The factor \(G(0)=G(z-z)\) is a propagator that starts and ends at the same point: <strong>the loop</strong>. In momentum space a propagator at zero separation is</p>
+\[ G(0)=\int\frac{\mathrm d^dk}{(2\pi)^d}\,\frac{1}{k^2+m^2}, \]
+<p>which is exactly the loop integral of Part 1. And the leftover number, \(12/4!=\tfrac12\), is Part 1&#39;s factor.</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      The <strong>symmetry factor</strong> is the number of Wick pairings that give a particular diagram, divided by the factorials put into the couplings. It exists only to correct over-counting: the \(4!\) in \(\lambda_0/4!\) was put there so that the commonest diagrams come out with tidy factors. 
+  </fieldset>
+  
+<p>So the Feynman rules are not magic. A diagram is a bookkeeping picture for one group of Wick pairings: <strong>lines are propagators, dots are vertices from expanding \(e^{-S_{\rm int}}\) &#40;each with a minus sign and a \(\lambda_0\)&#41;, closed loops are propagators that return to their own vertex and the symmetry factor counts how many pairings gave the same picture.</strong> Everything in Parts 1, 6 and 7 is this calculation, done for bigger diagrams.</p>
+
+  <fieldset class=" otaku"><legend class=" otaku-legend"> Otaku corner</legend>
+      Wick&#39;s theorem is the <em>Death Note</em> of QFT: an enormous, tedious problem reduced to &quot;write down every pairing and the rules do the rest&quot;. The catch, as any student who has counted the symmetry factor of a two-loop diagram at 2 am will tell you, is that the rules are simple but the bookkeeping is merciless. 
+  </fieldset>
+  
+<h2 id="ol_start2_where_loop_integrals_come_from"><a href="#ol_start2_where_loop_integrals_come_from" class="header-anchor"><ol start="2">
+<li><p>Where loop integrals come from</p>
+</li>
+</ol>
+</a></h2>
+<p>Draw a Feynman diagram and at every dot &#40;vertex&#41; apply one rule: momentum in equals momentum out. For a diagram with no closed loops &#40;a <strong>tree</strong> diagram&#41;, that rule fixes every internal momentum. Nothing is left to integrate.</p>
+<p>Close a loop and something new happens. Momentum conservation at each dot still holds, but it no longer fixes everything:</p>
+
+<div class="mfig" style="--w:430px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/bubble_momenta.svg" alt="A one-loop bubble diagram with momentum conservation at each vertex">
+  <p>Two particles come in with \(p_1\) and \(p_2\). Momentum conservation fixes the bottom line once the top line's momentum \(k\) is chosen, but nothing fixes \(k\) itself.</p>
+</div>
+
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Picture a circle of friends passing money around. Each person gives away exactly what they receive, so nobody gains or loses. But the amount going round the circle can be anything: ten rupees, a thousand, a million. The rule at each person doesn&#39;t fix it. A loop momentum is exactly that: an amount circulating around the loop that the local rules leave free. 
+  </fieldset>
+  
+<p>Quantum mechanics says: when something isn&#39;t fixed, add up all the possibilities. So every loop comes with an integral over its free momentum,</p>
+\[ \int\frac{\mathrm d^4k}{(2\pi)^4}\,(\text{the propagators that depend on }k). \]
+<p>The loop is a <strong>virtual particle</strong> that appears and disappears and \(k\) is its momentum. Because it&#39;s never observed, <em>every</em> value of \(k\) contributes, including huge ones. That word &quot;every&quot; is where the trouble in Part 1 came from.</p>
+<p>One more useful fact: loops are the quantum part. If you keep track of \(\hbar\), a diagram with \(L\) loops carries an extra \(\hbar^{L}\) compared with the tree diagram with the same outside lines. Tree diagrams are classical physics and loops are the quantum jitter on top &#40;Das §10.3&#41;.</p>
+<h2 id="ol_start3_why_we_rotate_to_euclidean_space"><a href="#ol_start3_why_we_rotate_to_euclidean_space" class="header-anchor"><ol start="3">
+<li><p>Why we rotate to Euclidean space</p>
+</li>
+</ol>
+</a></h2>
+<p>In ordinary &#40;Minkowski&#41; spacetime, the propagator of a particle with mass \(m\) is</p>
+\[ \frac{i}{(k^0)^2-\mathbf k^2-m^2+i\varepsilon}. \]
+<p>The tiny \(+i\varepsilon\) is Feynman&#39;s rule for which way particles go in time. Think of the integral over the energy \(k^0\) as a path along the real line in the complex \(k^0\) plane. The propagator blows up at two points, called <strong>poles</strong>: \(k^0=+E_k-i\varepsilon\) and \(k^0=-E_k+i\varepsilon\), where \(E_k=\sqrt{\mathbf k^2+m^2}\). The \(i\varepsilon\) nudges one pole just below the real line on the right and the other just above it on the left.</p>
+
+<div class="mfig" style="--w:400px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/wick_rotation.svg" alt="Wick rotation of the k0 integration contour">
+  <p>The two poles (red crosses) sit in the top-left and bottom-right quarters. The other two quarters are empty, so the blue path along the real line can be swung round onto the green imaginary line without touching a pole. (Peskin & Schroeder Fig. 6.1; Das Fig. 4.2.)</p>
+</div>
+
+<p>Now use one fact from complex analysis &#40;Cauchy&#39;s theorem&#41;: if you move an integration path without crossing any poles, the integral doesn&#39;t change.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Imagine a rubber band stretched along the real line, with two nails &#40;the poles&#41; hammered into the board. You can swing the band round as much as you like, as long as it doesn&#39;t catch on a nail. The two empty quarters let it swing a quarter turn onto the imaginary line without catching anything and the answer stays the same. 
+  </fieldset>
+  
+<p>So we may set \(k^0 = ik^4\) with \(k^4\) real. Then \((k^0)^2-\mathbf k^2 = -(k^4)^2-\mathbf k^2 = -k_E^2\), where \(k_E^2\) is an ordinary positive length squared in four dimensions. This is the <strong>Wick rotation</strong>. The propagator becomes \(1/(k_E^2+m^2)\): no poles, no \(i\varepsilon\) and all four directions treated the same way.</p>
+<h3 id="doing_the_rotation_by_computer"><a href="#doing_the_rotation_by_computer" class="header-anchor">Doing the rotation by computer</a></h3>
+<p>You don&#39;t have to take Cauchy&#39;s word for it. Wolfram can do the complex integral directly, \(i\varepsilon\) and all:</p>
+<pre><code class="language-mathematica">&#40;* 1. along the real k0 line, with the i eps kept *&#41;
+Integrate&#91;1/&#40;k0^2 - e^2 &#43; I eps&#41;, &#123;k0, -Infinity, Infinity&#125;, Assumptions -&gt; &#123;e &gt; 0, eps &gt; 0&#125;&#93;
+&#40;* Pi/Sqrt&#91;-e^2 &#43; I eps&#93;   -&gt;   -I Pi/e  as eps -&gt; 0 *&#41;
+
+&#40;* 2. along the imaginary line, k0 &#61; I k4, dk0 &#61; I dk4 *&#41;
+Integrate&#91;I/&#40;-k4^2 - e^2&#41;, &#123;k4, -Infinity, Infinity&#125;, Assumptions -&gt; e &gt; 0&#93;
+&#40;* -I Pi/e : the same *&#41;
+
+&#40;* 3. where are the poles?  &#40;e &#61; 1, eps &#61; 1/10&#41; *&#41;
+k0 /. Solve&#91;k0^2 - 1 &#43; I/10 &#61;&#61; 0, k0&#93; // N
+&#40;* &#123;-1.001 &#43; 0.050 I, 1.001 - 0.050 I&#125; : top-left and bottom-right, as in the picture *&#41;
+
+&#40;* 4. a full 4D integral, done both ways &#40;Peskin eq. 6.49&#41; *&#41;
+inner &#61; Integrate&#91;1/&#40;k0^2 - w^2 &#43; I eps&#41;^3, &#123;k0, -Infinity, Infinity&#125;, Assumptions -&gt; &#123;w &gt; 0, eps &gt; 0&#125;&#93;;
+inner0 &#61; Limit&#91;inner, eps -&gt; 0, Direction -&gt; &quot;FromAbove&quot;&#93;;                    &#40;* -3 I Pi/&#40;8 w^5&#41; *&#41;
+Integrate&#91;4 Pi p^2 &#40;inner0 /. w -&gt; Sqrt&#91;p^2 &#43; Dl&#93;&#41;, &#123;p, 0, Infinity&#125;, Assumptions -&gt; Dl &gt; 0&#93;/&#40;2 Pi&#41;^4
+&#40;* -I/&#40;32 Pi^2 Dl&#41; *&#41;
+&#40;-1&#41;^3 I 2 Pi^2 Integrate&#91;k^3/&#40;k^2 &#43; Dl&#41;^3, &#123;k, 0, Infinity&#125;, Assumptions -&gt; Dl &gt; 0&#93;/&#40;2 Pi&#41;^4
+&#40;* -I/&#40;32 Pi^2 Dl&#41; : the Wick-rotated answer agrees *&#41;</code></pre>
+<p>In the last check, the first calculation does the energy integral as a genuine contour integral in Minkowski space, then the three momentum integrals. The second does the whole thing as one rotated, four-dimensional Euclidean integral. They agree exactly. That&#39;s the Wick rotation, checked.</p>
+<p>After the rotation we can use four-dimensional spherical coordinates, just as you use \(\mathrm d^3k = 4\pi k^2\,\mathrm d k\) in three dimensions:</p>
+\[ \int\mathrm d^4k_E = 2\pi^2\int_0^\infty k^3\,\mathrm d k, \]
+<p>because the &quot;surface area&quot; of a unit sphere in four dimensions is \(2\pi^2\). In \(d\) dimensions it&#39;s \(S_d = 2\pi^{d/2}/\Gamma(d/2)\).</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>The \(\Gamma\) function, if you haven&#39;t met it.</strong> It&#39;s the factorial, extended so that it works for any number, not just whole ones. For positive integers, \(\Gamma(n)=(n-1)!\), so \(\Gamma(1)=1\), \(\Gamma(2)=1\), \(\Gamma(3)=2\). It also satisfies \(\Gamma(z+1)=z\,\Gamma(z)\), which is the factorial&#39;s own rule.</p>
+<p>That one relation is all we need later. Rewrite it as \(\Gamma(z)=\Gamma(z+1)/z\) and let \(z\) be small: the top tends to \(\Gamma(1)=1\), so</p>
+\[ \Gamma(z)\approx\frac1z \quad\text{for small } z. \]
+<p>So \(\Gamma\) blows up at zero like \(1/z\). That single pole is where every infinity in dimensional regularisation comes from: the loop integrals produce \(\Gamma(2-\tfrac d2)\), which at \(d=4\) is \(\Gamma(0)\). &#40;A sharper version, \(\Gamma(z)=\tfrac1z-\gamma_E+\dots\) with \(\gamma_E=0.5772\), is used in section 6.&#41; 
+  </fieldset>
+  
+<h3 id="why_this_also_joins_qft_to_statistical_physics"><a href="#why_this_also_joins_qft_to_statistical_physics" class="header-anchor">Why this also joins QFT to statistical physics</a></h3>
+<p>Rotating time the same way, \(\tau = it\), turns the quantum weight \(e^{iS}\) into \(e^{-S_E}\): a real, positive weight, just like the Boltzmann factor \(e^{-E/k_BT}\) of statistical mechanics.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Tong says that after the rotation the only difference between a quantum field theory and a hot magnet is the words we use. In a magnet, the field jitters because of <em>heat</em> and the temperature sets how much. In a quantum field, it jitters because of <em>quantum uncertainty</em> and \(\hbar\) sets how much. Same maths, different story. 
+  </fieldset>
+  
+<p>This is why this course can move between magnets and particles so freely &#40;Peskin §9.3, Das §14.1, Tong §2.3&#41;. From now on every momentum is Euclidean and I drop the \(E\).</p>
+<h2 id="ol_start4_why_loop_integrals_blow_up"><a href="#ol_start4_why_loop_integrals_blow_up" class="header-anchor"><ol start="4">
+<li><p>Why loop integrals blow up</p>
+</li>
+</ol>
+</a></h2>
+<p>Count the powers of \(k\). The tadpole from Part 1 has one loop and one propagator:</p>
+\[ \int\mathrm d^4k\,\frac{1}{k^2+m^2}\sim\int^{\infty}\frac{k^3\,\mathrm d k}{k^2} = \int^{\infty}k\,\mathrm d k \to\infty. \]
+<p>At large \(k\) the measure gives four powers &#40;\(k^3\,\mathrm d k\)&#41; and the propagator takes away only two, so the integral grows like \(k^2\). We call that a <strong>quadratic divergence</strong>. The bubble in the picture above has two propagators, so it goes like \(\int k^3\mathrm d k/k^4=\int\mathrm d k/k\). That grows like \(\ln k\): a <strong>logarithmic divergence</strong>.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      A logarithmic divergence is sneaky. Peskin &#40;§12.1&#41; points out that such an integral gets <em>the same amount</em> from every doubling of \(k\): from 1 to 2, from 2 to 4, from 1000 to 2000. It&#39;s like a savings plan that pays you one rupee every time your age doubles. You never get rich quickly, but the total keeps growing forever. 
+  </fieldset>
+  
+<p>Peskin &#40;§10.1&#41; turns this counting into a rule. For a diagram with \(L\) loops and \(P\) internal lines, the <strong>superficial degree of divergence</strong> is</p>
+\[ D = (\text{powers of }k\text{ on top}) - (\text{powers on the bottom}) = 4L-2P. \]
+<p>If \(D>0\) the integral diverges like \(\Lambda^D\), if \(D=0\) like \(\ln\Lambda\) and if \(D<0\) it usually converges. For \(\phi^4\) theory, use two facts. First, \(L=P-V+1\): each internal line brings a momentum, each of the \(V\) vertices imposes one conservation law and one of those laws is just overall conservation. Second, \(4V=N+2P\): each vertex has four legs, each internal line uses two and each of the \(N\) outside lines uses one. Eliminating \(L\) and \(P\) gives</p>
+\[ \boxed{\;D = 4-N.\;} \]
+<p>This is a remarkable result. How badly a diagram diverges depends only on how many lines stick out of it, not on how complicated it is inside.</p>
+<table><tr><th align="right">outside lines \(N\)</th><th align="right">\(D\)</th><th align="right">what it corrects</th><th align="right">how it diverges</th></tr><tr><td align="right">2</td><td align="right">2</td><td align="right">the mass</td><td align="right">like \(\Lambda^2\)</td></tr><tr><td align="right">4</td><td align="right">0</td><td align="right">the coupling \(\lambda\)</td><td align="right">like \(\ln\Lambda\)</td></tr><tr><td align="right">6, 8, ...</td><td align="right">negative</td><td align="right">nothing new</td><td align="right">finite</td></tr></table>
+<p>So in the whole theory, only two kinds of number ever blow up: the mass and the coupling. &#40;The overall size of the field also needs a small fix, starting at two loops.&#41; That short list is what &quot;renormalisable&quot; means and in Part 5 you&#39;ll see it&#39;s the same list as the couplings that survive coarse-graining.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>What an infinity is telling you.</strong> A loop momentum \(k\) describes a fluctuation of size about \(1/k\). Integrating to \(k=\infty\) means including fluctuations down to zero size. So the theory is claiming to know nature at arbitrarily short distances and it doesn&#39;t. The same thing happens in classical physics: the electric field energy of a point charge, \(\int_r^\infty\frac{\varepsilon_0}{2}E^2\,\mathrm d V=\frac{e^2}{8\pi\varepsilon_0 r}\), blows up as \(r\to0\). Nobody concluded the electron has infinite mass. They concluded that &quot;point charge&quot; stops being a good description at some small distance. 
+  </fieldset>
+  
+<h2 id="ol_start5_the_cutoff_and_other_ways_to_regularise"><a href="#ol_start5_the_cutoff_and_other_ways_to_regularise" class="header-anchor"><ol start="5">
+<li><p>The cutoff and other ways to regularise</p>
+</li>
+</ol>
+</a></h2>
+<p>To get a finite answer we must change the theory at very short distances, in a way controlled by one adjustable number. That step is called <strong>regularisation</strong>. Then we ask which predictions depend on the adjustable number and which don&#39;t.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      How long is the coastline of the Sundarbans? It depends on your ruler and with all those creeks and islands the answer is wildly ruler-dependent. Measure with a 100 km ruler and you skip every bay. Use a 1 m ruler and you trace every rock and the length grows. As the ruler shrinks, the length keeps growing, just like a divergent integral as \(\Lambda\) grows. The ruler length is the regulator. The coastline&#39;s length is not a sensible question on its own. But &quot;is Britain&#39;s coast more wiggly than Norway&#39;s, measured with the same ruler?&quot; has a perfectly good answer. 
+  </fieldset>
+  
+<p>Here are four common ways to do it.</p>
+<p><strong>A hard momentum cutoff.</strong> Only integrate up to \(|k|=\Lambda\). This is the easiest one to picture and it&#39;s the one Wilson&#39;s picture uses. Its weakness is that in gauge theories it breaks gauge symmetry, which is why particle physicists often prefer the next two.</p>
+<p><strong>A lattice.</strong> Put the field on a grid with spacing \(a\). Then no wave can be shorter than the grid allows, so \(\Lambda\sim\pi/a\). For a magnet this isn&#39;t a trick at all, because the atoms really do sit on a lattice. It&#39;s also how QCD is simulated on computers.</p>
+<p><strong>Pauli-Villars.</strong> Subtract the same diagram with an imaginary, very heavy particle of mass \(M\):</p>
+\[ \frac1{k^2+m^2}\to\frac1{k^2+m^2}-\frac1{k^2+M^2}=\frac{M^2-m^2}{(k^2+m^2)(k^2+M^2)}. \]
+<p>For \(k\ll M\) nothing changes. For \(k\gg M\) the integrand falls off two powers faster, which is enough to make the bubble converge. Here \(M\) plays the role of \(\Lambda\).</p>
+<p><strong>Dimensional regularisation.</strong> The bubble diverges in four dimensions but converges in fewer, because there is less room &#40;\(k^{d-1}\,\mathrm d k\)&#41; at large \(k\). So do the integral in a general dimension \(d\), where the answer is a finite formula in \(d\) and only at the end let \(d\) approach 4. The infinity then shows up as a term like \(1/\epsilon\), with \(\epsilon=4-d\). For the tadpole:</p>
+\[ \int\frac{\mathrm d^dk}{(2\pi)^d}\,\frac1{k^2+m^2} = \frac{\Gamma(1-\tfrac d2)}{(4\pi)^{d/2}}\,(m^2)^{d/2-1}\ \xrightarrow{\ d=4-\epsilon\ }\ -\frac{m^2}{8\pi^2\epsilon}+\text{finite}. \]
+<p>This method respects every symmetry and Part 7 uses it. The price is that it needs an arbitrary mass scale \(\mu\) to keep the units right in \(d\neq4\) and that \(\mu\) turns out to be where the &quot;running&quot; of couplings comes from.</p>
+<h2 id="ol_start6_doing_a_loop_integral_from_start_to_finish"><a href="#ol_start6_doing_a_loop_integral_from_start_to_finish" class="header-anchor"><ol start="6">
+<li><p>Doing a loop integral from start to finish</p>
+</li>
+</ol>
+</a></h2>
+<p>Every one-loop integral in this course and almost every one in Peskin, is done with the same five-step recipe &#40;Peskin §6.3 lists it right after computing the electron&#39;s magnetic moment&#41;:</p>
+<ol>
+<li><p>Draw the diagram and write down the integral.</p>
+</li>
+<li><p>Use <strong>Feynman parameters</strong> to squeeze all the denominators into one.</p>
+</li>
+<li><p><strong>Complete the square</strong> in that denominator by shifting the loop momentum.</p>
+</li>
+<li><p>Tidy up the numerator: throw away odd powers of the loop momentum and simplify even ones.</p>
+</li>
+<li><p><strong>Wick rotate</strong>, use four-dimensional spherical coordinates and apply one master formula.</p>
+</li>
+</ol>
+<p>Let&#39;s do every step, with nothing skipped, on the bubble from the picture in section 2. We&#39;re already in Euclidean space, so the Wick rotation of step 5 is done.</p>
+<h3 id="step_1_write_the_integral"><a href="#step_1_write_the_integral" class="header-anchor">Step 1: write the integral</a></h3>
+<p>With incoming momentum \(p=p_1+p_2\), the two lines of the loop carry \(k\) and \(k+p\), so the bubble is</p>
+\[ B(p) = \int\frac{\mathrm d^dk}{(2\pi)^d}\,\frac{1}{(k^2+m^2)\big((k+p)^2+m^2\big)}. \]
+<p>We write \(d\) dimensions rather than 4 so we can use dimensional regularisation at the end.</p>
+<h3 id="step_2_feynman_parameters"><a href="#step_2_feynman_parameters" class="header-anchor">Step 2: Feynman parameters</a></h3>
+<p>The trouble is that there are two <em>different</em> denominators, one centred on \(k=0\) and one on \(k=-p\), so the integrand has no simple symmetry. Feynman&#39;s trick squeezes them into one. For any two positive numbers \(A\) and \(B\),</p>
+\[ \frac{1}{AB} = \int_0^1\frac{\mathrm d x}{\big[xA+(1-x)B\big]^2}. \]
+<p>Let&#39;s check it. The derivative of \(\dfrac{-1}{(A-B)\,[xA+(1-x)B]}\) with respect to \(x\) is \(\dfrac{1}{[xA+(1-x)B]^2}\), because the inside of the bracket has derivative \(A-B\). So the integral is that antiderivative at \(x=1\) minus its value at \(x=0\):</p>
+\[ \int_0^1\frac{\mathrm d x}{[xA+(1-x)B]^2} = \frac{-1}{(A-B)A}-\frac{-1}{(A-B)B} = \frac{-B+A}{(A-B)AB} = \frac{1}{AB}. \quad\checkmark \]
+
+<div class="mfig" style="--w:430px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/feynman_parameter.svg" alt="The Feynman parameter integral as an area">
+  <p>A Feynman parameter blends two denominators. At \(x=0\) you see only \(B\), at \(x=1\) only \(A\) and in between a mixture. The area under the blended curve is exactly \(1/AB\).</p>
+</div>
+
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      It&#39;s like mixing two paints. Instead of dealing with a red tin and a blue tin separately, you consider every possible mixture, from all red &#40;\(x=1\)&#41; to all blue &#40;\(x=0\)&#41; and add them all up with the right weights. Each single mixture is simple to handle, even though the two separate tins weren&#39;t. The number \(x\) is called a <strong>Feynman parameter</strong> and it just labels the mixture. 
+  </fieldset>
+  
+<p>For three or more denominators the same idea works with more parameters &#40;Peskin eq. 6.41&#41;:</p>
+\[ \frac{1}{A_1A_2\cdots A_n} = (n-1)!\int_0^1\mathrm d x_1\cdots\mathrm d x_n\,\delta\Big(\sum x_i-1\Big)\,\frac{1}{\big[x_1A_1+\dots+x_nA_n\big]^n}. \]
+<p>The delta function just says the mixture fractions add up to one. &#40;Checked in Wolfram for \(n=3\).&#41;</p>
+<p>For our bubble, take \(A=(k+p)^2+m^2\) and \(B=k^2+m^2\):</p>
+\[ B(p) = \int_0^1\mathrm d x\int\frac{\mathrm d^dk}{(2\pi)^d}\,\frac{1}{\big[x\big((k+p)^2+m^2\big)+(1-x)\big(k^2+m^2\big)\big]^2}. \]
+<h3 id="step_3_complete_the_square"><a href="#step_3_complete_the_square" class="header-anchor">Step 3: complete the square</a></h3>
+<p>Multiply out the square bracket. The \(k^2\) and \(m^2\) terms appear with total weight \(x+(1-x)=1\) and \((k+p)^2=k^2+2k\cdot p+p^2\), so</p>
+\[ x\big((k+p)^2+m^2\big)+(1-x)\big(k^2+m^2\big) = k^2 + 2x\,k\cdot p + x\,p^2 + m^2. \]
+<p>Now complete the square, exactly as you would for \(k^2+2bk\): \(\;k^2+2x\,k\cdot p = (k+xp)^2 - x^2p^2\). So</p>
+\[ k^2 + 2x\,k\cdot p + x\,p^2 + m^2 = (k+xp)^2 + x(1-x)\,p^2 + m^2. \]
+<p>Define the shifted loop momentum \(\ell = k+xp\) and the constant</p>
+\[ \Delta = m^2 + x(1-x)\,p^2. \]
+<p>The denominator is now just \((\ell^2+\Delta)^2\). Shifting the integration variable doesn&#39;t change the integral, since \(\mathrm d^d k=\mathrm d^d\ell\) and both run over all of space:</p>
+\[ B(p) = \int_0^1\mathrm d x\int\frac{\mathrm d^d\ell}{(2\pi)^d}\,\frac{1}{(\ell^2+\Delta)^2}. \]
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Shifting \(k\) to \(\ell\) is like moving the origin of a map to the centre of a city. The city is the same, but now it looks round and symmetric around the origin, which makes it far easier to describe. 
+  </fieldset>
+  
+<h3 id="step_4_tidy_up_the_numerator"><a href="#step_4_tidy_up_the_numerator" class="header-anchor">Step 4: tidy up the numerator</a></h3>
+<p>Here the numerator is just \(1\), so there&#39;s nothing to do. In QED &#40;Part 7&#41; the numerator contains \(\ell^\mu\) and \(\ell^\mu\ell^\nu\) and two rules handle them. Because the denominator only depends on the length of \(\ell\):</p>
+<ul>
+<li><p>A single \(\ell^\mu\) integrates to zero: every \(\ell\) is cancelled by \(-\ell\) on the opposite side.</p>
+</li>
+<li><p>\(\ell^\mu\ell^\nu\) can be replaced by \(\frac{1}{d}\,g^{\mu\nu}\ell^2\) &#40;Peskin eq. 6.46, with \(d=4\)&#41;.</p>
+</li>
+</ul>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      The second rule is an averaging fact you already know. Over a sphere in 3D, \(x^2\), \(y^2\) and \(z^2\) all have the same average, by symmetry and they add up to \(r^2\). So the average of \(x^2\) is \(r^2/3\), while the average of \(xy\) is zero &#40;positive and negative parts cancel&#41;. In \(d\) dimensions the \(3\) becomes \(d\). 
+  </fieldset>
+  
+<h3 id="step_5_spherical_coordinates_and_the_master_formula"><a href="#step_5_spherical_coordinates_and_the_master_formula" class="header-anchor">Step 5: spherical coordinates and the master formula</a></h3>
+<p>In \(d\) dimensions, \(\mathrm d^d\ell = S_d\,\ell^{d-1}\mathrm d\ell\), where \(S_d=2\pi^{d/2}/\Gamma(d/2)\) is the area of the unit sphere &#40;this is \(2\pi^2\) for \(d=4\)&#41;. So</p>
+\[ \int\frac{\mathrm d^d\ell}{(2\pi)^d}\,\frac{1}{(\ell^2+\Delta)^n} = \frac{S_d}{(2\pi)^d}\int_0^\infty\frac{\ell^{d-1}\,\mathrm d\ell}{(\ell^2+\Delta)^n}. \]
+<p>Substitute \(t=\ell^2/\Delta\), so \(\ell=\sqrt{\Delta t}\) and \(\mathrm d\ell = \frac{\sqrt\Delta}{2\sqrt t}\,\mathrm d t\). The radial integral becomes</p>
+\[ \int_0^\infty\frac{\ell^{d-1}\,\mathrm d\ell}{(\ell^2+\Delta)^n} = \frac12\,\Delta^{d/2-n}\int_0^\infty\frac{t^{d/2-1}\,\mathrm d t}{(1+t)^n} = \frac12\,\Delta^{d/2-n}\,\frac{\Gamma(\tfrac d2)\,\Gamma(n-\tfrac d2)}{\Gamma(n)}. \]
+<p>The last step uses a standard integral, \(\int_0^\infty t^{a-1}(1+t)^{-a-b}\,\mathrm d t=\Gamma(a)\Gamma(b)/\Gamma(a+b)\) &#40;the &quot;beta function&quot;&#41;. Multiply by \(S_d/(2\pi)^d = 2/\big((4\pi)^{d/2}\Gamma(d/2)\big)\) and the \(\Gamma(d/2)\) and the \(2\) cancel:</p>
+\[ \boxed{\;\int\frac{\mathrm d^d\ell}{(2\pi)^d}\,\frac{1}{(\ell^2+\Delta)^n} = \frac{\Gamma(n-\tfrac d2)}{(4\pi)^{d/2}\,\Gamma(n)}\;\Delta^{d/2-n}.\;} \]
+<p>This is the <strong>master formula</strong>. Every one-loop integral in the course is a special case. With \(n=1\) it&#39;s the tadpole formula of section 5. With \(n=2\) it gives our bubble:</p>
+\[ B(p) = \frac{\Gamma(2-\tfrac d2)}{(4\pi)^{d/2}}\int_0^1\mathrm d x\;\Delta^{d/2-2}. \]
+<h3 id="step_6_let_d_approach_4"><a href="#step_6_let_d_approach_4" class="header-anchor">Step 6: let \(d\) approach 4</a></h3>
+<p>Put \(d=4-\epsilon\), so \(2-\tfrac d2 = \tfrac\epsilon2\). There are three factors to expand, keeping terms up to \(\epsilon^0\):</p>
+<ul>
+<li><p>\(\Gamma(\tfrac\epsilon2) = \tfrac2\epsilon-\gamma_E+O(\epsilon)\), where \(\gamma_E=0.5772\dots\) is Euler&#39;s constant. The Gamma function has a pole at zero and this is where the infinity lives.</p>
+</li>
+<li><p>\((4\pi)^{-d/2} = (4\pi)^{-2}(4\pi)^{\epsilon/2} = \frac1{16\pi^2}\big(1+\tfrac\epsilon2\ln4\pi+\dots\big)\), using \(a^{\epsilon}=e^{\epsilon\ln a}\approx1+\epsilon\ln a\).</p>
+</li>
+<li><p>\(\Delta^{-\epsilon/2} = 1-\tfrac\epsilon2\ln\Delta+\dots\), the same trick.</p>
+</li>
+</ul>
+<p>Multiply the three. The \(\tfrac2\epsilon\) from the first factor times the \(\tfrac\epsilon2\) terms of the others gives finite pieces, so</p>
+\[ \boxed{\;B(p) = \frac{1}{16\pi^2}\left[\frac2\epsilon - \gamma_E + \ln4\pi - \int_0^1\mathrm d x\,\ln\big(m^2+x(1-x)p^2\big)\right]+O(\epsilon).\;} \]
+<p>&#40;Strictly, the logarithm is \(\ln(\Delta/\mu^2)\), with the scale \(\mu\) from section 5 keeping the units right.&#41; The infinity is the \(2/\epsilon\). Everything that depends on the physics, meaning the masses and momenta, sits in the finite logarithm. Every step above was checked in Wolfram:</p>
+<pre><code class="language-mathematica">Integrate&#91;1/&#40;x A &#43; &#40;1 - x&#41; B&#41;^2, &#123;x, 0, 1&#125;, Assumptions -&gt; &#123;A &gt; 0, B &gt; 0&#125;&#93;     &#40;* 1/&#40;A B&#41; *&#41;
+Expand&#91;x &#40;&#40;k &#43; p&#41;^2 &#43; m^2&#41; &#43; &#40;1 - x&#41; &#40;k^2 &#43; m^2&#41; /. k -&gt; l - x p&#93;            &#40;* l^2 &#43; m^2 &#43; x&#40;1-x&#41;p^2 *&#41;
+Sd &#61; 2 Pi^&#40;d/2&#41;/Gamma&#91;d/2&#93;;
+Sd/&#40;2 Pi&#41;^d Integrate&#91;l^&#40;d - 1&#41;/&#40;l^2 &#43; D0&#41;^n, &#123;l, 0, Infinity&#125;,
+    Assumptions -&gt; &#123;D0 &gt; 0, n &gt; d/2, d &gt; 0&#125;&#93; // FullSimplify
+&#40;* Gamma&#91;n - d/2&#93; D0^&#40;d/2 - n&#41;/&#40;&#40;4 Pi&#41;^&#40;d/2&#41; Gamma&#91;n&#93;&#41; : the master formula *&#41;
+Series&#91;Gamma&#91;eps/2&#93; &#40;4 Pi&#41;^&#40;-&#40;4 - eps&#41;/2&#41; D0^&#40;-eps/2&#41;, &#123;eps, 0, 0&#125;&#93;
+&#40;* &#40;2/eps - EulerGamma &#43; Log&#91;4 Pi&#93; - Log&#91;D0&#93;&#41;/&#40;16 Pi^2&#41; *&#41;</code></pre>
+<p>Peskin&#39;s §6.3 uses exactly these steps on a harder integral, the correction to the electron&#39;s magnetic moment and ends with Schwinger&#39;s famous result \(\frac{g-2}{2}=\frac{\alpha}{2\pi}\approx0.0011614\) &#40;exercise 2.6&#41;. Part 7 uses them on the QED vacuum polarisation.</p>
+<h2 id="ol_start7_same_integral_three_regulators"><a href="#ol_start7_same_integral_three_regulators" class="header-anchor"><ol start="7">
+<li><p>Same integral, three regulators</p>
+</li>
+</ol>
+</a></h2>
+<p>This is the key lesson of the page, done with real numbers. Take the log-divergent bubble with no momentum flowing in,</p>
+\[ I(m) = \int\frac{\mathrm d^4k}{(2\pi)^4}\,\frac1{(k^2+m^2)^2}, \]
+<p>and regularise it three different ways. &#40;This is the bubble \(B(p)\) of section 6 at \(p=0\), so the dimensional-regularisation line is just section 5&#39;s answer with \(\Delta=m^2\).&#41; Each was done symbolically in Wolfram:</p>
+\[ \begin{aligned}
+\text{cutoff:}&\quad I = \frac1{16\pi^2}\left[\ln\!\Big(1+\frac{\Lambda^2}{m^2}\Big)-\frac{\Lambda^2}{\Lambda^2+m^2}\right]\ \xrightarrow{\Lambda\gg m}\ \frac1{16\pi^2}\left[\ln\frac{\Lambda^2}{m^2}-1\right]\\
+\text{Pauli-Villars:}&\quad I = \frac1{16\pi^2}\ln\frac{M^2}{m^2}\\
+\text{dimensional:}&\quad I = \frac1{16\pi^2}\left[\frac2\epsilon-\gamma_E+\ln4\pi-\ln\frac{m^2}{\mu^2}\right]
+\end{aligned} \]
+<p>Each one is infinite when its regulator is removed. But look at how each depends on \(m\). Every one contains \(-\frac1{16\pi^2}\ln m^2\), plus a constant that depends on the regulator but not on \(m\). So a <em>difference</em> such as \(I(m_1)-I(m_2)=\frac1{16\pi^2}\ln\frac{m_2^2}{m_1^2}\) comes out finite and it&#39;s the same in all three.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Measure the heights of two people standing in two different buildings, each from its own ground floor. The numbers depend on which building&#39;s floor you measure from. But the difference in their heights doesn&#39;t, as long as you measure both from the same floor. The regulator is the choice of floor. Physics only ever asks about the difference. 
+  </fieldset>
+  
+
+<div class="mfig" style="--w:620px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/three_regulators.svg" alt="The same integral regularised three ways">
+  <p>Left: the raw integral in the three methods differs by a constant shift and each shift grows without limit as its regulator is removed. Right: subtract the value at one reference mass and the three curves land on top of each other. (The cutoff curve bends away a little at the far right, where \(m\) is no longer much smaller than \(\Lambda=30\).)</p>
+</div>
+
+<pre><code class="language-mathematica">ang &#61; 2 Pi^2/&#40;2 Pi&#41;^4;                                   &#40;* Vol&#40;S^3&#41;/&#40;2Pi&#41;^4 *&#41;
+Icut &#61; ang Integrate&#91;k^3/&#40;k^2 &#43; m^2&#41;^2, &#123;k, 0, L&#125;, Assumptions -&gt; &#123;m &gt; 0, L &gt; 0&#125;&#93;;
+Ipv  &#61; ang Integrate&#91;k^3 &#40;1/&#40;k^2 &#43; m^2&#41;^2 - 1/&#40;k^2 &#43; M^2&#41;^2&#41;, &#123;k, 0, Infinity&#125;,
+                     Assumptions -&gt; &#123;m &gt; 0, M &gt; m&#125;&#93;;     &#40;* Log&#91;M^2/m^2&#93;/&#40;16 Pi^2&#41; *&#41;
+Idr  &#61; Gamma&#91;2 - d/2&#93;/&#40;4 Pi&#41;^&#40;d/2&#41; &#40;m^2&#41;^&#40;d/2 - 2&#41; mu^&#40;4 - d&#41;;
+Series&#91;Idr /. d -&gt; 4 - eps, &#123;eps, 0, 0&#125;&#93;                 &#40;* 2/eps - EulerGamma &#43; ... *&#41;
+&#40;* all three give dI/d&#40;m^2&#41; &#61; -1/&#40;16 Pi^2 m^2&#41; once the regulator is large *&#41;</code></pre>
+<p>That&#39;s the whole trick of renormalisation. The part that depends on the regulator is a constant and a constant can be soaked up into a number we never measure directly.</p>
+<h2 id="ol_start8_renormalisation_trade_the_made-up_numbers_for_measured_ones"><a href="#ol_start8_renormalisation_trade_the_made-up_numbers_for_measured_ones" class="header-anchor"><ol start="8">
+<li><p>Renormalisation: trade the made-up numbers for measured ones</p>
+</li>
+</ol>
+</a></h2>
+<p>The numbers \(m_0\) and \(\lambda_0\) written in the Lagrangian are called <strong>bare</strong> parameters. Nobody measures them. What you measure is, for example, the position of the pole in the propagator &#40;\(m_{\rm phys}\)&#41; and a collision rate at some energy &#40;which defines \(\lambda_{\rm phys}\)&#41;. Loops connect the two:</p>
+\[ m^2_{\rm phys} = m_0^2 + \delta m^2(\Lambda), \qquad \lambda_{\rm phys} = \lambda_0 + \delta\lambda(\Lambda). \]
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Think of a rosogolla. The one you buy in Kolkata comes soaked in syrup and it&#39;s always sold, served and eaten that way. If you weigh it, you weigh the sponge <em>plus</em> the syrup it has soaked up. The weight of the &quot;dry&quot; sponge alone is a number nobody ever measures, because the rosogolla never leaves the syrup. An electron is the same: it can never be separated from its cloud of virtual particles, so its &quot;bare&quot; mass is like the dry sponge, a bookkeeping number and nothing more. &#40;Physicists without a sweet tooth use a ball pushed through water, which drags water along and feels heavier by half the mass of the water it displaces.&#41; 
+  </fieldset>
+  
+<p>Ling-Fong Li&#39;s lecture notes &#40;arXiv:1208.4700&#41; point out that renormalisation isn&#39;t special to particle physics. An electron moving through a crystal responds to forces as if it had an <strong>effective mass</strong> \(m^*\), different from its mass \(m\) in empty space, because it&#39;s constantly tugging on the lattice. In a crystal, both \(m\) and \(m^*\) can be measured, since you can take the electron out. Quantum field theory differs in two ways: the shift from bare to physical is infinite &#40;it comes from the high-momentum modes&#41; and you can never switch the interactions off, so the bare value is never measurable.</p>
+<p>The recipe has four steps:</p>
+<ol>
+<li><p>Regularise, so every quantity is finite and depends on \(\Lambda\).</p>
+</li>
+<li><p>Work out the measured quantities in terms of the bare ones.</p>
+</li>
+<li><p>Turn that around: write the bare parameters in terms of the measured ones.</p>
+</li>
+<li><p>Rewrite every other prediction using the measured parameters.</p>
+</li>
+</ol>
+<p>After step 4, the \(\Lambda\) drops out of every prediction, at least in a renormalisable theory like \(\phi^4\) &#40;Peskin §10.2 does this in full&#41;. The infinity hasn&#39;t been hidden under the carpet. It has been moved into the link between two sets of numbers and only one of those sets is ever measured.</p>
+<p>Dmitry Shirkov, one of the founders of the renormalisation group, put it simply in his fifty-year retrospective in the <em>CERN Courier</em>: physical quantities come out as finite functions of the new &quot;renormalised&quot; couplings, with &quot;all infinities being swallowed by the Z factors&quot;. The Z factors are the numbers that connect bare and renormalised quantities, such as \(m_0^2=Z_m m^2\).</p>
+<h3 id="why_only_a_few_numbers_ever_need_fixing"><a href="#why_only_a_few_numbers_ever_need_fixing" class="header-anchor">Why only a few numbers ever need fixing</a></h3>
+<p>Here&#39;s a lovely fact from Li&#39;s notes that explains <em>why</em> renormalisation only needs a few counterterms. Take the bubble from section 6 and differentiate it with respect to the outside momentum. Each derivative puts one more power of the loop momentum in the denominator, so the integral becomes <em>more</em> convergent. Using section 5&#39;s formula,</p>
+\[ \frac{\partial B}{\partial p^2} = \frac{\Gamma(2-\tfrac d2)\,(\tfrac d2-2)}{(4\pi)^{d/2}}\int_0^1\mathrm d x\;x(1-x)\,\Delta^{d/2-3}. \]
+<p>Now \(\Gamma(2-\tfrac d2)(\tfrac d2-2) = -\Gamma(3-\tfrac d2)\) and \(\Gamma(3-\tfrac d2)\to\Gamma(1)=1\) as \(d\to4\). So there&#39;s no pole left:</p>
+\[ \frac{\partial B}{\partial p^2} \xrightarrow{\ d\to4\ } -\frac{1}{16\pi^2}\int_0^1\frac{x(1-x)\,\mathrm d x}{m^2+x(1-x)p^2}\qquad\text{(finite).} \]
+<p>So the infinity in \(B(p)\) lives entirely in its value at one point, \(B(0)\) and the difference \(B(p)-B(0)\) is finite. &#40;Checked in Wolfram.&#41; In general, an integral that diverges like \(\Lambda^D\) only has infinities in the first few terms of its Taylor series in the outside momenta, up to power \(D\). That&#39;s why a finite number of counterterms, one for each of those first few terms, is enough.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      It&#39;s like the fare meter in a Kolkata taxi. Whatever the ride, the fare is a fixed flag-down charge plus something that depends on the distance. If someone tampered with the meter&#39;s starting number, every fare would be off by the same amount and you could fix every bill by correcting that one starting number. The divergence is the tampered flag-down charge and the counterterm is the correction. The distance-dependent part, the real physics, was never broken. 
+  </fieldset>
+  
+<h3 id="counterterms_as_extra_feynman_rules"><a href="#counterterms_as_extra_feynman_rules" class="header-anchor">Counterterms as extra Feynman rules</a></h3>
+<p>There&#39;s a tidy way to organise all this, called <strong>renormalised perturbation theory</strong> &#40;Li §2.2, Peskin §10.2&#41;. Write the Lagrangian in terms of the <em>measured</em> mass \(m\) and coupling \(\lambda\) and move everything that absorbs infinities into separate <strong>counterterms</strong>:</p>
+\[ \mathcal L = \underbrace{\tfrac12(\partial\phi)^2+\tfrac12m^2\phi^2+\frac{\lambda}{4!}\phi^4}_{\text{same form, measured numbers}} \;+\; \underbrace{\tfrac12\delta_Z(\partial\phi)^2+\tfrac12\delta_m\phi^2+\frac{\delta_\lambda}{4!}\phi^4}_{\text{counterterms}}. \]
+<p>The counterterms are treated just like new interactions, with their own Feynman rules. They are drawn as a circle with a cross:</p>
+
+<div class="mfig" style="--w:500px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/counterterm_rules.svg" alt="Counterterm vertices drawn as crossed circles">
+  <p>The two new vertices. The two-leg one fixes the mass and the size of the field; the four-leg one fixes the coupling. The numbers \(\delta_Z,\delta_m,\delta_\lambda\) are chosen, order by order, to cancel the infinities of the loop diagrams.</p>
+</div>
+
+<h3 id="beyond_one_loop"><a href="#beyond_one_loop" class="header-anchor">Beyond one loop</a></h3>
+<p>At two loops something new happens: a diagram can contain a <em>smaller</em> divergent diagram inside it. Take two bubbles in a row, a four-point diagram proportional to \(\lambda^3\Gamma(p)^2\), where \(\Gamma(p)\) is one bubble &#40;Li&#39;s Fig. 9&#41;. Its overall degree of divergence is \(D=4-4=0\), which suggests one derivative should make it finite. But it doesn&#39;t, because each bubble diverges on its own and a derivative only helps one of them at a time.</p>
+<p>The rescue comes from the one-loop counterterm. In the two-loop calculation, the counterterm vertex can replace either of the two bubbles:</p>
+
+<div class="mfig" style="--w:640px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/two_loop_chain.svg" alt="Two bubbles in a row plus two diagrams with one bubble replaced by the counterterm">
+  <p>The two-loop chain and its two counterterm partners. Each partner contains one real bubble and one counterterm, which is worth \(-\Gamma(0)\).</p>
+</div>
+
+<p>Add the three together and complete the square:</p>
+\[ \lambda^3\,\Gamma(p)^2 - 2\lambda^3\,\Gamma(0)\,\Gamma(p) = \lambda^3\big[\Gamma(p)-\Gamma(0)\big]^2 - \lambda^3\,\Gamma(0)^2. \]
+<p>The bracket is finite &#40;that&#39;s the difference \(B(p)-B(0)\) from above&#41; and the last term doesn&#39;t depend on \(p\) at all, so a new two-loop counterterm cancels it. So with the lower-order counterterms included, the leftover infinities are again just constants, the first term of a Taylor series and the same trick works at every order. This is the <strong>BPH recipe</strong> &#40;Bogoliubov, Parasiuk and Hepp, later completed by Zimmermann&#41;:</p>
+<ol>
+<li><p>Build the diagrams from the renormalised Lagrangian.</p>
+</li>
+<li><p>At one loop, find the infinite first Taylor terms and add counterterms to cancel them.</p>
+</li>
+<li><p>At two loops, include diagrams with the one-loop counterterms inside, then add new counterterms for what&#39;s left. Repeat at every order.</p>
+</li>
+</ol>
+<p>Divergences inside divergences can also be <strong>nested</strong>, one completely inside the other:</p>
+
+<div class="mfig" style="--w:400px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/nested_divergence.svg" alt="A two-loop diagram with a divergent bubble nested inside a divergent whole">
+  <p>A nested divergence (Li's Fig. 11). The inner bubble diverges on its own and so does the whole diagram. The one-loop counterterm cures the inside and then a new two-loop counterterm cures the outside.</p>
+</div>
+
+<p>The rule that says when a multi-loop integral really converges is <strong>Weinberg&#39;s theorem</strong>: the whole diagram and <em>every</em> sub-diagram inside it must have negative degree of divergence. Proving that BPH always works is famously hard and Li&#39;s notes and Peskin §10.4 go further if you&#39;re curious. The takeaway for this course is simple: in a renormalisable theory, a finite list of counterterms, fixed order by order, removes every infinity.</p>
+
+  <fieldset class=" otaku"><legend class=" otaku-legend"> Otaku corner</legend>
+      Death Note fans will recognise the counterterm&#39;s attitude. The infinity shows up, grinning and the counterterm calmly cancels it, exactly as planned. The trick is that the plan was written <em>before</em> the calculation, one order at a time. 
+  </fieldset>
+  
+<h2 id="ol_start9_hold_the_physics_fixed_and_move_the_cutoff"><a href="#ol_start9_hold_the_physics_fixed_and_move_the_cutoff" class="header-anchor"><ol start="9">
+<li><p>Hold the physics fixed and move the cutoff</p>
+</li>
+</ol>
+</a></h2>
+<p>Keep \(m_{\rm phys}\) and \(\lambda_{\rm phys}\) fixed, since those are what experiments tell you and ask what the bare parameters must be for different cutoffs. From Part 1,</p>
+\[ m_0^2(\Lambda) = m^2_{\rm phys}-\frac{\lambda}{32\pi^2}\left[\Lambda^2-m^2\ln\!\Big(1+\frac{\Lambda^2}{m^2}\Big)\right]. \]
+<p>The bare coupling has to change with \(\Lambda\) too, only much more slowly, like a logarithm &#40;Part 7 works out exactly how&#41;. <strong>The bare parameters are functions of the cutoff, arranged so that low-energy physics never notices the cutoff.</strong> That sentence is the renormalisation group. Wilson&#39;s big step, in Parts 5 and 6, was to take it literally and ask what happens when you lower \(\Lambda\) bit by bit.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      It&#39;s like a camera&#39;s exposure setting. Change the shutter speed and you must change the aperture to keep the photo equally bright. The shutter speed is \(\Lambda\), the aperture is the bare parameter and the brightness of the photo is the measured physics. The rule linking shutter and aperture is the RG. 
+  </fieldset>
+  
+
+<div id="rg-cutoff" style="--w:760px"></div>
+
+<p>Slide the cutoff up to the Planck scale &#40;\(\log_{10}\Lambda\approx19\)&#41; with a mass of 125 GeV, like the Higgs. The bare mass has to cancel the loop correction to about thirty digits. That&#39;s the &quot;hierarchy problem&quot; from exercise 1.4 and Part 8 explains why mass terms and only mass terms, are this sensitive.</p>
+<h2 id="exercises"><a href="#exercises" class="header-anchor">Exercises</a></h2>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>2.1.</strong> Use \(D=4L-2P\), \(L=P-V+1\) and \(4V=N+2P\) to derive \(D=4-N\) for \(\phi^4\) theory. Then redo it in \(d\) dimensions, where \(D=dL-2P\) and show \(D=d-\frac{d-2}{2}N+(d-4)V\). What changes when \(d<4\) and when \(d>4\)? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  From \(4V=N+2P\), \(P=(4V-N)/2\). Then \(L=P-V+1=V-N/2+1\) and \(D=4L-2P=4V-2N+4-4V+N=4-N\). In \(d\) dimensions, \(D=d(V-N/2+1)-(4V-N)=d-\frac{d-2}2N+(d-4)V\), which is Peskin&#39;s general formula. For \(d<4\) the \(V\) term is negative, so more vertices make diagrams <em>more</em> convergent and only a few diagrams diverge at all. Such a theory is called <strong>super-renormalisable</strong>. For \(d>4\) the \(V\) term is positive, so every extra vertex makes things worse and you would need infinitely many corrections: <strong>non-renormalisable</strong>. The dividing line is where \([\lambda]=4-d\) changes sign, which is the relevant/irrelevant boundary of Part 5. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>2.2.</strong> Apply one Pauli-Villars subtraction to the <em>tadpole</em>, \(\int\frac{\mathrm d^4k}{(2\pi)^4}\left[\frac1{k^2+m^2}-\frac1{k^2+M^2}\right]\). Count powers of \(k\): is it finite now? How many subtractions does a quadratic divergence need? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  One subtraction makes the integrand \(\frac{M^2-m^2}{(k^2+m^2)(k^2+M^2)}\sim\frac{M^2}{k^4}\) at large \(k\) and \(\int k^3\,\mathrm d k/k^4\) still diverges, now only <strong>logarithmically</strong>. One subtraction removes two powers of \(k\). That was enough for the bubble &#40;\(D=0\)&#41; but not for the tadpole &#40;\(D=2\)&#41;. You need a second heavy particle, with two masses \(M_1,M_2\) and coefficients chosen so that both the \(1/k^2\) and the \(1/k^4\) tails cancel. The habit to learn is to count powers before you trust a regulated integral. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>2.3.</strong> Using the dimensional-regularisation formula for \(I(m)\), show that \(\mu\frac{\mathrm d I}{\mathrm d\mu}=\frac{1}{8\pi^2}\). Do the same with the cutoff version, using \(\Lambda\frac{\mathrm d I}{\mathrm d\Lambda}\). What do you notice? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body"> \(I\) depends on \(\mu\) only through \(+\frac1{16\pi^2}\ln\mu^2\), so \(\mu\,\mathrm d I/\mathrm d\mu=\frac{2}{16\pi^2}=\frac1{8\pi^2}\). The cutoff version at large \(\Lambda\) is \(\frac1{16\pi^2}(\ln\Lambda^2-\ln m^2-1)\), so \(\Lambda\,\mathrm d I/\mathrm d\Lambda=\frac1{8\pi^2}\) as well. The number in front of the logarithm is the same in every method. It&#39;s the one part of a log-divergent integral with real physical meaning and the beta functions of Part 7 are built from it. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>2.4.</strong> Change the contour in the Wolfram code: put the \(+i\varepsilon\) with the opposite sign, \(1/(k_0^2-E^2-i\varepsilon)\). Where do the poles go now and which way would you have to rotate? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  The poles move to \(+E+i\varepsilon\) &#40;top-right&#41; and \(-E-i\varepsilon\) &#40;bottom-left&#41;. Now the top-left and bottom-right quarters are empty, so the real line must be rotated <em>clockwise</em> onto the imaginary axis, \(k^0=-ik^4\). The Euclidean integral you get is the complex conjugate of before. The Feynman sign of \(i\varepsilon\) is what picks the anticlockwise rotation and it&#39;s the same choice that makes positive-energy particles move forward in time. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>2.5.</strong> <em>&#40;In words.&#41;</em> A friend says: &quot;Renormalisation just means subtracting infinity from infinity, so you can&#39;t trust it.&quot; Reply in three sentences, using the coastline or the two-buildings picture. 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  One possible answer. Nothing infinite is ever subtracted: with a regulator in place every number is finite, just as a coastline measured with a fixed ruler has a finite length. We then only compare measurable things, like the difference \(I(m_1)-I(m_2)\) above and those come out the same whatever regulator you used. What&#39;s left over, the way numbers depend on the scale, is a real prediction &#40;the running of couplings&#41; and it has been measured &#40;Part 7&#41;. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>2.6.</strong> <em>Schwinger&#39;s number.</em> Peskin §6.3 carries the recipe through for the electron&#39;s magnetic moment and finds, at zero momentum transfer, \(F_2(0)=\frac{\alpha}{2\pi}\int\mathrm d x\,\mathrm d y\,\mathrm d z\,\delta(x+y+z-1)\,\frac{2m^2z(1-z)}{m^2(1-z)^2}\). Do the integrals and show \(F_2(0)=\alpha/2\pi\). With \(\alpha=1/137.036\), what is \(\frac{g-2}{2}\)? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  The integrand doesn&#39;t depend on \(x\) or \(y\) separately, so first use the delta function to do the \(x\) integral: it sets \(x=1-y-z\), which must be at least 0, so \(y\) runs from \(0\) to \(1-z\). The integrand simplifies to \(\frac{2z(1-z)}{(1-z)^2}=\frac{2z}{1-z}\). The \(y\) integral just multiplies by the length of its range, \(1-z\), giving \(2z\). Then \(\int_0^1 2z\,\mathrm d z=1\), so \(F_2(0)=\frac{\alpha}{2\pi}\). Numerically \(\frac{1}{2\pi\times137.036}=0.0011614\), against the measured \(0.0011597\). The small difference comes from two-loop and higher terms, which have now been computed up to five loops and agree with experiment to about one part in a billion. &#40;Checked in Wolfram.&#41; </div></details></p>
+<nav class="course-nav"><a class="cn-prev" href="/Pages/Physics/courses/RG/01_scale/">← Part 1: Why scale matters</a><a class="cn-home" href="/Pages/Physics/courses/RG/Main_page/">Course home</a><a class="cn-next" href="/Pages/Physics/courses/RG/03_block_spins/">Part 3: Block spins →</a></nav>
+<div id="custom-comments-container"></div>
+<link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+<script type="module" src="/assets/js/custom_comments.js?v=5"></script>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat: opt-out, remembered per visitor. The script is only loaded
+         when the cat is wanted, so switching it off costs nothing on later pages. -->
+    <style>
+      #oneko-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 1000;
+        width: 34px; height: 34px; padding: 0;
+        border: 1px solid rgba(140,140,140,0.35); border-radius: 50%;
+        background: rgba(250,248,244,0.82); color: #7a6a4a;
+        font-size: 15px; line-height: 1; cursor: pointer;
+        opacity: 0.42; transition: opacity 0.2s, transform 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #oneko-toggle:hover { opacity: 1; transform: scale(1.08); }
+      html.dark-mode #oneko-toggle {
+        background: rgba(38,36,33,0.82); color: #cda863;
+        border-color: rgba(180,170,150,0.28);
+      }
+      html.oneko-off #oneko { display: none !important; }
+      @media print { #oneko-toggle { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = 'oneko-enabled';
+        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var loaded = false;
+
+        function loadCat() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '/assets/oneko.js?v=62';
+          s.setAttribute('data-cat', '/assets/oneko.gif');
+          document.body.appendChild(s);
+        }
+
+        function paint(btn) {
+          btn.textContent = on ? '🐈' : '🐾';
+          btn.title = on ? 'Hide the cat' : 'Bring the cat back';
+          btn.setAttribute('aria-label', btn.title);
+          document.documentElement.classList.toggle('oneko-off', !on);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.createElement('button');
+          btn.id = 'oneko-toggle';
+          btn.type = 'button';
+          paint(btn);
+          btn.addEventListener('click', function () {
+            on = !on;
+            localStorage.setItem(KEY, on ? '1' : '0');
+            paint(btn);
+            if (on) loadCat();
+          });
+          document.body.appendChild(btn);
+          if (on) loadCat();
+        });
+      })();
+    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

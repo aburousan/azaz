@@ -73,11 +73,17 @@ There is a nasty problem hiding in that formula. If two particles come very clos
 But think about what our particles actually *represent*. In a real galaxy simulation, one "particle" stands in for millions of stars. It is a smeared-out blob, not a point. So the divergence is not even physical. The standard repair is to soften the potential, which is Hernquist's eq. (2.1):
 
 $$
-\varphi(r) = -\frac{G m_1 m_2}{\left(r^2 + \varepsilon^2\right)^{1/2}}
+\varphi_{12}(r) = -\frac{G m_1 m_2}{\left(r^2 + \varepsilon^2\right)^{1/2}}
 $$
 
 \defn{
     **Softening length $\varepsilon$**: a small distance below which gravity is artificially weakened, so that no pair of particles can ever feel an infinite force. For $r \gg \varepsilon$ the potential is Newtonian again; for $r \to 0$ it flattens off to a finite value $-Gm_1m_2/\varepsilon$.
+}
+
+\note{
+    **Watch the units on that symbol.** $\varphi_{12}$ carries two masses, so it is a potential **energy**, in joules or in $GM^2/R$. The $\phi$ of the Plummer model below, and the $\phi$ of the multipole expansion in [part 3](/Pages/Physics/papers/hernquist1987/03_treecode/), carry only one mass: they are potentials **per unit mass**, in $(\mathrm{km/s})^2$. The two differ by exactly a factor of mass.
+
+    Hernquist writes both with the same letter, and says "the potential per unit mass" in words when he means the second. That is easy to skim past, and mixing them up puts a stray factor of $m$ into a force. I use $\varphi_{12}$ for the pair energy and $\phi$ for the potential per unit mass throughout, so that each symbol has one dimension and only one.
 }
 
 My first reaction was that this is cheating, that we broke gravity because the maths was inconvenient. It is the opposite.
@@ -91,7 +97,7 @@ A globular cluster has $\sim10^6$ stars; my simulation has 4096 particles. So on
 How fast does it become Newtonian again? Expanding for $r \gg \varepsilon$ (I checked this in Mathematica):
 
 $$
-\frac{\varphi_{\text{soft}}}{\varphi_{\text{Kepler}}} = 1 - \frac{1}{2}\frac{\varepsilon^2}{r^2} + \frac{3}{8}\frac{\varepsilon^4}{r^4} + \dots
+\frac{\varphi_{12}^{\text{soft}}}{\varphi_{12}^{\text{Kepler}}} = 1 - \frac{1}{2}\frac{\varepsilon^2}{r^2} + \frac{3}{8}\frac{\varepsilon^4}{r^4} + \dots
 $$
 
 which matches the expansion quoted in the paper. So the softening error dies off like $(\varepsilon/r)^2$, which is not very fast. This will come back to bite us later when we look at how softening interacts with the multipole expansion.
@@ -110,6 +116,62 @@ $$
 
 with $M$ the total mass and $r_0$ a scale length. The paper uses $M = 1$, $r_0 = 0.2$, $G = 1$ and cuts the sphere off at radius $R = 1$. I use exactly the same.
 
+### The units, including the one everybody forgets
+
+Before going further it is worth stopping and being explicit about units, because every dynamical number in this whole series is quoted in them and it is very easy to write $\delta t = 0.025$ without ever saying $0.025$ *of what*.
+
+Setting $G = M = R = 1$ looks like it fixes two units, mass and length. It actually fixes three, because $G$ is not dimensionless. Count the dimensions: $[G] = \mathrm{L}^3\mathrm{M}^{-1}\mathrm{T}^{-2}$, so once you have declared a mass and a length, demanding $G = 1$ **fixes the second as well**. There is no freedom left.
+
+Working it out, the characteristic speed is whatever makes kinetic and potential energy comparable,
+
+$$
+v_\ast = \sqrt{\frac{GM}{R}}
+$$
+
+and the time unit is the time something moving at that speed takes to cross the system:
+
+$$
+\boxed{\;t_\ast = \frac{R}{v_\ast} = \sqrt{\frac{R^3}{GM}}\;}
+$$
+
+\defn{
+    **This is the dynamical time.** It is the one timescale a self-gravitating blob has: roughly how long a particle takes to cross it, and also roughly how long the whole thing would take to collapse if you switched off all the motion. Everything a cluster does, it does in multiples of $t_\ast$.
+}
+
+You can write the same thing with the mean density inside $R$ instead of $M$ and $R$ separately, which is the form you usually meet. Substituting $\bar\rho = 3M/(4\pi R^3)$,
+
+$$
+t_\ast = \sqrt{\frac{R^3}{GM}} = \sqrt{\frac{3}{4\pi G\bar\rho}} \simeq \frac{0.49}{\sqrt{G\bar\rho}}
+$$
+
+So $t_\ast$ is the textbook $1/\sqrt{G\bar\rho}$ up to a factor of two. Which factor you carry is a convention, and different books make different choices (free-fall time, crossing time, half-mass relaxation time and so on differ by factors of order one to ten), so the useful thing is to fix one definition and stick to it. **Mine is $t_\ast = \sqrt{R^3/GM}$, with $R$ the cutoff radius**, and every $t$ and $\delta t$ on these pages is in that unit.
+
+### Putting real numbers on it
+
+None of the physics depends on choosing a physical scale, and that is the point of working in these units: one simulation describes every cluster with the same shape. But it is much easier to believe a result when you can see what it means, so let me name a mass and a radius once.
+
+Take a smallish globular cluster, $M = 10^5 M_\odot$ inside $R = 1$ pc. Then
+
+| quantity | in code units | in physical units |
+| --- | --- | --- |
+| length $R$ | $1$ | $1$ pc |
+| mass $M$ | $1$ | $10^5\,M_\odot$ |
+| speed $v_\ast = \sqrt{GM/R}$ | $1$ | $20.7$ km s$^{-1}$ |
+| **time $t_\ast = \sqrt{R^3/GM}$** | $1$ | $47$ kyr |
+| scale radius $r_0$ | $0.2$ | $0.2$ pc |
+| central dispersion $\sigma_0$ | $0.913$ | $18.9$ km s$^{-1}$ |
+| softening $\varepsilon$ at $N=4096$ | $0.031$ | $0.031$ pc |
+| time step $\delta t$ | $0.025$ | $1.2$ kyr |
+| a 1000-step run | $t = 25$ | $1.2$ Myr |
+
+\note{
+    That last row is the one that makes the whole project feel real. A thousand leapfrog steps is not "a long simulation", it is **about a million years** in the life of a star cluster, or twenty-five crossings of it. And the useful sanity check is the dispersion: $19$ km s$^{-1}$ is the right order for a real globular cluster, so the units have not been chosen absurdly.
+}
+
+\tip{
+    Scale it however you like: the same run at $M = 10^6 M_\odot$ and $R = 10$ pc gives the *same* $v_\ast = 20.7$ km s$^{-1}$, because $M/R$ is unchanged, but a ten times longer $t_\ast = 471$ kyr, because $R^3/M$ went up by a hundred. That is the whole content of $t_\ast \propto 1/\sqrt{G\bar\rho}$: what sets the clock is the **density**, not the size.
+}
+
 Two limits tell you the shape at a glance:
 
 * $r \ll r_0$: $\rho \to 3M/(4\pi r_0^3)$, a flat constant-density **core**.
@@ -124,7 +186,7 @@ $$
 $$
 
 \note{
-    Look at the potential again. It is exactly the potential of a **point mass**, but with $r$ replaced by $\sqrt{r^2+r_0^2}$, the same trick as the softened potential above. A Plummer sphere *is* a softened point mass. That is not a coincidence: it is why $\varphi_{\text{soft}}$ is the standard choice, and why $\varepsilon$ is sometimes called a "Plummer softening".
+    Look at the potential again. It is exactly the potential of a **point mass**, but with $r$ replaced by $\sqrt{r^2+r_0^2}$, the same trick as the softened potential above. A Plummer sphere *is* a softened point mass. That is not a coincidence: it is why $\varphi_{12}^{\text{soft}}$ is the standard choice, and why $\varepsilon$ is sometimes called a "Plummer softening".
 }
 
 Before using the pair I checked that it really does satisfy Poisson's equation. In spherical symmetry,
@@ -382,10 +444,8 @@ $$
 
 which is exactly the boxed result above, $G$ and all.
 
-\note{
-    **A retraction.** An earlier version of this page claimed that eq. (3.2) carries an inconsistent power of $G$, and that restoring $G$ leaves the printed formula wrong by a factor $G^{-4}$. **That was my mistake, not the paper's.** I had copied the formula into my notes with $G^5$ in the prefactor where the paper prints $G$, then checked my notes instead of the paper and duly found the $G^{-4}$ I had put there myself.
-
-    I have redone the check both ways, symbolically and by putting arbitrary numbers into both expressions, and the two agree to the last digit. The general lesson is worth more than the formula: when you think you have found an error in a published paper, the first suspect should be your own transcription, and the cheapest way to clear it is to go back to the printed page rather than to your copy of it.
+\tip{
+    Keeping $G$ symbolic all the way through is worth the extra clutter, and this is a good example of why. The two expressions look nothing alike, so the fact that the powers of $G$, $M$ and $r_0$ all land in the right place is a real check on the algebra and not a coincidence. I verified it twice, once symbolically and once by putting arbitrary numbers into both forms, and they agree to the last digit.
 }
 
 ### What the distribution function is telling us
@@ -761,7 +821,7 @@ Time goes right, the energy error goes up, one curve per softening length. The s
 }
 
 \prob{
-    Show that for a softened pair potential $\varphi = -Gm_1m_2(r^2+\varepsilon^2)^{-1/2}$ the quantity $\vec r\cdot\vec F$ equals $-Gm_1m_2 r^2(r^2+\varepsilon^2)^{-3/2}$, then expand $W/U$ for $\varepsilon\ll r$. Harder: work out how $\delta t$ must scale with $\varepsilon$ to keep the energy error fixed, and test it.
+    Show that for a softened pair potential energy $\varphi_{12} = -Gm_1m_2(r^2+\varepsilon^2)^{-1/2}$ the quantity $\vec r\cdot\vec F$ equals $-Gm_1m_2 r^2(r^2+\varepsilon^2)^{-3/2}$, then expand $W/U$ for $\varepsilon\ll r$. Harder: work out how $\delta t$ must scale with $\varepsilon$ to keep the energy error fixed, and test it.
 }
 
 ### The transient

@@ -19,6 +19,7 @@ This are the links for courses taken by me:
 (*This part will be updated as new courses are added*)
 1. [Introduction to Quantum Field Theory with Canonical Quanlization](/Pages/Physics/courses/Intro_to_QFT/Course_Page/).
 2. [The Expanding Universe — a hands-on cosmology mini-course with Cosmic.jl](/Pages/Physics/courses/Cosmology/Main_page/) --> Reading Baumann's Chapter 2, checking every result in Julia.
+3. [The Renormalisation Group — from block spins to running couplings](/Pages/Physics/courses/RG/Main_page/) --> An eight-part beginner's course: cutoffs and loops from scratch, the Ising model, Wilson–Fisher, QED and QCD running, and effective field theory, with live simulations.
 
 ~~~
 <button onclick="window.history.back()">Go Back</button>

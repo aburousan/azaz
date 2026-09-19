@@ -1,0 +1,990 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Renormalisation Group VI: The Wilson-Fisher Fixed Point</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
+      fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+
+<link rel="stylesheet" href="/assets/Physics/courses/RG/rg.css">
+<script defer src="/assets/Physics/courses/RG/rg.js"></script>
+
+<div class="franklin-toc"><ol><li><a href="#integrating_out_the_shell">Integrating out the shell</a><ol><li><a href="#the_first-order_term_piece_by_piece">The first-order term, piece by piece</a></li></ol></li><li><a href="#the_flow_equations">The flow equations</a></li><li><a href="#what_the_flow_says_near_the_free_point">What the flow says near the free point</a></li><li><a href="#the_fixed_points">The fixed points</a></li><li><a href="#exponents">Exponents</a><ol><li><a href="#why_η_is_zero_at_one_loop">Why η is zero at one loop</a></li><li><a href="#all_the_exponents">All the exponents</a></li><li><a href="#how_good_is_it">How good is it?</a></li></ol></li><li><a href="#three_dimensions_without_an_ε_expansion">Three dimensions without an ε expansion</a><ol><li><a href="#keep_the_whole_potential_not_two_numbers">Keep the whole potential, not two numbers</a></li><li><a href="#the_exact_equation">The exact equation</a></li><li><a href="#the_local_potential_approximation">The local potential approximation</a></li><li><a href="#solving_it">Solving it</a></li><li><a href="#what_the_lpa_is_still_missing">What the LPA is still missing</a></li><li><a href="#three_checks_on_the_numbers">Three checks on the numbers</a></li></ol></li><li><a href="#magnets_with_more_components_the_on_models">Magnets with more components: the O&#40;N&#41; models</a></li><li><a href="#play_with_the_flow">Play with the flow</a></li><li><a href="#exercises">Exercises</a></li></ol></div>
+<h1 id="renormalisation_group_vi_the_wilson-fisher_fixed_point"><a href="#renormalisation_group_vi_the_wilson-fisher_fixed_point" class="header-anchor">Renormalisation Group VI: The Wilson-Fisher Fixed Point</a></h1>
+<blockquote>
+<p><em>Part 6 of eight. previous: <a href="/Pages/Physics/courses/RG/05_wilson/">Wilson&#39;s shells</a> · <a href="/Pages/Physics/courses/RG/Main_page/">Course home</a> · <a href="/Pages/Physics/courses/RG/glossary/">Glossary</a> · next: <a href="/Pages/Physics/courses/RG/07_running/">Running couplings</a></em></p>
+</blockquote>
+<p>In Part 5 the free field gave us the Gaussian fixed point and power counting showed that below four dimensions the quartic coupling pushes the system away from it. Now we switch \(u\) on and do Move 1, integrating out the shell, for real. It&#39;s a one-loop calculation and it&#39;s the heart of the work that earned Wilson the 1982 Nobel prize.</p>
+<h2 id="integrating_out_the_shell"><a href="#integrating_out_the_shell" class="header-anchor">Integrating out the shell</a></h2>
+<p>Split the interaction using \(\phi=\phi_{\rm s}+\phi_{\rm f}\) and expand:</p>
+\[ \frac u{4!}\int\mathrm d^dx\,(\phi_{\rm s}+\phi_{\rm f})^4 = \frac u{4!}\int\mathrm d^dx\,\Big(\phi_{\rm s}^4 + 4\phi_{\rm s}^3\phi_{\rm f} + 6\phi_{\rm s}^2\phi_{\rm f}^2 + 4\phi_{\rm s}\phi_{\rm f}^3 + \phi_{\rm f}^4\Big). \]
+<p>Two different integrals turn up from here on, so it is worth keeping them apart. \(\int\mathrm d^dx\) runs over <strong>space</strong>, adding up the interaction at every point. \(\int_{\rm shell}\) runs over <strong>momentum</strong>, adding up the modes being removed, in the thin shell \(\Lambda/b<|\mathbf k|<\Lambda\). It is short for</p>
+\[ \int_{\rm shell}\;\equiv\;\int_{\Lambda/b<|\mathbf k|<\Lambda}\frac{\mathrm d^dk}{(2\pi)^d}, \]
+<p>with the \((2\pi)^d\) there for the same reason as in Part 2: it is the price of a Fourier transform.</p>
+<p>Treat \(u\) as small and average over the fast modes \(\phi_{\rm f}\), which behave like Gaussian random noise with the propagator \(G(k)=1/(k^2+r)\) in the shell. Here is where the formula below comes from. Write \(X=S_{\rm int}\), with the subscript on the bracket saying which fields are being averaged: \(\langle\cdot\rangle_{\rm f}\) means &quot;average over the fast modes only, holding the slow ones fixed as though they were constants&quot;. Integrating out the fast modes then means</p>
+\[ e^{-S'[\phi_{\rm s}]} = e^{-S_0[\phi_{\rm s}]}\,\big\langle e^{-X}\big\rangle_{\rm f}. \]
+<p>Every bracket from here to the end of the calculation is that same fast-mode average, so the subscript is dropped while the algebra is generic. Expand the exponential, \(\langle e^{-X}\rangle = 1-\langle X\rangle+\tfrac12\langle X^2\rangle-\dots\) then take the logarithm using \(\ln(1+y)=y-\tfrac12y^2+\dots\) with \(y=-\langle X\rangle+\tfrac12\langle X^2\rangle\). Keeping terms up to second order in \(X\):</p>
+\[ \ln\langle e^{-X}\rangle = -\langle X\rangle + \tfrac12\langle X^2\rangle - \tfrac12\langle X\rangle^2+\dots \]
+<p>Since \(S' = S_0-\ln\langle e^{-X}\rangle\), this gives what&#39;s called the <strong>cumulant expansion</strong>:</p>
+\[ S'[\phi_{\rm s}] = S_0[\phi_{\rm s}] + \langle S_{\rm int}\rangle_{\rm f} - \tfrac12\Big(\langle S_{\rm int}^2\rangle_{\rm f} - \langle S_{\rm int}\rangle_{\rm f}^2\Big) + \dots \]
+<p>Each term is a set of Feynman diagrams, with fast modes on the inside lines and slow fields on the outside ones.</p>
+<h3 id="the_first-order_term_piece_by_piece"><a href="#the_first-order_term_piece_by_piece" class="header-anchor">The first-order term, piece by piece</a></h3>
+<p>Go through the five pieces of the expanded interaction one at a time &#40;Tong §3.4 does the same&#41;. The fast modes are Gaussian noise, so we can average them with Part 5&#39;s rules: a pair of fast fields gives a propagator and an odd number gives zero.</p>
+<ol>
+<li><p>\(\phi_{\rm s}^4\): no fast fields, so the average does nothing. This is just the old interaction for the slow modes, carried over unchanged.</p>
+</li>
+<li><p>\(4\phi_{\rm s}^3\phi_{\rm f}\): one fast field, so it averages to zero.</p>
+</li>
+<li><p>\(6\phi_{\rm s}^2\phi_{\rm f}^2\): two fast fields, averaging to \(\langle\phi_{\rm f}^2\rangle\). This is the only interesting piece at first order. It changes the mass, as we&#39;ll see next.</p>
+</li>
+<li><p>\(4\phi_{\rm s}\phi_{\rm f}^3\): three fast fields, so it averages to zero.</p>
+</li>
+<li><p>\(\phi_{\rm f}^4\): no slow fields at all. It gives a constant, which shifts the free energy but can&#39;t affect how the slow modes behave, so we drop it.</p>
+</li>
+</ol>
+
+<div class="mfig" style="--w:560px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/phi4_diagrams.svg" alt="The tadpole and bubble diagrams with fast modes in the loop">
+  <p>The two one-loop diagrams, with only fast (shell) modes going round the loop. The tadpole changes the mass. The bubble changes the coupling.</p>
+</div>
+
+<p><strong>The mass.</strong> Take the \(6\phi_{\rm s}^2\phi_{\rm f}^2\) term from \(\langle S_{\rm int}\rangle_{\rm f}\) and average the two fast fields: \(\langle\phi_{\rm f}^2\rangle=\int_{\rm shell}G(k)\), a number. That leaves \(\frac{u}{4!}\cdot6\cdot\Big(\int_{\rm shell}G(k)\Big)\int\mathrm d^dx\,\phi_{\rm s}^2\). Comparing with the mass term \(\tfrac12\delta r\int\mathrm d^dx\,\phi_{\rm s}^2\):</p>
+\[ \delta r = \frac u2\int_{\rm shell}\frac{\mathrm d^dk}{(2\pi)^d}\,\frac1{k^2+r}. \]
+<p>The shell is the only place the integral runs, because those are the only modes being removed. Its value is worked out below. Notice how the two integrals played different roles: the momentum one collapsed to a single number, which then multiplied the space integral that was already there. That is what makes it a shift of \(r\) rather than some new kind of term.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Picture the slow field as a heavy boat and the fast modes as choppy little waves around it. The waves never show up in a photo of the boat taken from far away, but they push it back towards level all the time, so the boat behaves as if its springs were stiffer. The tadpole is that extra stiffness: fast jiggling raises the effective mass. 
+  </fieldset>
+  
+<p>It helps to see the shell integral done for a <em>finite</em> step before taking the thin limit. In \(d=4\), with \(\mathrm d^4k/(2\pi)^4 = K_4\,k^3\,\mathrm d k\) and \(K_4=1/8\pi^2\), the same splitting as in Part 1 gives</p>
+\[ \delta r = \frac u2K_4\int_{\Lambda/b}^{\Lambda}\frac{k^3\,\mathrm d k}{k^2+r} = \frac{u}{32\pi^2}\left[\Big(1-\frac1{b^2}\Big)\Lambda^2 - r\ln\frac{\Lambda^2+r}{\Lambda^2/b^2+r}\right]. \]
+<p>Now make the step thin, \(b=e^{\delta\ell}\) and keep terms to first order in \(\delta\ell\): \(1-b^{-2}\approx2\,\delta\ell\) and \(\ln\frac{\Lambda^2+r}{\Lambda^2e^{-2\delta\ell}+r}\approx\frac{2\Lambda^2\,\delta\ell}{\Lambda^2+r}\). So</p>
+\[ \delta r \approx \frac{u}{32\pi^2}\left[2\Lambda^2-\frac{2r\Lambda^2}{\Lambda^2+r}\right]\delta\ell = \frac{u}{16\pi^2}\,\frac{\Lambda^4}{\Lambda^2+r}\,\delta\ell = \frac u2K_4\,\frac{\Lambda^4}{\Lambda^2+r}\,\delta\ell, \]
+<p>which is the thin-shell rule used below. &#40;Both the finite-\(b\) formula and its thin limit were checked in Wolfram.&#41;</p>
+<p><strong>The coupling.</strong> Take two vertices from \(-\tfrac12\langle S_{\rm int}^2\rangle_c\) &#40;the subscript \(c\) means <em>connected</em>, explained a few lines below&#41;, keep two slow legs on each and join the rest with two fast propagators. Now count the ways. At each vertex, choose which 2 of the 4 legs are slow: that&#39;s \(\binom42^2=36\). Then join the two fast legs at vertex 1 to the two at vertex 2: that&#39;s 2 more ways. So there are \(72\) in all. The term is \(-\tfrac12\left(\frac u{4!}\right)^2\cdot72\Big(\int_{\rm shell}G(k)^2\Big)\int\mathrm d^dx\,\phi_{\rm s}^4 = -\frac{u^2}{16}\Big(\int_{\rm shell}G(k)^2\Big)\int\mathrm d^dx\,\phi_{\rm s}^4\), taken at zero outside momentum, which is fine for a plain \(\phi^4\) term. Matching to \(\frac{\delta u}{4!}\int\mathrm d^dx\,\phi_{\rm s}^4\):</p>
+\[ \delta u = -\frac{3u^2}{2}\int_{\rm shell}\frac{\mathrm d^dk}{(2\pi)^d}\,\frac1{(k^2+r)^2}. \]
+
+<div class="mfig" style="--w:600px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/wick_72.svg" alt="The two ways to pair the fast legs of two vertices and the count of 72">
+  <p>Where the 72 comes from. At each vertex, 2 of the 4 legs are slow (green) and 2 are fast (red). Wick's theorem joins the fast legs across in two ways, straight or crossed and both give the same bubble.</p>
+</div>
+
+<p>Why only the <em>connected</em> part, \(\langle S_{\rm int}^2\rangle-\langle S_{\rm int}\rangle^2\)? The pieces of \(\langle S_{\rm int}^2\rangle\) in which the two vertices don&#39;t share any fast line are exactly \(\langle S_{\rm int}\rangle^2\), so the subtraction removes them. That&#39;s lucky, because those pieces aren&#39;t local: they would describe two unrelated events far apart. What survives has the two vertices joined by fast lines, which is the bubble.</p>
+<p>The minus sign matters: <strong>fluctuations weaken the coupling</strong>. In Part 7 this \(3/2\) turns out to be exactly what a completely different calculation needs, which is an independent check on the counting.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Push someone in an empty room and they move. Push someone standing in a tight crowd and much of your push gets absorbed by the people around them. The fast modes are that crowd: they rearrange themselves to soak up part of the interaction, so the slow modes feel a weaker one. 
+  </fieldset>
+  
+
+  <fieldset class=" puja"><legend class=" puja-legend"> Puja corner</legend>
+      Every couple who has gone pandal hopping on Ashtami knows this result by heart. By the fourth packed pandal the crowd &#40;the fast modes&#41; has soaked up most of the romance. The coupling that started at full strength arrives home noticeably weaker. Fluctuations weaken the coupling, exactly as the minus sign says. 
+  </fieldset>
+  
+<p><strong>The shell integral.</strong> For a thin shell, \(b=e^{\delta\ell}\) with \(\delta\ell\) small, the integrand is the same all across the shell, so</p>
+\[ \int_{\Lambda/b}^{\Lambda}\frac{\mathrm d^dk}{(2\pi)^d}F(k) = K_d\,\Lambda^d\,F(\Lambda)\,\delta\ell,\qquad K_d=\frac{S_d}{(2\pi)^d}=\frac{2}{(4\pi)^{d/2}\Gamma(d/2)}. \]
+<p>For reference: \(K_2=1/2\pi\), \(K_3=1/2\pi^2\) and \(K_4=1/8\pi^2\).</p>
+<p>For a <em>big</em> step in four dimensions with \(r=0\), the bubble&#39;s shell integral is \(K_4\int_{\Lambda/b}^\Lambda\frac{k^3\mathrm d k}{k^4}=K_4\ln b\). So \(\delta u=-\frac{3u^2}{16\pi^2}\ln b\): each doubling of the length scale &#40;\(b=2\)&#41; takes off the same amount. This is the logarithm from Part 2, where every doubling of momentum added the same amount, now seen from the coarse-graining side.</p>
+<h2 id="the_flow_equations"><a href="#the_flow_equations" class="header-anchor">The flow equations</a></h2>
+<p>Now do Moves 2 and 3 from Part 5, which multiply \(r\) by \(b^2\) and \(u\) by \(b^{4-d}\). &#40;At one loop the field rescaling doesn&#39;t change, because no new \(k^2\phi^2\) term is created.&#41; So after one thin step,</p>
+\[ r' = b^2\big(r+\delta r\big),\qquad u' = b^{4-d}\big(u+\delta u\big). \]
+<p>With \(b=e^{\delta\ell}\) we have \(b^2\approx1+2\,\delta\ell\) and \(b^{4-d}\approx1+(4-d)\,\delta\ell\). Put in the shell results, \(\delta r=\frac u2K_d\Lambda^d\frac{1}{\Lambda^2+r}\,\delta\ell\) and \(\delta u=-\frac{3u^2}{2}K_d\Lambda^d\frac{1}{(\Lambda^2+r)^2}\,\delta\ell\) and keep only terms of first order in \(\delta\ell\):</p>
+\[ r'-r = \Big[2r + \frac{u}{2}\,\frac{K_d\Lambda^d}{\Lambda^2+r}\Big]\delta\ell,\qquad u'-u = \Big[(4-d)\,u - \frac{3u^2}{2}\,\frac{K_d\Lambda^d}{(\Lambda^2+r)^2}\Big]\delta\ell. \]
+<p>Last, switch to the dimensionless couplings \(\tilde r=r/\Lambda^2\) and \(\tilde u=u\Lambda^{d-4}\), which is what &quot;measure everything in units of the cutoff&quot; means. &#40;After Move 2 the cutoff is back at \(\Lambda\), so \(\Lambda\) is the same before and after the step.&#41; Divide the first equation by \(\Lambda^2\) and multiply the second by \(\Lambda^{d-4}\). Then, for example, \(\frac{u}{\Lambda^2}\cdot\frac{\Lambda^d}{\Lambda^2+r}=\frac{u\Lambda^{d-4}}{1+r/\Lambda^2}=\frac{\tilde u}{1+\tilde r}\) and similarly for the other terms. Dividing by \(\delta\ell\) and letting it shrink to zero turns the differences into derivatives. Here \(\ell\) is &quot;RG time&quot;, which increases as you zoom out towards long distances:</p>
+\[ \boxed{\;\frac{\mathrm d\tilde r}{\mathrm d\ell} = 2\tilde r + \frac{K_d}{2}\,\frac{\tilde u}{1+\tilde r},\qquad \frac{\mathrm d\tilde u}{\mathrm d\ell} = (4-d)\,\tilde u - \frac{3K_d}{2}\,\frac{\tilde u^2}{(1+\tilde r)^2}.\;} \]
+<p>Read them term by term. The first term in each is the simple zoom-out scaling from Part 5. The second terms are the fluctuations we just integrated out: the coupling feeds the mass &#40;the tadpole&#41; and it weakens itself &#40;the bubble&#41;.</p>
+<p>These are the same equations as Melo&#39;s \(\beta_2,\beta_4\) once you flip the direction of RG time and the same as Tong&#39;s §3.4 in his notation.</p>
+<h2 id="what_the_flow_says_near_the_free_point"><a href="#what_the_flow_says_near_the_free_point" class="header-anchor">What the flow says near the free point</a></h2>
+<p>Before finding the new fixed point, read off two things the equations already tell us.</p>
+<p><strong>Fluctuations lower the critical temperature.</strong> The critical line is where the mass doesn&#39;t run off, \(\mathrm d\tilde r/\mathrm d\ell=0\) at small \(\tilde u\). Setting \(2\tilde r+\frac{K_d}{2}\tilde u=0\) gives</p>
+\[ \tilde r_c = -\frac{K_d}{4}\,\tilde u+O(\tilde u^2). \]
+<p>In mean-field theory the transition happens at \(r=0\). With fluctuations it needs \(r\) slightly <em>negative</em>, which means a slightly lower temperature. Fluctuations make ordering harder, so the magnet only orders once it&#39;s cooled a bit further than mean field predicts. &#40;The exact solution of \(\mathrm d\tilde r/\mathrm d\ell=0\) is \(\tilde r_c=\tfrac12(\sqrt{1-K_d\tilde u}-1)\), which starts the same way; checked in Wolfram.&#41;</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      At a Durga Puja pandal, you need to shout louder to be heard than you would in an empty room, because the crowd&#39;s noise eats part of your voice. Mean field forgets the crowd. The real system needs a stronger push &#40;a lower temperature&#41; to reach the same point. 
+  </fieldset>
+  
+<p><strong>In four dimensions the coupling dies slowly.</strong> With \(\epsilon=0\) and \(\tilde r\) small, \(\mathrm d\tilde u/\mathrm d\ell=-\frac{3\tilde u^2}{16\pi^2}\), whose solution is \(\tilde u(\ell)=\frac{\tilde u_0}{1+3\tilde u_0\ell/16\pi^2}\) &#40;exercise 6.4&#41;. It goes to zero, but only like \(1/\ell\), which is \(1/\ln b\). That&#39;s the precise meaning of &quot;marginally irrelevant&quot;.</p>
+<h2 id="the_fixed_points"><a href="#the_fixed_points" class="header-anchor">The fixed points</a></h2>
+<p>Put \(\epsilon=4-d\) and look for places where both right-hand sides vanish. The new fixed point turns out to sit at \(\tilde u\) and \(\tilde r\) of size \(\epsilon\), so to leading order we can drop \(\tilde r\) in the denominators and use \(K_d\approx K_4=1/8\pi^2\):</p>
+<ul>
+<li><p><strong>Gaussian</strong>: \(\tilde r^*=\tilde u^*=0\).</p>
+</li>
+<li><p><strong>Wilson-Fisher</strong>: \(\epsilon\tilde u^*=\frac{3K_4}{2}\tilde u^{*2}\), which gives</p>
+</li>
+</ul>
+\[ \boxed{\;\tilde u^* = \frac{2\epsilon}{3K_4}=\frac{16\pi^2}{3}\,\epsilon,\qquad \tilde r^* = -\frac{K_4\tilde u^*}{4} = -\frac\epsilon6.\;} \]
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      The \(\tilde u\) equation, \(\mathrm d\tilde u/\mathrm d\ell=\epsilon\tilde u-c\,\tilde u^2\), has exactly the same form as the textbook equation for a population with limited food, or for the crowd at a new phuchka stall on Park Street. The \(\epsilon\tilde u\) term is word of mouth: a small crowd grows. The \(-c\tilde u^2\) term is crowding: too big a queue and people give up and leave. They balance at the &quot;carrying capacity&quot; \(\epsilon/c\), where the population stops changing. The Wilson-Fisher point is the carrying capacity of the coupling. In four dimensions &#40;\(\epsilon=0\)&#41; there are no births, only crowding, so the population slowly dies out: that&#39;s &quot;marginally irrelevant&quot;. 
+  </fieldset>
+  
+
+  <fieldset class=" otaku"><legend class=" otaku-legend"> Otaku corner</legend>
+      In <em>Naruto</em>, Sage Mode only works if you balance your own chakra against nature&#39;s energy perfectly; too little and nothing happens, too much and you turn into a toad statue. The Wilson-Fisher point is that balance for the coupling: growth and self-suppression exactly cancel. 
+  </fieldset>
+  
+<p>For \(\epsilon>0\) the new fixed point sits at a positive coupling, which is where a sensible \(\phi^4\) theory lives. As \(\epsilon\to0\) it merges into the Gaussian one.</p>
+
+<div class="mfig" style="--w:640px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/wf_flow.svg" alt="Beta function of the quartic coupling and the flow in the (r,u) plane in d = 3">
+  <p>Left: the right-hand side of the \(\tilde u\) equation. In \(d=4\) (black) it's negative for every \(\tilde u>0\), so the coupling always shrinks and the only fixed point is \(\tilde u=0\). For \(\epsilon>0\) the curve crosses zero a second time, at the Wilson-Fisher point. Right: paths of the full one-loop equations in \(d=3\), worked out numerically. The critical surface (blue) runs from the Gaussian point into Wilson-Fisher. The red dot sits at \(\tilde u\approx38.7\), not \(52.6\), because these equations solved exactly (rather than only to first order in \(\epsilon\)) put the fixed point in a slightly different place. The two agree as \(\epsilon\to0\) and differ at order \(\epsilon^2\), where one loop isn't accurate anyway.</p>
+</div>
+
+<h2 id="exponents"><a href="#exponents" class="header-anchor">Exponents</a></h2>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>Three sources, one fixed point.</strong> <a href="https://davidtong.org/teaching/statistical-field-theory/">Tong&#39;s notes</a>, §3.4 and §3.5, do this calculation with the interaction written as \(g\phi^4\) &#40;no \(1/4!\)&#41;, so his \(g=u/24\). His fixed point \(\tilde g^*=2\pi^2\epsilon/9\) is our \(\tilde u^*=24\cdot2\pi^2\epsilon/9=16\pi^2\epsilon/3\) and his \(\mu^{2}_*=-\Lambda^2\epsilon/6\) is our \(\tilde r^*\). His growth rates, \(2-\epsilon/3\) and \(-\epsilon\), use the same direction of RG time as here. Melo&#39;s notes and Peskin &amp; Schroeder &#40;§12.1&#41; get the same numbers in their own conventions. 
+  </fieldset>
+  
+<p>Linearise around Wilson-Fisher. Write \(\tilde r=\tilde r^*+\delta r\) and \(\tilde u=\tilde u^*+\delta u\) and expand both flow equations to first order in \(\delta r\) and \(\delta u\). The four partial derivatives, evaluated at the fixed point and kept to first order in \(\epsilon\), are:</p>
+<ul>
+<li><p>\(\dfrac{\partial\dot r}{\partial r}=2-\dfrac{K_4\tilde u^*}{2(1+\tilde r^*)^2}\approx2-\dfrac{K_4}{2}\cdot\dfrac{2\epsilon}{3K_4}=2-\dfrac\epsilon3\),</p>
+</li>
+<li><p>\(\dfrac{\partial\dot r}{\partial u}=\dfrac{K_4}{2(1+\tilde r^*)}\approx\dfrac{K_4}{2}\Big(1+\dfrac\epsilon6\Big)\),</p>
+</li>
+<li><p>\(\dfrac{\partial\dot u}{\partial r}=\dfrac{3K_4\tilde u^{*2}}{(1+\tilde r^*)^3}\), which is of order \(\epsilon^2\), so drop it,</p>
+</li>
+<li><p>\(\dfrac{\partial\dot u}{\partial u}=\epsilon-\dfrac{3K_4\tilde u^*}{(1+\tilde r^*)^2}\approx\epsilon-2\epsilon=-\epsilon\).</p>
+</li>
+</ul>
+<p>So</p>
+\[ \frac{\mathrm d}{\mathrm d\ell}\begin{pmatrix}\delta r\\ \delta u\end{pmatrix} = \begin{pmatrix}2-\frac\epsilon3 & \frac{K_4}{2}\big(1+\frac\epsilon6\big)\\ 0 & -\epsilon\end{pmatrix}\begin{pmatrix}\delta r\\ \delta u\end{pmatrix}. \]
+<p>This is the same matrix as Tong&#39;s §3.5.1 &#40;in his units&#41; and Melo&#39;s &#40;with RG time reversed&#41;. It&#39;s triangular, so its eigenvalues are just the diagonal entries. Its eigenvectors tell you which <em>combinations</em> of \(\delta r\) and \(\delta u\) grow or shrink:</p>
+<ul>
+<li><p>The relevant eigenvector is \((1,0)\): a pure change of \(r\), which is a change of temperature.</p>
+</li>
+<li><p>The irrelevant eigenvector is about \(\big(-\tfrac{K_4}{4},1\big)\): move \(u\) by one unit and \(r\) by \(-K_4/4\). That&#39;s exactly the slope of the critical line \(\tilde r_c=-\frac{K_4}4\tilde u\) we found near the free point. So the irrelevant direction points <em>along</em> the critical surface, as it must: moving along the critical surface doesn&#39;t take you off criticality.</p>
+</li>
+</ul>
+<p>&#40;The matrix, eigenvalues and eigenvectors were all checked in Wolfram.&#41; The eigenvalues are</p>
+\[ y_t = 2-\frac\epsilon3, \qquad y_u=-\epsilon. \]
+<p>That&#39;s one relevant direction &#40;temperature&#41; and one irrelevant one, exactly what a critical point should have. The Gaussian point has lost: there both rates are positive &#40;\(2\) and \(+\epsilon\)&#41;, so you can&#39;t reach it by tuning just one knob. Every critical Ising system in \(d<4\) flows to Wilson-Fisher. The exponents follow:</p>
+\[ \nu = \frac1{y_t} = \frac12+\frac\epsilon{12}+O(\epsilon^2),\qquad \gamma = \nu(2-\eta) = 1+\frac\epsilon6+O(\epsilon^2), \]
+<p>because \(\eta\) only appears at two loops, \(\eta=\epsilon^2/54\).</p>
+<h3 id="why_η_is_zero_at_one_loop"><a href="#why_η_is_zero_at_one_loop" class="header-anchor">Why η is zero at one loop</a></h3>
+<p>The exponent \(\eta\) measures how the field&#39;s own scaling is changed by interactions. At one loop, the only correction to the two-point function is the tadpole and the tadpole doesn&#39;t depend on the outside momentum \(p\) at all: its loop never touches \(p\). So it can only shift the mass \(r\), never the \(p^2\) stiffness term. The field rescaling of Move 3 stays exactly as for the free field and \(\eta=0\). The first diagram that does depend on \(p\) is the two-loop &quot;sunset&quot;, with three lines between two vertices and that&#39;s where \(\eta=\epsilon^2/54\) comes from.</p>
+<h3 id="all_the_exponents"><a href="#all_the_exponents" class="header-anchor">All the exponents</a></h3>
+<p>With \(\eta=0\), the field&#39;s scaling is the free one, so the magnetic field&#39;s exponent is still \(y_h=\frac{d+2}{2}=3-\frac\epsilon2\). Together with \(y_t=2-\frac\epsilon3\), the formulas from Part 4 give every exponent. Expanding each to first order in \(\epsilon\):</p>
+\[ \begin{aligned}
+\nu&=\frac{1}{y_t}=\frac12+\frac{\epsilon}{12}, &
+\alpha&=2-\frac{d}{y_t}=\frac{\epsilon}{6}, &
+\beta&=\frac{d-y_h}{y_t}=\frac12-\frac{\epsilon}{6},\\
+\gamma&=\frac{2y_h-d}{y_t}=1+\frac{\epsilon}{6}, &
+\delta&=\frac{y_h}{d-y_h}=3+\epsilon, &
+\eta&=0.
+\end{aligned} \]
+<p>For example, \(\beta=\frac{(4-\epsilon)-(3-\epsilon/2)}{2-\epsilon/3}=\frac{1-\epsilon/2}{2(1-\epsilon/6)}\approx\frac12\big(1-\frac\epsilon2\big)\big(1+\frac\epsilon6\big)\approx\frac12-\frac\epsilon6\). &#40;All six were expanded in Wolfram.&#41;</p>
+<p>Everything above was checked in Wolfram:</p>
+<pre><code class="language-mathematica">betam &#61; 2 m2 &#43; Kd4 u/&#40;2 &#40;1 &#43; m2&#41;&#41;;
+betau &#61; eps u - 3 Kd4 u^2/&#40;2 &#40;1 &#43; m2&#41;^2&#41;;
+us  &#61; u /. Last&#91;Solve&#91;eps u - 3 Kd4 u^2/2 &#61;&#61; 0, u&#93;&#93;;        &#40;* 2 eps/&#40;3 Kd4&#41; *&#41;
+m2s &#61; m2 /. First&#91;Solve&#91;2 m2 &#43; Kd4 us/2 &#61;&#61; 0, m2&#93;&#93;;        &#40;* -eps/6 *&#41;
+yt  &#61; Simplify&#91;D&#91;betam, m2&#93; /. &#123;m2 -&gt; 0, u -&gt; us&#125;&#93;          &#40;* 2 - eps/3 *&#41;
+Series&#91;1/yt, &#123;eps, 0, 1&#125;&#93;                                   &#40;* 1/2 &#43; eps/12 *&#41;
+Simplify&#91;D&#91;betau, u&#93; /. &#123;m2 -&gt; 0, u -&gt; us&#125;&#93;                 &#40;* -eps *&#41;
+Simplify&#91;2/&#40;&#40;4 Pi&#41;^&#40;4/2&#41; Gamma&#91;4/2&#93;&#41; - 1/&#40;8 Pi^2&#41;&#93;          &#40;* 0: K_4 &#61; 1/&#40;8 Pi^2&#41; *&#41;</code></pre>
+<h3 id="how_good_is_it"><a href="#how_good_is_it" class="header-anchor">How good is it?</a></h3>
+<p>Set \(\epsilon=1\) for three dimensions. One is not a small number and the expansion has no right to work there. Wilson and Fisher gave their 1972 paper the joking title &quot;Critical exponents in 3.99 dimensions&quot;, as if \(\epsilon=0.01\). And yet:</p>
+<table><tr><th align="right"></th><th align="right">\(\nu\)</th><th align="right">\(\alpha\)</th><th align="right">\(\beta\)</th><th align="right">\(\gamma\)</th><th align="right">\(\delta\)</th><th align="right">\(\eta\)</th></tr><tr><td align="right">mean field &#40;Gaussian&#41;</td><td align="right">0.5</td><td align="right">0</td><td align="right">0.5</td><td align="right">1</td><td align="right">3</td><td align="right">0</td></tr><tr><td align="right">one loop, \(\epsilon=1\)</td><td align="right">0.583</td><td align="right">0.167</td><td align="right">0.333</td><td align="right">1.167</td><td align="right">4</td><td align="right">0</td></tr><tr><td align="right">3D Ising &#40;conformal bootstrap&#41;</td><td align="right">0.6300</td><td align="right">0.1101</td><td align="right">0.3265</td><td align="right">1.2371</td><td align="right">4.7898</td><td align="right">0.0363</td></tr></table>
+
+<div class="mfig" style="--w:500px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/exponent_bars.svg" alt="Bar chart of critical exponents: mean field, one loop and 3D Ising">
+  <p>Every exponent moves from its mean-field value towards the true 3D value. The one-loop \(\beta=1/3\) is remarkably close to the real \(0.3265\). (\(\delta\) is divided by 4 and \(\eta\) multiplied by 10 so they fit on the same scale.)</p>
+</div>
+
+
+<div class="mfig" style="--w:460px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/epsilon_exponents.svg" alt="nu against epsilon compared with known values">
+  <p>The one-loop \(\nu\) against \(\epsilon\). It moves away from mean field in the right direction and gets most of the way to the true 3D value. At \(\epsilon=2\) (the 2D Ising model) it's far off, as you'd expect. Adding more loops brings the 3D numbers within a fraction of a percent.</p>
+</div>
+
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      It&#39;s like estimating \(\sqrt2\) from the approximation \(\sqrt{1+x}\approx1+x/2\), which is only meant for small \(x\). At \(x=1\) you get \(1.5\) instead of \(1.414\): off by 6&#37;, but a genuinely useful first guess. The one-loop \(\nu\) at \(\epsilon=1\) is off by about 7&#37; in the same way. 
+  </fieldset>
+  
+<p>The first correction takes \(\nu\) two-thirds of the way from mean field to the true value. The deeper result doesn&#39;t depend on the numbers at all: below four dimensions the exponents are <em>not</em> mean-field and they are <em>universal</em>, fixed by just the dimension and the symmetry.</p>
+<p>There is a second road to the same fixed point, one that never writes \(\epsilon\) down at all. It is worth walking, because it reaches three dimensions directly.</p>
+<h2 id="three_dimensions_without_an_ε_expansion"><a href="#three_dimensions_without_an_ε_expansion" class="header-anchor">Three dimensions without an ε expansion</a></h2>
+<p>The \(\epsilon\) expansion earns its answers by staying near four dimensions, where the fixed point sits at small coupling. Three dimensions can also be attacked head on, by giving up the expansion in exchange for a different approximation: keep the dimension exact at \(d=3\) and approximate the <em>shape of the theory</em> instead.</p>
+<h3 id="keep_the_whole_potential_not_two_numbers"><a href="#keep_the_whole_potential_not_two_numbers" class="header-anchor">Keep the whole potential, not two numbers</a></h3>
+<p>Look at what we actually tracked in this part: \(r\) and \(u\). That is the same as saying the potential</p>
+\[ U(\phi)=\tfrac12 r\phi^2+\frac{u}{4!}\phi^4 \]
+<p>is described by two numbers. The RG step made \(\phi^6\), \(\phi^8\) and everything above as well. We dropped them, because power counting said they are irrelevant near four dimensions. In three dimensions that is an assumption, not a theorem.</p>
+<p>So do not drop them. Follow the <strong>whole function</strong> \(U(\phi)\) as the scale changes. This was Wilson&#39;s own picture. Its modern form is an exact equation written down by Wetterich in 1993.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Describing a friend&#39;s face with two numbers, height and width, works well enough to pick them out of a crowd of two. The \(\epsilon\) expansion&#39;s potential is that sketch. Following the whole function is sending the photograph. The sketch is fine when the face is nearly the average face, which is what &quot;close to four dimensions&quot; means. Three dimensions is further away, so send the photo. 
+  </fieldset>
+  
+<h3 id="the_exact_equation"><a href="#the_exact_equation" class="header-anchor">The exact equation</a></h3>
+\[ \boxed{\;\partial_t\Gamma_k=\frac12\,\mathrm{Tr}\left[\big(\Gamma^{(2)}_k+R_k\big)^{-1}\partial_tR_k\right],\qquad t=\ln k.\;} \]
+<p>One line, six symbols. Here is each of them.</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>\(k\), the scale.</strong> Every mode faster than \(k\) has been integrated out already. Everything slower is still waiting. It is the shell momentum of this part, except that now it slides continuously instead of in steps.</p>
+<p><strong>\(\Gamma_k\), the flowing action.</strong> What the theory looks like once you have blurred away all detail finer than \(1/k\). At the start, \(k=\Lambda\), it is the action you wrote down. At the end, \(k=0\), every mode is integrated out, so it is the complete answer with all fluctuations in it.</p>
+<p><strong>\(R_k\), the regulator.</strong> A mass-like term, roughly \(k^2\), added by hand to the modes slower than \(k\). A heavy mode cannot fluctuate, so this freezes the slow modes and leaves only the ones near \(k\) contributing. It switches itself off as \(k\to0\), so nothing fake is left in the final answer.</p>
+<p><strong>\(\Gamma^{(2)}_k\).</strong> The second derivative of \(\Gamma_k\) with respect to the field: the inverse propagator at scale \(k\). The <em>full</em> one, with all the corrections generated so far, not the free one.</p>
+<p><strong>\(\partial_t=k\,\partial/\partial k\).</strong> The derivative with respect to \(\ln k\), so &quot;one step of zooming out&quot;.</p>
+<p><strong>\(\mathrm{Tr}\).</strong> Sum over momenta, which is an integral, plus a sum over field components if the field has more than one. 
+  </fieldset>
+  
+<p>The equation looks like a one-loop formula, because it <em>is</em> one loop, but taken with the full propagator instead of the free one. That is the whole trick, so it is exact. Nothing was expanded in a small coupling. Nothing was expanded in \(\epsilon\).</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+   \(R_k\) is a weight tied to the long, slow waves. Weighed down, they cannot move, so the only things still jiggling are the waves at the scale \(k\) that you are dealing with right now. Lowering \(k\) lifts the weight off the next batch. It is the smooth version of the sharp momentum shell drawn earlier in this part. 
+  </fieldset>
+  
+<h3 id="the_local_potential_approximation"><a href="#the_local_potential_approximation" class="header-anchor">The local potential approximation</a></h3>
+<p>An exact equation for a whole function of two variables is not something you solve on paper. You truncate it. The simplest useful truncation keeps the kinetic term fixed at its classical form, letting only the potential flow:</p>
+\[ \Gamma_k=\int\mathrm d^dx\left[\tfrac12(\partial\phi)^2+U_k(\phi)\right]. \]
+<p>That is the <strong>local potential approximation</strong>, or LPA. Take Litim&#39;s regulator, \(R_k(q)=(k^2-q^2)\theta(k^2-q^2)\), which fills the momentum integral in exactly. Write the potential in the dimensionless variable \(\rho=\phi^2/2\). Then the whole thing collapses to one equation:</p>
+\[ \partial_t u=-d\,u+(d-2)\,\rho\,u'+\frac{c_d}{1+u'+2\rho u''},\qquad c_d=\frac{K_d}{d},\quad K_d=\frac{2}{(4\pi)^{d/2}\Gamma(d/2)}. \]
+<p>Read it left to right:</p>
+<ul>
+<li><p>\(-d\,u\) is plain dimensional analysis. The potential has mass dimension \(d\), so measuring it in units of \(k\) costs this term.</p>
+</li>
+<li><p>\((d-2)\rho u'\) is the same thing for the field, since \([\phi]=(d-2)/2\) and \(\rho=\phi^2/2\).</p>
+</li>
+<li><p>the last term is the only place where any physics happens. It is the loop. The denominator is the inverse propagator at scale \(k\) with the real curvature of the potential in it. In the free theory \(u'=u''=0\) and the term is a constant.</p>
+</li>
+</ul>
+<p>Now put \(d=3\) in and never mention \(\epsilon\) again.</p>
+<h3 id="solving_it"><a href="#solving_it" class="header-anchor">Solving it</a></h3>
+<p>Expand the potential around its own minimum \(\kappa\), which moves as the flow goes on:</p>
+\[ u(\rho)=\sum_{n=2}^{M}\frac{\lambda_n}{n!}\,(\rho-\kappa)^n,\qquad u'(\kappa)=0. \]
+<p>Keeping \(M\) couplings means keeping the potential up to \(\phi^{2M}\). \(M=2\) is exactly this part&#39;s truncation: a mass plus a quartic. \(M=3\) adds \(\phi^6\), \(M=4\) adds \(\phi^8\) and so on. Set every flow to zero, which gives the fixed point, then linearise around it and read the exponents off the eigenvalues, exactly as in the &quot;Exponents&quot; section above.</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>\(\omega\), the correction-to-scaling exponent.</strong> The eigenvalues give more than \(\nu\). The largest <em>irrelevant</em> one is called \(\omega\). It says how fast the leftovers die out as you approach \(T_c\):</p>
+\[ \xi\sim t^{-\nu}\big(1+a\,t^{\nu\omega}+\dots\big). \]
+<p>It matters in practice because no experiment or simulation ever sits exactly at \(T_c\). A big \(\omega\) means the corrections vanish quickly, so the clean scaling law shows up sooner. 
+  </fieldset>
+  
+<p>Here is the whole solver. It is short enough to read in one sitting, because the only real work is Taylor arithmetic in \(x=\rho-\kappa\).</p>
+<pre><code class="language-python">from math import factorial, pi
+import numpy as np
+from scipy.optimize import fsolve
+from scipy.special import gamma as Gamma
+
+Kd &#61; lambda d: 2.0 / &#40;&#40;4 * pi&#41; ** &#40;d / 2&#41; * Gamma&#40;d / 2&#41;&#41;
+
+def rhs&#40;y, d, M&#41;:                      # Taylor coefficients of the flow
+    kap, lams &#61; y&#91;0&#93;, y&#91;1:&#93;            # u &#61; sum_n lam_n x^n / n&#33;
+    c &#61; Kd&#40;d&#41; / d
+    u, up, upp &#61; &#40;np.zeros&#40;M &#43; 1&#41; for _ in range&#40;3&#41;&#41;
+    for i, n in enumerate&#40;range&#40;2, M &#43; 1&#41;&#41;:
+        u&#91;n&#93;      &#43;&#61; lams&#91;i&#93; / factorial&#40;n&#41;
+        up&#91;n - 1&#93; &#43;&#61; lams&#91;i&#93; / factorial&#40;n - 1&#41;
+        upp&#91;n - 2&#93;&#43;&#61; lams&#91;i&#93; / factorial&#40;n - 2&#41;
+    def times_rho&#40;f&#41;:                  # rho &#61; kappa &#43; x
+        out &#61; kap * f.copy&#40;&#41;; out&#91;1:&#93; &#43;&#61; f&#91;:-1&#93;; return out
+    D &#61; np.zeros&#40;M &#43; 1&#41;; D&#91;0&#93; &#61; 1.0
+    D &#43;&#61; up &#43; 2 * times_rho&#40;upp&#41;
+    E &#61; np.zeros&#40;M &#43; 1&#41;; E&#91;0&#93; &#61; 1 / D&#91;0&#93;        # 1/D as a series
+    for k in range&#40;1, M &#43; 1&#41;:
+        E&#91;k&#93; &#61; -sum&#40;D&#91;j&#93; * E&#91;k - j&#93; for j in range&#40;1, k &#43; 1&#41;&#41; / D&#91;0&#93;
+    return -d * u &#43; &#40;d - 2&#41; * times_rho&#40;up&#41; &#43; c * E
+
+def flow&#40;y, d, M&#41;:
+    R, lams &#61; rhs&#40;y, d, M&#41;, y&#91;1:&#93;
+    dkap &#61; -R&#91;1&#93; / lams&#91;0&#93;             # hold the minimum at the minimum
+    dl &#61; &#91;R&#91;n&#93; * factorial&#40;n&#41; &#43; &#40;lams&#91;i &#43; 1&#93; * dkap if i &#43; 1 &lt; len&#40;lams&#41; else 0&#41;
+          for i, n in enumerate&#40;range&#40;2, M &#43; 1&#41;&#41;&#93;
+    return np.concatenate&#40;&#40;&#91;dkap&#93;, dl&#41;&#41;
+
+y &#61; np.array&#40;&#91;0.03, 7.5&#93;&#41;              # then fsolve&#40;flow, y&#41;; the
+                                       # exponents are -eig&#40;Jacobian&#41;</code></pre>
+<p>Run at 40 digits with <code>mpmath</code>, in \(d=3\), it gives:</p>
+<table><tr><th align="right">couplings kept \(M\)</th><th align="right">potential up to</th><th align="right">\(\nu\)</th><th align="right">\(\omega\)</th></tr><tr><td align="right">2</td><td align="right">\(\phi^4\)</td><td align="right">0.500000</td><td align="right">0.333333</td></tr><tr><td align="right">3</td><td align="right">\(\phi^6\)</td><td align="right">0.728992</td><td align="right">1.074990</td></tr><tr><td align="right">4</td><td align="right">\(\phi^8\)</td><td align="right">0.650574</td><td align="right">0.598864</td></tr><tr><td align="right">5</td><td align="right">\(\phi^{10}\)</td><td align="right">0.644691</td><td align="right">0.644426</td></tr><tr><td align="right">6</td><td align="right">\(\phi^{12}\)</td><td align="right">0.649847</td><td align="right">0.661194</td></tr><tr><td align="right">8</td><td align="right">\(\phi^{16}\)</td><td align="right">0.649481</td><td align="right">0.655182</td></tr><tr><td align="right">10</td><td align="right">\(\phi^{20}\)</td><td align="right">0.649576</td><td align="right">0.655796</td></tr><tr><td align="right">13</td><td align="right">\(\phi^{26}\)</td><td align="right">0.649561</td><td align="right">0.655754</td></tr><tr><td align="right"><em>published LPA value</em></td><td align="right">whole function</td><td align="right"><em>0.649562</em></td><td align="right"><em>0.655746</em></td></tr><tr><td align="right"><strong>true 3D Ising</strong></td><td align="right"></td><td align="right"><strong>0.6300</strong></td><td align="right"><strong>0.8303</strong></td></tr></table>
+
+<div class="mfig" style="--w:620px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/lpa_convergence.svg" alt="Convergence of nu and omega with the number of couplings kept in the LPA">
+  <p>(a) Keeping two couplings in three dimensions gives exactly mean field. Keeping three overshoots badly. From four onwards the answer settles on \(0.6496\), which is past the one-loop \(\epsilon=1\) value and closer to the truth, though it overshoots it. (b) The same for \(\omega\).</p>
+</div>
+
+<p>Three things in that table are worth stopping on.</p>
+<p><strong>Two couplings in three dimensions give exactly mean field.</strong> Not approximately: the \(M=2\) fixed point can be solved in closed form &#40;Exercise 6.5&#41; and its eigenvalues are exactly \(2\) and \(-\tfrac13\), so \(\nu=\tfrac12\) and \(\omega=\tfrac13\). All of the interesting physics of the last table came from the \(\epsilon\) expansion&#39;s <em>ordering</em> of terms, not from the two couplings themselves. In three dimensions, two couplings know nothing.</p>
+<p><strong>The sequence converges, to a number that can be looked up.</strong> Litim computed the LPA exponents with this regulator in 2002 and found \(\nu=0.649562\) with \(\omega=0.655746\). The table lands on \(0.649561\) and \(0.655754\): six digits of agreement on \(\nu\), which is what makes a number like this worth quoting.</p>
+<p><strong>It is better than one loop. It is still not right.</strong> The whole ladder of methods for \(\nu\) in three dimensions:</p>
+<table><tr><th align="right">method</th><th align="right">\(\nu\)</th><th align="right">error</th></tr><tr><td align="right">mean field</td><td align="right">0.5</td><td align="right">\(-20.6\%\)</td></tr><tr><td align="right">one loop at \(\epsilon=1\)</td><td align="right">0.583</td><td align="right">\(-7.5\%\)</td></tr><tr><td align="right">LPA in \(d=3\)</td><td align="right">0.6496</td><td align="right">\(+3.1\%\)</td></tr><tr><td align="right">derivative expansion, order \(\partial^2\)</td><td align="right">0.6278</td><td align="right">\(-0.35\%\)</td></tr><tr><td align="right">derivative expansion, order \(\partial^4\)</td><td align="right">0.63057</td><td align="right">\(+0.09\%\)</td></tr><tr><td align="right">derivative expansion, order \(\partial^6\)</td><td align="right">0.63007</td><td align="right">\(+0.02\%\)</td></tr><tr><td align="right">conformal bootstrap</td><td align="right">0.629971&#40;4&#41;</td><td align="right"></td></tr></table>
+<h3 id="what_the_lpa_is_still_missing"><a href="#what_the_lpa_is_still_missing" class="header-anchor">What the LPA is still missing</a></h3>
+<p>The leftover 3&#37; is not the truncation. \(M=13\) is converged to six digits. It is the local potential approximation itself.</p>
+<p>The giveaway is \(\eta\). The LPA froze the kinetic term at \(\tfrac12(\partial\phi)^2\), so the field never picks up any extra scaling, so \(\eta=0\) exactly. The true value is \(0.0363\). The same crudeness shows up in \(\omega\), which comes out at \(0.66\) against the true \(0.83\): a 21&#37; miss, much worse than \(\nu\)&#39;s 3&#37;. Both improve together once the kinetic term is allowed to flow.</p>
+<p>The cure is to stop freezing the kinetic term. Let a factor \(Z_k\) in front of \((\partial\phi)^2\) flow too, which is called LPA\('\) and gives a nonzero \(\eta\). Keeping more derivative terms in a controlled sequence is the <strong>derivative expansion</strong>, whose numbers are in the table above: by order \(\partial^6\) it agrees with the conformal bootstrap to five digits. The small parameter there is not \(\epsilon\), it is roughly \(1/4\) to \(1/9\), which is why it behaves so much better at \(\epsilon=1\).</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>How much an LPA number really knows.</strong> It depends a little on which regulator you pick, because the approximation is not exact. Litim&#39;s regulator is the optimised choice for the LPA and gives \(0.6496\). A common exponential regulator gives about \(0.651\). That spread of roughly \(0.002\) is the method&#39;s own estimate of how much it does not know at this order. Quoting an LPA number to six digits, as the table does, is a statement about the <em>arithmetic</em>, not about the physics. 
+  </fieldset>
+  
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      It is the same distinction as weighing yourself on a very precise bathroom scale that is slightly miscalibrated. The scale repeats to the gram, which is the six digits, but it reads 300 g heavy, which is the 3&#37;. Adding digits to the display does not fix the calibration. Letting \(Z_k\) flow does. 
+  </fieldset>
+  
+<h3 id="three_checks_on_the_numbers"><a href="#three_checks_on_the_numbers" class="header-anchor">Three checks on the numbers</a></h3>
+<p>A calculation this short is easy to get quietly wrong, so it is worth pinning down from three directions.</p>
+<ol>
+<li><p><strong>Against the \(\epsilon\) expansion.</strong> Run near four dimensions, where the expansion of the last section is trustworthy, the same equation must reproduce \(\nu=\tfrac12+\tfrac\epsilon{12}\). It does, with the gap shrinking like \(\epsilon^2\): \(0.0005\) at \(\epsilon=0.1\), \(0.0021\) at \(\epsilon=0.2\), \(0.0135\) at \(\epsilon=0.5\). The middle pair differ by a factor \(6.4\) where \(\epsilon^2\) predicts \(6.25\).</p>
+</li>
+<li><p><strong>Against pen and paper.</strong> The \(M=2\) fixed point is solvable by hand &#40;Exercise 6.5&#41;, at \(\kappa^*=4c_3/3\) and \(\lambda_2^*=3/16c_3\). Those come to \(0.0225158\) and \(11.1033\), which is what the table above reports to every digit it prints.</p>
+</li>
+<li><p><strong>Against the literature.</strong> Litim&#39;s published LPA values for this regulator, quoted above.</p>
+</li>
+</ol>
+
+  <fieldset class=" otaku"><legend class=" otaku-legend"> Otaku corner</legend>
+      Going from two couplings to thirteen to the whole function is the standard training arc: the protagonist who could only throw one punch learns the full form, after which the numbers stop being embarrassing. The 3&#37; that survives is the reminder that there is always a stronger opponent, in this case the conformal bootstrap. 
+  </fieldset>
+  
+
+  <fieldset class=" puja"><legend class=" puja-legend"> Puja corner</legend>
+      Every \(M\) in that table is one more thing you carry to the pandal. Two couplings is phone and wallet: you will survive, though you will be mean-field boring about it. Thirteen is the full bag with water, an umbrella, a power bank and snacks. Somewhere around four you stop forgetting anything important, which is why the numbers stop moving. 
+  </fieldset>
+  
+<h2 id="magnets_with_more_components_the_on_models"><a href="#magnets_with_more_components_the_on_models" class="header-anchor">Magnets with more components: the O&#40;N&#41; models</a></h2>
+<p>Real magnets don&#39;t all have up/down spins. In some, each spin is an arrow free to point anywhere in a plane &#40;\(N=2\), like superfluid helium&#41;, or anywhere in space &#40;\(N=3\), the Heisenberg magnet&#41;. The field becomes a vector \(\boldsymbol\phi=(\phi_1,\dots,\phi_N)\) and the interaction is \(\frac{u}{4!}(\boldsymbol\phi\cdot\boldsymbol\phi)^2\). The whole calculation goes through with only the counting changed, so it&#39;s worth doing that counting properly.</p>
+<p>Write the interaction as \(\frac u{4!}\,V_{abcd}\,\phi_a\phi_b\phi_c\phi_d\) &#40;repeated indices summed&#41;, where the symmetric tensor</p>
+\[ V_{abcd}=\tfrac13\big(\delta_{ab}\delta_{cd}+\delta_{ac}\delta_{bd}+\delta_{ad}\delta_{bc}\big) \]
+<p>reproduces \((\boldsymbol\phi\cdot\boldsymbol\phi)^2\). A fast propagator now carries a \(\delta_{ab}\): a fast \(\phi_a\) can only pair with a fast \(\phi_a\).</p>
+<p><strong>The tadpole.</strong> Two legs of one vertex are joined, so we need \(V_{abmm}\) &#40;summed over \(m\)&#41;. Each term of \(V\) gives: \(\delta_{ab}\delta_{mm}=N\delta_{ab}\), \(\delta_{am}\delta_{bm}=\delta_{ab}\) and \(\delta_{am}\delta_{bm}=\delta_{ab}\). So \(V_{abmm}=\frac{N+2}3\,\delta_{ab}\), which for \(N=1\) is 1. So the tadpole is multiplied by \(\frac{N+2}{3}\):</p>
+\[ \delta r=\frac{N+2}{3}\cdot\frac u2\int_{\rm shell}G(k)=\frac{N+2}{6}\,u\int_{\rm shell}G. \]
+<p><strong>The bubble.</strong> Two slow legs at each vertex and two fast lines between them, so we need \(T_{ijkl}=V_{ijmn}V_{klmn}\). Multiply out the \(3\times3=9\) products of deltas. One product gives \(\delta_{mm}=N\) times \(\delta_{ij}\delta_{kl}\), four more also give \(\delta_{ij}\delta_{kl}\) and the last four give \(\delta_{ik}\delta_{jl}\) or \(\delta_{il}\delta_{jk}\) twice each:</p>
+\[ T_{ijkl}=\tfrac19\Big[(N+4)\,\delta_{ij}\delta_{kl}+2\,\delta_{ik}\delta_{jl}+2\,\delta_{il}\delta_{jk}\Big]. \]
+<p>Since all four slow fields sit at the same point, only the part of \(T\) that&#39;s symmetric in all four indices matters. Symmetrising makes each of the three delta-pairs equally weighted, which gives \(\frac{(N+4)+2+2}{3}\) of each, so \(T\to\frac{N+8}{9}V\). The bubble is multiplied by \(\frac{N+8}9\):</p>
+\[ \delta u=-\frac{N+8}{9}\cdot\frac{3u^2}{2}\int_{\rm shell}G(k)^2=-\frac{N+8}{6}\,u^2\int_{\rm shell}G^2. \]
+<p>&#40;I also checked both factors by brute-force tensor contraction on a computer for \(N=1\) to \(5\).&#41; Tong has a nice way to see the \(N\) in these factors: a closed loop of fast modes can carry <em>any</em> of the \(N\) components, so every closed loop brings a factor of \(N\).</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      In a Kolkata para, suppose every household can support one of \(N\) football clubs. A closed loop, meaning gossip that goes all the way round the para and comes back, can be about any of the \(N\) clubs, so it&#39;s \(N\) times as likely. Open lines, which end on particular people, are stuck with that person&#39;s club. 
+  </fieldset>
+  
+<p>The flow equations become</p>
+\[ \frac{\mathrm d\tilde r}{\mathrm d\ell}=2\tilde r+\frac{N+2}{6}K_d\frac{\tilde u}{1+\tilde r},\qquad \frac{\mathrm d\tilde u}{\mathrm d\ell}=\epsilon\tilde u-\frac{N+8}6K_d\frac{\tilde u^2}{(1+\tilde r)^2}, \]
+<p>with the fixed point at \(\tilde u^*=\frac{6\epsilon}{(N+8)K_4}\) and</p>
+\[ y_t=2-\frac{N+2}{N+8}\,\epsilon,\qquad \nu=\frac12+\frac{N+2}{4(N+8)}\,\epsilon. \]
+<p>These match Tong §4.2. Different \(N\) gives a different fixed point and so a different universality class. The symmetry of the order parameter is one of the few things a fixed point remembers about the microscopic world.</p>
+<h2 id="play_with_the_flow"><a href="#play_with_the_flow" class="header-anchor">Play with the flow</a></h2>
+<p>The widget integrates the full one-loop equations above. Click anywhere to start a theory at that point and watch where it flows. Drag \(\epsilon\) and watch the Wilson-Fisher point split off from the Gaussian one at \(\epsilon=0\). The readout gives the first-order \(\epsilon\) results in bold &#40;these are the trustworthy ones&#41; and, underneath, the exact zero of the truncated equations, which differs at order \(\epsilon^2\).</p>
+
+<div id="rg-wfflow" style="--w:720px"></div>
+
+<p>Things to try. Set \(\epsilon=0\) and click near the vertical axis: the paths creep down towards zero coupling, very slowly &#40;the marginal case&#41;. Set \(\epsilon=1\) and click just left and just right of the blue line: the two paths travel side by side towards Wilson-Fisher, then split into opposite phases. The time they spend near the fixed point is the critical region.</p>
+<h2 id="exercises"><a href="#exercises" class="header-anchor">Exercises</a></h2>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>6.1.</strong> Redo the counting for the tadpole: show that \(\langle S_{\rm int}\rangle_{\rm f}\) gives \(\frac u4\langle\phi_{\rm f}^2\rangle\int\mathrm d^dx\,\phi_{\rm s}^2\) and so \(\delta r=\frac u2\int_{\rm shell}G(k)\). 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  The \(\phi_{\rm s}^2\phi_{\rm f}^2\) term comes with coefficient \(\binom42=6\) in the expansion of \((\phi_{\rm s}+\phi_{\rm f})^4\). Averaging replaces \(\phi_{\rm f}^2\) by \(\langle\phi_{\rm f}^2\rangle=\int_{\rm shell}\frac{\mathrm d^dk}{(2\pi)^d}G(k)\). So the term is \(\frac u{24}\cdot6\langle\phi_{\rm f}^2\rangle\int\mathrm d^dx\,\mathrm d^dx\,\phi_{\rm s}^2=\frac u4\langle\phi_{\rm f}^2\rangle\int\mathrm d^dx\,\phi_{\rm s}^2\). Setting that equal to \(\frac12\delta r\int\mathrm d^dx\,\phi_{\rm s}^2\) gives \(\delta r=\frac u2\langle\phi_{\rm f}^2\rangle\). The \(\phi_{\rm s}^3\phi_{\rm f}\) and \(\phi_{\rm s}\phi_{\rm f}^3\) terms average to zero because they contain an odd number of fast fields and random noise averages to zero. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>6.2.</strong> Work out the matrix of growth rates \(M_{ij}=\partial(\mathrm d g_i/\mathrm d\ell)/\partial g_j\) at the Wilson-Fisher point, to first order in \(\epsilon\) and show its eigenvalues are \(2-\epsilon/3\) and \(-\epsilon\). 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body"> \(\partial_r\dot r = 2-\frac{K_4\tilde u^*}{2(1+\tilde r^*)^2}\approx2-\frac\epsilon3\). \(\partial_u\dot r=\frac{K_4}{2}\). \(\partial_r\dot u = 3K_4\tilde u^{*2}/(1+\tilde r^*)^3\), which is of order \(\epsilon^2\), so drop it. \(\partial_u\dot u = \epsilon-3K_4\tilde u^*=\epsilon-2\epsilon=-\epsilon\). To this order the matrix is upper triangular and a triangular matrix has its diagonal entries as eigenvalues: \(2-\epsilon/3\) and \(-\epsilon\). Tong gets the same matrix in §3.5.1. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>6.3.</strong> <em>The O&#40;N&#41; model.</em> Let \(\boldsymbol\phi\) have \(N\) components, with interaction \(\frac u{4!}(\boldsymbol\phi\cdot\boldsymbol\phi)^2\). Using the O&#40;N&#41; flow equations derived above, find \(\tilde u^*\) and \(\nu\) to first order in \(\epsilon\) yourself. Check that \(N=1\) gives the Ising result and find \(\nu\) as \(N\to\infty\). &#40;This one is longer.&#41; 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body"> \(\dot{\tilde u}=\epsilon\tilde u-\frac{N+8}6K_4\tilde u^2\), so \(\tilde u^*=\frac{6\epsilon}{(N+8)K_4}\). Then \(y_t=2-\frac{N+2}6K_4\tilde u^*=2-\frac{N+2}{N+8}\epsilon\) and \(\nu=\frac12+\frac{N+2}{4(N+8)}\epsilon\). For \(N=1\) that&#39;s \(\frac12+\frac{3}{36}\epsilon=\frac12+\frac\epsilon{12}\). As \(N\to\infty\), \(y_t\to2-\epsilon=d-2\), so \(\nu=1/(d-2)\), which is the exact answer for the large-\(N\) model. At \(\epsilon=1\), magnets with \(N=2\) &#40;and superfluid helium&#41; get \(0.600\) against a measured \(0.6717\) and magnets with \(N=3\) get \(0.614\) against \(0.711\). Different \(N\) means a different universality class: the symmetry is one of the few things a fixed point remembers. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>6.4.</strong> In \(d=4\) exactly, solve \(\mathrm d\tilde u/\mathrm d\ell=-\frac{3}{16\pi^2}\tilde u^2\) starting from \(\tilde u_0\). What happens at large \(\ell\) &#40;long distances&#41;? Now run it backwards, \(\ell\to-\infty\) &#40;short distances&#41;. What goes wrong? 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  Separating variables gives \(\frac{1}{\tilde u(\ell)}=\frac1{\tilde u_0}+\frac{3\ell}{16\pi^2}\). At long distances &#40;\(\ell\to\infty\)&#41; the coupling goes to zero like \(\frac{16\pi^2}{3\ell}\). It is marginally irrelevant: the theory becomes free at long distances, but only logarithmically slowly. Going backwards &#40;\(\ell<0\)&#41; the denominator hits zero at \(\ell=-\frac{16\pi^2}{3\tilde u_0}\), so the coupling becomes infinite at a finite short distance. That&#39;s the <strong>Landau pole</strong>. It comes back in Part 7, for QED and in Part 8, under the name &quot;triviality&quot;. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>6.5.</strong> <em>The simplest functional RG fixed point, by hand.</em> In the LPA flow equation of this part, keep only \(u=\tfrac{\lambda}{2}(\rho-\kappa)^2\), so that \(u'(\kappa)=0\) and \(u''=\lambda\). Write \(D=1+u'+2\rho u''\) and show that at \(\rho=\kappa\) it equals \(1+2\kappa\lambda\). Then evaluate the first two derivatives of the right-hand side at \(\rho=\kappa\), set them to zero and find \(\kappa^*\) with \(\lambda^*\) in \(d=3\). Show that the eigenvalues of the flow are exactly \(-2\) and \(+\tfrac13\), so that \(\nu=\tfrac12\) exactly. 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  With \(u''=\lambda\) constant, \(D'=3\lambda\) and \(D''=0\), so at \(\rho=\kappa\) we have \(D=1+2\kappa\lambda\). Differentiating the right-hand side \(R=-du+(d-2)\rho u'+c/D\) once and setting \(\rho=\kappa\):</p>
+\[ R'(\kappa)=(d-2)\,\kappa\lambda-\frac{3c\lambda}{D^2},\qquad R''(\kappa)=(d-4)\,\lambda+\frac{18c\lambda^2}{D^3}. \]
+<p>The minimum stays at the minimum only if \(\dot\kappa=-R'(\kappa)/\lambda=0\), which gives \(\kappa=3c/D^2\) in \(d=3\). Setting \(\dot\lambda=R''(\kappa)=0\) gives \(1=18c\lambda/D^3\). Write \(z=2\kappa\lambda\), so \(D=1+z\). Substituting, \(z=2\cdot\frac{3c}{(1+z)^2}\cdot\frac{(1+z)^3}{18c}=\frac{1+z}{3}\), hence \(z=\tfrac12\) and \(D=\tfrac32\). Then</p>
+\[ \kappa^*=\frac{4c}{3},\qquad \lambda^*=\frac{3}{16c},\qquad c=\frac{K_3}{3}=0.0168866\dots \]
+<p>so \(\kappa^*=0.0225158\) and \(\lambda^*=11.1033\). For the eigenvalues, use \(\dot\kappa=-\kappa+3c/D^2\) and \(\dot\lambda=-\lambda+18c\lambda^2/D^3\) with \(D=1+2\kappa\lambda\). The four partial derivatives at the fixed point give a matrix with trace \(-\tfrac53\) and determinant \(-\tfrac23\), whose eigenvalues are \(-2\) and \(+\tfrac13\). Flipping the sign for the convention \(\theta=-\,\)&#40;eigenvalue&#41; gives \(\theta=2\), so \(\nu=1/2\), with the irrelevant one at \(\omega=\tfrac13\).</p>
+<p>Worth noticing: for general \(d\) the same algebra gives \(\lambda^*\propto(4-d)\), so this fixed point merges with the Gaussian one exactly at four dimensions. It <em>is</em> the Wilson-Fisher fixed point, seen from a different direction. </div></details></p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>6.6.</strong> <em>Power counting, recovered.</em> The Gaussian fixed point of the LPA equation is the constant \(u^*=c_d/d\). Linearise around it, write the perturbation as \(\delta u=\rho^{\,n}\) and show that the loop term only produces lower powers of \(\rho\). Conclude that the eigenvalues are \(\theta_n=d-n(d-2)\) and check that \(n=1\) gives \(2\), \(n=2\) gives \(4-d=\epsilon\) and \(n=3\) gives \(2\epsilon-2\). 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  Around the constant \(u^*\) all derivatives vanish, so \(\partial_t\,\delta u=-d\,\delta u+(d-2)\rho\,\delta u'-c_d\big(\delta u'+2\rho\,\delta u''\big)\). With \(\delta u=\rho^n\) the first two terms give \([-d+(d-2)n]\rho^n\) while the last gives a multiple of \(\rho^{n-1}\). Lowering the power means the matrix is triangular in the basis \(\{1,\rho,\rho^2,\dots\}\), so the diagonal entries are the eigenvalues. Using \(\theta=-\,\)&#40;eigenvalue&#41;, \(\theta_n=d-n(d-2)\).</p>
+<p>Now read them off. \(n=1\) is the mass term \(\phi^2\), giving \(\theta_1=2\): relevant in any dimension, which is the fine tuning of the temperature. \(n=2\) is \(\phi^4\), giving \(\theta_2=4-d=\epsilon\): marginal at four dimensions, relevant just below, which is precisely why the Wilson-Fisher fixed point splits off there. \(n=3\) is \(\phi^6\), giving \(\theta_3=6-2d=2\epsilon-2\), irrelevant for small \(\epsilon\), which is the licence this part used to drop it. Part 5&#39;s power counting has come back out of a functional equation, with nothing put in by hand. </div></details></p>
+<nav class="course-nav"><a class="cn-prev" href="/Pages/Physics/courses/RG/05_wilson/">← Part 5: Wilson's shells</a><a class="cn-home" href="/Pages/Physics/courses/RG/Main_page/">Course home</a><a class="cn-next" href="/Pages/Physics/courses/RG/07_running/">Part 7: Running couplings →</a></nav>
+<div id="custom-comments-container"></div>
+<link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+<script type="module" src="/assets/js/custom_comments.js?v=5"></script>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat: opt-out, remembered per visitor. The script is only loaded
+         when the cat is wanted, so switching it off costs nothing on later pages. -->
+    <style>
+      #oneko-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 1000;
+        width: 34px; height: 34px; padding: 0;
+        border: 1px solid rgba(140,140,140,0.35); border-radius: 50%;
+        background: rgba(250,248,244,0.82); color: #7a6a4a;
+        font-size: 15px; line-height: 1; cursor: pointer;
+        opacity: 0.42; transition: opacity 0.2s, transform 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #oneko-toggle:hover { opacity: 1; transform: scale(1.08); }
+      html.dark-mode #oneko-toggle {
+        background: rgba(38,36,33,0.82); color: #cda863;
+        border-color: rgba(180,170,150,0.28);
+      }
+      html.oneko-off #oneko { display: none !important; }
+      @media print { #oneko-toggle { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = 'oneko-enabled';
+        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var loaded = false;
+
+        function loadCat() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '/assets/oneko.js?v=62';
+          s.setAttribute('data-cat', '/assets/oneko.gif');
+          document.body.appendChild(s);
+        }
+
+        function paint(btn) {
+          btn.textContent = on ? '🐈' : '🐾';
+          btn.title = on ? 'Hide the cat' : 'Bring the cat back';
+          btn.setAttribute('aria-label', btn.title);
+          document.documentElement.classList.toggle('oneko-off', !on);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.createElement('button');
+          btn.id = 'oneko-toggle';
+          btn.type = 'button';
+          paint(btn);
+          btn.addEventListener('click', function () {
+            on = !on;
+            localStorage.setItem(KEY, on ? '1' : '0');
+            paint(btn);
+            if (on) loadCat();
+          });
+          document.body.appendChild(btn);
+          if (on) loadCat();
+        });
+      })();
+    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>
