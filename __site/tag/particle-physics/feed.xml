@@ -23,6 +23,25 @@
 
 <item>
   <title>
+    <![CDATA[  Effective Field Theory, Starting From the Propagator You Just Learned  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/eft_first_steps/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/eft_first_steps/index.html </guid>
+  <description>
+    <![CDATA[  An effective field theory is what you get when you cannot afford the energy to make a heavy particle. This is EFT for someone a few weeks into a first QFT course: one line of algebra on the propagator you already know, one heavy scalar integrated out by hand, then Fermi&#39;s theory of beta decay, why non-renormalisable is not an insult, then how a theory predicts the energy at which it will stop working.  ]]>
+  </description>  
+    
+  <pubDate>Sun, 20 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  The Physics of Neutrinos: Chirality, Helicity, and Parity Violation  ]]>
   </title>
   <link> https://rousan.netlify.app/Pages/Physics/blogs/neutrino_chirality/index.html </link>

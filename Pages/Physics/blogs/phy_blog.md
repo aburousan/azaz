@@ -21,6 +21,7 @@ This contains some interesting things related to physics:\\
 7. [Legendre's Tranformation: An Intuitive Approach](/Pages/Physics/blogs/legendre_trans/) --> Is it some legendary thing?
 8. [A Pedestrian's Guide to FORM for Particle Physics (via Julia)](/Pages/Physics/blogs/form_pedestrian_qft_blog/) --> Crushing some massive QFT equations!
 9. [The Physics of Neutrinos: Chirality, Helicity, and Parity Violation](/Pages/Physics/blogs/neutrino_chirality/) --> Why is the weak force left-handed?
+10. [Effective Field Theory, Starting From the Propagator You Just Learned](/Pages/Physics/blogs/eft_first_steps/) --> You cannot use a particle you cannot afford to make.
 <!-- 7. [Radiometric Calibration of DAWN VIR data](/Pages/Physics/blogs/DAWN_VIR/) --> 
 ~~~
 <button onclick="window.history.back()">Go Back</button>

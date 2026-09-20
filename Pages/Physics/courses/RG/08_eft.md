@@ -19,6 +19,10 @@ tags = ["physics", "qft", "renormalization", "effective-field-theory", "course"]
 
 We now have the machinery. This last part is about what it means. In short: the RG explains why we can do physics at all without knowing the final theory and it tells us which questions about very short distances the everyday world can and can't answer.
 
+\note{
+**If effective field theory is new to you**, there is a standalone post on this site that builds it from nothing but the propagator: [Effective Field Theory, Starting From the Propagator You Just Learned](/Pages/Physics/blogs/eft_first_steps/). It integrates out a heavy scalar by hand, derives Fermi's theory of beta decay, then stops exactly where this part begins. It assumes no renormalisation group at all, so it is a reasonable place to go first if this page moves too quickly.
+}
+
 ## Why physics works: decoupling
 
 Go back to the power counting of Part 5. A coupling $g$ with negative mass dimension, $[g]=-p<0$, is irrelevant. Its effect at energy $E$ is suppressed by $(E/\Lambda)^p$, where $\Lambda$ is the scale where it came from. Run the flow down from very high energy and every irrelevant coupling fades away. What's left at low energy is a short list, the relevant and marginal couplings, no matter what the high-energy theory was.

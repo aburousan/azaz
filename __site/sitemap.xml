@@ -218,6 +218,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>https://rousan.netlify.app/Pages/Physics/blogs/eft_first_steps/index.html</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Notes_Assig/index.html</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -231,7 +237,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/phy_blog/index.html</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -243,7 +249,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/02_toolkit/index.html</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -339,7 +345,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/courses/RG/08_eft/index.html</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>

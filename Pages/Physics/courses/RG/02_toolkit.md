@@ -123,7 +123,23 @@ In ordinary (Minkowski) spacetime, the propagator of a particle with mass $m$ is
 
 $$ \frac{i}{(k^0)^2-\mathbf k^2-m^2+i\varepsilon}. $$
 
-The tiny $+i\varepsilon$ is Feynman's rule for which way particles go in time. Think of the integral over the energy $k^0$ as a path along the real line in the complex $k^0$ plane. The propagator blows up at two points, called **poles**: $k^0=+E_k-i\varepsilon$ and $k^0=-E_k+i\varepsilon$, where $E_k=\sqrt{\mathbf k^2+m^2}$. The $i\varepsilon$ nudges one pole just below the real line on the right and the other just above it on the left.
+The tiny $+i\varepsilon$ is Feynman's rule for which way particles go in time. Think of the integral over the energy $k^0$ as a path along the real line in the complex $k^0$ plane.
+
+### Step 1: find the poles, rather than being told where they are
+
+The propagator blows up where its denominator vanishes. Set it to zero with $E_k=\sqrt{\mathbf k^2+m^2}$:
+
+$$ (k^0)^2 - E_k^2 + i\varepsilon = 0 \qquad\Longrightarrow\qquad k^0 = \pm\sqrt{E_k^2 - i\varepsilon}. $$
+
+Now expand the square root for small $\varepsilon$, using $\sqrt{a-x}\approx\sqrt a - \tfrac{x}{2\sqrt a}$:
+
+$$ \sqrt{E_k^2 - i\varepsilon} \approx E_k - \frac{i\varepsilon}{2E_k}. $$
+
+So the two **poles** sit at
+
+$$ k^0 = +E_k - \frac{i\varepsilon}{2E_k} \quad\text{(just \textit{below} the real axis, on the right)}, \qquad k^0 = -E_k + \frac{i\varepsilon}{2E_k} \quad\text{(just \textit{above} it, on the left)}. $$
+
+That is the whole content of the $i\varepsilon$: it decides which side of the real axis each pole falls on. Nothing else in the calculation depends on it.
 
 ~~~
 <div class="mfig" style="--w:400px">
@@ -132,13 +148,107 @@ The tiny $+i\varepsilon$ is Feynman's rule for which way particles go in time. T
 </div>
 ~~~
 
-Now use one fact from complex analysis (Cauchy's theorem): if you move an integration path without crossing any poles, the integral doesn't change.
+### Step 2: notice which quarters of the plane are empty
 
-\analogy{
-Imagine a rubber band stretched along the real line, with two nails (the poles) hammered into the board. You can swing the band round as much as you like, as long as it doesn't catch on a nail. The two empty quarters let it swing a quarter turn onto the imaginary line without catching anything and the answer stays the same.
+Put those two poles on a picture. One is in the bottom-right quarter, the other in the top-left. The top-right with the bottom-left quarters contain nothing at all.
+
+That is the fact the whole rotation rests on. If the $i\varepsilon$ had the other sign, the poles would sit in the other two quarters, the free quarters would be different, so the rotation would have to go the other way.
+
+### Step 3: why you are allowed to rotate (the step usually skipped)
+
+Cauchy's theorem says that the integral around a *closed* loop containing no poles is zero. Our path is not closed, so we have to build a closed one out of four pieces:
+
+1. the real axis from $-R$ to $+R$, which is the integral we want,
+2. a quarter-circle arc of radius $R$ sweeping up through the empty top-right quarter,
+3. the imaginary axis coming back down from $iR$ to $-iR$,
+4. another quarter-circle through the empty bottom-left quarter.
+
+No poles are enclosed, so those four pieces add to zero. That gives "real axis integral $=$ imaginary axis integral" **only if the two arcs contribute nothing**. So check it, rather than hoping.
+
+On the arc, $|k^0| = R$. The integrand falls off like $1/R^2$, since the denominator is dominated by $(k^0)^2$ when $R$ is large. The length of a quarter-circle grows like $R$. So the arc contributes at most about
+
+$$ \frac{\pi R/2}{R^2 - E_k^2} \;\xrightarrow[R\to\infty]{}\; 0 . $$
+
+The arcs vanish. Now the rotation is justified.
+
+\note{
+**This is the condition, not a formality.** Had the integrand fallen off only as $1/R$, the numerator $R$ from the arc length would have cancelled it, so this estimate would no longer show the arcs vanishing. Note carefully what that does and does not mean: it means the bound has failed, not that the rotation is impossible. When the arcs cannot be shown to vanish, you either keep them as extra terms or introduce a regulator that makes the integral well enough behaved to try again. Every Wick rotation quietly rests on this step, so it is the one to look at when a rotation misbehaves.
 }
 
-So we may set $k^0 = ik^4$ with $k^4$ real. Then $(k^0)^2-\mathbf k^2 = -(k^4)^2-\mathbf k^2 = -k_E^2$, where $k_E^2$ is an ordinary positive length squared in four dimensions. This is the **Wick rotation**. The propagator becomes $1/(k_E^2+m^2)$: no poles, no $i\varepsilon$ and all four directions treated the same way.
+\analogy{
+Imagine a rubber band stretched along the real line, with two nails (the poles) hammered into the board. You can swing the band round as much as you like, as long as it doesn't catch on a nail. The two empty quarters let it swing a quarter turn onto the imaginary line without catching anything and the answer stays the same. Checking the arcs is checking that the far ends of the band are not nailed down too.
+}
+
+### Step 4: do the rotation, keeping every $i$
+
+Set $k^0 = ik^4$ with $k^4$ real. Two things change, both of which must be tracked.
+
+**The measure.** $k^0 = ik^4$ gives $\dd k^0 = i\,\dd k^4$. That factor of $i$ is not optional, it travels with the integral for the rest of the calculation.
+
+**The invariant.** $(k^0)^2 = (ik^4)^2 = -(k^4)^2$, so
+
+$$ (k^0)^2 - \mathbf k^2 - m^2 \;=\; -(k^4)^2 - \mathbf k^2 - m^2 \;=\; -\big(k_E^2 + m^2\big), \qquad k_E^2 \equiv (k^4)^2 + \mathbf k^2 . $$
+
+This is the **Wick rotation**. Note what $k_E^2$ is: a sum of four squares, so it is positive, while it treats the time direction exactly like the three space directions. Track the factors and the propagator becomes
+
+$$ \frac{i}{k^2-m^2+i\varepsilon} \;\longrightarrow\; \frac{-i}{k_E^2+m^2}, $$
+
+whose $-i$ then meets the $i$ from the measure, so that the combination actually appearing under the integral, $\dd k^0\,i/(k^2-m^2+i\varepsilon)$, becomes the clean $\dd k^4/(k_E^2+m^2)$. Either way the useful part is the same: no poles anywhere on the real axis, no $i\varepsilon$ left to worry about, because $k_E^2+m^2$ never vanishes for real $k_E$.
+
+### A worked example, both ways
+
+Nothing above is convincing until you watch the two routes land on the same number. Take the simplest case, dropping the $\mathbf k$ integral entirely and writing $E$ for $E_k$:
+
+$$ I = \int_{-\infty}^{\infty}\frac{\dd k^0}{(k^0)^2 - E^2 + i\varepsilon}. $$
+
+**Route A, staying in Minkowski space and using residues.** Keep $\varepsilon$ finite for now, writing $a = \sqrt{E^2 - i\varepsilon}$, so the denominator factorises cleanly as $(k^0-a)(k^0+a)$ with neither pole sitting on the path. This matters: a pole *on* the contour cannot simply be ignored, which is exactly what the $i\varepsilon$ is there to prevent.
+
+Close the contour with a big semicircle in the upper half plane. It contributes nothing, by the same $1/R$ argument as in Step 3. The only pole inside is the left one, at $k^0 = -a$, whose residue is
+
+$$ \left.\frac{1}{k^0-a}\right|_{k^0=-a} = -\frac{1}{2a}. $$
+
+Cauchy's residue theorem gives $2\pi i$ times that:
+
+$$ I_\varepsilon = 2\pi i\cdot\left(-\frac{1}{2a}\right) = -\frac{i\pi}{a}. $$
+
+Only now let $\varepsilon\to0^+$, so that $a\to E$:
+
+$$ I = -\frac{i\pi}{E}. $$
+
+**Route B, rotating first.** Substitute $k^0 = ik^4$, so $\dd k^0 = i\,\dd k^4$ and $(k^0)^2 - E^2 = -(k^4)^2 - E^2$:
+
+$$ I = \int_{-\infty}^{\infty}\frac{i\,\dd k^4}{-(k^4)^2 - E^2} = -i\int_{-\infty}^{\infty}\frac{\dd k^4}{(k^4)^2 + E^2}. $$
+
+That last integral is one you already know, $\int\dd x/(x^2+a^2) = \pi/a$. So
+
+$$ I = -i\cdot\frac{\pi}{E} = -\frac{i\pi}{E}. $$
+
+The same answer. Once the deformation has been justified, Route B needs no residues, no pole bookkeeping, no $i\varepsilon$: just a substitution followed by a first-year integral. The pole bookkeeping did not disappear, it was spent once, in Steps 1 to 3, to earn the right to rotate. Afterwards every integral is an ordinary one, which is the entire reason anybody rotates.
+
+\prob{
+**Do one yourself.** Evaluate $\displaystyle\int_{-\infty}^{\infty}\frac{\dd k^0}{\big[(k^0)^2-E^2+i\varepsilon\big]^2}$ by rotating, then check the power of $E$ by dimensions.
+}
+\soln{
+Rotate: $k^0 = ik^4$, so $\dd k^0 = i\,\dd k^4$ and the bracket becomes $-\big[(k^4)^2+E^2\big]$. Squaring that bracket kills the minus sign, since $(-1)^2 = 1$:
+
+$$ \int\frac{i\,\dd k^4}{\big[(k^4)^2+E^2\big]^2} = i\int\frac{\dd k^4}{\big[(k^4)^2+E^2\big]^2}. $$
+
+The standard integral is $\int_{-\infty}^{\infty}\dd x/(x^2+a^2)^2 = \pi/(2a^3)$, so the answer is $i\pi/(2E^3)$.
+
+Dimensions: the original integrand goes like $1/(\text{energy})^4$ with one power of energy from $\dd k^0$, leaving $1/(\text{energy})^3$. The answer has $E^3$ downstairs, as required. Notice also that squaring flipped the overall sign compared with the first example, because the minus from the rotation was raised to an even power.
+
+Two checks worth doing. Differentiating the first result with respect to $E^2$ gives $\partial_{E^2}(-i\pi/E) = i\pi/(2E^3)$, the same answer. And note that what was squared here is the *denominator* as written; squaring the full Feynman propagator $i/(k^2-m^2+i\varepsilon)$ brings an extra $i^2=-1$ along with it.
+}
+
+### What the rotation means, beyond the algebra
+
+There is a reason this trick keeps appearing in a course about magnets.
+
+The quantum weight is $e^{iS}$, an oscillating phase, which makes every integral a delicate business of cancellation. Under $t \to -i\tau$, that phase turns into
+
+$$ e^{iS} \;\longrightarrow\; e^{-S_E}, $$
+
+a real, decaying weight. But $e^{-S_E}$ is a Boltzmann factor, exactly the object from Part 3 that gives a magnet its probability of sitting in some arrangement. So the rotation does not just make integrals easier. It is the precise statement of why a quantum field theory in $d$ spacetime dimensions is the same mathematics as a statistical system in $d$ space dimensions, which is the bridge this whole course walks across.
 
 ### Doing the rotation by computer
 
@@ -321,13 +431,53 @@ Shifting $k$ to $\ell$ is like moving the origin of a map to the centre of a cit
 
 ### Step 4: tidy up the numerator
 
-Here the numerator is just $1$, so there's nothing to do. In QED (Part 7) the numerator contains $\ell^\mu$ and $\ell^\mu\ell^\nu$ and two rules handle them. Because the denominator only depends on the length of $\ell$:
+Here the numerator is just $1$, so there's nothing to do. In QED (Part 7) the numerator contains $\ell^\mu$ and $\ell^\mu\ell^\nu$, so two rules are needed:
 
-- A single $\ell^\mu$ integrates to zero: every $\ell$ is cancelled by $-\ell$ on the opposite side.
-- $\ell^\mu\ell^\nu$ can be replaced by $\frac{1}{d}\,g^{\mu\nu}\ell^2$ (Peskin eq. 6.46, with $d=4$).
+$$ \int\frac{\dd^d\ell}{(2\pi)^d}\,\frac{\ell^\mu}{D^3} = 0, \qquad \int\frac{\dd^d\ell}{(2\pi)^d}\,\frac{\ell^\mu\ell^\nu}{D^3} = \frac{g^{\mu\nu}}{d}\int\frac{\dd^d\ell}{(2\pi)^d}\,\frac{\ell^2}{D^3}. $$
+
+These are Peskin's equations 6.45 and 6.46. They get quoted as "by symmetry" far too quickly, so here is where they come from. Everything rests on one fact established in Step 3: **after the shift, $D$ depends only on $\ell^2$**, never on the direction of $\ell$.
+
+Two pieces of small print before we start. First, the argument below is cleanest after the Wick rotation of section 3, where all $d$ directions really are alike and the natural object is the Euclidean $\delta^{ab}$; the covariant statement with $g^{\mu\nu}$ follows from it. Second, it assumes the integral is defined, which for the rank-two case at $d=4$ means dimensionally regularised, since that integral is logarithmically divergent. A regulator that respects the symmetry is what lets you shuffle the integrand this way at all.
+
+**The first rule.** Send $\ell \to -\ell$. The measure $\dd^d\ell$ is unchanged, since flipping every axis is just a relabelling. $D$ is unchanged, because it only knows $\ell^2$. The numerator $\ell^\mu$ flips sign. So the whole integral equals minus itself:
+
+$$ I^\mu = -I^\mu \qquad\Longrightarrow\qquad I^\mu = 0. $$
+
+Nothing deeper than that. For every $\ell$ contributing $+3$, the point $-\ell$ contributes $-3$.
+
+**The second rule, the one that looks like magic.** Take it in two pieces.
+
+*Off the diagonal*, say $\mu = 1$ with $\nu = 2$. Now flip only the second axis, $\ell^2 \to -\ell^2$, leaving the rest alone. Again the measure and $D$ do not notice, because $D$ depends on the length. The numerator $\ell^1\ell^2$ flips sign. Same argument as before, so every off-diagonal component vanishes.
+
+*On the diagonal*, the components cannot be calculated one at a time, but they do not need to be, because in Euclidean space they are all equal. Nothing in the integral distinguishes one axis from another: the only thing $D$ knows is the length of $\ell$, which treats every direction alike. So whatever number $\int \ell^1\ell^1/D^3$ comes to, $\int\ell^2\ell^2/D^3$ comes to the same. That holds for all $d$ of them.
+
+Put those together. The answer is zero off the diagonal, with $d$ equal entries on it, which in Euclidean space is precisely the statement that it is proportional to $\delta^{ab}$. Rotating back, the covariant version reads
+
+$$ \int\frac{\dd^d\ell}{(2\pi)^d}\frac{\ell^\mu\ell^\nu}{D^3} = A\,g^{\mu\nu}\quad\text{for some number }A. $$
+
+(Note that the Minkowski $g^{\mu\nu}$ does *not* have $d$ equal diagonal entries, since its time entry has the opposite sign. The "all directions alike" step is the Euclidean one. What survives the rotation is the statement that no vector is available to build the answer from, leaving the metric as the only rank-two object in sight.)
+
+Finding $A$ takes one line. Contract both sides with $g_{\mu\nu}$. On the left, $g_{\mu\nu}\ell^\mu\ell^\nu = \ell^2$. On the right, $g_{\mu\nu}g^{\mu\nu} = g^\mu{}_\mu = d$, the trace of the identity in $d$ dimensions rather than of the metric. So
+
+$$ \int\frac{\dd^d\ell}{(2\pi)^d}\frac{\ell^2}{D^3} = A\,d \qquad\Longrightarrow\qquad A = \frac1d\int\frac{\dd^d\ell}{(2\pi)^d}\frac{\ell^2}{D^3}, $$
+
+which is the rule. The $1/d$ is not a convention or a fudge. It is there because the trace of the metric is $d$, so the one number $A$ has to be shared out over $d$ equal diagonal entries.
 
 \analogy{
-The second rule is an averaging fact you already know. Over a sphere in 3D, $x^2$, $y^2$ and $z^2$ all have the same average, by symmetry and they add up to $r^2$. So the average of $x^2$ is $r^2/3$, while the average of $xy$ is zero (positive and negative parts cancel). In $d$ dimensions the $3$ becomes $d$.
+Strip the integral away and it is an averaging fact about a sphere. Scatter points evenly on a sphere in 3D. The average of $xy$ is zero, because for every point with $xy>0$ there is a mirror point with $xy<0$. The averages of $x^2$, $y^2$ and $z^2$ must be equal, since the sphere looks the same along each axis, while together they add up to the average of $r^2$. So each one is $\langle r^2\rangle/3$. That $3$ is the number of dimensions. In $d$ dimensions it is $d$, which is the whole content of the $1/d$ above.
+}
+
+\prob{
+**Check it yourself.** Take the 3D Gaussian $f(\boldsymbol\ell) = e^{-\ell^2}$ in place of $1/D^3$, where the integrals can all be done in closed form. Verify that $\int\dd^3\ell\;\ell_x\ell_y\,f = 0$ while $\int\dd^3\ell\;\ell_x^2\,f = \tfrac13\int\dd^3\ell\;\ell^2 f$.
+}
+\soln{
+The Gaussian factorises, $e^{-\ell^2} = e^{-\ell_x^2}e^{-\ell_y^2}e^{-\ell_z^2}$, so every integral is a product of one-dimensional ones. Writing $G_n=\int_{-\infty}^{\infty}x^n e^{-x^2}\dd x$, we need $G_0=\sqrt\pi$, $G_1=0$ and $G_2=\tfrac{\sqrt\pi}{2}$.
+
+For the off-diagonal piece, $\int \ell_x\ell_y f = G_1\,G_1\,G_0 = 0$, since each odd integral vanishes on its own.
+
+For the diagonal, $\int\ell_x^2 f = G_2\,G_0\,G_0 = \tfrac{\sqrt\pi}{2}\pi = \tfrac{\pi^{3/2}}{2}$. By the same computation $\int\ell_y^2f$ and $\int\ell_z^2f$ give the identical number, so
+$$ \int \ell^2 f = \int(\ell_x^2+\ell_y^2+\ell_z^2)f = 3\times\frac{\pi^{3/2}}{2}, $$
+and therefore $\int\ell_x^2 f = \tfrac13\int\ell^2f$ exactly. The $3$ appeared for the reason given above: three equal contributions sharing one total.
 }
 
 ### Step 5: spherical coordinates and the master formula

@@ -67,7 +67,7 @@ $$ \boxed{\;\beta(\lambda) = -\epsilon\lambda + \Big(\lambda\frac{\dd}{\dd\lambd
 
 ## φ⁴: the bubble finds the Wilson-Fisher point again
 
-Write $\Gamma^{(4)}$ for the full strength of the four-particle interaction: the tree-level $\lambda_0$ plus its loop corrections. (It is what you would measure in a collision of two particles into two.) At one loop it gets the bubble diagram of Part 2 in three different ways, called **channels**. The four outside legs can be paired up as (1,2) meeting (3,4), or (1,3) meeting (2,4), or (1,4) meeting (2,3) and the squared momentum flowing through the bubble in each case is called $s$, $t$ and $u$ respectively. Each comes with a symmetry factor $\tfrac12$:
+Write $\Gamma^{(4)}$ for the full strength of the four-particle interaction: the tree-level $\lambda_0$ plus its loop corrections. (It is what you would measure in a collision of two particles into two.) At one loop it gets the bubble diagram of Part 2 in three different ways, called **channels**. The four outside legs can be paired up as (1,2) meeting (3,4), or (1,3) meeting (2,4), or (1,4) meeting (2,3) and the squared momentum flowing through the bubble in each case is called $s$, $t$ and $u$ respectively. Taking particles 1 with 2 as incoming while 3 with 4 go out, those momenta are $s=(p_1+p_2)^2$, $t=(p_1-p_3)^2$ and $u=(p_1-p_4)^2$. (Books that write every momentum as incoming flip the signs of the last two. Both conventions give $s+t+u=\sum_i m_i^2$.) Each comes with a symmetry factor $\tfrac12$:
 
 $$ \Gamma^{(4)} = \lambda_0 - \frac{\lambda_0^2}{2}\big[B(s)+B(t)+B(u)\big]+\dots,\qquad B(p)=\int\frac{\dd^dk}{(2\pi)^d}\frac1{(k^2+m^2)((k+p)^2+m^2)}. $$
 

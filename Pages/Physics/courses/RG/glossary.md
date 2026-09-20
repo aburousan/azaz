@@ -115,7 +115,7 @@ This page explains every technical word in the course the way the course home pa
 
 **Vertex function $\Gamma^{(4)}$.** The full strength of the four-particle interaction: the coupling written in the Lagrangian plus all its loop corrections. It's what a collision experiment actually measures. [Part 7](/Pages/Physics/courses/RG/07_running/).
 
-**Channels (s, t, u).** The three ways four legs of a diagram can pair up and the squared momenta flowing through each. Careful: this $u$ is a momentum, not the coupling $\tilde u$ of Parts 5 and 6. [Part 7](/Pages/Physics/courses/RG/07_running/).
+**Channels (s, t, u).** The three ways four legs of a diagram can pair up, together with the squared momentum flowing through the internal line in each case. With 1 and 2 incoming while 3 and 4 go out: $s=(p_1+p_2)^2$ is the two incoming particles merging, $t=(p_1-p_3)^2$ is the momentum handed over when 1 becomes 3, $u=(p_1-p_4)^2$ the same with 4. They satisfy $s+t+u=\sum_i m_i^2$. Careful: this $u$ is a momentum, not the coupling $\tilde u$ of Parts 5 and 6. [Part 7](/Pages/Physics/courses/RG/07_running/).
 
 **Coupling constant.** A number that sets how strongly things interact, like $\lambda$ in $\phi^4$ theory or the electric charge $e$ in QED.
 

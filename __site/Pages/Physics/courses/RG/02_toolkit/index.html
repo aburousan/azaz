@@ -285,7 +285,7 @@
 <li><p>Why we rotate to Euclidean space</p>
 </li>
 </ol>
-</a><ol><li><a href="#doing_the_rotation_by_computer">Doing the rotation by computer</a></li><li><a href="#why_this_also_joins_qft_to_statistical_physics">Why this also joins QFT to statistical physics</a></li></ol></li><li><a href="#ol_start4_why_loop_integrals_blow_up"><ol start="4">
+</a><ol><li><a href="#step_1_find_the_poles_rather_than_being_told_where_they_are">Step 1: find the poles, rather than being told where they are</a></li><li><a href="#step_2_notice_which_quarters_of_the_plane_are_empty">Step 2: notice which quarters of the plane are empty</a></li><li><a href="#step_3_why_you_are_allowed_to_rotate_the_step_usually_skipped">Step 3: why you are allowed to rotate &#40;the step usually skipped&#41;</a></li><li><a href="#step_4_do_the_rotation_keeping_every_i">Step 4: do the rotation, keeping every \(i\)</a></li><li><a href="#a_worked_example_both_ways">A worked example, both ways</a></li><li><a href="#what_the_rotation_means_beyond_the_algebra">What the rotation means, beyond the algebra</a></li><li><a href="#doing_the_rotation_by_computer">Doing the rotation by computer</a></li><li><a href="#why_this_also_joins_qft_to_statistical_physics">Why this also joins QFT to statistical physics</a></li></ol></li><li><a href="#ol_start4_why_loop_integrals_blow_up"><ol start="4">
 <li><p>Why loop integrals blow up</p>
 </li>
 </ol>
@@ -418,20 +418,87 @@
 </a></h2>
 <p>In ordinary &#40;Minkowski&#41; spacetime, the propagator of a particle with mass \(m\) is</p>
 \[ \frac{i}{(k^0)^2-\mathbf k^2-m^2+i\varepsilon}. \]
-<p>The tiny \(+i\varepsilon\) is Feynman&#39;s rule for which way particles go in time. Think of the integral over the energy \(k^0\) as a path along the real line in the complex \(k^0\) plane. The propagator blows up at two points, called <strong>poles</strong>: \(k^0=+E_k-i\varepsilon\) and \(k^0=-E_k+i\varepsilon\), where \(E_k=\sqrt{\mathbf k^2+m^2}\). The \(i\varepsilon\) nudges one pole just below the real line on the right and the other just above it on the left.</p>
+<p>The tiny \(+i\varepsilon\) is Feynman&#39;s rule for which way particles go in time. Think of the integral over the energy \(k^0\) as a path along the real line in the complex \(k^0\) plane.</p>
+<h3 id="step_1_find_the_poles_rather_than_being_told_where_they_are"><a href="#step_1_find_the_poles_rather_than_being_told_where_they_are" class="header-anchor">Step 1: find the poles, rather than being told where they are</a></h3>
+<p>The propagator blows up where its denominator vanishes. Set it to zero with \(E_k=\sqrt{\mathbf k^2+m^2}\):</p>
+\[ (k^0)^2 - E_k^2 + i\varepsilon = 0 \qquad\Longrightarrow\qquad k^0 = \pm\sqrt{E_k^2 - i\varepsilon}. \]
+<p>Now expand the square root for small \(\varepsilon\), using \(\sqrt{a-x}\approx\sqrt a - \tfrac{x}{2\sqrt a}\):</p>
+\[ \sqrt{E_k^2 - i\varepsilon} \approx E_k - \frac{i\varepsilon}{2E_k}. \]
+<p>So the two <strong>poles</strong> sit at</p>
+\[ k^0 = +E_k - \frac{i\varepsilon}{2E_k} \quad\text{(just \textit{below} the real axis, on the right)}, \qquad k^0 = -E_k + \frac{i\varepsilon}{2E_k} \quad\text{(just \textit{above} it, on the left)}. \]
+<p>That is the whole content of the \(i\varepsilon\): it decides which side of the real axis each pole falls on. Nothing else in the calculation depends on it.</p>
 
 <div class="mfig" style="--w:400px">
   <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/courses/RG/wick_rotation.svg" alt="Wick rotation of the k0 integration contour">
   <p>The two poles (red crosses) sit in the top-left and bottom-right quarters. The other two quarters are empty, so the blue path along the real line can be swung round onto the green imaginary line without touching a pole. (Peskin & Schroeder Fig. 6.1; Das Fig. 4.2.)</p>
 </div>
 
-<p>Now use one fact from complex analysis &#40;Cauchy&#39;s theorem&#41;: if you move an integration path without crossing any poles, the integral doesn&#39;t change.</p>
+<h3 id="step_2_notice_which_quarters_of_the_plane_are_empty"><a href="#step_2_notice_which_quarters_of_the_plane_are_empty" class="header-anchor">Step 2: notice which quarters of the plane are empty</a></h3>
+<p>Put those two poles on a picture. One is in the bottom-right quarter, the other in the top-left. The top-right with the bottom-left quarters contain nothing at all.</p>
+<p>That is the fact the whole rotation rests on. If the \(i\varepsilon\) had the other sign, the poles would sit in the other two quarters, the free quarters would be different, so the rotation would have to go the other way.</p>
+<h3 id="step_3_why_you_are_allowed_to_rotate_the_step_usually_skipped"><a href="#step_3_why_you_are_allowed_to_rotate_the_step_usually_skipped" class="header-anchor">Step 3: why you are allowed to rotate &#40;the step usually skipped&#41;</a></h3>
+<p>Cauchy&#39;s theorem says that the integral around a <em>closed</em> loop containing no poles is zero. Our path is not closed, so we have to build a closed one out of four pieces:</p>
+<ol>
+<li><p>the real axis from \(-R\) to \(+R\), which is the integral we want,</p>
+</li>
+<li><p>a quarter-circle arc of radius \(R\) sweeping up through the empty top-right quarter,</p>
+</li>
+<li><p>the imaginary axis coming back down from \(iR\) to \(-iR\),</p>
+</li>
+<li><p>another quarter-circle through the empty bottom-left quarter.</p>
+</li>
+</ol>
+<p>No poles are enclosed, so those four pieces add to zero. That gives &quot;real axis integral \(=\) imaginary axis integral&quot; <strong>only if the two arcs contribute nothing</strong>. So check it, rather than hoping.</p>
+<p>On the arc, \(|k^0| = R\). The integrand falls off like \(1/R^2\), since the denominator is dominated by \((k^0)^2\) when \(R\) is large. The length of a quarter-circle grows like \(R\). So the arc contributes at most about</p>
+\[ \frac{\pi R/2}{R^2 - E_k^2} \;\xrightarrow[R\to\infty]{}\; 0 . \]
+<p>The arcs vanish. Now the rotation is justified.</p>
 
-  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
-      Imagine a rubber band stretched along the real line, with two nails &#40;the poles&#41; hammered into the board. You can swing the band round as much as you like, as long as it doesn&#39;t catch on a nail. The two empty quarters let it swing a quarter turn onto the imaginary line without catching anything and the answer stays the same. 
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>This is the condition, not a formality.</strong> Had the integrand fallen off only as \(1/R\), the numerator \(R\) from the arc length would have cancelled it, so this estimate would no longer show the arcs vanishing. Note carefully what that does and does not mean: it means the bound has failed, not that the rotation is impossible. When the arcs cannot be shown to vanish, you either keep them as extra terms or introduce a regulator that makes the integral well enough behaved to try again. Every Wick rotation quietly rests on this step, so it is the one to look at when a rotation misbehaves. 
   </fieldset>
   
-<p>So we may set \(k^0 = ik^4\) with \(k^4\) real. Then \((k^0)^2-\mathbf k^2 = -(k^4)^2-\mathbf k^2 = -k_E^2\), where \(k_E^2\) is an ordinary positive length squared in four dimensions. This is the <strong>Wick rotation</strong>. The propagator becomes \(1/(k_E^2+m^2)\): no poles, no \(i\varepsilon\) and all four directions treated the same way.</p>
+
+  <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
+      Imagine a rubber band stretched along the real line, with two nails &#40;the poles&#41; hammered into the board. You can swing the band round as much as you like, as long as it doesn&#39;t catch on a nail. The two empty quarters let it swing a quarter turn onto the imaginary line without catching anything and the answer stays the same. Checking the arcs is checking that the far ends of the band are not nailed down too. 
+  </fieldset>
+  
+<h3 id="step_4_do_the_rotation_keeping_every_i"><a href="#step_4_do_the_rotation_keeping_every_i" class="header-anchor">Step 4: do the rotation, keeping every \(i\)</a></h3>
+<p>Set \(k^0 = ik^4\) with \(k^4\) real. Two things change, both of which must be tracked.</p>
+<p><strong>The measure.</strong> \(k^0 = ik^4\) gives \(\mathrm d k^0 = i\,\mathrm d k^4\). That factor of \(i\) is not optional, it travels with the integral for the rest of the calculation.</p>
+<p><strong>The invariant.</strong> \((k^0)^2 = (ik^4)^2 = -(k^4)^2\), so</p>
+\[ (k^0)^2 - \mathbf k^2 - m^2 \;=\; -(k^4)^2 - \mathbf k^2 - m^2 \;=\; -\big(k_E^2 + m^2\big), \qquad k_E^2 \equiv (k^4)^2 + \mathbf k^2 . \]
+<p>This is the <strong>Wick rotation</strong>. Note what \(k_E^2\) is: a sum of four squares, so it is positive, while it treats the time direction exactly like the three space directions. Track the factors and the propagator becomes</p>
+\[ \frac{i}{k^2-m^2+i\varepsilon} \;\longrightarrow\; \frac{-i}{k_E^2+m^2}, \]
+<p>whose \(-i\) then meets the \(i\) from the measure, so that the combination actually appearing under the integral, \(\mathrm d k^0\,i/(k^2-m^2+i\varepsilon)\), becomes the clean \(\mathrm d k^4/(k_E^2+m^2)\). Either way the useful part is the same: no poles anywhere on the real axis, no \(i\varepsilon\) left to worry about, because \(k_E^2+m^2\) never vanishes for real \(k_E\).</p>
+<h3 id="a_worked_example_both_ways"><a href="#a_worked_example_both_ways" class="header-anchor">A worked example, both ways</a></h3>
+<p>Nothing above is convincing until you watch the two routes land on the same number. Take the simplest case, dropping the \(\mathbf k\) integral entirely and writing \(E\) for \(E_k\):</p>
+\[ I = \int_{-\infty}^{\infty}\frac{\mathrm d k^0}{(k^0)^2 - E^2 + i\varepsilon}. \]
+<p><strong>Route A, staying in Minkowski space and using residues.</strong> Keep \(\varepsilon\) finite for now, writing \(a = \sqrt{E^2 - i\varepsilon}\), so the denominator factorises cleanly as \((k^0-a)(k^0+a)\) with neither pole sitting on the path. This matters: a pole <em>on</em> the contour cannot simply be ignored, which is exactly what the \(i\varepsilon\) is there to prevent.</p>
+<p>Close the contour with a big semicircle in the upper half plane. It contributes nothing, by the same \(1/R\) argument as in Step 3. The only pole inside is the left one, at \(k^0 = -a\), whose residue is</p>
+\[ \left.\frac{1}{k^0-a}\right|_{k^0=-a} = -\frac{1}{2a}. \]
+<p>Cauchy&#39;s residue theorem gives \(2\pi i\) times that:</p>
+\[ I_\varepsilon = 2\pi i\cdot\left(-\frac{1}{2a}\right) = -\frac{i\pi}{a}. \]
+<p>Only now let \(\varepsilon\to0^+\), so that \(a\to E\):</p>
+\[ I = -\frac{i\pi}{E}. \]
+<p><strong>Route B, rotating first.</strong> Substitute \(k^0 = ik^4\), so \(\mathrm d k^0 = i\,\mathrm d k^4\) and \((k^0)^2 - E^2 = -(k^4)^2 - E^2\):</p>
+\[ I = \int_{-\infty}^{\infty}\frac{i\,\mathrm d k^4}{-(k^4)^2 - E^2} = -i\int_{-\infty}^{\infty}\frac{\mathrm d k^4}{(k^4)^2 + E^2}. \]
+<p>That last integral is one you already know, \(\int\mathrm d x/(x^2+a^2) = \pi/a\). So</p>
+\[ I = -i\cdot\frac{\pi}{E} = -\frac{i\pi}{E}. \]
+<p>The same answer. Once the deformation has been justified, Route B needs no residues, no pole bookkeeping, no \(i\varepsilon\): just a substitution followed by a first-year integral. The pole bookkeeping did not disappear, it was spent once, in Steps 1 to 3, to earn the right to rotate. Afterwards every integral is an ordinary one, which is the entire reason anybody rotates.</p>
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>Do one yourself.</strong> Evaluate \(\displaystyle\int_{-\infty}^{\infty}\frac{\mathrm d k^0}{\big[(k^0)^2-E^2+i\varepsilon\big]^2}\) by rotating, then check the power of \(E\) by dimensions. 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  Rotate: \(k^0 = ik^4\), so \(\mathrm d k^0 = i\,\mathrm d k^4\) and the bracket becomes \(-\big[(k^4)^2+E^2\big]\). Squaring that bracket kills the minus sign, since \((-1)^2 = 1\):</p>
+\[ \int\frac{i\,\mathrm d k^4}{\big[(k^4)^2+E^2\big]^2} = i\int\frac{\mathrm d k^4}{\big[(k^4)^2+E^2\big]^2}. \]
+<p>The standard integral is \(\int_{-\infty}^{\infty}\mathrm d x/(x^2+a^2)^2 = \pi/(2a^3)\), so the answer is \(i\pi/(2E^3)\).</p>
+<p>Dimensions: the original integrand goes like \(1/(\text{energy})^4\) with one power of energy from \(\mathrm d k^0\), leaving \(1/(\text{energy})^3\). The answer has \(E^3\) downstairs, as required. Notice also that squaring flipped the overall sign compared with the first example, because the minus from the rotation was raised to an even power.</p>
+<p>Two checks worth doing. Differentiating the first result with respect to \(E^2\) gives \(\partial_{E^2}(-i\pi/E) = i\pi/(2E^3)\), the same answer. And note that what was squared here is the <em>denominator</em> as written; squaring the full Feynman propagator \(i/(k^2-m^2+i\varepsilon)\) brings an extra \(i^2=-1\) along with it. </div></details></p>
+<h3 id="what_the_rotation_means_beyond_the_algebra"><a href="#what_the_rotation_means_beyond_the_algebra" class="header-anchor">What the rotation means, beyond the algebra</a></h3>
+<p>There is a reason this trick keeps appearing in a course about magnets.</p>
+<p>The quantum weight is \(e^{iS}\), an oscillating phase, which makes every integral a delicate business of cancellation. Under \(t \to -i\tau\), that phase turns into</p>
+\[ e^{iS} \;\longrightarrow\; e^{-S_E}, \]
+<p>a real, decaying weight. But \(e^{-S_E}\) is a Boltzmann factor, exactly the object from Part 3 that gives a magnet its probability of sitting in some arrangement. So the rotation does not just make integrals easier. It is the precise statement of why a quantum field theory in \(d\) spacetime dimensions is the same mathematics as a statistical system in \(d\) space dimensions, which is the bridge this whole course walks across.</p>
 <h3 id="doing_the_rotation_by_computer"><a href="#doing_the_rotation_by_computer" class="header-anchor">Doing the rotation by computer</a></h3>
 <p>You don&#39;t have to take Cauchy&#39;s word for it. Wolfram can do the complex integral directly, \(i\varepsilon\) and all:</p>
 <pre><code class="language-mathematica">&#40;* 1. along the real k0 line, with the i eps kept *&#41;
@@ -577,18 +644,36 @@ Integrate&#91;4 Pi p^2 &#40;inner0 /. w -&gt; Sqrt&#91;p^2 &#43; Dl&#93;&#41;, &
   </fieldset>
   
 <h3 id="step_4_tidy_up_the_numerator"><a href="#step_4_tidy_up_the_numerator" class="header-anchor">Step 4: tidy up the numerator</a></h3>
-<p>Here the numerator is just \(1\), so there&#39;s nothing to do. In QED &#40;Part 7&#41; the numerator contains \(\ell^\mu\) and \(\ell^\mu\ell^\nu\) and two rules handle them. Because the denominator only depends on the length of \(\ell\):</p>
-<ul>
-<li><p>A single \(\ell^\mu\) integrates to zero: every \(\ell\) is cancelled by \(-\ell\) on the opposite side.</p>
-</li>
-<li><p>\(\ell^\mu\ell^\nu\) can be replaced by \(\frac{1}{d}\,g^{\mu\nu}\ell^2\) &#40;Peskin eq. 6.46, with \(d=4\)&#41;.</p>
-</li>
-</ul>
+<p>Here the numerator is just \(1\), so there&#39;s nothing to do. In QED &#40;Part 7&#41; the numerator contains \(\ell^\mu\) and \(\ell^\mu\ell^\nu\), so two rules are needed:</p>
+\[ \int\frac{\mathrm d^d\ell}{(2\pi)^d}\,\frac{\ell^\mu}{D^3} = 0, \qquad \int\frac{\mathrm d^d\ell}{(2\pi)^d}\,\frac{\ell^\mu\ell^\nu}{D^3} = \frac{g^{\mu\nu}}{d}\int\frac{\mathrm d^d\ell}{(2\pi)^d}\,\frac{\ell^2}{D^3}. \]
+<p>These are Peskin&#39;s equations 6.45 and 6.46. They get quoted as &quot;by symmetry&quot; far too quickly, so here is where they come from. Everything rests on one fact established in Step 3: <strong>after the shift, \(D\) depends only on \(\ell^2\)</strong>, never on the direction of \(\ell\).</p>
+<p>Two pieces of small print before we start. First, the argument below is cleanest after the Wick rotation of section 3, where all \(d\) directions really are alike and the natural object is the Euclidean \(\delta^{ab}\); the covariant statement with \(g^{\mu\nu}\) follows from it. Second, it assumes the integral is defined, which for the rank-two case at \(d=4\) means dimensionally regularised, since that integral is logarithmically divergent. A regulator that respects the symmetry is what lets you shuffle the integrand this way at all.</p>
+<p><strong>The first rule.</strong> Send \(\ell \to -\ell\). The measure \(\mathrm d^d\ell\) is unchanged, since flipping every axis is just a relabelling. \(D\) is unchanged, because it only knows \(\ell^2\). The numerator \(\ell^\mu\) flips sign. So the whole integral equals minus itself:</p>
+\[ I^\mu = -I^\mu \qquad\Longrightarrow\qquad I^\mu = 0. \]
+<p>Nothing deeper than that. For every \(\ell\) contributing \(+3\), the point \(-\ell\) contributes \(-3\).</p>
+<p><strong>The second rule, the one that looks like magic.</strong> Take it in two pieces.</p>
+<p><em>Off the diagonal</em>, say \(\mu = 1\) with \(\nu = 2\). Now flip only the second axis, \(\ell^2 \to -\ell^2\), leaving the rest alone. Again the measure and \(D\) do not notice, because \(D\) depends on the length. The numerator \(\ell^1\ell^2\) flips sign. Same argument as before, so every off-diagonal component vanishes.</p>
+<p><em>On the diagonal</em>, the components cannot be calculated one at a time, but they do not need to be, because in Euclidean space they are all equal. Nothing in the integral distinguishes one axis from another: the only thing \(D\) knows is the length of \(\ell\), which treats every direction alike. So whatever number \(\int \ell^1\ell^1/D^3\) comes to, \(\int\ell^2\ell^2/D^3\) comes to the same. That holds for all \(d\) of them.</p>
+<p>Put those together. The answer is zero off the diagonal, with \(d\) equal entries on it, which in Euclidean space is precisely the statement that it is proportional to \(\delta^{ab}\). Rotating back, the covariant version reads</p>
+\[ \int\frac{\mathrm d^d\ell}{(2\pi)^d}\frac{\ell^\mu\ell^\nu}{D^3} = A\,g^{\mu\nu}\quad\text{for some number }A. \]
+<p>&#40;Note that the Minkowski \(g^{\mu\nu}\) does <em>not</em> have \(d\) equal diagonal entries, since its time entry has the opposite sign. The &quot;all directions alike&quot; step is the Euclidean one. What survives the rotation is the statement that no vector is available to build the answer from, leaving the metric as the only rank-two object in sight.&#41;</p>
+<p>Finding \(A\) takes one line. Contract both sides with \(g_{\mu\nu}\). On the left, \(g_{\mu\nu}\ell^\mu\ell^\nu = \ell^2\). On the right, \(g_{\mu\nu}g^{\mu\nu} = g^\mu{}_\mu = d\), the trace of the identity in \(d\) dimensions rather than of the metric. So</p>
+\[ \int\frac{\mathrm d^d\ell}{(2\pi)^d}\frac{\ell^2}{D^3} = A\,d \qquad\Longrightarrow\qquad A = \frac1d\int\frac{\mathrm d^d\ell}{(2\pi)^d}\frac{\ell^2}{D^3}, \]
+<p>which is the rule. The \(1/d\) is not a convention or a fudge. It is there because the trace of the metric is \(d\), so the one number \(A\) has to be shared out over \(d\) equal diagonal entries.</p>
 
   <fieldset class=" analogy"><legend class=" analogy-legend"> Picture it</legend>
-      The second rule is an averaging fact you already know. Over a sphere in 3D, \(x^2\), \(y^2\) and \(z^2\) all have the same average, by symmetry and they add up to \(r^2\). So the average of \(x^2\) is \(r^2/3\), while the average of \(xy\) is zero &#40;positive and negative parts cancel&#41;. In \(d\) dimensions the \(3\) becomes \(d\). 
+      Strip the integral away and it is an averaging fact about a sphere. Scatter points evenly on a sphere in 3D. The average of \(xy\) is zero, because for every point with \(xy>0\) there is a mirror point with \(xy<0\). The averages of \(x^2\), \(y^2\) and \(z^2\) must be equal, since the sphere looks the same along each axis, while together they add up to the average of \(r^2\). So each one is \(\langle r^2\rangle/3\). That \(3\) is the number of dimensions. In \(d\) dimensions it is \(d\), which is the whole content of the \(1/d\) above. 
   </fieldset>
   
+<p>
+  <fieldset class=" todo"><legend class=" todo-legend"> 🤔 Problem</legend>
+      <strong>Check it yourself.</strong> Take the 3D Gaussian \(f(\boldsymbol\ell) = e^{-\ell^2}\) in place of \(1/D^3\), where the integrals can all be done in closed form. Verify that \(\int\mathrm d^3\ell\;\ell_x\ell_y\,f = 0\) while \(\int\mathrm d^3\ell\;\ell_x^2\,f = \tfrac13\int\mathrm d^3\ell\;\ell^2 f\). 
+  </fieldset>
+   <details class="soln"><summary>Show solution</summary><div class="soln-body">  The Gaussian factorises, \(e^{-\ell^2} = e^{-\ell_x^2}e^{-\ell_y^2}e^{-\ell_z^2}\), so every integral is a product of one-dimensional ones. Writing \(G_n=\int_{-\infty}^{\infty}x^n e^{-x^2}\mathrm d x\), we need \(G_0=\sqrt\pi\), \(G_1=0\) and \(G_2=\tfrac{\sqrt\pi}{2}\).</p>
+<p>For the off-diagonal piece, \(\int \ell_x\ell_y f = G_1\,G_1\,G_0 = 0\), since each odd integral vanishes on its own.</p>
+<p>For the diagonal, \(\int\ell_x^2 f = G_2\,G_0\,G_0 = \tfrac{\sqrt\pi}{2}\pi = \tfrac{\pi^{3/2}}{2}\). By the same computation \(\int\ell_y^2f\) and \(\int\ell_z^2f\) give the identical number, so</p>
+\[ \int \ell^2 f = \int(\ell_x^2+\ell_y^2+\ell_z^2)f = 3\times\frac{\pi^{3/2}}{2}, \]
+<p>and therefore \(\int\ell_x^2 f = \tfrac13\int\ell^2f\) exactly. The \(3\) appeared for the reason given above: three equal contributions sharing one total. </div></details></p>
 <h3 id="step_5_spherical_coordinates_and_the_master_formula"><a href="#step_5_spherical_coordinates_and_the_master_formula" class="header-anchor">Step 5: spherical coordinates and the master formula</a></h3>
 <p>In \(d\) dimensions, \(\mathrm d^d\ell = S_d\,\ell^{d-1}\mathrm d\ell\), where \(S_d=2\pi^{d/2}/\Gamma(d/2)\) is the area of the unit sphere &#40;this is \(2\pi^2\) for \(d=4\)&#41;. So</p>
 \[ \int\frac{\mathrm d^d\ell}{(2\pi)^d}\,\frac{1}{(\ell^2+\Delta)^n} = \frac{S_d}{(2\pi)^d}\int_0^\infty\frac{\ell^{d-1}\,\mathrm d\ell}{(\ell^2+\Delta)^n}. \]
@@ -787,7 +872,7 @@ Series&#91;Idr /. d -&gt; 4 - eps, &#123;eps, 0, 0&#125;&#93;                 &#
 <script type="module" src="/assets/js/custom_comments.js?v=5"></script>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 20, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
