@@ -426,14 +426,14 @@ savefig&#40;p1, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat01.json&quot;&#41;&#4
 plot&#40;temperatures_1, lw&#61;2, label&#61;&quot;Temperature of Body 1 &#40;T1&#41;&quot;, xlabel&#61;&quot;Steps&quot;, ylabel&#61;&quot;Temperature&quot;, title&#61;&quot;Temperature Equilibration between Bodies&quot;&#41;
 p2 &#61; plot&#33;&#40;temperatures_2,lw&#61;2, label&#61;&quot;Temperature of Body 2 &#40;T2&#41;&quot;&#41;
 savefig&#40;p2, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat02.json&quot;&#41;&#41;</code></pre>
-<p>Let&#39;s see the plots: For the energy we can clearly see both bodies&#39;s energy are not equal in equilibrium as their specific heats are different &#40;verify that their specific heats are different&#41;. <div id="fdpcqa" style=""></div>
+<p>Let&#39;s see the plots: For the energy we can clearly see both bodies&#39;s energy are not equal in equilibrium as their specific heats are different &#40;verify that their specific heats are different&#41;. <div id="fdptvh" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpcqa");
+graphDiv = document.getElementById("fdptvh");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat01.json');
 </script>
- But as expected in their equilibrium, their temperatures are same. <div id="fdplro" style=""></div>
+ But as expected in their equilibrium, their temperatures are same. <div id="fdpuhk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdplro");
+graphDiv = document.getElementById("fdpuhk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat02.json');
 </script>
  
@@ -477,9 +477,9 @@ end</code></pre>
 <p>Now, let&#39;s plot this:</p>
 <pre><code class="language-julia">p &#61; plot_results&#40;50&#41;
 savefig&#40;p, joinpath&#40;@OUTPUT, &quot;plotlytemp_stat1.json&quot;&#41;&#41;</code></pre>
-<p><div id="fdpxsd" style=""></div>
+<p><div id="fdpyuk" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpxsd");
+graphDiv = document.getElementById("fdpyuk");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/code/output/plotlytemp_stat1.json');
 </script>
  With this 
@@ -635,20 +635,24 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/c
         background: rgba(38,36,33,0.82); color: #cda863;
         border-color: rgba(180,170,150,0.28);
       }
-      html.oneko-off #oneko { display: none !important; }
+      /* toggled off: the cat and everything it owns goes away. */
+      html.oneko-off .oneko-el { display: none !important; }
+      /* ducked behind a picture or the text: the cat hides itself by clipping
+         or by dropping below the content, so only its bits and pieces go. */
+      html.oneko-hidden .oneko-el:not(#oneko) { display: none !important; }
       @media print { #oneko-toggle { display: none !important; } }
     </style>
     <script>
       (function () {
         var KEY = 'oneko-enabled';
-        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var on = localStorage.getItem(KEY) === '1';   // hidden until the reader asks for it
         var loaded = false;
 
         function loadCat() {
           if (loaded) return;
           loaded = true;
           var s = document.createElement('script');
-          s.src = '/assets/oneko.js?v=62';
+          s.src = '/assets/oneko.js?v=67';
           s.setAttribute('data-cat', '/assets/oneko.gif');
           document.body.appendChild(s);
         }
@@ -658,6 +662,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Physics/blogs/temp_stat/c
           btn.title = on ? 'Hide the cat' : 'Bring the cat back';
           btn.setAttribute('aria-label', btn.title);
           document.documentElement.classList.toggle('oneko-off', !on);
+          window.dispatchEvent(new Event('oneko-toggle'));
         }
 
         document.addEventListener('DOMContentLoaded', function () {

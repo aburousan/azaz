@@ -1,12 +1,74 @@
 // oneko.js: Modified for custom Orange Cat AI (No Text, Slightly Bigger, Roaming)
 
-(function oneko() {
-  const isReducedMotion =
-    window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true;
+(function (createCat) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  if (isReducedMotion) return;
+  let stopCat = null;
+  function syncEnabled() {
+    const on = !document.documentElement.classList.contains("oneko-off");
+    if (on && !stopCat) stopCat = createCat();
+    else if (!on && stopCat) {
+      stopCat();
+      stopCat = null;
+    }
+  }
 
-  const nekoEl = document.createElement("div");
+  // this one listener stays awake so a stopped cat can be brought back.
+  window.addEventListener("oneko-toggle", syncEnabled);
+  syncEnabled();
+})(function oneko() {
+  let running = true;
+  let catVisible = true;
+  let animationFrame = null;
+  const listeners = new AbortController();
+  const timers = new Set();
+  const wordRestorers = new Set();
+  const cleanup = [];
+
+  // body-level siblings keep their colours and their existing paint order.
+  function catElement(tag) {
+    const el = document.createElement(tag);
+    el.classList.add("oneko-el");
+    return el;
+  }
+
+  function catTimeout(fn, delay) {
+    const id = window.setTimeout(function () {
+      timers.delete(id);
+      if (running) fn();
+    }, delay);
+    timers.add(id);
+    return id;
+  }
+
+  function clearCatTimeout(id) {
+    window.clearTimeout(id);
+    timers.delete(id);
+  }
+
+  function listen(target, type, fn, options) {
+    const opts = typeof options === "boolean" ? { capture: options } : (options || {});
+    target.addEventListener(type, function (event) {
+      if (running && catVisible) fn(event);
+    }, { ...opts, signal: listeners.signal });
+  }
+
+  // per-pose display styles still belong to each accessory; this gates the lot.
+  function setCatVisible(on) {
+    catVisible = running && on;
+    if (!catVisible) {
+      // put borrowed page text back before the shared rule can hide it.
+      for (const restore of wordRestorers) restore();
+      despawnFireflies();
+      despawnCritter();
+      despawnCup();
+      speechTicks = 0;
+      stopPurr();
+    }
+    document.documentElement.classList.toggle("oneko-hidden", !catVisible);
+  }
+
+  const nekoEl = catElement("div");
   let glassesEl = null;
   let hatEl = null;             // mortarboard for "scholar Schrödinger" mode
   let bookEl = null;            // little book shown while reading
@@ -207,7 +269,7 @@
     // doesn't tint them, and they can animate independently. They're positioned
     // over the cat every frame in updateAccessories().
     const mkAccessory = (emoji, px) => {
-      const e = document.createElement("div");
+      const e = catElement("div");
       e.setAttribute("aria-hidden", "true");
       e.innerHTML = emoji;
       e.style.position = "fixed";
@@ -229,7 +291,7 @@
     giftEl = mkAccessory("🧶", 15);
 
     // A small speech bubble for the cat's reactions (e.g. on seeing Gino)
-    speechEl = document.createElement("div");
+    speechEl = catElement("div");
     speechEl.setAttribute("aria-hidden", "true");
     speechEl.style.position = "fixed";
     speechEl.style.pointerEvents = "none";
@@ -411,16 +473,16 @@
     };
 
     // Use capture phase (true) to intercept the events BEFORE JSXGraph/Plotly block them with stopPropagation!
-    document.addEventListener("mousedown", engagePlay, true);
-    document.addEventListener("touchstart", engagePlay, true);
-    document.addEventListener("pointerdown", engagePlay, true);
+    listen(document, "mousedown", engagePlay, true);
+    listen(document, "touchstart", engagePlay, true);
+    listen(document, "pointerdown", engagePlay, true);
 
-    document.addEventListener("mouseup", disengagePlay, true);
-    document.addEventListener("touchend", disengagePlay, true);
-    document.addEventListener("pointerup", disengagePlay, true);
-    document.addEventListener("pointercancel", disengagePlay, true);
+    listen(document, "mouseup", disengagePlay, true);
+    listen(document, "touchend", disengagePlay, true);
+    listen(document, "pointerup", disengagePlay, true);
+    listen(document, "pointercancel", disengagePlay, true);
     
-    document.addEventListener("mousemove", function (e) {
+    listen(document, "mousemove", function (e) {
       mousePosX = e.clientX;
       mousePosY = e.clientY;
       lastMoveFrame = frameCount;   // for the brain's idle estimate
@@ -447,7 +509,7 @@
     // the top/bottom), instead of staying glued to the viewport. Its normal
     // chase-the-cursor behaviour then walks it back into view.
     let lastScrollY = window.scrollY || window.pageYOffset || 0;
-    window.addEventListener("scroll", function () {
+    listen(window, "scroll", function () {
       const sy = window.scrollY || window.pageYOffset || 0;
       const dy = sy - lastScrollY;
       lastScrollY = sy;
@@ -471,7 +533,7 @@
     const clampY = y => Math.min(Math.max(y, 24), window.innerHeight - 24);
 
     const inspectSelection = function() {
-        if (isBeingCarried || isHidden || state === "fleeing") return;
+        if (!catVisible || isBeingCarried || isHidden || state === "fleeing") return;
         const sel = window.getSelection();
         if (!sel || sel.isCollapsed || sel.rangeCount === 0) return;
         if (sel.toString().trim().length < 2) return;
@@ -498,13 +560,13 @@
         targetX = inspectRect.l;
         targetY = inspectRect.y;
     };
-    document.addEventListener("mouseup", inspectSelection);
-    document.addEventListener("touchend", inspectSelection);
+    listen(document, "mouseup", inspectSelection);
+    listen(document, "touchend", inspectSelection);
     // selectionchange is the reliable signal (mouseup can be missed); debounce it
     let selDebounce = null;
-    document.addEventListener("selectionchange", function() {
-        if (selDebounce) clearTimeout(selDebounce);
-        selDebounce = setTimeout(inspectSelection, 350);
+    listen(document, "selectionchange", function() {
+        if (selDebounce) clearCatTimeout(selDebounce);
+        selDebounce = catTimeout(inspectSelection, 350);
     });
 
     // Find the nearest decently-sized image that's on screen, to hide behind
@@ -577,8 +639,8 @@
         wasDragged = false;
         state = "carried";
     };
-    nekoEl.addEventListener("mousedown", pickUpCat);
-    nekoEl.addEventListener("touchstart", pickUpCat, {passive: false});
+    listen(nekoEl, "mousedown", pickUpCat);
+    listen(nekoEl, "touchstart", pickUpCat, {passive: false});
 
     // React when the human flips the dark-mode switch: a stretch in the new
     // "light" with a little sparkle.
@@ -587,7 +649,8 @@
       const isDark = document.documentElement.classList.contains("dark-mode");
       if (isDark === _wasDark) return;
       _wasDark = isDark;
-      if (isBeingCarried || isHidden || carryingGift ||
+      if (!isDark) despawnFireflies();
+      if (!running || !catVisible || isBeingCarried || isHidden || carryingGift ||
           ["fleeing", "dragging", "carried"].indexOf(state) !== -1) return;
       state = "disturbed";
       idleAnimation = "stretch";
@@ -597,8 +660,9 @@
       if (Math.random() < 0.2) playMeow();
     });
     darkObs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    cleanup.push(() => darkObs.disconnect());
 
-    window.requestAnimationFrame(onAnimationFrame);
+    animationFrame = window.requestAnimationFrame(onAnimationFrame);
   }
 
   // Only TRUE draggable controls: HTML range inputs + JSXGraph slider/glider
@@ -660,7 +724,7 @@
   function ensureEyes() {
     if (eyeL) return;
     const mk = () => {
-      const e = document.createElement("div");
+      const e = catElement("div");
       e.setAttribute("aria-hidden", "true");
       e.style.position = "fixed";
       e.style.width = "5px";
@@ -822,7 +886,7 @@
   // ---- Huntable critter (a rare little mouse) ----
   function ensureCritterEl() {
     if (critterEl) return;
-    critterEl = document.createElement("div");
+    critterEl = catElement("div");
     critterEl.setAttribute("aria-hidden", "true");
     critterEl.style.position = "fixed";
     critterEl.style.pointerEvents = "none";
@@ -843,6 +907,7 @@
   }
 
   function spawnCritter() {
+    if (!running || !catVisible || isHidden) return;
     ensureCritterEl();
     critterActive = true;
     critterLife = 120 + Math.floor(Math.random() * 100); // ~12-22s before it escapes
@@ -901,7 +966,7 @@
   function ensureFireflies() {
     if (fireflies.length) return;
     for (let i = 0; i < FLY_COUNT; i++) {
-      const el = document.createElement("div");
+      const el = catElement("div");
       el.setAttribute("aria-hidden", "true");
       el.style.position = "fixed";
       el.style.width = "7px";
@@ -919,6 +984,8 @@
   }
 
   function spawnFireflies() {
+    if (!running || !catVisible || isHidden ||
+        !document.documentElement.classList.contains("dark-mode")) return;
     ensureFireflies();
     for (const f of fireflies) {
       f.x = 40 + Math.random() * Math.max(80, window.innerWidth - 80);
@@ -982,7 +1049,7 @@
 
   function ensureCupEl() {
     if (cupEl) return;
-    cupEl = document.createElement("div");
+    cupEl = catElement("div");
     cupEl.setAttribute("aria-hidden", "true");
     cupEl.style.position = "fixed";
     cupEl.style.pointerEvents = "none";
@@ -997,6 +1064,7 @@
   }
 
   function spawnCup() {
+    if (!running || !catVisible || isHidden) return;
     ensureCupEl();
     const imgs = Array.from(document.querySelectorAll('.content-card img, .archive__item img, .feature__item img, .poem-card img, img.cv-img, .page__content img, .author__avatar img')).filter(el => {
         const r = el.getBoundingClientRect();
@@ -1142,8 +1210,8 @@
     const parent = node.parentNode;
     if (!parent) return false;
 
-    const span = document.createElement("span");
-    span.className = "cat-smacked";
+    const span = catElement("span");
+    span.classList.add("cat-smacked");
     span.textContent = pick.word;
     span.style.display = "inline-block";
     span.style.transition = "transform 0.85s cubic-bezier(.34,.6,.45,1.4), opacity 0.85s";
@@ -1162,28 +1230,32 @@
     span.style.transform = `translateY(34px) translateX(${dir * 6}px) rotate(${dir * 14}deg)`;
     span.style.opacity = "0.45";
 
-    // Spring it back, then merge the text nodes again to keep the DOM tidy
-    setTimeout(() => {
+    const restore = () => {
+      wordRestorers.delete(restore);
+      try {
+        const restored = document.createTextNode(before + pick.word + after);
+        if (span.parentNode) {
+          span.parentNode.replaceChild(restored, span);
+          if (beforeNode.parentNode) beforeNode.parentNode.removeChild(beforeNode);
+          if (afterNode.parentNode) afterNode.parentNode.removeChild(afterNode);
+          if (restored.parentNode) restored.parentNode.normalize();
+        }
+      } catch (e) { /* leave it; text is intact either way */ }
+    };
+    wordRestorers.add(restore);
+
+    // spring it back, then merge the text nodes again to keep the dom tidy.
+    catTimeout(() => {
       span.style.transform = "";
       span.style.opacity = "";
-      setTimeout(() => {
-        try {
-          const restored = document.createTextNode(before + pick.word + after);
-          if (span.parentNode) {
-            span.parentNode.replaceChild(restored, span);
-            if (beforeNode.parentNode) beforeNode.parentNode.removeChild(beforeNode);
-            if (afterNode.parentNode) afterNode.parentNode.removeChild(afterNode);
-            if (restored.parentNode) restored.parentNode.normalize();
-          }
-        } catch (e) { /* leave it; text is intact either way */ }
-      }, 950);
+      catTimeout(restore, 950);
     }, 1100);
     return true;
   }
 
   // A quick puff of magic sparkle that fades out where the cat appears/vanishes
   function showSparkle(x, y) {
-    if (!sparkleEl) return;
+    if (!catVisible || !sparkleEl) return;
     sparkleEl.style.transition = "";
     sparkleEl.style.opacity = "1";
     sparkleEl.style.display = "block";
@@ -1192,8 +1264,8 @@
     void sparkleEl.offsetWidth; // reflow so the fade runs
     sparkleEl.style.transition = "opacity 0.6s";
     sparkleEl.style.opacity = "0";
-    clearTimeout(sparkleEl._t);
-    sparkleEl._t = setTimeout(() => { sparkleEl.style.display = "none"; }, 650);
+    clearCatTimeout(sparkleEl._t);
+    sparkleEl._t = catTimeout(() => { sparkleEl.style.display = "none"; }, 650);
   }
 
   // Witch-magic / quantum teleport: poof out here, reappear somewhere else.
@@ -1208,10 +1280,10 @@
     nekoEl.style.left = `${nekoPosX - 16}px`;
     nekoEl.style.top = `${nekoPosY - 16}px`;
 
-    setTimeout(() => {
+    catTimeout(() => {
       showSparkle(nekoPosX, nekoPosY);        // reappear at the new spot
       nekoEl.style.opacity = "1";
-      setTimeout(() => { nekoEl.style.transition = ""; }, 220);
+      catTimeout(() => { nekoEl.style.transition = ""; }, 220);
     }, 160);
 
     // settle into a calm state at the new location
@@ -1441,7 +1513,8 @@
       scrollFrac: window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight)
     };
     const ac = new AbortController();
-    const to = setTimeout(function () { ac.abort(); }, 1300);
+    cleanup.push(() => ac.abort());
+    const to = catTimeout(function () { ac.abort(); }, 1300);
     const headers = { "Content-Type": "application/json" };
     if (typeof window !== "undefined" && window.CAT_BRAIN_KEY) headers["X-Cat-Key"] = window.CAT_BRAIN_KEY;
     fetch(BRAIN_URL + "/brain", {
@@ -1449,9 +1522,9 @@
       body: JSON.stringify(ctx), signal: ac.signal, cache: "no-store"
     })
       .then(function (r) { return r.json(); })
-      .then(function (d) { brainFails = 0; applyBrain(d); })
+      .then(function (d) { if (running && catVisible) { brainFails = 0; applyBrain(d); } })
       .catch(function () { brainFails++; })
-      .finally(function () { clearTimeout(to); brainBusy = false; });
+      .finally(function () { clearCatTimeout(to); brainBusy = false; });
   }
 
   function applyBrain(d) {
@@ -1522,7 +1595,7 @@
 
   // Drop a little gift where the cursor is — it settles, then fades away.
   function dropGift(x, y) {
-    const g = document.createElement("div");
+    const g = catElement("div");
     g.textContent = (Math.random() < 0.5) ? "🧶" : "🍃";
     g.style.cssText = "position:fixed; z-index:" + Z_TOP + "; font-size:18px; " +
       "left:" + (x - 9) + "px; top:" + (y - 18) + "px; pointer-events:none; " +
@@ -1530,8 +1603,8 @@
     document.body.appendChild(g);
     void g.offsetWidth;
     g.style.top = (y - 6) + "px";              // settle down a touch
-    setTimeout(function () { g.style.opacity = "0"; }, 60);
-    setTimeout(function () { g.remove(); }, 3700);
+    catTimeout(function () { g.style.opacity = "0"; }, 60);
+    catTimeout(function () { g.remove(); }, 3700);
     showSparkle(x, y);
   }
 
@@ -1546,6 +1619,71 @@
 
   function frame() {
     frameCount += 1;
+
+    // Hiding behind the image: stay tucked (follows the photo on scroll), then come out
+    if (state === "hidden") {
+        if (hiddenTimer > 0) {
+            if (hideImg && document.body.contains(hideImg)) tuckBehindImage();
+            hiddenTimer--;
+            return;
+        }
+        // Come back out
+        nekoEl.style.clipPath = "";
+        nekoEl.style.webkitClipPath = "";
+        nekoEl.style.transition = "";
+        nekoEl.style.opacity = "1";
+        nekoEl.style.pointerEvents = "auto";
+        hideImg = null;
+        isHidden = false;
+        state = "chasing";
+        nekoSpeed = 10;
+        setCatVisible(true);
+        return;
+    }
+
+    // Pestered too much -> dash to an image and duck behind it!
+    if (state === "fleeing") {
+        const fdx = nekoPosX - targetX, fdy = nekoPosY - targetY;
+        const fd = Math.sqrt(fdx * fdx + fdy * fdy) || 1;
+        let direction = "";
+        direction += fdy / fd > 0.5 ? "N" : "";
+        direction += fdy / fd < -0.5 ? "S" : "";
+        direction += fdx / fd > 0.5 ? "W" : "";
+        direction += fdx / fd < -0.5 ? "E" : "";
+        setSprite(direction, frameCount); // scampering off properly!
+        if (fd < 30) {
+            if (hideImg && document.body.contains(hideImg)) {
+                tuckBehindImage(); // clip the cat so it looks like it's behind the photo
+            } else {
+                // No image around — just fade out where it stopped
+                nekoEl.style.transition = "opacity 0.3s";
+                nekoEl.style.opacity = "0";
+            }
+            nekoEl.style.pointerEvents = "none";
+            state = "hidden";
+            setCatVisible(false);
+            hiddenTimer = 80 + Math.floor(Math.random() * 80); // ~8-16s at 10fps
+            return;
+        }
+        nekoPosX -= (fdx / fd) * nekoSpeed;
+        nekoPosY -= (fdy / fd) * nekoSpeed;
+        nekoEl.style.left = `${nekoPosX - 16}px`;
+        nekoEl.style.top = `${nekoPosY - 16}px`;
+        return;
+    }
+
+    // peekaboo only needs its countdown while the whole group is tucked away.
+    if (hideTicks > 0) {
+      hideTicks--;
+      if (stateTimer > 0) stateTimer--;
+      if (hideTicks === 0) {
+        nekoEl.style.zIndex = Z_TOP;
+        zLow = false;
+        state = "chasing";
+        setCatVisible(true);
+      }
+      return;
+    }
 
     // Drop a parked brain quip if the cat never got around to reading it.
     if (pendingSpeechTTL > 0) { pendingSpeechTTL--; if (pendingSpeechTTL === 0) pendingSpeech = null; }
@@ -1617,13 +1755,6 @@
         if (wagTicks > 0) { rot = Math.sin(wagTicks * 0.9) * 3; wagTicks--; }
         nekoEl.style.transformOrigin = "center bottom";
         nekoEl.style.transform = `rotate(${rot}deg) scale(${sx}, ${sy})`;
-    }
-
-    // --- Hiding behind page content: keep z-index lowered, then pop back ---
-    if (zLow) {
-        if (state !== "disturbed") { hideTicks = 0; }
-        else if (hideTicks > 0) { hideTicks--; }
-        if (hideTicks <= 0) { nekoEl.style.zIndex = Z_TOP; zLow = false; }
     }
 
     // Stop purring the moment we're not sleeping / admiring / being petted
@@ -1846,56 +1977,6 @@
         return;
     }
     if (petting && !isBeingCarried) { petting = false; carryStillFrames = 0; }
-
-    // Pestered too much -> dash to an image and duck behind it!
-    if (state === "fleeing") {
-        const fdx = nekoPosX - targetX, fdy = nekoPosY - targetY;
-        const fd = Math.sqrt(fdx * fdx + fdy * fdy) || 1;
-        let direction = "";
-        direction += fdy / fd > 0.5 ? "N" : "";
-        direction += fdy / fd < -0.5 ? "S" : "";
-        direction += fdx / fd > 0.5 ? "W" : "";
-        direction += fdx / fd < -0.5 ? "E" : "";
-        setSprite(direction, frameCount); // scampering off properly!
-        if (fd < 30) {
-            if (hideImg && document.body.contains(hideImg)) {
-                tuckBehindImage(); // clip the cat so it looks like it's behind the photo
-            } else {
-                // No image around — just fade out where it stopped
-                nekoEl.style.transition = "opacity 0.3s";
-                nekoEl.style.opacity = "0";
-            }
-            nekoEl.style.pointerEvents = "none";
-            state = "hidden";
-            hiddenTimer = 80 + Math.floor(Math.random() * 80); // ~8-16s at 10fps
-            return;
-        }
-        nekoPosX -= (fdx / fd) * nekoSpeed;
-        nekoPosY -= (fdy / fd) * nekoSpeed;
-        nekoEl.style.left = `${nekoPosX - 16}px`;
-        nekoEl.style.top = `${nekoPosY - 16}px`;
-        return;
-    }
-
-    // Hiding behind the image: stay tucked (follows the photo on scroll), then come out
-    if (state === "hidden") {
-        if (hiddenTimer > 0) {
-            if (hideImg && document.body.contains(hideImg)) tuckBehindImage();
-            hiddenTimer--;
-            return;
-        }
-        // Come back out
-        nekoEl.style.clipPath = "";
-        nekoEl.style.webkitClipPath = "";
-        nekoEl.style.transition = "";
-        nekoEl.style.opacity = "1";
-        nekoEl.style.pointerEvents = "auto";
-        hideImg = null;
-        isHidden = false;
-        state = "chasing";
-        nekoSpeed = 10;
-        return;
-    }
 
     // Fake-3D distance dash: run toward a far point shrinking, then sprint back
     if (state === "farrun") {
@@ -2197,6 +2278,7 @@
                       stateTimer = hideTicks;
                       nekoEl.style.zIndex = "1";
                       zLow = true;
+                      setCatVisible(false);
                   } else {
                       if (Math.random() < 0.2) {
                           state = "sleeping";
@@ -2324,7 +2406,7 @@
   let lastFrameTimestamp;
 
   function onAnimationFrame(timestamp) {
-    if (!nekoEl.isConnected) {
+    if (!running || !nekoEl.isConnected) {
       return;
     }
     if (!lastFrameTimestamp) {
@@ -2337,7 +2419,7 @@
       } catch (err) {
           console.error("Oneko crashed, recovering:", err);
           if (!document.getElementById("oneko-crash-log")) {
-              let errDiv = document.createElement("div");
+              let errDiv = catElement("div");
               errDiv.id = "oneko-crash-log";
               errDiv.style.cssText = "position:fixed; top:10px; left:10px; background:red; color:white; padding:10px; z-index:99999;";
               errDiv.innerText = "Cat Error: " + err.message + "\nLine: " + err.lineNumber;
@@ -2347,12 +2429,30 @@
           stateTimer = 100;
           targetElement = null;
       }
-      updateEyes(); // keep the dark-mode eye glow tracking the cat
-      updateAccessories(); // glasses / mortarboard / book over the cat
-      updateSpeech(); // reaction speech bubble
+      if (catVisible) {
+        updateEyes(); // keep the dark-mode eye glow tracking the cat
+        updateAccessories(); // glasses / mortarboard / book over the cat
+        updateSpeech(); // reaction speech bubble
+      }
     }
-    window.requestAnimationFrame(onAnimationFrame);
+    if (running) animationFrame = window.requestAnimationFrame(onAnimationFrame);
   }
 
   init();
-})();
+  setCatVisible(true);
+  return function stop() {
+    running = false;
+    setCatVisible(false);
+    window.cancelAnimationFrame(animationFrame);
+    for (const timer of timers) window.clearTimeout(timer);
+    timers.clear();
+    listeners.abort();
+    for (const dispose of cleanup) dispose();
+    for (const audio of [purrAudio, hissAudio, meowAudio]) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+    if (dragTarget) delete dragTarget._baseValue;
+    document.querySelectorAll(".oneko-el").forEach(el => el.remove());
+  };
+});

@@ -282,7 +282,7 @@
 <h2 id="integrating_out_the_shell"><a href="#integrating_out_the_shell" class="header-anchor">Integrating out the shell</a></h2>
 <p>Split the interaction using \(\phi=\phi_{\rm s}+\phi_{\rm f}\) and expand:</p>
 \[ \frac u{4!}\int\mathrm d^dx\,(\phi_{\rm s}+\phi_{\rm f})^4 = \frac u{4!}\int\mathrm d^dx\,\Big(\phi_{\rm s}^4 + 4\phi_{\rm s}^3\phi_{\rm f} + 6\phi_{\rm s}^2\phi_{\rm f}^2 + 4\phi_{\rm s}\phi_{\rm f}^3 + \phi_{\rm f}^4\Big). \]
-<p>Two different integrals turn up from here on, so it is worth keeping them apart. \(\int\mathrm d^dx\) runs over <strong>space</strong>, adding up the interaction at every point. \(\int_{\rm shell}\) runs over <strong>momentum</strong>, adding up the modes being removed, in the thin shell \(\Lambda/b<|\mathbf k|<\Lambda\). It is short for</p>
+<p>Two different integrals turn up from here on, so keep them apart. \(\int\mathrm d^dx\) runs over <strong>space</strong>, adding up the interaction at every point. \(\int_{\rm shell}\) runs over <strong>momentum</strong>, adding up the modes being removed, in the thin shell \(\Lambda/b<|\mathbf k|<\Lambda\). It is short for</p>
 \[ \int_{\rm shell}\;\equiv\;\int_{\Lambda/b<|\mathbf k|<\Lambda}\frac{\mathrm d^dk}{(2\pi)^d}, \]
 <p>with the \((2\pi)^d\) there for the same reason as in Part 2: it is the price of a Fourier transform.</p>
 <p>Treat \(u\) as small and average over the fast modes \(\phi_{\rm f}\), which behave like Gaussian random noise with the propagator \(G(k)=1/(k^2+r)\) in the shell. Here is where the formula below comes from. Write \(X=S_{\rm int}\), with the subscript on the bracket saying which fields are being averaged: \(\langle\cdot\rangle_{\rm f}\) means &quot;average over the fast modes only, holding the slow ones fixed as though they were constants&quot;. Integrating out the fast modes then means</p>
@@ -569,8 +569,7 @@ y &#61; np.array&#40;&#91;0.03, 7.5&#93;&#41;              # then fsolve&#40;flo
   <p>(a) Keeping two couplings in three dimensions gives exactly mean field. Keeping three overshoots badly. From four onwards the answer settles on \(0.6496\), which is past the one-loop \(\epsilon=1\) value and closer to the truth, though it overshoots it. (b) The same for \(\omega\).</p>
 </div>
 
-<p>Three things in that table are worth stopping on.</p>
-<p><strong>Two couplings in three dimensions give exactly mean field.</strong> Not approximately: the \(M=2\) fixed point can be solved in closed form &#40;Exercise 6.5&#41; and its eigenvalues are exactly \(2\) and \(-\tfrac13\), so \(\nu=\tfrac12\) and \(\omega=\tfrac13\). All of the interesting physics of the last table came from the \(\epsilon\) expansion&#39;s <em>ordering</em> of terms, not from the two couplings themselves. In three dimensions, two couplings know nothing.</p>
+<p><strong>Two couplings in three dimensions give exactly mean field.</strong> Not approximately: the \(M=2\) fixed point can be solved in closed form &#40;Exercise 6.5&#41; and its eigenvalues are exactly \(2\) and \(-\tfrac13\), so \(\nu=\tfrac12\) and \(\omega=\tfrac13\). The interesting physics in the last table came from the way the \(\epsilon\) expansion orders the terms, rather than from the two couplings themselves, which on their own carry no information about three dimensions.</p>
 <p><strong>The sequence converges, to a number that can be looked up.</strong> Litim computed the LPA exponents with this regulator in 2002 and found \(\nu=0.649562\) with \(\omega=0.655746\). The table lands on \(0.649561\) and \(0.655754\): six digits of agreement on \(\nu\), which is what makes a number like this worth quoting.</p>
 <p><strong>It is better than one loop. It is still not right.</strong> The whole ladder of methods for \(\nu\) in three dimensions:</p>
 <table><tr><th align="right">method</th><th align="right">\(\nu\)</th><th align="right">error</th></tr><tr><td align="right">mean field</td><td align="right">0.5</td><td align="right">\(-20.6\%\)</td></tr><tr><td align="right">one loop at \(\epsilon=1\)</td><td align="right">0.583</td><td align="right">\(-7.5\%\)</td></tr><tr><td align="right">LPA in \(d=3\)</td><td align="right">0.6496</td><td align="right">\(+3.1\%\)</td></tr><tr><td align="right">derivative expansion, order \(\partial^2\)</td><td align="right">0.6278</td><td align="right">\(-0.35\%\)</td></tr><tr><td align="right">derivative expansion, order \(\partial^4\)</td><td align="right">0.63057</td><td align="right">\(+0.09\%\)</td></tr><tr><td align="right">derivative expansion, order \(\partial^6\)</td><td align="right">0.63007</td><td align="right">\(+0.02\%\)</td></tr><tr><td align="right">conformal bootstrap</td><td align="right">0.629971&#40;4&#41;</td><td align="right"></td></tr></table>
@@ -679,7 +678,7 @@ y &#61; np.array&#40;&#91;0.03, 7.5&#93;&#41;              # then fsolve&#40;flo
 <script type="module" src="/assets/js/custom_comments.js?v=5"></script>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 20, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -816,20 +815,24 @@ y &#61; np.array&#40;&#91;0.03, 7.5&#93;&#41;              # then fsolve&#40;flo
         background: rgba(38,36,33,0.82); color: #cda863;
         border-color: rgba(180,170,150,0.28);
       }
-      html.oneko-off #oneko { display: none !important; }
+      /* toggled off: the cat and everything it owns goes away. */
+      html.oneko-off .oneko-el { display: none !important; }
+      /* ducked behind a picture or the text: the cat hides itself by clipping
+         or by dropping below the content, so only its bits and pieces go. */
+      html.oneko-hidden .oneko-el:not(#oneko) { display: none !important; }
       @media print { #oneko-toggle { display: none !important; } }
     </style>
     <script>
       (function () {
         var KEY = 'oneko-enabled';
-        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var on = localStorage.getItem(KEY) === '1';   // hidden until the reader asks for it
         var loaded = false;
 
         function loadCat() {
           if (loaded) return;
           loaded = true;
           var s = document.createElement('script');
-          s.src = '/assets/oneko.js?v=62';
+          s.src = '/assets/oneko.js?v=67';
           s.setAttribute('data-cat', '/assets/oneko.gif');
           document.body.appendChild(s);
         }
@@ -839,6 +842,7 @@ y &#61; np.array&#40;&#91;0.03, 7.5&#93;&#41;              # then fsolve&#40;flo
           btn.title = on ? 'Hide the cat' : 'Bring the cat back';
           btn.setAttribute('aria-label', btn.title);
           document.documentElement.classList.toggle('oneko-off', !on);
+          window.dispatchEvent(new Event('oneko-toggle'));
         }
 
         document.addEventListener('DOMContentLoaded', function () {

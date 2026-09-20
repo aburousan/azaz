@@ -313,7 +313,7 @@
 <li><p><strong>The number under each panel</strong> is how often neighbouring spins agree, averaged over 16 independent simulations. It&#39;s the flow written as a number instead of a picture. Hot rows fall towards 0 &#40;no agreement, pure noise&#41;, cold rows climb towards 1 &#40;everything agrees&#41; and the critical row barely moves. For the exact 2D Ising model at \(T_c\) this number is \(1/\sqrt2=0.707\), which is what the simulation gives.</p>
 </li>
 </ul>
-<p>Two honest caveats. The grid is finite, so by the last column it is only 32×32 and one colour can win just by luck. And each picture is a single snapshot, so &quot;looks the same&quot; is a statement about the <em>kind</em> of picture, not about the exact pattern. 
+<p>The grid is finite, so by the last column it is down to 32×32, small enough that one colour can win by luck. Each picture is also a single snapshot, so &quot;looks the same&quot; is a statement about the <em>kind</em> of picture, not the exact pattern. 
   </fieldset>
   
 
@@ -322,7 +322,7 @@
   </fieldset>
   
 <h2 id="what_you_need_to_know_first"><a href="#what_you_need_to_know_first" class="header-anchor">What you need to know first</a></h2>
-<p>You need calculus, a little complex analysis &#40;what a pole is&#41; and the idea that a field is a number at every point of space. It helps to have seen a path integral and a Feynman diagram once, but you don&#39;t need to be comfortable with them: Part 2 derives the Feynman rules from scratch, including where the propagator, the vertex, the minus signs and the symmetry factors come from. You don&#39;t need to have met a loop integral, a cutoff or the word &quot;regularisation&quot; before and you need no statistical mechanics beyond the Boltzmann factor \(e^{-E/k_BT}\).</p>
+<p>You need calculus, a little complex analysis &#40;what a pole is&#41; and the idea that a field is a function of spacetime, giving you a number at each point. It helps to have seen a path integral and a Feynman diagram once, but you don&#39;t need to be comfortable with them: Part 2 derives the Feynman rules from scratch, including where the propagator, the vertex, the minus signs and the symmetry factors come from. You don&#39;t need to have met a loop integral, a cutoff or the word &quot;regularisation&quot; before and you need no statistical mechanics beyond the Boltzmann factor \(e^{-E/k_BT}\).</p>
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       <strong>How this course was checked.</strong> Every calculation was redone by computer: Wolfram Language for the integrals &#40;including the complex contour integrals&#41; and FORM for the Dirac matrices in QED. Every number was then reproduced a second way, in Python, JavaScript or a Monte Carlo simulation. The main sources are <a href="https://davidtong.org/teaching/statistical-field-theory/">David Tong&#39;s <em>Statistical Field Theory</em></a> for the magnet side and most of the intuition, João Melo&#39;s <a href="https://arxiv.org/abs/1909.11099"><em>Introduction to Renormalisation</em></a> for the field theory side and Peskin &amp; Schroeder and Ashok Das&#39;s <em>Field Theory: A Path Integral Approach</em> for the QFT tools. Where a source has a mistake, the course says so at that point. 
@@ -383,7 +383,7 @@
 <script type="module" src="/assets/js/custom_comments.js?v=5"></script>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 20, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -520,20 +520,24 @@
         background: rgba(38,36,33,0.82); color: #cda863;
         border-color: rgba(180,170,150,0.28);
       }
-      html.oneko-off #oneko { display: none !important; }
+      /* toggled off: the cat and everything it owns goes away. */
+      html.oneko-off .oneko-el { display: none !important; }
+      /* ducked behind a picture or the text: the cat hides itself by clipping
+         or by dropping below the content, so only its bits and pieces go. */
+      html.oneko-hidden .oneko-el:not(#oneko) { display: none !important; }
       @media print { #oneko-toggle { display: none !important; } }
     </style>
     <script>
       (function () {
         var KEY = 'oneko-enabled';
-        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var on = localStorage.getItem(KEY) === '1';   // hidden until the reader asks for it
         var loaded = false;
 
         function loadCat() {
           if (loaded) return;
           loaded = true;
           var s = document.createElement('script');
-          s.src = '/assets/oneko.js?v=62';
+          s.src = '/assets/oneko.js?v=67';
           s.setAttribute('data-cat', '/assets/oneko.gif');
           document.body.appendChild(s);
         }
@@ -543,6 +547,7 @@
           btn.title = on ? 'Hide the cat' : 'Bring the cat back';
           btn.setAttribute('aria-label', btn.title);
           document.documentElement.classList.toggle('oneko-off', !on);
+          window.dispatchEvent(new Event('oneko-toggle'));
         }
 
         document.addEventListener('DOMContentLoaded', function () {

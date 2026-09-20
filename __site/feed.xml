@@ -85,7 +85,7 @@
   <link> https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html </link>
   <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html </guid>
   <description>
-    <![CDATA[  Part 4 of the renormalisation group course. What a critical point looks like, why it is a fixed point of the RG, relevant and irrelevant directions as a ball on a mountain ridge, critical exponents from one number, universality as a river basin and the exact 2D critical temperature from a mirror symmetry. With a live 2D Ising simulation you can coarse-grain.  ]]>
+    <![CDATA[  Part 4 of the renormalisation group course. What a critical point looks like, why it is a fixed point of the RG, relevant and irrelevant directions as a ball on a mountain ridge, critical exponents from one number, universality as a river basin and the exact 2D critical temperature from a mirror symmetry. Then the exponents are measured properly, by finite-size scaling of Wolff cluster simulations: the Binder crossing gives K_c to 0.02 per cent where the pencil method is 31 per cent off. With a live 2D Ising simulation you can coarse-grain.  ]]>
   </description>  
     
   <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
@@ -123,7 +123,7 @@
   <link> https://rousan.netlify.app/Pages/Physics/courses/RG/02_toolkit/index.html </link>
   <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/02_toolkit/index.html </guid>
   <description>
-    <![CDATA[  Part 2 of the renormalisation group course. The toolkit from zero, with a picture for each idea: where loop integrals come from, the Wick rotation done as a real contour integral, why loops blow up, what a cutoff is, three ways to regularise the same integral and what renormalisation actually does. With an interactive cutoff widget.  ]]>
+    <![CDATA[  Part 2 of the renormalisation group course. The toolkit from zero, with a picture for each idea: where Feynman diagrams and their rules come from &#40;derived from the path integral by Wick pairing&#41;, where loop integrals come from, the Wick rotation done as a real contour integral, why loops blow up, what a cutoff is, three ways to regularise the same integral and what renormalisation actually does. With an interactive cutoff widget.  ]]>
   </description>  
     
   <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
@@ -161,7 +161,7 @@
   <link> https://rousan.netlify.app/Pages/Physics/courses/RG/Main_page/index.html </link>
   <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/Main_page/index.html </guid>
   <description>
-    <![CDATA[  An eight-part beginner&#39;s course on the renormalisation group, in simple words with an everyday picture for every idea: loops and cutoffs from scratch, block spins and the Ising chain, fixed points and universality, Wilson&#39;s momentum shells, the Wilson-Fisher fixed point, running couplings in QED and QCD and effective field theory. Every formula checked in Wolfram and FORM, with live simulations in the browser.  ]]>
+    <![CDATA[  An eight-part beginner&#39;s course on the renormalisation group, in simple words with an everyday picture for every idea: loops and cutoffs from scratch, block spins and the Ising chain, fixed points and universality, Wilson&#39;s momentum shells, the Wilson-Fisher fixed point, running couplings in QED and QCD, then effective field theory. Every formula checked in Wolfram and FORM, with live simulations in the browser.  ]]>
   </description>  
     
   <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
@@ -199,7 +199,7 @@
   <link> https://rousan.netlify.app/Pages/Physics/courses/RG/06_wilson_fisher/index.html </link>
   <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/06_wilson_fisher/index.html </guid>
   <description>
-    <![CDATA[  Part 6 of the renormalisation group course. The one-loop momentum-shell RG of phi^4 theory, step by step, the flow equations read as a population with limited food, the Wilson-Fisher fixed point in d &#61; 4 - epsilon and critical exponents compared with experiment. With an interactive flow diagram.  ]]>
+    <![CDATA[  Part 6 of the renormalisation group course. The one-loop momentum-shell RG of phi^4 theory, step by step, the flow equations read as a population with limited food, the Wilson-Fisher fixed point in d &#61; 4 - epsilon and critical exponents compared with experiment. Then the same fixed point without any epsilon expansion: the functional RG in the local potential approximation, solved directly in three dimensions, with nu &#61; 0.6496 checked against the published value. With an interactive flow diagram.  ]]>
   </description>  
     
   <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  

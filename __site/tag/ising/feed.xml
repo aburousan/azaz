@@ -28,7 +28,7 @@
   <link> https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html </link>
   <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html </guid>
   <description>
-    <![CDATA[  Part 4 of the renormalisation group course. What a critical point looks like, why it is a fixed point of the RG, relevant and irrelevant directions as a ball on a mountain ridge, critical exponents from one number, universality as a river basin and the exact 2D critical temperature from a mirror symmetry. With a live 2D Ising simulation you can coarse-grain.  ]]>
+    <![CDATA[  Part 4 of the renormalisation group course. What a critical point looks like, why it is a fixed point of the RG, relevant and irrelevant directions as a ball on a mountain ridge, critical exponents from one number, universality as a river basin and the exact 2D critical temperature from a mirror symmetry. Then the exponents are measured properly, by finite-size scaling of Wolff cluster simulations: the Binder crossing gives K_c to 0.02 per cent where the pencil method is 31 per cent off. With a live 2D Ising simulation you can coarse-grain.  ]]>
   </description>  
     
   <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  

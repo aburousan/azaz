@@ -307,7 +307,7 @@
 <p><strong>Binder cumulant.</strong> The dimensionless ratio \(U=1-\langle m^4\rangle/3\langle m^2\rangle^2\). It is a shape rather than a size, so at \(T_c\) it cannot depend on the box size, which makes curves for different \(L\) cross exactly at \(T_c\). It runs from \(0\) in the hot phase to \(\tfrac23\) in the cold one. <a href="/Pages/Physics/courses/RG/04_fixed_points/">Part 4</a>.</p>
 <p><strong>Duality &#40;Kramers-Wannier&#41;.</strong> An exact mirror that swaps the hot and cold versions of the 2D Ising model. It pins down \(T_c\) exactly. <a href="/Pages/Physics/courses/RG/04_fixed_points/">Part 4</a>.</p>
 <h2 id="fields_and_quantum_field_theory"><a href="#fields_and_quantum_field_theory" class="header-anchor">Fields and quantum field theory</a></h2>
-<p><strong>Field.</strong> A number at every point of space &#40;and time&#41;, like the temperature in a room. For a magnet, it&#39;s the local average magnetisation. <em>Picture:</em> the height of a rubber sheet at each point. <a href="/Pages/Physics/courses/RG/01_scale/">Parts 1 and 5</a>.</p>
+<p><strong>Field.</strong> A function of spacetime: hand it a point, it hands you back a value. Written \(\phi(x)\). When the value is a single number the field is called <strong>scalar</strong>, which is the only kind this course needs. In the magnet chapters the field is a function of space alone, a snapshot at one instant, which Part 2&#39;s Wick rotation shows is the same mathematics. <em>Picture:</em> the temperature in a room, or the height of a rubber sheet at each point. <a href="/Pages/Physics/courses/RG/01_scale/">Parts 1 and 5</a>.</p>
 <p><strong>Action \(S\), Lagrangian.</strong> The formula that defines a theory. Adding up the Lagrangian over all of space and time gives the action. In statistical physics the same object plays the role of the energy.</p>
 <p><strong>Path integral.</strong> A sum over every possible shape of the field, each weighted by \(e^{-S}\). <em>Picture:</em> one ordinary integral for every little box of space, all done together. <a href="/Pages/Physics/courses/RG/05_wilson/">Part 5</a>.</p>
 <p><strong>Mode, momentum, wavelength.</strong> Any field can be written as a sum of waves and each wave is a <strong>mode</strong>. Its <strong>momentum</strong> \(k\) says how fast it wiggles in space and its wavelength is about \(1/k\). <strong>Fast modes</strong> have large \(k\) &#40;short, fine detail&#41; and <strong>slow modes</strong> have small \(k\) &#40;long, smooth features&#41;.</p>
@@ -381,7 +381,7 @@
 <script type="module" src="/assets/js/custom_comments.js?v=5"></script>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 20, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -518,20 +518,24 @@
         background: rgba(38,36,33,0.82); color: #cda863;
         border-color: rgba(180,170,150,0.28);
       }
-      html.oneko-off #oneko { display: none !important; }
+      /* toggled off: the cat and everything it owns goes away. */
+      html.oneko-off .oneko-el { display: none !important; }
+      /* ducked behind a picture or the text: the cat hides itself by clipping
+         or by dropping below the content, so only its bits and pieces go. */
+      html.oneko-hidden .oneko-el:not(#oneko) { display: none !important; }
       @media print { #oneko-toggle { display: none !important; } }
     </style>
     <script>
       (function () {
         var KEY = 'oneko-enabled';
-        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var on = localStorage.getItem(KEY) === '1';   // hidden until the reader asks for it
         var loaded = false;
 
         function loadCat() {
           if (loaded) return;
           loaded = true;
           var s = document.createElement('script');
-          s.src = '/assets/oneko.js?v=62';
+          s.src = '/assets/oneko.js?v=67';
           s.setAttribute('data-cat', '/assets/oneko.gif');
           document.body.appendChild(s);
         }
@@ -541,6 +545,7 @@
           btn.title = on ? 'Hide the cat' : 'Bring the cat back';
           btn.setAttribute('aria-label', btn.title);
           document.documentElement.classList.toggle('oneko-off', !on);
+          window.dispatchEvent(new Event('oneko-toggle'));
         }
 
         document.addEventListener('DOMContentLoaded', function () {

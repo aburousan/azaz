@@ -593,9 +593,9 @@ ylabel&#33;&#40;&quot;Time Taken &#40;seconds&#41;&quot;&#41;
 title&#33;&#40;&quot;Time Comparison of Sum of Primes Across Different Languages&quot;&#41;
 plot&#33;&#40;legend&#61;:topright&#41;
 savefig&#40;p, joinpath&#40;@OUTPUT, &quot;fast_cou10.json&quot;&#41;&#41;</code></pre>
-<p><div id="fdplsr" style=""></div>
+<p><div id="fdpnfb" style=""></div>
 <script>
-graphDiv = document.getElementById("fdplsr");
+graphDiv = document.getElementById("fdpnfb");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Pages/Maths/blogs/fast_and_curious/code/output/fast_cou10.json');
 </script>
  It very clearly shows which one is superior and which is not for this particular code. Now, we can modify the codes for more efficiency and optimization &#40;like using Numpy/Numba, StaticArray, Eigen, OpenMP , etc&#41;, but here for this blog I think it&#39;s enough. We will continue for discussion in some other blog.</p>
@@ -932,20 +932,24 @@ Time taken: 1.6742537021636963 seconds</code></pre>
         background: rgba(38,36,33,0.82); color: #cda863;
         border-color: rgba(180,170,150,0.28);
       }
-      html.oneko-off #oneko { display: none !important; }
+      /* toggled off: the cat and everything it owns goes away. */
+      html.oneko-off .oneko-el { display: none !important; }
+      /* ducked behind a picture or the text: the cat hides itself by clipping
+         or by dropping below the content, so only its bits and pieces go. */
+      html.oneko-hidden .oneko-el:not(#oneko) { display: none !important; }
       @media print { #oneko-toggle { display: none !important; } }
     </style>
     <script>
       (function () {
         var KEY = 'oneko-enabled';
-        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var on = localStorage.getItem(KEY) === '1';   // hidden until the reader asks for it
         var loaded = false;
 
         function loadCat() {
           if (loaded) return;
           loaded = true;
           var s = document.createElement('script');
-          s.src = '/assets/oneko.js?v=62';
+          s.src = '/assets/oneko.js?v=67';
           s.setAttribute('data-cat', '/assets/oneko.gif');
           document.body.appendChild(s);
         }
@@ -955,6 +959,7 @@ Time taken: 1.6742537021636963 seconds</code></pre>
           btn.title = on ? 'Hide the cat' : 'Bring the cat back';
           btn.setAttribute('aria-label', btn.title);
           document.documentElement.classList.toggle('oneko-off', !on);
+          window.dispatchEvent(new Event('oneko-toggle'));
         }
 
         document.addEventListener('DOMContentLoaded', function () {

@@ -52,7 +52,7 @@ For a magnet made of tiny arrows (spins) that point up or down, coarse-graining 
 - **Each row** is one temperature, held fixed. The row is the RG flow: it shows what that magnet turns into when you keep zooming out.
 - **The number under each panel** is how often neighbouring spins agree, averaged over 16 independent simulations. It's the flow written as a number instead of a picture. Hot rows fall towards 0 (no agreement, pure noise), cold rows climb towards 1 (everything agrees) and the critical row barely moves. For the exact 2D Ising model at $T_c$ this number is $1/\sqrt2=0.707$, which is what the simulation gives.
 
-Two honest caveats. The grid is finite, so by the last column it is only 32×32 and one colour can win just by luck. And each picture is a single snapshot, so "looks the same" is a statement about the *kind* of picture, not about the exact pattern.
+The grid is finite, so by the last column it is down to 32×32, small enough that one colour can win by luck. Each picture is also a single snapshot, so "looks the same" is a statement about the *kind* of picture, not the exact pattern.
 }
 
 \note{
@@ -61,7 +61,7 @@ Two honest caveats. The grid is finite, so by the last column it is only 32×32 
 
 ## What you need to know first
 
-You need calculus, a little complex analysis (what a pole is) and the idea that a field is a number at every point of space. It helps to have seen a path integral and a Feynman diagram once, but you don't need to be comfortable with them: Part 2 derives the Feynman rules from scratch, including where the propagator, the vertex, the minus signs and the symmetry factors come from. You don't need to have met a loop integral, a cutoff or the word "regularisation" before and you need no statistical mechanics beyond the Boltzmann factor $e^{-E/k_BT}$.
+You need calculus, a little complex analysis (what a pole is) and the idea that a field is a function of spacetime, giving you a number at each point. It helps to have seen a path integral and a Feynman diagram once, but you don't need to be comfortable with them: Part 2 derives the Feynman rules from scratch, including where the propagator, the vertex, the minus signs and the symmetry factors come from. You don't need to have met a loop integral, a cutoff or the word "regularisation" before and you need no statistical mechanics beyond the Boltzmann factor $e^{-E/k_BT}$.
 
 \note{
 **How this course was checked.** Every calculation was redone by computer: Wolfram Language for the integrals (including the complex contour integrals) and FORM for the Dirac matrices in QED. Every number was then reproduced a second way, in Python, JavaScript or a Monte Carlo simulation. The main sources are [David Tong's *Statistical Field Theory*](https://davidtong.org/teaching/statistical-field-theory/) for the magnet side and most of the intuition, João Melo's [*Introduction to Renormalisation*](https://arxiv.org/abs/1909.11099) for the field theory side and Peskin & Schroeder and Ashok Das's *Field Theory: A Path Integral Approach* for the QFT tools. Where a source has a mistake, the course says so at that point.

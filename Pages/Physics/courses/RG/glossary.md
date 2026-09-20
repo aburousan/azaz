@@ -83,7 +83,7 @@ This page explains every technical word in the course the way the course home pa
 
 ## Fields and quantum field theory
 
-**Field.** A number at every point of space (and time), like the temperature in a room. For a magnet, it's the local average magnetisation. *Picture:* the height of a rubber sheet at each point. [Parts 1 and 5](/Pages/Physics/courses/RG/01_scale/).
+**Field.** A function of spacetime: hand it a point, it hands you back a value. Written $\phi(x)$. When the value is a single number the field is called **scalar**, which is the only kind this course needs. In the magnet chapters the field is a function of space alone, a snapshot at one instant, which Part 2's Wick rotation shows is the same mathematics. *Picture:* the temperature in a room, or the height of a rubber sheet at each point. [Parts 1 and 5](/Pages/Physics/courses/RG/01_scale/).
 
 **Action $S$, Lagrangian.** The formula that defines a theory. Adding up the Lagrangian over all of space and time gives the action. In statistical physics the same object plays the role of the energy.
 

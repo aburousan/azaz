@@ -28,7 +28,7 @@
   <link> https://rousan.netlify.app/Pages/Physics/courses/RG/06_wilson_fisher/index.html </link>
   <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/06_wilson_fisher/index.html </guid>
   <description>
-    <![CDATA[  Part 6 of the renormalisation group course. The one-loop momentum-shell RG of phi^4 theory, step by step, the flow equations read as a population with limited food, the Wilson-Fisher fixed point in d &#61; 4 - epsilon and critical exponents compared with experiment. With an interactive flow diagram.  ]]>
+    <![CDATA[  Part 6 of the renormalisation group course. The one-loop momentum-shell RG of phi^4 theory, step by step, the flow equations read as a population with limited food, the Wilson-Fisher fixed point in d &#61; 4 - epsilon and critical exponents compared with experiment. Then the same fixed point without any epsilon expansion: the functional RG in the local potential approximation, solved directly in three dimensions, with nu &#61; 0.6496 checked against the published value. With an interactive flow diagram.  ]]>
   </description>  
     
   <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  

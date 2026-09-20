@@ -47,7 +47,7 @@
   <link> https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html </link>
   <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/04_fixed_points/index.html </guid>
   <description>
-    <![CDATA[  Part 4 of the renormalisation group course. What a critical point looks like, why it is a fixed point of the RG, relevant and irrelevant directions as a ball on a mountain ridge, critical exponents from one number, universality as a river basin and the exact 2D critical temperature from a mirror symmetry. With a live 2D Ising simulation you can coarse-grain.  ]]>
+    <![CDATA[  Part 4 of the renormalisation group course. What a critical point looks like, why it is a fixed point of the RG, relevant and irrelevant directions as a ball on a mountain ridge, critical exponents from one number, universality as a river basin and the exact 2D critical temperature from a mirror symmetry. Then the exponents are measured properly, by finite-size scaling of Wolff cluster simulations: the Binder crossing gives K_c to 0.02 per cent where the pencil method is 31 per cent off. With a live 2D Ising simulation you can coarse-grain.  ]]>
   </description>  
     
   <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
@@ -85,7 +85,7 @@
   <link> https://rousan.netlify.app/Pages/Physics/courses/RG/Main_page/index.html </link>
   <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/Main_page/index.html </guid>
   <description>
-    <![CDATA[  An eight-part beginner&#39;s course on the renormalisation group, in simple words with an everyday picture for every idea: loops and cutoffs from scratch, block spins and the Ising chain, fixed points and universality, Wilson&#39;s momentum shells, the Wilson-Fisher fixed point, running couplings in QED and QCD and effective field theory. Every formula checked in Wolfram and FORM, with live simulations in the browser.  ]]>
+    <![CDATA[  An eight-part beginner&#39;s course on the renormalisation group, in simple words with an everyday picture for every idea: loops and cutoffs from scratch, block spins and the Ising chain, fixed points and universality, Wilson&#39;s momentum shells, the Wilson-Fisher fixed point, running couplings in QED and QCD, then effective field theory. Every formula checked in Wolfram and FORM, with live simulations in the browser.  ]]>
   </description>  
     
   <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  

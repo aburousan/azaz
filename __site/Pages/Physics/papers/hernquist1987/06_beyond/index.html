@@ -373,18 +373,18 @@ O_{ijk} = 5M^{(3)}_{ijk} - \left(\delta_{jk}T_i + \delta_{ik}T_j + \delta_{ij}T_
   
 <h2 id="does_it_work"><a href="#does_it_work" class="header-anchor">Does it work?</a></h2>
 <p>First the clean test, on a single cell, exactly as <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#how_good_is_it">in part 3</a> but with the third curve added. The prediction is that the errors should fall as \((s/d)^2\), \((s/d)^3\) and \((s/d)^4\):</p>
-<div id="fdpwgs" style=""></div>
+<div id="fdpxdx" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwgs");
+graphDiv = document.getElementById("fdpxdx");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/multipole_error_3.json');
 </script>
 
 <p>Same plot as in part 3, now with a third curve. Each extra term pushes the line down and makes it steeper, and the slopes come out 2, 3 and 4 exactly as the theory says.</p>
 <p>Fitted slopes: <strong>1.99, 3.01, 4.00</strong>. The theory says 2, 3, 4.</p>
 <p>Now in the real tree, at \(N = 32768\), averaged over three realisations:</p>
-<div id="fdpmuv" style=""></div>
+<div id="fdpvef" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpmuv");
+graphDiv = document.getElementById("fdpvef");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_vs_theta_3.json');
 </script>
 
@@ -393,9 +393,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
 <p>At \(\theta = 0.5\) the octupole is <strong>10 times more accurate than the monopole</strong> and 2.7 times better than the quadrupole. At \(\theta = 0.2\) it is <strong>50 times</strong> better than the monopole. The gain grows as \(\theta\) shrinks, exactly as the \((s/d)^4\) law demands.</p>
 <h2 id="but_is_it_worth_it"><a href="#but_is_it_worth_it" class="header-anchor">But is it worth it?</a></h2>
 <p>Accuracy alone is the wrong question. The octupole costs more per cell, so the honest comparison is <strong>error against cost</strong>. If I can reach the same accuracy more cheaply by just lowering \(\theta\) with cheaper cells, the octupole is a waste of effort.</p>
-<div id="fdpzpx" style=""></div>
+<div id="fdpxlh" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpzpx");
+graphDiv = document.getElementById("fdpxlh");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/pareto.json');
 </script>
 
@@ -550,9 +550,9 @@ function yoshida4_step&#33;&#40;pos, vel, acc, tree, mass, dt, cfg&#41;
 end</code></pre>
 <p>On a two-body orbit it behaves exactly as advertised: halving \(\delta t\) cuts the energy error by about sixteen, confirming fourth order.</p>
 <p>But it costs <strong>three force evaluations per step</strong>. So the fair comparison holds the number of force evaluations fixed, letting Yoshida take steps three times longer:</p>
-<div id="fdphzz" style=""></div>
+<div id="fdpbsm" style=""></div>
 <script>
-graphDiv = document.getElementById("fdphzz");
+graphDiv = document.getElementById("fdpbsm");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_equal_cost.json');
 </script>
 
@@ -580,9 +580,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/in
   
 <h3 id="mapping_the_floor"><a href="#mapping_the_floor" class="header-anchor">Mapping the floor</a></h3>
 <p>So I went and measured the floor for every \(\theta\). \(N = 4096\), integrated to \(t = 12.5\), shrinking \(\delta t\) by factors of two:</p>
-<div id="fdpltk" style=""></div>
+<div id="fdpokw" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpltk");
+graphDiv = document.getElementById("fdpokw");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/error_budget.json');
 </script>
 
@@ -610,17 +610,17 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/er
   
 <h2 id="a_million_particles"><a href="#a_million_particles" class="header-anchor">A million particles</a></h2>
 <p>The paper&#39;s largest run was \(N = 32768\). Going to \(2^{20} \approx 10^6\) extends the lever arm on both scaling laws by more than a decade, which is the only honest way to check that \(N\log N\) is a real law and not a fit over too short a range.</p>
-<div id="fdpeem" style=""></div>
+<div id="fdpcvp" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpeem");
+graphDiv = document.getElementById("fdpcvp");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_timing.json');
 </script>
 
 <p>Particles go right, time per force evaluation goes up, all the way to a million particles. The line stays straight, so the \(N\log N\) promise holds well beyond what the paper could test.</p>
 <p>The counting argument from <a href="/Pages/Physics/papers/hernquist1987/03_treecode/#why_this_gives_n_log_n">part 3</a> predicted that each level of the tree contributes a constant number of terms, so \(\langle n_\text{terms}\rangle\) should be <strong>linear in \(\log N\)</strong>. Over five doublings that was suggestive; over seven it is a straight line:</p>
-<div id="fdpfdo" style=""></div>
+<div id="fdpxni" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpfdo");
+graphDiv = document.getElementById("fdpxni");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_nterms.json');
 </script>
 
@@ -635,9 +635,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/la
 <h3 id="where_the_papers_error_law_runs_out"><a href="#where_the_papers_error_law_runs_out" class="header-anchor">Where the paper&#39;s error law runs out</a></h3>
 <p>Now the one that genuinely revises something. The paper reports that the force error decays as \(\sim N^{-1/5}\), fitted over its range of \(1024 \le N \le 32768\). Over exactly that range I reproduce it: my exponent is \(-0.18\), which is \(-1/5\) to the accuracy anyone could ask.</p>
 <p>But push it further:</p>
-<div id="fdppfz" style=""></div>
+<div id="fdpeve" style=""></div>
 <script>
-graphDiv = document.getElementById("fdppfz");
+graphDiv = document.getElementById("fdpeve");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/largeN_error.json');
 </script>
 
@@ -797,20 +797,24 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/la
         background: rgba(38,36,33,0.82); color: #cda863;
         border-color: rgba(180,170,150,0.28);
       }
-      html.oneko-off #oneko { display: none !important; }
+      /* toggled off: the cat and everything it owns goes away. */
+      html.oneko-off .oneko-el { display: none !important; }
+      /* ducked behind a picture or the text: the cat hides itself by clipping
+         or by dropping below the content, so only its bits and pieces go. */
+      html.oneko-hidden .oneko-el:not(#oneko) { display: none !important; }
       @media print { #oneko-toggle { display: none !important; } }
     </style>
     <script>
       (function () {
         var KEY = 'oneko-enabled';
-        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var on = localStorage.getItem(KEY) === '1';   // hidden until the reader asks for it
         var loaded = false;
 
         function loadCat() {
           if (loaded) return;
           loaded = true;
           var s = document.createElement('script');
-          s.src = '/assets/oneko.js?v=62';
+          s.src = '/assets/oneko.js?v=67';
           s.setAttribute('data-cat', '/assets/oneko.gif');
           document.body.appendChild(s);
         }
@@ -820,6 +824,7 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/la
           btn.title = on ? 'Hide the cat' : 'Bring the cat back';
           btn.setAttribute('aria-label', btn.title);
           document.documentElement.classList.toggle('oneko-off', !on);
+          window.dispatchEvent(new Event('oneko-toggle'));
         }
 
         document.addEventListener('DOMContentLoaded', function () {

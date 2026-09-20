@@ -30,7 +30,7 @@ Split the interaction using $\phi=\phi_{\rm s}+\phi_{\rm f}$ and expand:
 
 $$ \frac u{4!}\int\dd^dx\,(\phi_{\rm s}+\phi_{\rm f})^4 = \frac u{4!}\int\dd^dx\,\Big(\phi_{\rm s}^4 + 4\phi_{\rm s}^3\phi_{\rm f} + 6\phi_{\rm s}^2\phi_{\rm f}^2 + 4\phi_{\rm s}\phi_{\rm f}^3 + \phi_{\rm f}^4\Big). $$
 
-Two different integrals turn up from here on, so it is worth keeping them apart. $\int\dd^dx$ runs over **space**, adding up the interaction at every point. $\int_{\rm shell}$ runs over **momentum**, adding up the modes being removed, in the thin shell $\Lambda/b<|\mathbf k|<\Lambda$. It is short for
+Two different integrals turn up from here on, so keep them apart. $\int\dd^dx$ runs over **space**, adding up the interaction at every point. $\int_{\rm shell}$ runs over **momentum**, adding up the modes being removed, in the thin shell $\Lambda/b<|\mathbf k|<\Lambda$. It is short for
 
 $$ \int_{\rm shell}\;\equiv\;\int_{\Lambda/b<|\mathbf k|<\Lambda}\frac{\dd^dk}{(2\pi)^d}, $$
 
@@ -399,9 +399,7 @@ Run at 40 digits with `mpmath`, in $d=3$, it gives:
 </div>
 ~~~
 
-Three things in that table are worth stopping on.
-
-**Two couplings in three dimensions give exactly mean field.** Not approximately: the $M=2$ fixed point can be solved in closed form (Exercise 6.5) and its eigenvalues are exactly $2$ and $-\tfrac13$, so $\nu=\tfrac12$ and $\omega=\tfrac13$. All of the interesting physics of the last table came from the $\epsilon$ expansion's *ordering* of terms, not from the two couplings themselves. In three dimensions, two couplings know nothing.
+**Two couplings in three dimensions give exactly mean field.** Not approximately: the $M=2$ fixed point can be solved in closed form (Exercise 6.5) and its eigenvalues are exactly $2$ and $-\tfrac13$, so $\nu=\tfrac12$ and $\omega=\tfrac13$. The interesting physics in the last table came from the way the $\epsilon$ expansion orders the terms, rather than from the two couplings themselves, which on their own carry no information about three dimensions.
 
 **The sequence converges, to a number that can be looked up.** Litim computed the LPA exponents with this regulator in 2002 and found $\nu=0.649562$ with $\omega=0.655746$. The table lands on $0.649561$ and $0.655754$: six digits of agreement on $\nu$, which is what makes a number like this worth quoting.
 

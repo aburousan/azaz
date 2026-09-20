@@ -430,25 +430,25 @@ end</code></pre>
 <h2 id="why_not_something_fancier"><a href="#why_not_something_fancier" class="header-anchor">Why not something fancier?</a></h2>
 <p>Here is the question that bothered me. Leapfrog is only <strong>second order</strong>. Runge-Kutta 4 is fourth order and everybody learns it first. Why does every serious \(N\)-body code use the &quot;worse&quot; method?</p>
 <p>So I tested it. One particle on an eccentric Kepler orbit around a fixed mass, integrated four ways with the same step size, for 200 orbits.</p>
-<div id="fdpwjc" style=""></div>
+<div id="fdpcls" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpwjc");
+graphDiv = document.getElementById("fdpcls");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_orbits.json');
 </script>
 
 <p>This is the orbit itself, seen from above, with 200 revolutions drawn on top of one another. If a method keeps the orbit correct you see one sharp ellipse. Red spreads out into a mess, so forward Euler is useless here.</p>
 <p>All 200 orbits at once is a bit of a pile-up, so here is the same run with the orbits arriving in order. Press play and watch which curves stay put:</p>
-<div id="fdpmou" style=""></div>
+<div id="fdpgjb" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpmou");
+graphDiv = document.getElementById("fdpgjb");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/anim_integrators.json');
 </script>
 
 <p>Red is forward Euler and it walks off the edge of the plot within a few orbits, never to return. Blue &#40;leapfrog&#41; and orange &#40;RK4&#41; both stay on the ellipse for all 60 orbits, and at this scale you cannot separate them. That is the honest situation: on the <em>orbit</em>, the fancy method and the cheap method look the same, and only the bad method is visibly bad.</p>
 <p>Which is why the orbit picture is only half the story. Look at the energy, which is the thing that actually matters:</p>
-<div id="fdpchg" style=""></div>
+<div id="fdpxvd" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpchg");
+graphDiv = document.getElementById("fdpxvd");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_energy.json');
 </script>
 
@@ -469,9 +469,9 @@ plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/in
   
 <p>There is a second reason, and for an \(N\)-body code it may be the bigger one: <strong>cost</strong>. RK4 needs <em>four</em> force evaluations per step. In a tree code, a force evaluation is essentially the entire cost of the simulation. So at fixed compute budget leapfrog can take four times as many steps, and its error is \(\mathcal{O}(\delta t^2)\), so four times smaller steps means sixteen times better accuracy. The &quot;worse&quot; method wins on both counts.</p>
 <p>To confirm the methods are behaving as advertised, here is the error against step size:</p>
-<div id="fdpnsh" style=""></div>
+<div id="fdpfbw" style=""></div>
 <script>
-graphDiv = document.getElementById("fdpnsh");
+graphDiv = document.getElementById("fdpfbw");
 plotlyPromise = PlotlyJS_json(graphDiv, '/assets/Physics/papers/hernquist1987/integrator_order.json');
 </script>
 
@@ -712,20 +712,24 @@ t_{\text{cross}} \sim \frac{r}{\sigma_0}, \qquad \sigma_0 = \sqrt{\frac{GM}{6r_0
         background: rgba(38,36,33,0.82); color: #cda863;
         border-color: rgba(180,170,150,0.28);
       }
-      html.oneko-off #oneko { display: none !important; }
+      /* toggled off: the cat and everything it owns goes away. */
+      html.oneko-off .oneko-el { display: none !important; }
+      /* ducked behind a picture or the text: the cat hides itself by clipping
+         or by dropping below the content, so only its bits and pieces go. */
+      html.oneko-hidden .oneko-el:not(#oneko) { display: none !important; }
       @media print { #oneko-toggle { display: none !important; } }
     </style>
     <script>
       (function () {
         var KEY = 'oneko-enabled';
-        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var on = localStorage.getItem(KEY) === '1';   // hidden until the reader asks for it
         var loaded = false;
 
         function loadCat() {
           if (loaded) return;
           loaded = true;
           var s = document.createElement('script');
-          s.src = '/assets/oneko.js?v=62';
+          s.src = '/assets/oneko.js?v=67';
           s.setAttribute('data-cat', '/assets/oneko.gif');
           document.body.appendChild(s);
         }
@@ -735,6 +739,7 @@ t_{\text{cross}} \sim \frac{r}{\sigma_0}, \qquad \sigma_0 = \sqrt{\frac{GM}{6r_0
           btn.title = on ? 'Hide the cat' : 'Bring the cat back';
           btn.setAttribute('aria-label', btn.title);
           document.documentElement.classList.toggle('oneko-off', !on);
+          window.dispatchEvent(new Event('oneko-toggle'));
         }
 
         document.addEventListener('DOMContentLoaded', function () {

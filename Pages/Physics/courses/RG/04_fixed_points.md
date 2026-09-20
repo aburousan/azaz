@@ -70,7 +70,7 @@ You can see this directly by coarse-graining the snapshots:
 - **Each row** is one temperature, held fixed. The row is the RG flow: it shows what that magnet turns into when you keep zooming out.
 - **The number under each panel** is how often neighbouring spins agree, averaged over 16 independent simulations. It's the flow written as a number instead of a picture. Hot rows fall towards 0 (no agreement, pure noise), cold rows climb towards 1 (everything agrees) and the critical row barely moves. For the exact 2D Ising model at $T_c$ this number is $1/\sqrt2=0.707$, which is what the simulation gives.
 
-Two honest caveats. The grid is finite, so by the last column it is only 32×32 and one colour can win just by luck. And each picture is a single snapshot, so "looks the same" is a statement about the *kind* of picture, not about the exact pattern.
+The grid is finite, so by the last column it is down to 32×32, small enough that one colour can win by luck. Each picture is also a single snapshot, so "looks the same" is a statement about the *kind* of picture, not the exact pattern.
 }
 
 \analogy{
@@ -219,9 +219,9 @@ Solving numerically (with Wolfram's `FindRoot` and checked in Python and JavaScr
 
 Compare with the exact answers: $K_c=0.4407$ and $\nu=1$. The rough scheme gets the *structure* right (there is a fixed point and temperature is relevant there) but the numbers are off by about 30%.
 
-Being 30% off is not the real problem. The real problem is that the scheme cannot tell you it is 30% off. Bond moving is not the first term of anything, so there is no second term to compute, no small quantity that is being expanded and therefore no way to put an error bar on the answer without already knowing it. A number with no error bar is still a guess, however confident it looks.
+You could live with 30%. Finding out about it is the harder part, because bond moving is not the first term of anything. There is no second term to compute, no small quantity being expanded, so no way to put an error bar on the answer without already knowing it. A number with no error bar is still a guess, however confident it looks.
 
-Three routes do better. One is to solve the model exactly, which Onsager managed in 1944. That works for this model alone. Another is Wilson's momentum-space method, which has a genuinely small quantity to expand in: that is Parts 5 and 6. The third is to measure the exponents by simulating the model, which is where the rest of this part goes, because it runs on exactly the scaling laws built above.
+There are better ways to get the numbers. One is to solve the model exactly, which Onsager managed in 1944. That works for this model alone. Another is Wilson's momentum-space method, which has a genuinely small quantity to expand in: that is Parts 5 and 6. The third is to measure the exponents by simulating the model, which is where the rest of this part goes, because it runs on exactly the scaling laws built above.
 
 ## Measuring the exponents
 
@@ -290,7 +290,7 @@ Collecting everything, side by side with the pencil method:
 \note{
 **About those error bars.** The $\pm$ on $K_c$, $\gamma/\nu$ and $\beta/\nu$ comes from resampling the eight independent chains at every point. For $\nu$ that recipe gives $\pm0.011$, which is too optimistic: fitting the slope pair by pair instead gives values scattered between $0.93$ and $1.04$, so a couple of per cent is the honest uncertainty and that is what the table quotes. The leftover is not noise but the finite boxes themselves, whose corrections die away only as a power of $L$. Bigger boxes shrink it, with no change to the method.
 
-The one-coupling scheme cannot do this. It has no chains to resample and no box size to grow. Its 30% is permanent.
+None of that is available to the one-coupling scheme, which has no chains to resample and no box size to grow, so its 30% stays where it is.
 }
 
 \analogy{
@@ -301,7 +301,7 @@ Migdal-Kadanoff is the shopkeeper who weighs your rice by lifting the bag and sa
 The Binder crossing is the moment in the evening when every pandal, big or small, feels equally crowded. Before it the small ones are still comfortable. After it only the big ones are still moving. Notice what the crossing actually measures: a shape, not a size, so it does not care how large your group is, only how tightly it is coupled. A couple moves as one lump at every scale, which is why they look the same in a lane pandal as in Deshapriya Park. Our single readers move as one lump too, so you are exactly as universal. You also clear the barricade in half the time.
 }
 
-It is worth noticing what has *not* happened here. Nobody worked out a recursion for $K$, nobody had to guess which couplings to keep, nobody moved a bond. The scaling laws of this part were assumed, then the exponents in them were measured. That the answers come out at the exact values is a test of the RG picture itself, not of any particular approximation scheme.
+Notice what has *not* happened here. Nobody worked out a recursion for $K$, nobody had to guess which couplings to keep, nobody moved a bond. The scaling laws of this part were assumed, then the exponents in them were measured. That the answers come out at the exact values is a test of the RG picture itself, not of any particular approximation scheme.
 
 That said, measurement alone does not explain *why* a magnet and a boiling liquid share these numbers. For that we still need a fixed point we can actually calculate at, which is what Wilson's momentum-space method gives and what we build next.
 

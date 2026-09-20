@@ -280,7 +280,7 @@
 </blockquote>
 <p>So far we have coarse-grained: we lowered a cutoff and watched the couplings flow. Particle physicists usually do it another way. They remove the cutoff completely &#40;using dimensional regularisation from Part 2&#41; and they fix the theory with a measurement made at some energy \(\mu\) that they choose. Then they ask how the answer depends on that choice. The result is the same kind of flow, now called the <strong>running</strong> of couplings with energy. This part shows that the two pictures agree and then applies the particle-physics version to QED and QCD, where the running has actually been measured.</p>
 <h2 id="two_questions_one_idea"><a href="#two_questions_one_idea" class="header-anchor">Two questions, one idea</a></h2>
-<p>It&#39;s worth being clear about this, because books often blur it. Melo&#39;s notes separate two questions:</p>
+<p>Books often blur these together, so it pays to be exact. Melo&#39;s notes separate two questions:</p>
 <ul>
 <li><p><strong>Wilson&#39;s question</strong>: keep the long-distance physics fixed. How must the <em>bare</em> couplings change as I move the <em>cutoff</em> \(\Lambda\)? That was Parts 5 and 6.</p>
 </li>
@@ -562,7 +562,7 @@ FullSimplify&#91;Cg &#43; q2 Cqq&#93;                                           
 <script type="module" src="/assets/js/custom_comments.js?v=5"></script>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 20, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -699,20 +699,24 @@ FullSimplify&#91;Cg &#43; q2 Cqq&#93;                                           
         background: rgba(38,36,33,0.82); color: #cda863;
         border-color: rgba(180,170,150,0.28);
       }
-      html.oneko-off #oneko { display: none !important; }
+      /* toggled off: the cat and everything it owns goes away. */
+      html.oneko-off .oneko-el { display: none !important; }
+      /* ducked behind a picture or the text: the cat hides itself by clipping
+         or by dropping below the content, so only its bits and pieces go. */
+      html.oneko-hidden .oneko-el:not(#oneko) { display: none !important; }
       @media print { #oneko-toggle { display: none !important; } }
     </style>
     <script>
       (function () {
         var KEY = 'oneko-enabled';
-        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var on = localStorage.getItem(KEY) === '1';   // hidden until the reader asks for it
         var loaded = false;
 
         function loadCat() {
           if (loaded) return;
           loaded = true;
           var s = document.createElement('script');
-          s.src = '/assets/oneko.js?v=62';
+          s.src = '/assets/oneko.js?v=67';
           s.setAttribute('data-cat', '/assets/oneko.gif');
           document.body.appendChild(s);
         }
@@ -722,6 +726,7 @@ FullSimplify&#91;Cg &#43; q2 Cqq&#93;                                           
           btn.title = on ? 'Hide the cat' : 'Bring the cat back';
           btn.setAttribute('aria-label', btn.title);
           document.documentElement.classList.toggle('oneko-off', !on);
+          window.dispatchEvent(new Event('oneko-toggle'));
         }
 
         document.addEventListener('DOMContentLoaded', function () {

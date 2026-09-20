@@ -322,7 +322,7 @@
 <li><p><strong>The number under each panel</strong> is how often neighbouring spins agree, averaged over 16 independent simulations. It&#39;s the flow written as a number instead of a picture. Hot rows fall towards 0 &#40;no agreement, pure noise&#41;, cold rows climb towards 1 &#40;everything agrees&#41; and the critical row barely moves. For the exact 2D Ising model at \(T_c\) this number is \(1/\sqrt2=0.707\), which is what the simulation gives.</p>
 </li>
 </ul>
-<p>Two honest caveats. The grid is finite, so by the last column it is only 32×32 and one colour can win just by luck. And each picture is a single snapshot, so &quot;looks the same&quot; is a statement about the <em>kind</em> of picture, not about the exact pattern. 
+<p>The grid is finite, so by the last column it is down to 32×32, small enough that one colour can win by luck. Each picture is also a single snapshot, so &quot;looks the same&quot; is a statement about the <em>kind</em> of picture, not the exact pattern. 
   </fieldset>
   
 
@@ -440,8 +440,8 @@ Simplify&#91;&#123;al &#43; 2 be &#43; ga - 2, ga - be &#40;de - 1&#41;, ga - nu
 
 <p>Solving numerically &#40;with Wolfram&#39;s <code>FindRoot</code> and checked in Python and JavaScript&#41;: \(K^*=0.3047\), \(R'(K^*)=1.6786\), so \(y_t=\log_2 1.6786=0.7472\) and \(\nu=1.338\).</p>
 <p>Compare with the exact answers: \(K_c=0.4407\) and \(\nu=1\). The rough scheme gets the <em>structure</em> right &#40;there is a fixed point and temperature is relevant there&#41; but the numbers are off by about 30&#37;.</p>
-<p>Being 30&#37; off is not the real problem. The real problem is that the scheme cannot tell you it is 30&#37; off. Bond moving is not the first term of anything, so there is no second term to compute, no small quantity that is being expanded and therefore no way to put an error bar on the answer without already knowing it. A number with no error bar is still a guess, however confident it looks.</p>
-<p>Three routes do better. One is to solve the model exactly, which Onsager managed in 1944. That works for this model alone. Another is Wilson&#39;s momentum-space method, which has a genuinely small quantity to expand in: that is Parts 5 and 6. The third is to measure the exponents by simulating the model, which is where the rest of this part goes, because it runs on exactly the scaling laws built above.</p>
+<p>You could live with 30&#37;. Finding out about it is the harder part, because bond moving is not the first term of anything. There is no second term to compute, no small quantity being expanded, so no way to put an error bar on the answer without already knowing it. A number with no error bar is still a guess, however confident it looks.</p>
+<p>There are better ways to get the numbers. One is to solve the model exactly, which Onsager managed in 1944. That works for this model alone. Another is Wilson&#39;s momentum-space method, which has a genuinely small quantity to expand in: that is Parts 5 and 6. The third is to measure the exponents by simulating the model, which is where the rest of this part goes, because it runs on exactly the scaling laws built above.</p>
 <h2 id="measuring_the_exponents"><a href="#measuring_the_exponents" class="header-anchor">Measuring the exponents</a></h2>
 <h3 id="the_trick_at_t_c_the_box_itself_is_the_ruler"><a href="#the_trick_at_t_c_the_box_itself_is_the_ruler" class="header-anchor">The trick: at \(T_c\), the box itself is the ruler</a></h3>
 <p>Away from \(T_c\) the correlation length \(\xi\) is finite, so a simulation in a box of side \(L\) behaves like the infinite system as long as \(L\gg\xi\). At \(T_c\) that breaks down, because \(\xi\) is infinite. There is then nothing left to set a scale except \(L\) itself, so every quantity has to be a pure power of \(L\). That is the scaling hypothesis of this part with the rescaling factor \(b\) replaced by the box size, so the powers that show up are the same exponents.</p>
@@ -479,7 +479,7 @@ Simplify&#91;&#123;al &#43; 2 be &#43; ga - 2, ga - be &#40;de - 1&#41;, ga - nu
 
   <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
       <strong>About those error bars.</strong> The \(\pm\) on \(K_c\), \(\gamma/\nu\) and \(\beta/\nu\) comes from resampling the eight independent chains at every point. For \(\nu\) that recipe gives \(\pm0.011\), which is too optimistic: fitting the slope pair by pair instead gives values scattered between \(0.93\) and \(1.04\), so a couple of per cent is the honest uncertainty and that is what the table quotes. The leftover is not noise but the finite boxes themselves, whose corrections die away only as a power of \(L\). Bigger boxes shrink it, with no change to the method.</p>
-<p>The one-coupling scheme cannot do this. It has no chains to resample and no box size to grow. Its 30&#37; is permanent. 
+<p>None of that is available to the one-coupling scheme, which has no chains to resample and no box size to grow, so its 30&#37; stays where it is. 
   </fieldset>
   
 
@@ -492,7 +492,7 @@ Simplify&#91;&#123;al &#43; 2 be &#43; ga - 2, ga - be &#40;de - 1&#41;, ga - nu
       The Binder crossing is the moment in the evening when every pandal, big or small, feels equally crowded. Before it the small ones are still comfortable. After it only the big ones are still moving. Notice what the crossing actually measures: a shape, not a size, so it does not care how large your group is, only how tightly it is coupled. A couple moves as one lump at every scale, which is why they look the same in a lane pandal as in Deshapriya Park. Our single readers move as one lump too, so you are exactly as universal. You also clear the barricade in half the time. 
   </fieldset>
   
-<p>It is worth noticing what has <em>not</em> happened here. Nobody worked out a recursion for \(K\), nobody had to guess which couplings to keep, nobody moved a bond. The scaling laws of this part were assumed, then the exponents in them were measured. That the answers come out at the exact values is a test of the RG picture itself, not of any particular approximation scheme.</p>
+<p>Notice what has <em>not</em> happened here. Nobody worked out a recursion for \(K\), nobody had to guess which couplings to keep, nobody moved a bond. The scaling laws of this part were assumed, then the exponents in them were measured. That the answers come out at the exact values is a test of the RG picture itself, not of any particular approximation scheme.</p>
 <p>That said, measurement alone does not explain <em>why</em> a magnet and a boiling liquid share these numbers. For that we still need a fixed point we can actually calculate at, which is what Wilson&#39;s momentum-space method gives and what we build next.</p>
 <h2 id="exercises"><a href="#exercises" class="header-anchor">Exercises</a></h2>
 <p>
@@ -533,7 +533,7 @@ Simplify&#91;&#123;al &#43; 2 be &#43; ga - 2, ga - be &#40;de - 1&#41;, ga - nu
 <script type="module" src="/assets/js/custom_comments.js?v=5"></script>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 19, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: September 20, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
@@ -670,20 +670,24 @@ Simplify&#91;&#123;al &#43; 2 be &#43; ga - 2, ga - be &#40;de - 1&#41;, ga - nu
         background: rgba(38,36,33,0.82); color: #cda863;
         border-color: rgba(180,170,150,0.28);
       }
-      html.oneko-off #oneko { display: none !important; }
+      /* toggled off: the cat and everything it owns goes away. */
+      html.oneko-off .oneko-el { display: none !important; }
+      /* ducked behind a picture or the text: the cat hides itself by clipping
+         or by dropping below the content, so only its bits and pieces go. */
+      html.oneko-hidden .oneko-el:not(#oneko) { display: none !important; }
       @media print { #oneko-toggle { display: none !important; } }
     </style>
     <script>
       (function () {
         var KEY = 'oneko-enabled';
-        var on = localStorage.getItem(KEY) !== '0';   // shown unless turned off
+        var on = localStorage.getItem(KEY) === '1';   // hidden until the reader asks for it
         var loaded = false;
 
         function loadCat() {
           if (loaded) return;
           loaded = true;
           var s = document.createElement('script');
-          s.src = '/assets/oneko.js?v=62';
+          s.src = '/assets/oneko.js?v=67';
           s.setAttribute('data-cat', '/assets/oneko.gif');
           document.body.appendChild(s);
         }
@@ -693,6 +697,7 @@ Simplify&#91;&#123;al &#43; 2 be &#43; ga - 2, ga - be &#40;de - 1&#41;, ga - nu
           btn.title = on ? 'Hide the cat' : 'Bring the cat back';
           btn.setAttribute('aria-label', btn.title);
           document.documentElement.classList.toggle('oneko-off', !on);
+          window.dispatchEvent(new Event('oneko-toggle'));
         }
 
         document.addEventListener('DOMContentLoaded', function () {

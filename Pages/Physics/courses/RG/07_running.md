@@ -26,7 +26,7 @@ So far we have coarse-grained: we lowered a cutoff and watched the couplings flo
 
 ## Two questions, one idea
 
-It's worth being clear about this, because books often blur it. Melo's notes separate two questions:
+Books often blur these together, so it pays to be exact. Melo's notes separate two questions:
 
 - **Wilson's question**: keep the long-distance physics fixed. How must the *bare* couplings change as I move the *cutoff* $\Lambda$? That was Parts 5 and 6.
 - **The particle physicist's question**: keep the underlying theory fixed. How does the *measured* coupling depend on the *energy* $\mu$ at which I measure it? That's this part.
