@@ -307,7 +307,9 @@ B0&#40;s, &#39;m&#39;, &#39;m&#39;&#41;</code></pre>
 <p><strong>The dimension is \(d = 4 - 2\epsilon\).</strong> feynsage normalises every loop integral as</p>
 \[ \mu^{2\epsilon}\,e^{\epsilon\gamma_E}\,\frac{1}{i\pi^{d/2}}\int \mathrm d^d\ell \]
 <p>so the \(\gamma_E\) with the \(\log 4\pi\) that come with dimensional regularisation are already absorbed. What you see is the \(\overline{\rm MS}\) answer.</p>
-<p><strong>Peskin uses \(d = 4 - \epsilon\).</strong> This is the big one. Peskin defines \(\epsilon = 4 - d\), so his poles are \(2/\epsilon\) where feynsage writes \(1/\epsilon\). Comparing the two directly gives a factor of two and a wasted evening. The physics is the same, the letter \(\epsilon\) is not. 
+<p><strong>Peskin uses \(d = 4 - \epsilon\).</strong> This is the big one. Peskin defines \(\epsilon = 4 - d\), so his poles are \(2/\epsilon\) where feynsage writes \(1/\epsilon\). Comparing the two directly gives a factor of two and a wasted evening. The physics is the same, the letter \(\epsilon\) is not.</p>
+<p><strong>The metric is \((+,-,-,-)\)</strong> with the propagator denominator written \(q^2 - m^2 + i0\). There is a Euclidean mode if you want it, switched on with <code>euclidean&#61;True</code>.</p>
+<p><strong>One exception to the mass rule.</strong> The inert canonical functions <code>PaVeA0</code>, <code>PaVeB0</code>, <code>PaVeC0</code>, <code>PaVeD0</code>, with <code>pave&#40;kind, args&#41;</code>, take <strong>squared</strong> masses, the opposite of <code>A0</code> and friends. You meet them only when you ask for <code>masters&#61;True</code>, so it will not bite you today, but it is worth knowing before it does. 
   </fieldset>
   
 <h2 id="the_bubble_has_a_branch_cut_that_you_can_watch_open"><a href="#the_bubble_has_a_branch_cut_that_you_can_watch_open" class="header-anchor">The bubble has a branch cut that you can watch open</a></h2>
@@ -339,7 +341,7 @@ B0&#40;s, &#39;m&#39;, &#39;m&#39;&#41;</code></pre>
 \[ \begin{aligned} g^{\mu\nu} &:\quad \frac{1}{\epsilon}\left(\frac{1}{2}  m^{2} - \frac{1}{12}  s\right) + \left(\frac{1}{3}  m^{2} - \frac{1}{12}  s\right)\,\Lambda(s; m, m) \\ & \quad + \left(\frac{1}{2}  m^{2} - \frac{1}{12}  s\right)\,\log\left(\frac{\mu^{2}}{m^{2}}\right) + \frac{7}{6}  m^{2} - \frac{2}{9}  s \\[6pt] p^{\mu} p^{\nu} &:\quad \frac{1}{3\,\epsilon} - \frac{m^{2} - s}{3  s}\,\Lambda(s; m, m) \\ & \quad + \frac{1}{3}\,\log\left(\frac{\mu^{2}}{m^{2}}\right) - \frac{12  m^{2} - 13  s}{18  s} \end{aligned} \]
 <p>Two coefficients, each a Laurent series in \(\epsilon\). In Passarino-Veltman language these are \(B_{00}\) with \(B_{11}\), already reduced.</p>
 <h2 id="dirac_traces_in_the_notation_you_already_write"><a href="#dirac_traces_in_the_notation_you_already_write" class="header-anchor">Dirac traces, in the notation you already write</a></h2>
-<p>Traces of gamma matrices are the other thing that eats an afternoon. feynsage lets you write them the way the textbook does. FORM does the algebra underneath, you never write FORM code.</p>
+<p>Traces of gamma matrices are the other thing that eats an afternoon. feynsage lets you write them the way the textbook does. FORM does the algebra underneath, you never write FORM code. This is the one part of the page that needs FORM actually installed, which <code>install.sh</code> handles for you.</p>
 <pre><code class="language-python">p, q &#61; momenta&#40;&#39;p q&#39;&#41;
 mu, nu &#61; lorentz_indices&#40;&#39;mu nu&#39;&#41;
 dirac_trace&#40;slash&#40;p&#41;*gamma&#40;mu&#41;*slash&#40;q&#41;*gamma&#40;nu&#41;&#41;</code></pre>
@@ -394,7 +396,7 @@ uv_part&#40;Pi2&#41;.simplify_full&#40;&#41;</code></pre>
 </li>
 <li><p>The Dirac algebra page, <code>docs/dirac_algebra.md</code>, if traces are what you came for</p>
 </li>
-<li><p>Every function explains itself. Pass <code>explain&#61;True</code>, or call <code>info&#40;f&#41;</code>, to have it print what its own output means.</p>
+<li><p>Many functions explain themselves. Pass <code>explain&#61;True</code> to the one-loop functions such as <code>A0</code> or <code>loop</code>, or call <code>info&#40;f&#41;</code> on a function, to have it print what the output means.</p>
 </li>
 </ul>
 <p>One honest word about scale. feynsage is built for small and medium problems where every step stays exact, can be checked, explains itself. For very large reductions, millions of equations with several scales, Kira and FIRE are the right tools and will stay that way.</p>

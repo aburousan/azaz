@@ -84,6 +84,10 @@ $$ \mu^{2\epsilon}\,e^{\epsilon\gamma_E}\,\frac{1}{i\pi^{d/2}}\int \dd^d\ell $$
 so the $\gamma_E$ with the $\log 4\pi$ that come with dimensional regularisation are already absorbed. What you see is the $\overline{\rm MS}$ answer.
 
 **Peskin uses $d = 4 - \epsilon$.** This is the big one. Peskin defines $\epsilon = 4 - d$, so his poles are $2/\epsilon$ where feynsage writes $1/\epsilon$. Comparing the two directly gives a factor of two and a wasted evening. The physics is the same, the letter $\epsilon$ is not.
+
+**The metric is $(+,-,-,-)$** with the propagator denominator written $q^2 - m^2 + i0$. There is a Euclidean mode if you want it, switched on with `euclidean=True`.
+
+**One exception to the mass rule.** The inert canonical functions `PaVeA0`, `PaVeB0`, `PaVeC0`, `PaVeD0`, with `pave(kind, args)`, take **squared** masses, the opposite of `A0` and friends. You meet them only when you ask for `masters=True`, so it will not bite you today, but it is worth knowing before it does.
 }
 
 ## The bubble has a branch cut that you can watch open
@@ -143,7 +147,7 @@ Two coefficients, each a Laurent series in $\epsilon$. In Passarino-Veltman lang
 
 ## Dirac traces, in the notation you already write
 
-Traces of gamma matrices are the other thing that eats an afternoon. feynsage lets you write them the way the textbook does. FORM does the algebra underneath, you never write FORM code.
+Traces of gamma matrices are the other thing that eats an afternoon. feynsage lets you write them the way the textbook does. FORM does the algebra underneath, you never write FORM code. This is the one part of the page that needs FORM actually installed, which `install.sh` handles for you.
 
 ```python
 p, q = momenta('p q')
@@ -225,7 +229,7 @@ This page stops at one loop, which is already enough for most of a first course.
 - The repository, with the full reference: [github.com/aburousan/feynsage](https://github.com/aburousan/feynsage)
 - A longer step-by-step tutorial with real computations ships inside it, at `docs/tutorial/feynsage_tutorial.pdf`
 - The Dirac algebra page, `docs/dirac_algebra.md`, if traces are what you came for
-- Every function explains itself. Pass `explain=True`, or call `info(f)`, to have it print what its own output means.
+- Many functions explain themselves. Pass `explain=True` to the one-loop functions such as `A0` or `loop`, or call `info(f)` on a function, to have it print what the output means.
 
 One honest word about scale. feynsage is built for small and medium problems where every step stays exact, can be checked, explains itself. For very large reductions, millions of equations with several scales, Kira and FIRE are the right tools and will stay that way.
 
