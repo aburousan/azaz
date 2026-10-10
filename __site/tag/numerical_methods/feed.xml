@@ -23,15 +23,72 @@
 
 <item>
   <title>
-    <![CDATA[  virtools: A tool for radiometric calibration of DAWN VIR data  ]]>
+    <![CDATA[  Introduction to Monte Carlo Integration  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Physics/blogs/DAWN_VIR/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/blogs/DAWN_VIR/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Pi_in_Mandel/index.html </guid>
   <description>
-    <![CDATA[  In this blog, we will understand how to use the package for radiometric calibration.  ]]>
+    <![CDATA[  A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it&#39;s theory.  ]]>
   </description>  
     
-  <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>  
+  <pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Fast and Curious  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/fast_and_curious/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/fast_and_curious/index.html </guid>
+  <description>
+    <![CDATA[  A blog on comparing speed of different languages.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Oct 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Playing with Tupper&#39;s Formula in Julia  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Tupper_Form/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Tupper_Form/index.html </guid>
+  <description>
+    <![CDATA[  A brief intro to Tupper&#39;s Formula with Julia. Here we will see how to perform this in julia language.  ]]>
+  </description>  
+    
+  <pubDate>Thu, 07 Mar 2024 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Introduction to Monte Carlo Integration  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Maths/blogs/Monte_Carlo_Inte/index.html </guid>
+  <description>
+    <![CDATA[  A brief discussion on Introduction to Monte Carlo Integration. Here we will see how to perform this in julia language and also it&#39;s theory.  ]]>
+  </description>  
+    
+  <pubDate>Thu, 07 Mar 2024 00:00:00 +0000</pubDate>  
   
   
   <atom:author>

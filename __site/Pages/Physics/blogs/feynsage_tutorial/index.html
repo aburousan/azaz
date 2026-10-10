@@ -1,0 +1,722 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: preconnect + a single parallel stylesheet (was a render-blocking
+       @import inside awesome.css). Weights trimmed to what the site uses. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <!-- Font Awesome via CSS+webfont (was a render-heavy ~1.3MB SVG-framework JS).
+       Served from cdnjs (more reliable than use.fontawesome.com); v5 keeps all
+       existing fa-* class names so nothing breaks. -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/styles/github.min.css">
+   
+  <link rel="stylesheet" href="/css/franklin.css">
+<link rel="stylesheet" href="/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/css/adjust.css">
+<link rel="stylesheet" href="/css/dark-mode.css">
+<link rel="stylesheet" href="/css/awesome.css">
+<link rel="icon" href="/assets/favicon.webp">
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>feynsage: Feynman Integrals in SageMath, a Tutorial</title>  
+  <!-- end custom head snippets -->
+  
+  <script>
+    // Load theme before rendering to avoid flash
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body class="layout--single">
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    const body = document.body;
+    let iconClass = 'fa-laptop-code';
+    
+    if (path.includes('qft') || path.includes('form_pedestrian')) {
+      body.classList.add('theme-qft');
+      iconClass = 'fa-radiation';
+    } else if (path.includes('astronom') || path.includes('dawn')) {
+      body.classList.add('theme-astro');
+      iconClass = 'fa-meteor';
+    } else if (path.includes('physics')) {
+      body.classList.add('theme-physics');
+      iconClass = 'fa-atom';
+    } else if (path.includes('maths') || path.includes('mandel') || path.includes('legendre')) {
+      body.classList.add('theme-maths');
+      iconClass = 'fa-square-root-alt';
+    } else {
+      body.classList.add('theme-default');
+    }
+    
+    // Inject the watermark element directly so FontAwesome JS can convert it to SVG
+    const watermark = document.createElement('i');
+    watermark.className = 'fas ' + iconClass + ' watermark-bg';
+    body.appendChild(watermark);
+  })();
+</script>
+  <div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Rousan</a>
+        <ul class="visible-links">
+          <li class="masthead__menu-item"><a href="/home_page/" ><i class="fas fa-home"></i> Home</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Maths/Maths_Home/" ><i class="fas fa-square-root-alt"></i> Maths</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/Physics/Physics_Home/" ><i class="fas fa-atom"></i> Physics</a></li>
+          <li class="masthead__menu-item"><a href="/Pages/art/" ><i class="fas fa-palette"></i> Art</a></li>
+          
+          <!-- Dropdown Menu for Blogs -->
+          <li class="masthead__menu-item dropdown">
+            <a href="/Pages/Physics/blogs/phy_blog/" class="dropbtn" tabindex="0"><i class="fas fa-feather-alt"></i> Blogs <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+              <a href="/Pages/Physics/blogs/phy_blog/"><i class="fas fa-atom"></i> Physics Blogs</a>
+              <a href="/Pages/Maths/blogs/math_blog/"><i class="fas fa-square-root-alt"></i> Maths Blogs</a>
+            </div>
+          </li>
+          
+          <li class="masthead__menu-item"><a href="/Pages/Tags_page"><i class="fas fa-tags"></i> Tags</a></li>
+        </ul>
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <button id="theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+          <!-- Inline SVGs (no FontAwesome dependency) so the toggle is always
+               visible even if the icon webfont fails to load. -->
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // The moon/sun SVGs are both in the DOM; CSS shows the correct one based on
+  // the html.dark-mode class, so no innerHTML swap (and no FontAwesome) needed.
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+  // Reading Progress Bar
+  window.onscroll = function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    var myBar = document.getElementById("myBar");
+    if (myBar) {
+      myBar.style.width = scrolled + "%";
+    }
+  };
+</script>
+
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/me_avatar.webp" alt="Kazi Abu Rousan" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Kazi Abu Rousan</h3>
+            <p class="author__bio" itemprop="description">Just some random dude.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Murshidabad, India</span></li>
+                <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            </ul>
+            
+            <div class="sidebar-decor" style="margin-top: 3.5rem; margin-bottom: 2rem; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.4s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -20 260 240" width="160" height="160" aria-hidden="true" style="max-width: 100%; height: auto;">
+                <style>
+                  .orbit { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.75; }
+                  .core { fill: currentColor; }
+                  .eq-text { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 11px; fill: currentColor; opacity: 0.95; }
+                  @keyframes spin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spin2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
+                  @keyframes spin3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(480deg); } }
+                  @keyframes float1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+                  @keyframes float2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+                  .ring1 { transform-origin: 100px 100px; animation: spin1 24s linear infinite; }
+                  .ring2 { transform-origin: 100px 100px; animation: spin2 28s linear infinite; }
+                  .ring3 { transform-origin: 100px 100px; animation: spin3 32s linear infinite; }
+                </style>
+                
+                <!-- Floating Equations -->
+                <!-- Cosmology / Einstein Field Equation -->
+                <g class="eq-text" style="animation: float1 6s ease-in-out infinite;">
+                  <text x="-15" y="25">R<tspan baseline-shift="sub" font-size="7.5">μν</tspan> - ½Rg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> + Λg<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = 8πT<tspan baseline-shift="sub" font-size="7.5">μν</tspan></text>
+                </g>
+
+                <!-- QFT / Gauge Field Tensor -->
+                <g class="eq-text" style="animation: float2 7.2s ease-in-out infinite;">
+                  <text x="145" y="45">F<tspan baseline-shift="sub" font-size="7.5">μν</tspan> = ∂<tspan baseline-shift="sub" font-size="7.5">μ</tspan>A<tspan baseline-shift="sub" font-size="7.5">ν</tspan> - ∂<tspan baseline-shift="sub" font-size="7.5">ν</tspan>A<tspan baseline-shift="sub" font-size="7.5">μ</tspan></text>
+                </g>
+
+                <!-- Killing Vector -->
+                <g class="eq-text" style="animation: float2 6.5s ease-in-out infinite;">
+                  <text x="-20" y="175">∇<tspan baseline-shift="sub" font-size="7.5">μ</tspan>K<tspan baseline-shift="sub" font-size="7.5">ν</tspan> + ∇<tspan baseline-shift="sub" font-size="7.5">ν</tspan>K<tspan baseline-shift="sub" font-size="7.5">μ</tspan> = 0</text>
+                </g>
+
+                <!-- Dirac Equation (QFT) -->
+                <g class="eq-text" style="animation: float1 7.8s ease-in-out infinite;">
+                  <text x="135" y="185">iγ<tspan baseline-shift="super" font-size="7.5">μ</tspan>D<tspan baseline-shift="sub" font-size="7.5">μ</tspan>ψ = mψ</text>
+                </g>
+
+                <!-- Atom Orbits (Physics) -->
+                <g class="ring1"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="180" cy="100" r="3.5" class="core"/></g>
+                <g class="ring2"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="60" cy="120" r="3.5" class="core"/></g>
+                <g class="ring3"><ellipse cx="100" cy="100" rx="80" ry="24" class="orbit" /><circle cx="140" cy="80" r="3.5" class="core"/></g>
+                
+                <!-- Fibonacci Spiral (Mathematics) -->
+                <path d="M 98 100 
+                         A 8 8 0 0 1 106 108 
+                         A 16 16 0 0 1 90 124 
+                         A 24 24 0 0 1 66 100 
+                         A 40 40 0 0 1 106 60 
+                         A 64 64 0 0 1 170 124" 
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                      
+                <circle cx="98" cy="100" r="2.5" class="core" />
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+
+
+  <script src="/libs/plotly/plotly.min.js"></script> 
+  <script>
+    // This function is used when calling `\fig{...}` See # Using \fig{...} below
+    const PlotlyJS_json = async (div, url) => {
+      response = await fetch(url); // get file
+      fig = await response.json(); // convert it to json
+      // Make the plot fit the screen responsively. See the documentation of plotly.js. https://plotly.com/javascript/responsive-fluid-layout/
+      if (typeof fig.config === 'undefined') { fig["config"]={} }
+      delete fig.layout.width
+      delete fig.layout.height
+      fig["layout"]["autosize"] = true
+      fig["config"]["autosizable"] = true
+      fig["config"]["responsive"] = true
+
+      // Dragging pans the plot instead of dragging out a zoom marquee. The rubber-band
+      // rectangle is what feels wrong on a reading page: you grab a plot expecting to
+      // move it and get a selection box instead. Zoom lives on the modebar (+ / -),
+      // and double-click still resets the axes.
+      fig["layout"]["dragmode"] = "pan"
+
+      // Wheel-zoom stays off so the page scrolls normally when the pointer crosses a
+      // figure. Do NOT re-render to switch this on later: Plotly.react drops `frames`,
+      // which breaks the animated figures (the theta slider).
+      fig.config["scrollZoom"] = false
+
+      // NOTE: do not constrain the container width here for scaleanchor figures.
+      // Setting max-width before newPlot leaves the graph div with a stale size, so
+      // the SVG paints outside it and the following paragraphs run over the plot.
+
+      // PlotlyJS.savefig by default add the some more attribute to make a static plot.
+      // Disable them to make the website fancier.
+      delete fig.config.staticPlot
+      delete fig.config.displayModeBar
+      delete fig.config.doubleClick
+      delete fig.config.showTips
+
+      Plotly.newPlot(div, fig);
+    };
+  </script>
+  
+<div class="franklin-content">
+<div class="franklin-toc"><ol><li><a href="#installing_it">Installing it</a></li><li><a href="#five_minutes_in_the_tadpole">Five minutes in: the tadpole</a></li><li><a href="#the_conventions_before_you_compare_with_a_book">The conventions, before you compare with a book</a></li><li><a href="#the_bubble_has_a_branch_cut_that_you_can_watch_open">The bubble has a branch cut that you can watch open</a></li><li><a href="#tensor_integrals_which_is_the_part_nobody_enjoys_by_hand">Tensor integrals, which is the part nobody enjoys by hand</a></li><li><a href="#dirac_traces_in_the_notation_you_already_write">Dirac traces, in the notation you already write</a></li><li><a href="#numbers_when_you_want_numbers">Numbers, when you want numbers</a></li><li><a href="#a_real_calculation_the_photon_self-energy_in_qed">A real calculation: the photon self-energy in QED</a></li><li><a href="#diagrams">Diagrams</a></li><li><a href="#where_to_go_after_this">Where to go after this</a></li></ol></div>
+<h1 id="span_stylecolor_3c568efeynsage_feynman_integrals_in_sagemath"><a href="#span_stylecolor_3c568efeynsage_feynman_integrals_in_sagemath" class="header-anchor"><strong><span style="color: #3c568e">feynsage</span></strong>: Feynman Integrals in SageMath</a></h1>
+<p>Loop integrals are where a first QFT course usually starts hurting. The diagram takes a minute to draw, then the integral behind it takes an afternoon, a table of integrals, with three sign conventions you have to keep straight.</p>
+<p><a href="https://github.com/aburousan/feynsage">feynsage</a> is a SageMath package that does those integrals. You write the integral in ordinary notation, it gives back an exact answer you can read.</p>
+<p>This page is for someone who has just started QFT. You should know what a Feynman diagram is, you should have seen a propagator. You do not need to have done a loop integral by hand, you do not need to know Package-X, FORM or Kira.</p>
+<p><strong>Everything printed on this page is real output.</strong> Each block was run, the answer captured, then typeset. Nothing here is typed from memory.</p>
+<h2 id="installing_it"><a href="#installing_it" class="header-anchor">Installing it</a></h2>
+<pre><code class="language-bash">git clone https://github.com/aburousan/feynsage.git
+cd feynsage
+./install.sh          # add --test to run the whole test suite afterwards</code></pre>
+<p>The script finds SageMath and FORM, or installs them. It works on macOS, Linux, Windows through WSL. Then start Sage and bring everything in:</p>
+<pre><code class="language-python">from feynsage import *</code></pre>
+<h2 id="five_minutes_in_the_tadpole"><a href="#five_minutes_in_the_tadpole" class="header-anchor">Five minutes in: the tadpole</a></h2>
+<p>The simplest loop integral in any textbook is the one with a single propagator going round in a circle, called the tadpole. In feynsage it is <code>A0</code>:</p>
+<pre><code class="language-python">A0&#40;&#39;m&#39;&#41;</code></pre>
+\[ m^{2} {\left(\frac{1}{\epsilon} + \log\left(\frac{\mu^{2}}{m^{2}}\right) + 1\right)} \]
+<p>Read it as three pieces. The \(1/\epsilon\) is the ultraviolet divergence, the part that renormalisation has to remove. The logarithm carries the scale \(\mu\) that dimensional regularisation forced in. The \(+1\) is the leftover constant that depends on your conventions, which is exactly why conventions get their own section below.</p>
+<p>Next, two propagators, the bubble. At zero external momentum with two equal masses:</p>
+<pre><code class="language-python">B0&#40;0, &#39;m&#39;, &#39;m&#39;&#41;</code></pre>
+\[ \frac{1}{\epsilon} + \log\left(\frac{\mu^{2}}{m^{2}}\right) \]
+<p>Now switch the momentum on. Let \(s\) be the squared momentum flowing in:</p>
+<pre><code class="language-python">s &#61; var&#40;&#39;s&#39;&#41;
+B0&#40;s, &#39;m&#39;, &#39;m&#39;&#41;</code></pre>
+\[ \frac{1}{\epsilon} + \Lambda(s; m, m) + \log\left(\frac{\mu^{2}}{m^{2}}\right) + 2 \]
+<p>The new object \(\Lambda(s; m, m)\) is the only place the momentum enters. feynsage keeps it as a named function instead of writing the logarithms out, because the whole physics of the bubble sits inside it. We come back to it in a moment.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>A name you will meet.</strong> In the printed output \(\Lambda\) appears as <code>DiscB</code>. It is the standard discontinuity function of the bubble. Keeping it unexpanded makes answers short and readable. When you want it written out in logarithms, ask for <code>explicit&#40;...&#41;</code>. 
+  </fieldset>
+  
+<h2 id="the_conventions_before_you_compare_with_a_book"><a href="#the_conventions_before_you_compare_with_a_book" class="header-anchor">The conventions, before you compare with a book</a></h2>
+<p>This is the section to read twice. Almost every &quot;feynsage disagrees with my textbook&quot; turns out to be one of these.</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>The arguments are masses, not masses squared.</strong> <code>A0&#40;&#39;m&#39;&#41;</code> means the mass is \(m\). This follows Package-X, where <code>PVA&#91;0,m&#93;</code> also takes the mass. So <code>A0&#40;&#39;m^2&#39;&#41;</code> does not mean \(A_0(m^2)\), it means a particle of mass \(m^2\), which returns \(m^4(\dots)\). If an answer comes out with the wrong power, check this first.</p>
+<p><strong>The dimension is \(d = 4 - 2\epsilon\).</strong> feynsage normalises every loop integral as</p>
+\[ \mu^{2\epsilon}\,e^{\epsilon\gamma_E}\,\frac{1}{i\pi^{d/2}}\int \mathrm d^d\ell \]
+<p>so the \(\gamma_E\) with the \(\log 4\pi\) that come with dimensional regularisation are already absorbed. What you see is the \(\overline{\rm MS}\) answer.</p>
+<p><strong>Peskin uses \(d = 4 - \epsilon\).</strong> This is the big one. Peskin defines \(\epsilon = 4 - d\), so his poles are \(2/\epsilon\) where feynsage writes \(1/\epsilon\). Comparing the two directly gives a factor of two and a wasted evening. The physics is the same, the letter \(\epsilon\) is not. 
+  </fieldset>
+  
+<h2 id="the_bubble_has_a_branch_cut_that_you_can_watch_open"><a href="#the_bubble_has_a_branch_cut_that_you_can_watch_open" class="header-anchor">The bubble has a branch cut that you can watch open</a></h2>
+<p>Here is the first result worth staring at. Take the bubble with \(m = \mu = 1\), throw the pole away, keep the finite part:</p>
+<pre><code class="language-python">finite_part&#40;B0&#40;s, 1, 1&#41;, 1&#41;</code></pre>
+\[ \Lambda(s; 1, 1) + 2 \]
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>Careful with this one.</strong> The second argument of <code>finite_part</code> is the <strong>value of \(\mu\)</strong>, not an order in \(\epsilon\). Passing <code>0</code> puts \(\mu = 0\) into a logarithm and the answer comes back as \(-\infty\). I made exactly this mistake while writing this page. 
+  </fieldset>
+  
+<p>Now evaluate it along the real \(s\) axis and plot the two parts:</p>
+
+<figure>
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/feynsage/b0_cut.svg" alt="Real and imaginary parts of the one-loop bubble against s, with the threshold at s = 4 m squared">
+  <p>The finite part of \(B_0(s;m,m)\) with \(m=\mu=1\). Below \(s=4m^2\) the function is real. At \(s = 4m^2\) an imaginary part switches on, which is the point where the two internal particles can be made for real instead of staying virtual. The dashed line is the exact formula \(\pi\sqrt{1-4m^2/s}\), sitting on top of what feynsage computed.</p>
+</figure>
+
+<p>That threshold is not a numerical accident, it is the optical theorem. The imaginary part of a loop amplitude is the rate for actually producing the particles inside the loop, so it has to vanish until there is enough energy to make them. Above \(s = 4m^2\) the exact answer is \(\pi\sqrt{1 - 4m^2/s}\).</p>
+<p>Check it rather than believing it:</p>
+<pre><code class="language-python">for x in &#40;5, 9, 16, 100&#41;:
+    print&#40;x, CC&#40;DiscB&#40;x, 1, 1&#41;&#41;.imag&#40;&#41;, RR&#40;pi*sqrt&#40;1 - 4/x&#41;&#41;&#41;</code></pre>
+<table><tr><th align="right">\(s/m^2\)</th><th align="right">feynsage</th><th align="right">\(\pi\sqrt{1-4m^2/s}\)</th><th align="right">equal</th></tr><tr><td align="right">5</td><td align="right">1.4049629462081452</td><td align="right">1.4049629462081452</td><td align="right">yes</td></tr><tr><td align="right">9</td><td align="right">2.3416049103469088</td><td align="right">2.3416049103469088</td><td align="right">yes</td></tr><tr><td align="right">16</td><td align="right">2.720699046351327</td><td align="right">2.7206990463513265</td><td align="right">yes</td></tr><tr><td align="right">100</td><td align="right">3.078119592388474</td><td align="right">3.0781195923884734</td><td align="right">yes</td></tr></table>
+<p>Agreement to the last digit at the first two points, to one unit in the last place at the others, which is ordinary floating point.</p>
+<h2 id="tensor_integrals_which_is_the_part_nobody_enjoys_by_hand"><a href="#tensor_integrals_which_is_the_part_nobody_enjoys_by_hand" class="header-anchor">Tensor integrals, which is the part nobody enjoys by hand</a></h2>
+<p>Real diagrams have loop momenta in the numerator. A fermion loop gives you \(\ell^\mu \ell^\nu\) upstairs, which cannot depend on any direction after integration, so it has to collapse onto \(g^{\mu\nu}\) with \(p^\mu p^\nu\). Doing that by hand is a page of algebra.</p>
+<pre><code class="language-python">loop&#40;&#39;l^mu l^nu&#39;, &#91;&#39;l&#39;, &#39;m&#39;&#93;, &#91;&#39;l &#43; p&#39;, &#39;m&#39;&#93;, kin&#61;&#123;&#39;p^2&#39;: &#39;s&#39;&#125;&#41;</code></pre>
+<p>The three arguments are the numerator, then one list per propagator giving its momentum with its mass, then the kinematics. The answer comes back split by tensor structure:</p>
+\[ \begin{aligned} g^{\mu\nu} &:\quad \frac{1}{\epsilon}\left(\frac{1}{2}  m^{2} - \frac{1}{12}  s\right) + \left(\frac{1}{3}  m^{2} - \frac{1}{12}  s\right)\,\Lambda(s; m, m) \\ & \quad + \left(\frac{1}{2}  m^{2} - \frac{1}{12}  s\right)\,\log\left(\frac{\mu^{2}}{m^{2}}\right) + \frac{7}{6}  m^{2} - \frac{2}{9}  s \\[6pt] p^{\mu} p^{\nu} &:\quad \frac{1}{3\,\epsilon} - \frac{m^{2} - s}{3  s}\,\Lambda(s; m, m) \\ & \quad + \frac{1}{3}\,\log\left(\frac{\mu^{2}}{m^{2}}\right) - \frac{12  m^{2} - 13  s}{18  s} \end{aligned} \]
+<p>Two coefficients, each a Laurent series in \(\epsilon\). In Passarino-Veltman language these are \(B_{00}\) with \(B_{11}\), already reduced.</p>
+<h2 id="dirac_traces_in_the_notation_you_already_write"><a href="#dirac_traces_in_the_notation_you_already_write" class="header-anchor">Dirac traces, in the notation you already write</a></h2>
+<p>Traces of gamma matrices are the other thing that eats an afternoon. feynsage lets you write them the way the textbook does. FORM does the algebra underneath, you never write FORM code.</p>
+<pre><code class="language-python">p, q &#61; momenta&#40;&#39;p q&#39;&#41;
+mu, nu &#61; lorentz_indices&#40;&#39;mu nu&#39;&#41;
+dirac_trace&#40;slash&#40;p&#41;*gamma&#40;mu&#41;*slash&#40;q&#41;*gamma&#40;nu&#41;&#41;</code></pre>
+\[ 4 \, p^{\nu} q^{\mu} + 4 \, p^{\mu} q^{\nu} - 4 \, \left(p \cdot q\right) g^{\mu \nu} \]
+<p>That is the identity every QFT course proves in week one,</p>
+\[ \mathrm{tr}\!\left(\not p\,\gamma^\mu \not q\,\gamma^\nu\right) = 4\left(p^\mu q^\nu + p^\nu q^\mu - g^{\mu\nu}\,p\cdot q\right) \]
+<p>Try one you would not want to do by hand:</p>
+<pre><code class="language-python">dirac_trace&#40;slash&#40;p&#41;*slash&#40;q&#41;*slash&#40;p&#41;*slash&#40;q&#41;&#41;</code></pre>
+\[ 8 \, \left(p \cdot q\right)^{2} - 4 \, p^{2}\,q^{2} \]
+<p>Both took under three hundredths of a second.</p>
+<h2 id="numbers_when_you_want_numbers"><a href="#numbers_when_you_want_numbers" class="header-anchor">Numbers, when you want numbers</a></h2>
+<p>The scalar triangle and box come in closed form, so you can ask for as many digits as you like:</p>
+<pre><code class="language-python">C0&#40;0, 0, 5, 1, 1, 1&#41;.n&#40;digits&#61;30&#41;</code></pre>
+\[ -0.894334511878058104884677471495 - 0.604708613771114783376341265398\,i \]
+<p>It is complex because these kinematics sit above threshold, which is the same physics as the branch cut above.</p>
+<h2 id="a_real_calculation_the_photon_self-energy_in_qed"><a href="#a_real_calculation_the_photon_self-energy_in_qed" class="header-anchor">A real calculation: the photon self-energy in QED</a></h2>
+<p>Now put it together. We build the one-loop QED photon self-energy from scratch, contract it, pull out the divergence, then compare with a book.</p>
+<pre><code class="language-python">qed &#61; QED&#40;muons&#61;False, taus&#61;False&#41;
+p &#61; momenta&#40;&#39;pp_&#39;&#41;; P2 &#61; var&#40;&#39;P2_&#39;&#41;
+
+se &#61; topologies&#40;1, 1, 1, exclude&#61;&#40;&#39;tadpoles&#39;, &#39;wf&#39;&#41;&#41;      # one loop, one in, one out
+dA &#61; insert_fields&#40;se, &#91;&#39;A&#39;&#93;, &#91;&#39;A&#39;&#93;, qed&#41;                 # put a photon on each leg
+gM &#61; sum&#40;dA.loop_amplitude&#40;&#91;p&#93;, &#91;p&#93;,
+         lambda n, e: n*T.metric&#40;e&#91;0&#93;, e&#91;1&#93;&#41;, &#123;&#39;pp_^2&#39;: &#39;P2_&#39;&#125;&#41;&#41;
+Pi2 &#61; gM/&#40;&#40;3 - 2*eps&#41;*P2&#41;
+uv_part&#40;Pi2&#41;.simplify_full&#40;&#41;</code></pre>
+\[ -\frac{e^{2}}{12\,\pi^{2}} \]
+<p>So \(\Pi_2(q^2)\) has the divergence</p>
+\[ \Pi_2 = -\frac{e^2}{12\pi^2}\,\frac{1}{\epsilon} + \text{finite} \]
+<p>feynsage drew the diagram, inserted the fields, did the Dirac algebra, did the loop integral, then handed back the pole, in about a tenth of a second.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>Does it agree with Peskin?</strong> Peskin and Schroeder give the photon self-energy in equation &#40;7.90&#41; on page 252, with the transverse structure \(\Pi^{\mu\nu} = (q^2 g^{\mu\nu} - q^\mu q^\nu)\Pi_2(q^2)\).</p>
+<p>The pole looks different at first sight, by a factor of two. It is the convention, not the physics. Peskin defines \(\epsilon = 4 - d\) while feynsage uses \(d = 4 - 2\epsilon\), so one \(\epsilon\) is twice the other. Put them in the same convention, they agree. The package&#39;s own test suite checks this in <code>tests/test_books.sage</code>, along with the electron self-energy against &#40;10.41&#41; on page 333 with the QCD beta function against &#40;16.73&#41; on page 527. 
+  </fieldset>
+  
+<h2 id="diagrams"><a href="#diagrams" class="header-anchor">Diagrams</a></h2>
+<p>feynsage draws the graphs it works with, so you can check you built the one you meant.</p>
+
+<div class="mfig" style="--w:620px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/feynsage/diag_bubble.svg" alt="The one-loop bubble diagram with Feynman parameters marked">
+  <p>`diagram("bubble")` then `draw_graph(g)`. The labels \(x_1\) with \(x_2\) are the Feynman parameters of the two propagators, which is what the parametric representation integrates over.</p>
+</div>
+
+<p>The same works for <code>&quot;triangle&quot;</code> with <code>&quot;box&quot;</code>, which are the graphs behind <code>C0</code> with <code>D0</code>.</p>
+<h2 id="where_to_go_after_this"><a href="#where_to_go_after_this" class="header-anchor">Where to go after this</a></h2>
+<p>This page stops at one loop, which is already enough for most of a first course. feynsage goes further: integral families from strings, IBP reduction with symmetries found by itself, master integrals, Mellin-Barnes, sector decomposition, differential equations, Goncharov polylogarithms, diagrams generated from a model the way FeynArts does it.</p>
+<ul>
+<li><p>The repository, with the full reference: <a href="https://github.com/aburousan/feynsage">github.com/aburousan/feynsage</a></p>
+</li>
+<li><p>A longer step-by-step tutorial with real computations ships inside it, at <code>docs/tutorial/feynsage_tutorial.pdf</code></p>
+</li>
+<li><p>The Dirac algebra page, <code>docs/dirac_algebra.md</code>, if traces are what you came for</p>
+</li>
+<li><p>Every function explains itself. Pass <code>explain&#61;True</code>, or call <code>info&#40;f&#41;</code>, to have it print what its own output means.</p>
+</li>
+</ul>
+<p>One honest word about scale. feynsage is built for small and medium problems where every step stays exact, can be checked, explains itself. For very large reductions, millions of equations with several scales, Kira and FIRE are the right tools and will stay that way.</p>
+
+<button onclick="window.history.back()">Go Back</button>
+
+<div id="custom-comments-container"></div>
+<link rel="stylesheet" href="/assets/css/custom_comments.css?v=2">
+<script type="module" src="/assets/js/custom_comments.js?v=5"></script>
+
+<div class="page-foot">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 10, 2026.
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div>
+
+
+
+<!-- Collapsible button example -->
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
+  <!-- End collapsible button example --></div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><strong>Follow:</strong></li>
+            <li><a href="https://twitter.com/AustinRousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/aburousan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kazi-abu-rousan-819848198/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/azavzya/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+
+
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Kazi Abu Rousan. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <!-- Reading Progress and Scroll Animations JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 1. Reading Progress Bar
+        const progressBar = document.getElementById("myBar");
+        if (progressBar) {
+          window.addEventListener("scroll", function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+          }, { passive: true });
+        }
+
+        // 2. Fade-Up on Scroll
+        // Select elements inside the main content area to animate
+        const elementsToAnimate = document.querySelectorAll(".page__content p, .page__content h2, .page__content h3, .page__content img, .page__content .math");
+        
+        // Add the base class to them
+        elementsToAnimate.forEach(el => el.classList.add("fade-up-element"));
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe ALL fade-up elements (including ones manually added in HTML/Julia)
+        document.querySelectorAll(".fade-up-element").forEach(el => observer.observe(el));
+      });
+    </script>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <!-- Font Awesome now loads as CSS in <head>; the heavy SVG-framework JS was removed -->
+
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        <script src="/libs/highlight/highlight.min.js"></script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
+    
+
+    <!-- Universal Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+      <img id="lightbox-img" src="">
+    </div>
+
+    <!-- Lightbox Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const images = document.querySelectorAll('.cv-img, .math-diagram');
+        
+        images.forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightboxImg.src = this.src;
+            lightbox.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+
+    <!-- Oneko Cat: opt-out, remembered per visitor. The script is only loaded
+         when the cat is wanted, so switching it off costs nothing on later pages. -->
+    <style>
+      #oneko-toggle {
+        position: fixed; left: 16px; bottom: 16px; z-index: 1000;
+        width: 34px; height: 34px; padding: 0;
+        border: 1px solid rgba(140,140,140,0.35); border-radius: 50%;
+        background: rgba(250,248,244,0.82); color: #7a6a4a;
+        font-size: 15px; line-height: 1; cursor: pointer;
+        opacity: 0.42; transition: opacity 0.2s, transform 0.2s;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #oneko-toggle:hover { opacity: 1; transform: scale(1.08); }
+      html.dark-mode #oneko-toggle {
+        background: rgba(38,36,33,0.82); color: #cda863;
+        border-color: rgba(180,170,150,0.28);
+      }
+      /* toggled off: the cat and everything it owns goes away. */
+      html.oneko-off .oneko-el { display: none !important; }
+      /* ducked behind a picture or the text: the cat hides itself by clipping
+         or by dropping below the content, so only its bits and pieces go. */
+      html.oneko-hidden .oneko-el:not(#oneko) { display: none !important; }
+      @media print { #oneko-toggle { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = 'oneko-enabled';
+        var on = localStorage.getItem(KEY) === '1';   // hidden until the reader asks for it
+        var loaded = false;
+
+        function loadCat() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.src = '/assets/oneko.js?v=67';
+          s.setAttribute('data-cat', '/assets/oneko.gif');
+          document.body.appendChild(s);
+        }
+
+        function paint(btn) {
+          btn.textContent = on ? '🐈' : '🐾';
+          btn.title = on ? 'Hide the cat' : 'Bring the cat back';
+          btn.setAttribute('aria-label', btn.title);
+          document.documentElement.classList.toggle('oneko-off', !on);
+          window.dispatchEvent(new Event('oneko-toggle'));
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.createElement('button');
+          btn.id = 'oneko-toggle';
+          btn.type = 'button';
+          paint(btn);
+          btn.addEventListener('click', function () {
+            on = !on;
+            localStorage.setItem(KEY, on ? '1' : '0');
+            paint(btn);
+            if (on) loadCat();
+          });
+          document.body.appendChild(btn);
+          if (on) loadCat();
+        });
+      })();
+    </script>
+    <script>
+      // Add a 'Download as PDF' button only on blog pages
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.pathname.includes('/blogs/')) {
+          const btn = document.createElement('button');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download as PDF';
+          btn.className = 'btn btn--primary pdf-download-btn';
+          btn.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-radius: 20px; padding: 6px 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.2s, background-color 0.2s; background-color: #0ea5e9; color: white; border: none; font-size: 13px;';
+          
+          btn.onmouseenter = () => { btn.style.transform = 'scale(1.05) translateY(-2px)'; btn.style.backgroundColor = '#0284c7'; };
+          btn.onmouseleave = () => { btn.style.transform = 'scale(1) translateY(0)'; btn.style.backgroundColor = '#0ea5e9'; };
+          
+          btn.onclick = function() {
+            window.print();
+          };
+          
+          document.body.appendChild(btn);
+
+          // Add print CSS to hide UI elements for a clean PDF
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @media print {
+              .pdf-download-btn, .masthead, .sidebar, .page__footer, #oneko, .watermark-bg {
+                display: none !important;
+              }
+              body, .initial-content, .franklin-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                color: black !important;
+              }
+              .page { width: 100% !important; max-width: none !important; }
+              pre, code { white-space: pre-wrap !important; word-wrap: break-word !important; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- clipboard.js moved out of the render-blocking <head>; loaded here just
+     before the copy-button setup that needs it -->
+<script src="/libs/clipboard.min.js"></script>
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  // TOC Collapser
+  var tocs = document.querySelectorAll('.franklin-toc');
+  for (var i = 0; i < tocs.length; i++) {
+    var toc = tocs[i];
+    var details = document.createElement('details');
+    var summary = document.createElement('summary');
+    
+    // Style the summary
+    summary.innerHTML = '<i class="fas fa-list-ul"></i> Table of Contents';
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = 'bold';
+    summary.style.marginBottom = '1rem';
+    summary.style.fontSize = '1.2em';
+    summary.style.outline = 'none';
+    summary.style.color = '#3a6ea5'; // Cool-blue accent
+    
+    // Move TOC contents into details
+    var children = Array.prototype.slice.call(toc.childNodes);
+    for (var j = 0; j < children.length; j++) {
+      details.appendChild(children[j]);
+    }
+    
+    // Put summary into details, and details into toc
+    details.insertBefore(summary, details.firstChild);
+    toc.appendChild(details);
+  }
+
+  })();
+  </script>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Rousan  ]]>
+    </title>
+    <link> https://rousan.netlify.app/ </link>
+    <description>
+      <![CDATA[  Personal Website of Kazi Abu Rousan  ]]>
+    </description>
+    <atom:link
+      href="https://rousan.netlify.app/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  feynsage: Feynman Integrals in SageMath  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/feynsage_tutorial/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/feynsage_tutorial/index.html </guid>
+  <description>
+    <![CDATA[  A hands-on tutorial for feynsage, a SageMath package for Feynman integrals. Written for someone who has just started QFT: the tadpole with the bubble, the conventions that trip everyone up, tensor reduction, Dirac traces in textbook notation with FORM underneath, the branch cut of the bubble checked against the exact formula, then a full one-loop QED self-energy compared with Peskin. Every output on this page was produced by running the code.  ]]>
+  </description>  
+    
+  <pubDate>Sun, 11 Oct 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>

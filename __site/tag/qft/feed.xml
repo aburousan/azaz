@@ -23,15 +23,205 @@
 
 <item>
   <title>
-    <![CDATA[  Intro<em>2</em>QFT_1  ]]>
+    <![CDATA[  feynsage: Feynman Integrals in SageMath  ]]>
   </title>
-  <link> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html </link>
-  <guid> https://rousan.netlify.app/Pages/Physics/courses/Intro_to_QFT/Course_Page/index.html </guid>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/feynsage_tutorial/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/feynsage_tutorial/index.html </guid>
   <description>
-    <![CDATA[  A Introductory course on Quantum Field Theory  ]]>
+    <![CDATA[  A hands-on tutorial for feynsage, a SageMath package for Feynman integrals. Written for someone who has just started QFT: the tadpole with the bubble, the conventions that trip everyone up, tensor reduction, Dirac traces in textbook notation with FORM underneath, the branch cut of the bubble checked against the exact formula, then a full one-loop QED self-energy compared with Peskin. Every output on this page was produced by running the code.  ]]>
   </description>  
     
-  <pubDate>Sat, 31 Aug 2024 00:00:00 +0000</pubDate>  
+  <pubDate>Sun, 11 Oct 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Effective Field Theory, Starting From the Propagator You Just Learned  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/eft_first_steps/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/eft_first_steps/index.html </guid>
+  <description>
+    <![CDATA[  An effective field theory is what you get when you cannot afford the energy to make a heavy particle. This is EFT for someone a few weeks into a first QFT course: one line of algebra on the propagator you already know, one heavy scalar integrated out by hand, then Fermi&#39;s theory of beta decay, why non-renormalisable is not an insult, then how a theory predicts the energy at which it will stop working.  ]]>
+  </description>  
+    
+  <pubDate>Sun, 20 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group V: Wilson&#39;s Momentum Shells  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/05_wilson/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/05_wilson/index.html </guid>
+  <description>
+    <![CDATA[  Part 5 of the renormalisation group course. From spins to a smooth field, Wilson&#39;s three-step RG in momentum space explained as filtering music and zooming out, the free-field &#40;Gaussian&#41; fixed point, power counting and why four dimensions is special.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group VII: Running Couplings  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/07_running/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/07_running/index.html </guid>
+  <description>
+    <![CDATA[  Part 7 of the renormalisation group course. The particle physics road, in simple words: counterterms, minimal subtraction, beta functions and the Callan-Symanzik equation. phi^4 finds the Wilson-Fisher point again, QED screens &#40;checked with FORM and Wolfram&#41; and QCD antiscreens and is asymptotically free. With an interactive running-coupling calculator.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group II: Loops, Infinities and Cutoffs  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/02_toolkit/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/02_toolkit/index.html </guid>
+  <description>
+    <![CDATA[  Part 2 of the renormalisation group course. The toolkit from zero, with a picture for each idea: where Feynman diagrams and their rules come from &#40;derived from the path integral by Wick pairing&#41;, where loop integrals come from, the Wick rotation done as a real contour integral, why loops blow up, what a cutoff is, three ways to regularise the same integral and what renormalisation actually does. With an interactive cutoff widget.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group I: Why Scale Matters  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/01_scale/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/01_scale/index.html </guid>
+  <description>
+    <![CDATA[  Part 1 of the renormalisation group course. A quantum correction to a particle&#39;s mass, worked out diagram by diagram, comes out infinite. What that is really telling us about coupling constants and the scale we look at.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  The Renormalisation Group: a beginner&#39;s course  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/Main_page/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/Main_page/index.html </guid>
+  <description>
+    <![CDATA[  An eight-part beginner&#39;s course on the renormalisation group, in simple words with an everyday picture for every idea: loops and cutoffs from scratch, block spins and the Ising chain, fixed points and universality, Wilson&#39;s momentum shells, the Wilson-Fisher fixed point, running couplings in QED and QCD, then effective field theory. Every formula checked in Wolfram and FORM, with live simulations in the browser.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group VIII: Effective Field Theory  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/08_eft/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/08_eft/index.html </guid>
+  <description>
+    <![CDATA[  Part 8 of the renormalisation group course. Why physics works at all without a final theory: effective field theories as a multipole expansion, Fermi&#39;s theory as the low-energy shadow of the W boson, what renormalisable really means, why high-energy physics is hard, triviality, asymptotic freedom and safety, naturalness and where to go next.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Renormalisation Group VI: The Wilson-Fisher Fixed Point  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/courses/RG/06_wilson_fisher/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/courses/RG/06_wilson_fisher/index.html </guid>
+  <description>
+    <![CDATA[  Part 6 of the renormalisation group course. The one-loop momentum-shell RG of phi^4 theory, step by step, the flow equations read as a population with limited food, the Wilson-Fisher fixed point in d &#61; 4 - epsilon and critical exponents compared with experiment. Then the same fixed point without any epsilon expansion: the functional RG in the local potential approximation, solved directly in three dimensions, with nu &#61; 0.6496 checked against the published value. With an interactive flow diagram.  ]]>
+  </description>  
+    
+  <pubDate>Sat, 19 Sep 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  The Physics of Neutrinos: Chirality, Helicity, and Parity Violation  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/neutrino_chirality/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/neutrino_chirality/index.html </guid>
+  <description>
+    <![CDATA[  What chirality, helicity and parity violation actually mean, and where they come apart once the neutrino has mass: Weyl spinors and the gamma-5 projector, the &#40;m/2E&#41;^2 ~ 10^-17 gap between chirality and helicity, why the pion refuses to decay into an electron, V-A theory and the group structure behind it, and Dirac versus Majorana mass with the seesaw.  ]]>
+  </description>  
+    
+  <pubDate>Thu, 25 Jun 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  A Pedestrian&#39;s Guide to FORM for Particle Physics &#40;via Julia&#41;  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/form_pedestrian_qft_blog/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/form_pedestrian_qft_blog/index.html </guid>
+  <description>
+    <![CDATA[  Tutorial for learning FORM.  ]]>
+  </description>  
+    
+  <pubDate>Tue, 23 Jun 2026 00:00:00 +0000</pubDate>  
   
   
   <atom:author>

@@ -23,6 +23,25 @@
 
 <item>
   <title>
+    <![CDATA[  feynsage: Feynman Integrals in SageMath  ]]>
+  </title>
+  <link> https://rousan.netlify.app/Pages/Physics/blogs/feynsage_tutorial/index.html </link>
+  <guid> https://rousan.netlify.app/Pages/Physics/blogs/feynsage_tutorial/index.html </guid>
+  <description>
+    <![CDATA[  A hands-on tutorial for feynsage, a SageMath package for Feynman integrals. Written for someone who has just started QFT: the tadpole with the bubble, the conventions that trip everyone up, tensor reduction, Dirac traces in textbook notation with FORM underneath, the branch cut of the bubble checked against the exact formula, then a full one-loop QED self-energy compared with Peskin. Every output on this page was produced by running the code.  ]]>
+  </description>  
+    
+  <pubDate>Sun, 11 Oct 2026 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Kazi Abu Rousan</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  Tree Codes 5: The Code  ]]>
   </title>
   <link> https://rousan.netlify.app/Pages/Physics/papers/hernquist1987/05_code/index.html </link>

@@ -1,0 +1,72 @@
+# Runs every example used in the tutorial and records the real output, both as
+# plain text and as LaTeX. Nothing in the tutorial is typed by hand.
+import sys, os, time, json
+sys.path.insert(0, os.path.expanduser("~/Coding/sage/feynsage"))
+from feynsage import *
+from feynsage.models import EL, ME
+from feynsage.qft import tensors as T
+from sage.all import var, latex, CC, RR, pi, sqrt
+
+OUT = []
+
+def run(tag, code, value):
+    t0 = time.time()
+    try:
+        v = value()
+        dt = time.time() - t0
+        try:
+            tex = str(latex(v))
+        except Exception:
+            tex = None
+        OUT.append(dict(tag=tag, code=code, repr=str(v), tex=tex, secs=round(float(dt), 2), ok=True))
+        print(f"[ok]   {tag:26s} {dt:5.2f}s")
+    except Exception as e:
+        OUT.append(dict(tag=tag, code=code, repr=f"{type(e).__name__}: {e}", tex=None,
+                        secs=round(float(time.time()-t0), 2), ok=False))
+        print(f"[FAIL] {tag:26s} {type(e).__name__}: {e}")
+
+s = var('s')
+
+run("A0", "A0('m')", lambda: A0('m'))
+run("B0_zero", "B0(0, 'm', 'm')", lambda: B0(0, 'm', 'm'))
+run("B0_s", "B0(s, 'm', 'm')", lambda: B0(s, 'm', 'm'))
+run("B0_finite", "finite_part(B0(s, 1, 1), 1)", lambda: finite_part(B0(s, 1, 1), 1))
+
+# the imaginary part above threshold, against the exact formula
+def disc_table():
+    rows = []
+    for x in (5, 9, 16, 100):
+        im = CC(DiscB(x, 1, 1)).imag()
+        pred = RR(pi*sqrt(1 - 4/x))
+        rows.append((x, float(im), float(pred), bool(abs(im - pred) < 1e-12)))
+    return rows
+run("disc_table", "CC(DiscB(s,1,1)).imag()  vs  pi*sqrt(1-4/s)", disc_table)
+
+run("tensor", "loop('l^mu l^nu', ['l','m'], ['l + p','m'], kin={'p^2':'s'})",
+    lambda: loop('l^mu l^nu', ['l', 'm'], ['l + p', 'm'], kin={'p^2': 's'}))
+
+def trace2():
+    p, q = momenta('p q'); mu_, nu_ = lorentz_indices('mu nu')
+    return dirac_trace(slash(p)*gamma(mu_)*slash(q)*gamma(nu_))
+run("trace2", "dirac_trace(slash(p)*gamma(mu)*slash(q)*gamma(nu))", trace2)
+
+def trace4():
+    p, q = momenta('p q')
+    return dirac_trace(slash(p)*slash(q)*slash(p)*slash(q))
+run("trace4", "dirac_trace(slash(p)*slash(q)*slash(p)*slash(q))", trace4)
+
+run("C0_num", "C0(0, 0, 5, 1, 1, 1).n(digits=30)", lambda: C0(0, 0, 5, 1, 1, 1).n(digits=30))
+
+def selfenergy():
+    qed = QED(muons=False, taus=False)
+    p = momenta('pp_'); P2 = var('P2_')
+    se = topologies(1, 1, 1, exclude=('tadpoles', 'wf'))
+    dA = insert_fields(se, ['A'], ['A'], qed)
+    gM = sum(dA.loop_amplitude([p], [p], lambda n, e: n*T.metric(e[0], e[1]), {'pp_^2': 'P2_'}))
+    Pi2 = gM/((3 - 2*eps)*P2)
+    return uv_part(Pi2).simplify_full()
+run("photon_se", "uv_part(Pi2)  for the QED photon self-energy", selfenergy)
+
+with open("runs.json", "w") as f:
+    json.dump(OUT, f, indent=1, default=str)
+print("\nwrote runs.json with", len(OUT), "entries,", sum(1 for o in OUT if o['ok']), "ok")
