@@ -1,0 +1,106 @@
+[
+ {
+  "tag": "tr_one",
+  "code": "dirac_trace(one())",
+  "repr": "4",
+  "tex": "4",
+  "secs": "0.02",
+  "ok": true
+ },
+ {
+  "tag": "tr_gg",
+  "code": "dirac_trace(gamma(mu)*gamma(nu))",
+  "repr": "4*Metric(mu, nu)",
+  "tex": "4 \\, g^{\\mu \\nu}",
+  "secs": "0.0",
+  "ok": true
+ },
+ {
+  "tag": "tr_ggg",
+  "code": "dirac_trace(gamma(mu)*gamma(nu)*gamma(rho))",
+  "repr": "0",
+  "tex": "0",
+  "secs": "0.0",
+  "ok": true
+ },
+ {
+  "tag": "tr_gggg",
+  "code": "dirac_trace(gamma(mu)*gamma(nu)*gamma(rho)*gamma(sigma_))",
+  "repr": "4*Metric(mu, sigma_)*Metric(nu, rho) - 4*Metric(mu, rho)*Metric(nu, sigma_) + 4*Metric(mu, nu)*Metric(rho, sigma_)",
+  "tex": "4 \\, g^{\\mu \\sigma} g^{\\nu \\rho} - 4 \\, g^{\\mu \\rho} g^{\\nu \\sigma} + 4 \\, g^{\\mu \\nu} g^{\\rho \\sigma}",
+  "secs": "0.0",
+  "ok": true
+ },
+ {
+  "tag": "tr_pq",
+  "code": "dirac_trace(slash(p)*slash(q))",
+  "repr": "4*Dot(p, q)",
+  "tex": "4 \\, \\left({p} \\cdot {q}\\right)",
+  "secs": "0.0",
+  "ok": true
+ },
+ {
+  "tag": "tr_pgqg",
+  "code": "dirac_trace(slash(p)*gamma(mu)*slash(q)*gamma(nu))",
+  "repr": "4*Comp(p, nu)*Comp(q, mu) + 4*Comp(p, mu)*Comp(q, nu) - 4*Dot(p, q)*Metric(mu, nu)",
+  "tex": "4 \\, {p}^{\\nu} {q}^{\\mu} + 4 \\, {p}^{\\mu} {q}^{\\nu} - 4 \\, \\left({p} \\cdot {q}\\right) g^{\\mu \\nu}",
+  "secs": "0.0",
+  "ok": true
+ },
+ {
+  "tag": "ndiag",
+  "code": "len(P.diagrams)",
+  "repr": "1",
+  "tex": "1",
+  "secs": "0.0",
+  "ok": true
+ },
+ {
+  "tag": "msq",
+  "code": "P.squared()",
+  "repr": "2*(EL^4*t^2 + EL^4*u^2)/s^2",
+  "tex": "\\frac{2 \\, {\\left({e}^{4} t^{2} + {e}^{4} u^{2}\\right)}}{s^{2}}",
+  "secs": "0.02",
+  "ok": true
+ },
+ {
+  "tag": "dsig",
+  "code": "P.dsigma_dcos()",
+  "repr": "1/32*(EL^4*cos_theta^2 + EL^4)/(pi*sqrt_s^2)",
+  "tex": "\\frac{{e}^{4} {\\cos\\theta}^{2} + {e}^{4}}{32 \\, \\pi {\\sqrt{s}}^{2}}",
+  "secs": "0.08",
+  "ok": true
+ },
+ {
+  "tag": "sigma10",
+  "code": "P.sigma(sqrt_s=10, unit='pb')",
+  "repr": "868.5447687569202",
+  "tex": "868.5447687569202",
+  "secs": "0.03",
+  "ok": true
+ },
+ {
+  "tag": "kin",
+  "code": "P.kinematics()",
+  "repr": "{Dot(p1, p1): 0, Dot(p2, p2): 0, Dot(p3, p3): 0, Dot(p4, p4): 0, Dot(p1, p2): 1/2*s, Dot(p3, p4): 1/2*s, Dot(p1, p3): -1/2*t, Dot(p2, p4): -1/2*t, Dot(p1, p4): -1/2*u, Dot(p2, p3): -1/2*u}",
+  "tex": "\\left\\{{{p_{1}}^{2}} : 0, {{p_{2}}^{2}} : 0, {{p_{3}}^{2}} : 0, {{p_{4}}^{2}} : 0, \\left({p_{1}} \\cdot {p_{2}}\\right) : \\frac{1}{2} \\, s, \\left({p_{3}} \\cdot {p_{4}}\\right) : \\frac{1}{2} \\, s, \\left({p_{1}} \\cdot {p_{3}}\\right) : -\\frac{1}{2} \\, t, \\left({p_{2}} \\cdot {p_{4}}\\right) : -\\frac{1}{2} \\, t, \\left({p_{1}} \\cdot {p_{4}}\\right) : -\\frac{1}{2} \\, u, \\left({p_{2}} \\cdot {p_{3}}\\right) : -\\frac{1}{2} \\, u\\right\\}",
+  "secs": "0.0",
+  "ok": true
+ },
+ {
+  "tag": "A0",
+  "code": "A0('m')",
+  "repr": "m^2*(1/eps + log(mu^2/m^2) + 1)",
+  "tex": "m^{2} {\\left(\\frac{1}{{\\epsilon}} + \\log\\left(\\frac{\\mu^{2}}{m^{2}}\\right) + 1\\right)}",
+  "secs": "0.0",
+  "ok": true
+ },
+ {
+  "tag": "B0_s",
+  "code": "B0(s, 'm', 'm')",
+  "repr": "1/eps + DiscB(s, m, m) + log(mu^2/m^2) + 2",
+  "tex": "\\frac{1}{{\\epsilon}} + \\Lambda(s; m, m) + \\log\\left(\\frac{\\mu^{2}}{m^{2}}\\right) + 2",
+  "secs": "0.0",
+  "ok": true
+ }
+]

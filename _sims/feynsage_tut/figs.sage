@@ -54,3 +54,38 @@ for name, spec in (("bubble", "bubble"), ("triangle", "triangle"), ("box", "box"
         save(f, f"diag_{name}.svg")
     except Exception as e:
         print("diagram", spec, "failed:", type(e).__name__, e)
+
+# ------------------------------------------- 3. the angular distribution of
+# e- e+ -> mu- mu+ in QED: the (1 + cos^2 theta) shape every course derives.
+from sage.all import var as _var, pi as _pi
+qed = QED()
+P = process('e- e+ -> mu- mu+', model=qed, massless=['e', 'mu'])
+dsig = P.dsigma_dcos().simplify_full()
+GEV2_TO_PB = 3.8937937e8                      # hbar^2 c^2 in pb GeV^2
+alpha_em = 1/137.035999
+
+def dsig_pb(ct, rs=10.0):
+    v = dsig.subs({P.cos_theta: ct, P.sqrt_s: rs})
+    v = P.numeric(v, alpha=alpha_em) if hasattr(P, "numeric") else v
+    return float(v)*GEV2_TO_PB
+
+cts = [i/200.0 for i in range(-200, 201)]
+try:
+    ys = [dsig_pb(c) for c in cts]
+    import matplotlib.pyplot as _plt
+    from feynsage.plotting import STYLE, PALETTE
+    import matplotlib as _mpl
+    with _mpl.rc_context(STYLE):
+        f, ax = _plt.subplots(figsize=(5.0, 3.0))
+        ax.plot(cts, ys, color=PALETTE[0], label=r'feynsage')
+        shape = [ys[200]*(1 + c**2)/1.0 for c in cts]   # normalised at cos=0
+        ax.plot(cts, shape, '--', color=PALETTE[1], lw=1.1, label=r'$\propto 1+\cos^2\theta$')
+        ax.set_xlabel(r'$\cos\theta$')
+        ax.set_ylabel(r'$\mathrm{d}\sigma/\mathrm{d}\cos\theta$  [pb]')
+        ax.set_title(r'$e^-e^+ \to \mu^-\mu^+$ in QED at $\sqrt{s}=10$ GeV', loc='left')
+        ax.legend(fontsize=8)
+        f.tight_layout()
+    save(f, "ee_mumu_angle.svg")
+    print("total from the curve (pb):", sum(ys)*(cts[1]-cts[0]))
+except Exception as e:
+    print("angular plot failed:", type(e).__name__, e)

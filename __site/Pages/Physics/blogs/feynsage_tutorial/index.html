@@ -44,7 +44,7 @@
 </style>
 <![endif]-->
 
-   <title>feynsage: Feynman Integrals in SageMath, a Tutorial</title>  
+   <title>feynsage: a Tutorial for Someone Starting QFT</title>  
   <!-- end custom head snippets -->
   
   <script>
@@ -269,137 +269,153 @@
   </script>
   
 <div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#installing_it">Installing it</a></li><li><a href="#five_minutes_in_the_tadpole">Five minutes in: the tadpole</a></li><li><a href="#the_conventions_before_you_compare_with_a_book">The conventions, before you compare with a book</a></li><li><a href="#the_bubble_has_a_branch_cut_that_you_can_watch_open">The bubble has a branch cut that you can watch open</a></li><li><a href="#tensor_integrals_which_is_the_part_nobody_enjoys_by_hand">Tensor integrals, which is the part nobody enjoys by hand</a></li><li><a href="#dirac_traces_in_the_notation_you_already_write">Dirac traces, in the notation you already write</a></li><li><a href="#numbers_when_you_want_numbers">Numbers, when you want numbers</a></li><li><a href="#a_real_calculation_the_photon_self-energy_in_qed">A real calculation: the photon self-energy in QED</a></li><li><a href="#diagrams">Diagrams</a></li><li><a href="#where_to_go_after_this">Where to go after this</a></li></ol></div>
-<h1 id="span_stylecolor_3c568efeynsage_feynman_integrals_in_sagemath"><a href="#span_stylecolor_3c568efeynsage_feynman_integrals_in_sagemath" class="header-anchor"><strong><span style="color: #3c568e">feynsage</span></strong>: Feynman Integrals in SageMath</a></h1>
-<p>Loop integrals are where a first QFT course usually starts hurting. The diagram takes a minute to draw, then the integral behind it takes an afternoon, a table of integrals, with three sign conventions you have to keep straight.</p>
-<p><a href="https://github.com/aburousan/feynsage">feynsage</a> is a SageMath package that does those integrals. You write the integral in ordinary notation, it gives back an exact answer you can read.</p>
-<p>This page is for someone who has just started QFT. You should know what a Feynman diagram is, you should have seen a propagator. You do not need to have done a loop integral by hand, you do not need to know Package-X, FORM or Kira.</p>
-<p><strong>Everything printed on this page is real output.</strong> Each block was run, the answer captured, then typeset. Nothing here is typed from memory.</p>
+<div class="franklin-toc"><ol><li><a href="#installing_it">Installing it</a></li><li><a href="#what_these_objects_are">What these objects are</a></li><li><a href="#taking_traces">Taking traces</a></li><li><a href="#the_process">The process</a></li><li><a href="#the_squared_amplitude">The squared amplitude</a></li><li><a href="#turning_it_into_a_cross_section">Turning it into a cross section</a></li><li><a href="#why_the_bubble_has_an_imaginary_part">Why the bubble has an imaginary part</a></li><li><a href="#the_conventions_before_you_compare_with_a_book">The conventions, before you compare with a book</a></li><li><a href="#where_to_go_next">Where to go next</a></li></ol></div>
+<h1 id="span_stylecolor_3c568efeynsage_a_tutorial_for_someone_starting_qft"><a href="#span_stylecolor_3c568efeynsage_a_tutorial_for_someone_starting_qft" class="header-anchor"><strong><span style="color: #3c568e">feynsage</span></strong>: a Tutorial for Someone Starting QFT</a></h1>
+<p>In a first QFT course the calculations arrive in a fixed order. First you learn to take traces of gamma matrices. Then you square an amplitude, average over spins, turn it into a cross section you could compare with an experiment. Loops come later, once the easy things are safe.</p>
+<p><a href="https://github.com/aburousan/feynsage">feynsage</a> is a SageMath package that does these calculations. This page follows that same order.</p>
+<p><strong>Who this is for.</strong> You have met the Dirac equation, you have seen a Feynman diagram, you know that a cross section is what an experiment measures. You do not need to have taken a single trace by hand, because we start there.</p>
+<p><strong>Everything on this page is real output.</strong> Each block was run, the answer captured, then typeset.</p>
 <h2 id="installing_it"><a href="#installing_it" class="header-anchor">Installing it</a></h2>
 <pre><code class="language-bash">git clone https://github.com/aburousan/feynsage.git
 cd feynsage
-./install.sh          # add --test to run the whole test suite afterwards</code></pre>
-<p>The script finds SageMath and FORM, or installs them. It works on macOS, Linux, Windows through WSL. Then start Sage and bring everything in:</p>
+./install.sh          # add --test to run the test suite afterwards</code></pre>
+<p>The script finds SageMath with FORM, or installs them. Then, inside Sage:</p>
 <pre><code class="language-python">from feynsage import *</code></pre>
-<h2 id="five_minutes_in_the_tadpole"><a href="#five_minutes_in_the_tadpole" class="header-anchor">Five minutes in: the tadpole</a></h2>
-<p>The simplest loop integral in any textbook is the one with a single propagator going round in a circle, called the tadpole. In feynsage it is <code>A0</code>:</p>
+<h1 id="part_1_gamma_matrices_and_traces"><a href="#part_1_gamma_matrices_and_traces" class="header-anchor">Part 1: gamma matrices and traces</a></h1>
+<h2 id="what_these_objects_are"><a href="#what_these_objects_are" class="header-anchor">What these objects are</a></h2>
+<p>The Dirac equation describes a spin one-half particle such as an electron. To write it down you need four matrices, \(\gamma^0,\gamma^1,\gamma^2,\gamma^3\), each one a \(4\times4\) matrix. They are called <strong>gamma matrices</strong> or Dirac matrices.</p>
+<p>You almost never need the matrices themselves. Everything follows from one rule, the anticommutation relation</p>
+\[ \gamma^\mu\gamma^\nu + \gamma^\nu\gamma^\mu = 2g^{\mu\nu} \]
+<p>Two more pieces of notation. A <strong>slash</strong> is a momentum contracted with the gammas,</p>
+\[ \not p \equiv p_\mu\gamma^\mu \]
+<p>and the <strong>trace</strong> of a matrix is the sum of its diagonal entries, written \(\mathrm{tr}\).</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>Why traces appear at all.</strong> This is the part that is usually left unsaid.</p>
+<p>An amplitude \(\mathcal M\) for a process with electrons carries spinors \(u(p)\) with gamma matrices between them. What an experiment measures is not \(\mathcal M\) but \(|\mathcal M|^2\), usually averaged over the spins you did not prepare, summed over the spins you did not measure.</p>
+<p>Doing that sum over spins uses the identity \(\sum_s u(p)\bar u(p) = \not p + m\). Once you put it in, the spinors are gone, every term becomes a string of gamma matrices with its ends joined. A string of matrices with its ends joined is a trace.</p>
+<p>So: spin sum in, trace out. That is why a QFT course spends a week on trace identities before computing anything physical. 
+  </fieldset>
+  
+<h2 id="taking_traces"><a href="#taking_traces" class="header-anchor">Taking traces</a></h2>
+<p>In feynsage you declare your momenta with your indices, then write the trace the way the book writes it. FORM does the algebra underneath, you never see it.</p>
+<pre><code class="language-python">p, q &#61; momenta&#40;&#39;p q&#39;&#41;
+mu, nu, rho, sigma_ &#61; lorentz_indices&#40;&#39;mu nu rho sigma_&#39;&#41;</code></pre>
+<p>Start with the simplest one, the trace of the identity matrix. It is a \(4\times4\) matrix, so:</p>
+<pre><code class="language-python">dirac_trace&#40;one&#40;&#41;&#41;</code></pre>
+\[ 4 \]
+<p>Two gammas:</p>
+<pre><code class="language-python">dirac_trace&#40;gamma&#40;mu&#41;*gamma&#40;nu&#41;&#41;</code></pre>
+\[ 4 \, g^{\mu \nu} \]
+<p>An odd number of them gives nothing at all:</p>
+<pre><code class="language-python">dirac_trace&#40;gamma&#40;mu&#41;*gamma&#40;nu&#41;*gamma&#40;rho&#41;&#41;</code></pre>
+\[ 0 \]
+<p>Four gammas, the identity that takes half a page by hand:</p>
+<pre><code class="language-python">dirac_trace&#40;gamma&#40;mu&#41;*gamma&#40;nu&#41;*gamma&#40;rho&#41;*gamma&#40;sigma_&#41;&#41;</code></pre>
+\[ 4 \, g^{\mu \sigma} g^{\nu \rho} - 4 \, g^{\mu \rho} g^{\nu \sigma} + 4 \, g^{\mu \nu} g^{\rho \sigma} \]
+<p>Those four results are exactly the trace theorems Peskin and Schroeder collect in equation &#40;5.5&#41; on page 134, which is the box a first course asks you to memorise. Now with momenta in them:</p>
+<pre><code class="language-python">dirac_trace&#40;slash&#40;p&#41;*slash&#40;q&#41;&#41;</code></pre>
+\[ 4 \, \left(p \cdot q\right) \]
+<pre><code class="language-python">dirac_trace&#40;slash&#40;p&#41;*gamma&#40;mu&#41;*slash&#40;q&#41;*gamma&#40;nu&#41;&#41;</code></pre>
+\[ 4 \, p^{\nu} q^{\mu} + 4 \, p^{\mu} q^{\nu} - 4 \, \left(p \cdot q\right) g^{\mu \nu} \]
+<p>Each of these came back in under three hundredths of a second. The last one is the trace you meet in the first real calculation of the course, which is where we go next.</p>
+<h1 id="part_2_a_cross_section_you_could_measure"><a href="#part_2_a_cross_section_you_could_measure" class="header-anchor">Part 2: a cross section you could measure</a></h1>
+<h2 id="the_process"><a href="#the_process" class="header-anchor">The process</a></h2>
+<p>Take the reaction an electron-positron collider actually does:</p>
+\[ e^- e^+ \to \mu^- \mu^+ \]
+<p>An electron meets a positron, they annihilate into a photon, the photon turns into a muon with an antimuon. It is the standard first calculation because it has exactly one diagram in QED, no complications.</p>
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>\(s\), \(t\) and \(u\), if nobody has defined them yet.</strong> Call the incoming momenta \(p_1,p_2\) with the outgoing ones \(p_3,p_4\). Three combinations describe the whole kinematics:</p>
+\[ s=(p_1+p_2)^2, \qquad t=(p_1-p_3)^2, \qquad u=(p_1-p_4)^2 \]
+<p>\(s\) is the total energy squared in the centre of mass, so \(\sqrt{s}\) is the collider energy. \(t\) with \(u\) carry the scattering angle. feynsage will print answers in these variables. 
+  </fieldset>
+  
+<p>Set the process up. We ask for pure QED, so only the photon is exchanged, with the electron and muon masses set to zero since the collider energy is far above both:</p>
+<pre><code class="language-python">qed &#61; QED&#40;&#41;
+P &#61; process&#40;&#39;e- e&#43; -&gt; mu- mu&#43;&#39;, model&#61;qed, massless&#61;&#91;&#39;e&#39;, &#39;mu&#39;&#93;&#41;
+len&#40;P.diagrams&#41;</code></pre>
+\[ 1 \]
+<p>One diagram, as expected.</p>
+<h2 id="the_squared_amplitude"><a href="#the_squared_amplitude" class="header-anchor">The squared amplitude</a></h2>
+<pre><code class="language-python">P.squared&#40;&#41;</code></pre>
+\[ \frac{2 \, \left(e^{4} t^{2} + e^{4} u^{2}\right)}{s^{2}} \]
+<p>That is \(|\mathcal M|^2\), already averaged over the two initial spins, summed over the final ones. Written tidily,</p>
+\[ \overline{|\mathcal M|^2} = \frac{2e^4\left(t^2+u^2\right)}{s^2} \]
+<p>feynsage built the diagram, put in the spin sums, took the traces of Part 1, contracted the indices, then averaged, in two hundredths of a second. Peskin works the same process through section 5.1 with the masses kept, writing the answer in the energy with the angle instead of in \(t\) with \(u\).</p>
+<h2 id="turning_it_into_a_cross_section"><a href="#turning_it_into_a_cross_section" class="header-anchor">Turning it into a cross section</a></h2>
+<p>A squared amplitude is not yet something you can measure. You must divide by the flux, integrate over the directions the muons can come out in. The useful quantity is the <strong>differential cross section</strong> \(\mathrm d\sigma/\mathrm d\cos\theta\), which says how much of the scattering goes into each angle, with \(\theta\) the angle between the incoming electron with the outgoing muon.</p>
+<pre><code class="language-python">P.dsigma_dcos&#40;&#41;</code></pre>
+\[ \frac{e^{4} \cos\theta^{2} + e^{4}}{32 \, \pi \sqrt{s}^{2}} \]
+<p>Read the shape off it: the answer is proportional to \(1+\cos^2\theta\). Using \(e^2 = 4\pi\alpha\) this is</p>
+\[ \frac{\mathrm d\sigma}{\mathrm d\cos\theta} = \frac{\pi\alpha^2}{2s}\left(1+\cos^2\theta\right) \]
+<p>This is Peskin&#39;s equation &#40;5.14&#41; on page 137, written there as \(\mathrm d\sigma/\mathrm d\Omega = (\alpha^2/4E_{\rm cm}^2)(1+\cos^2\theta)\). The two agree: the solid angle brings a factor \(2\pi\), since nothing depends on the azimuth, with \(E_{\rm cm}^2 = s\).</p>
+<p>More muons come out along the beam than across it, in that particular shape. It is a real prediction that experiments have confirmed many times.</p>
+
+<figure>
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/feynsage/ee_mumu_angle.svg" alt="Differential cross section against cos theta for electron positron into muon pair">
+  <p>The angular distribution at \(\sqrt{s}=10\) GeV, in picobarns. The solid curve is what feynsage computed, the dashed one is the shape \(1+\cos^2\theta\) normalised at the middle. They lie on top of each other.</p>
+</figure>
+
+<p>Now integrate over all angles to get one number:</p>
+<pre><code class="language-python">P.sigma&#40;sqrt_s&#61;10, unit&#61;&#39;pb&#39;&#41;</code></pre>
+\[ 868.5447687569202 \]
+
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>What a picobarn is.</strong> Cross sections have units of area, because the classical picture is the size of the target. The unit is the <strong>barn</strong>, \(10^{-28}\,\mathrm{m}^2\), which is enormous by nuclear standards, named from &quot;as big as a barn door&quot;. A picobarn is \(10^{-12}\) of that.</p>
+<p>So the answer says: at a collider running at \(\sqrt{s}=10\) GeV, the effective target area for making a muon pair is about 869 pb. 
+  </fieldset>
+  
+<p>Check it against the textbook. In the high-energy limit the total cross section is</p>
+\[ \sigma = \frac{4\pi\alpha^2}{3s} \]
+<p>which is the formula on Peskin page 137, where the text notes that dimensional analysis fixes everything except the factor \(4\pi/3\). At \(\sqrt s = 10\) GeV it gives \(868.546\) pb against feynsage&#39;s \(868.545\) pb. The leftover difference, about one part in a million, is the constant used to convert \(\mathrm{GeV}^{-2}\) into picobarns.</p>
+<p>That is a complete calculation, from naming a reaction to a number with units, in four lines.</p>
+<h1 id="part_3_loops_when_you_get_there"><a href="#part_3_loops_when_you_get_there" class="header-anchor">Part 3: loops, when you get there</a></h1>
+<p>Everything above was <strong>tree level</strong>, meaning the diagram has no closed loops in it. Later in the course the diagrams grow a loop, with a momentum running round it that is not fixed by the incoming particles, so you must integrate over all of it:</p>
+\[ \int \frac{\mathrm d^4\ell}{(2\pi)^4}\;\frac{1}{(\ell^2-m^2)\left((\ell+p)^2-m^2\right)} \]
+<p>These integrals are the hard part of QFT. Many of them come out infinite, which is what renormalisation exists to handle.</p>
+<p>feynsage knows the standard ones by name. The simplest, one propagator in a circle, is called the tadpole:</p>
 <pre><code class="language-python">A0&#40;&#39;m&#39;&#41;</code></pre>
-\[ m^{2} {\left(\frac{1}{\epsilon} + \log\left(\frac{\mu^{2}}{m^{2}}\right) + 1\right)} \]
-<p>Read it as three pieces. The \(1/\epsilon\) is the ultraviolet divergence, the part that renormalisation has to remove. The logarithm carries the scale \(\mu\) that dimensional regularisation forced in. The \(+1\) is the leftover constant that depends on your conventions, which is exactly why conventions get their own section below.</p>
-<p>Next, two propagators, the bubble. At zero external momentum with two equal masses:</p>
-<pre><code class="language-python">B0&#40;0, &#39;m&#39;, &#39;m&#39;&#41;</code></pre>
-\[ \frac{1}{\epsilon} + \log\left(\frac{\mu^{2}}{m^{2}}\right) \]
-<p>Now switch the momentum on. Let \(s\) be the squared momentum flowing in:</p>
+\[ m^{2} \left(\frac{1}{\epsilon} + \log\left(\frac{\mu^{2}}{m^{2}}\right) + 1\right) \]
+<p>The \(1/\epsilon\) is the infinity, held in a form you can cancel later. \(\mu\) is a reference energy that the method needs. With two propagators you get the bubble, which depends on the momentum \(s\) flowing through:</p>
 <pre><code class="language-python">s &#61; var&#40;&#39;s&#39;&#41;
 B0&#40;s, &#39;m&#39;, &#39;m&#39;&#41;</code></pre>
 \[ \frac{1}{\epsilon} + \Lambda(s; m, m) + \log\left(\frac{\mu^{2}}{m^{2}}\right) + 2 \]
-<p>The new object \(\Lambda(s; m, m)\) is the only place the momentum enters. feynsage keeps it as a named function instead of writing the logarithms out, because the whole physics of the bubble sits inside it. We come back to it in a moment.</p>
-
-  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      <strong>A name you will meet.</strong> In the printed output \(\Lambda\) appears as <code>DiscB</code>. It is the standard discontinuity function of the bubble. Keeping it unexpanded makes answers short and readable. When you want it written out in logarithms, ask for <code>explicit&#40;...&#41;</code>. 
-  </fieldset>
-  
-<h2 id="the_conventions_before_you_compare_with_a_book"><a href="#the_conventions_before_you_compare_with_a_book" class="header-anchor">The conventions, before you compare with a book</a></h2>
-<p>This is the section to read twice. Almost every &quot;feynsage disagrees with my textbook&quot; turns out to be one of these.</p>
-
-  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
-      <strong>The arguments are masses, not masses squared.</strong> <code>A0&#40;&#39;m&#39;&#41;</code> means the mass is \(m\). This follows Package-X, where <code>PVA&#91;0,m&#93;</code> also takes the mass. So <code>A0&#40;&#39;m^2&#39;&#41;</code> does not mean \(A_0(m^2)\), it means a particle of mass \(m^2\), which returns \(m^4(\dots)\). If an answer comes out with the wrong power, check this first.</p>
-<p><strong>The dimension is \(d = 4 - 2\epsilon\).</strong> feynsage normalises every loop integral as</p>
-\[ \mu^{2\epsilon}\,e^{\epsilon\gamma_E}\,\frac{1}{i\pi^{d/2}}\int \mathrm d^d\ell \]
-<p>so the \(\gamma_E\) with the \(\log 4\pi\) that come with dimensional regularisation are already absorbed. What you see is the \(\overline{\rm MS}\) answer.</p>
-<p><strong>Peskin uses \(d = 4 - \epsilon\).</strong> This is the big one. Peskin defines \(\epsilon = 4 - d\), so his poles are \(2/\epsilon\) where feynsage writes \(1/\epsilon\). Comparing the two directly gives a factor of two and a wasted evening. The physics is the same, the letter \(\epsilon\) is not.</p>
-<p><strong>The metric is \((+,-,-,-)\)</strong> with the propagator denominator written \(q^2 - m^2 + i0\). There is a Euclidean mode if you want it, switched on with <code>euclidean&#61;True</code>.</p>
-<p><strong>One exception to the mass rule.</strong> The inert canonical functions <code>PaVeA0</code>, <code>PaVeB0</code>, <code>PaVeC0</code>, <code>PaVeD0</code>, with <code>pave&#40;kind, args&#41;</code>, take <strong>squared</strong> masses, the opposite of <code>A0</code> and friends. You meet them only when you ask for <code>masters&#61;True</code>, so it will not bite you today, but it is worth knowing before it does. 
-  </fieldset>
-  
-<h2 id="the_bubble_has_a_branch_cut_that_you_can_watch_open"><a href="#the_bubble_has_a_branch_cut_that_you_can_watch_open" class="header-anchor">The bubble has a branch cut that you can watch open</a></h2>
-<p>Here is the first result worth staring at. Take the bubble with \(m = \mu = 1\), throw the pole away, keep the finite part:</p>
-<pre><code class="language-python">finite_part&#40;B0&#40;s, 1, 1&#41;, 1&#41;</code></pre>
-\[ \Lambda(s; 1, 1) + 2 \]
-
-  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      <strong>Careful with this one.</strong> The second argument of <code>finite_part</code> is the <strong>value of \(\mu\)</strong>, not an order in \(\epsilon\). Passing <code>0</code> puts \(\mu = 0\) into a logarithm and the answer comes back as \(-\infty\). I made exactly this mistake while writing this page. 
-  </fieldset>
-  
-<p>Now evaluate it along the real \(s\) axis and plot the two parts:</p>
+<p>\(\Lambda\), printed as <code>DiscB</code>, holds all the dependence on \(s\).</p>
+<h2 id="why_the_bubble_has_an_imaginary_part"><a href="#why_the_bubble_has_an_imaginary_part" class="header-anchor">Why the bubble has an imaginary part</a></h2>
+<p>Here is the one loop result worth seeing even on a first pass. Take the finite part of the bubble, evaluate it along the real \(s\) axis:</p>
 
 <figure>
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/feynsage/b0_cut.svg" alt="Real and imaginary parts of the one-loop bubble against s, with the threshold at s = 4 m squared">
-  <p>The finite part of \(B_0(s;m,m)\) with \(m=\mu=1\). Below \(s=4m^2\) the function is real. At \(s = 4m^2\) an imaginary part switches on, which is the point where the two internal particles can be made for real instead of staying virtual. The dashed line is the exact formula \(\pi\sqrt{1-4m^2/s}\), sitting on top of what feynsage computed.</p>
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/feynsage/b0_cut.svg" alt="Real and imaginary parts of the one loop bubble against s">
+  <p>The finite part of \(B_0(s;m,m)\) with \(m=\mu=1\). Below \(s=4m^2\) it is real. At \(s=4m^2\) an imaginary part switches on, which is exactly the energy needed to make the two particles inside the loop real instead of virtual. The dashed line is \(\pi\sqrt{1-4m^2/s}\), sitting on what feynsage computed.</p>
 </figure>
 
-<p>That threshold is not a numerical accident, it is the optical theorem. The imaginary part of a loop amplitude is the rate for actually producing the particles inside the loop, so it has to vanish until there is enough energy to make them. Above \(s = 4m^2\) the exact answer is \(\pi\sqrt{1 - 4m^2/s}\).</p>
-<p>Check it rather than believing it:</p>
-<pre><code class="language-python">for x in &#40;5, 9, 16, 100&#41;:
-    print&#40;x, CC&#40;DiscB&#40;x, 1, 1&#41;&#41;.imag&#40;&#41;, RR&#40;pi*sqrt&#40;1 - 4/x&#41;&#41;&#41;</code></pre>
-<table><tr><th align="right">\(s/m^2\)</th><th align="right">feynsage</th><th align="right">\(\pi\sqrt{1-4m^2/s}\)</th><th align="right">equal</th></tr><tr><td align="right">5</td><td align="right">1.4049629462081452</td><td align="right">1.4049629462081452</td><td align="right">yes</td></tr><tr><td align="right">9</td><td align="right">2.3416049103469088</td><td align="right">2.3416049103469088</td><td align="right">yes</td></tr><tr><td align="right">16</td><td align="right">2.720699046351327</td><td align="right">2.7206990463513265</td><td align="right">yes</td></tr><tr><td align="right">100</td><td align="right">3.078119592388474</td><td align="right">3.0781195923884734</td><td align="right">yes</td></tr></table>
-<p>Agreement to the last digit at the first two points, to one unit in the last place at the others, which is ordinary floating point.</p>
-<h2 id="tensor_integrals_which_is_the_part_nobody_enjoys_by_hand"><a href="#tensor_integrals_which_is_the_part_nobody_enjoys_by_hand" class="header-anchor">Tensor integrals, which is the part nobody enjoys by hand</a></h2>
-<p>Real diagrams have loop momenta in the numerator. A fermion loop gives you \(\ell^\mu \ell^\nu\) upstairs, which cannot depend on any direction after integration, so it has to collapse onto \(g^{\mu\nu}\) with \(p^\mu p^\nu\). Doing that by hand is a page of algebra.</p>
-<pre><code class="language-python">loop&#40;&#39;l^mu l^nu&#39;, &#91;&#39;l&#39;, &#39;m&#39;&#93;, &#91;&#39;l &#43; p&#39;, &#39;m&#39;&#93;, kin&#61;&#123;&#39;p^2&#39;: &#39;s&#39;&#125;&#41;</code></pre>
-<p>The three arguments are the numerator, then one list per propagator giving its momentum with its mass, then the kinematics. The answer comes back split by tensor structure:</p>
-\[ \begin{aligned} g^{\mu\nu} &:\quad \frac{1}{\epsilon}\left(\frac{1}{2}  m^{2} - \frac{1}{12}  s\right) + \left(\frac{1}{3}  m^{2} - \frac{1}{12}  s\right)\,\Lambda(s; m, m) \\ & \quad + \left(\frac{1}{2}  m^{2} - \frac{1}{12}  s\right)\,\log\left(\frac{\mu^{2}}{m^{2}}\right) + \frac{7}{6}  m^{2} - \frac{2}{9}  s \\[6pt] p^{\mu} p^{\nu} &:\quad \frac{1}{3\,\epsilon} - \frac{m^{2} - s}{3  s}\,\Lambda(s; m, m) \\ & \quad + \frac{1}{3}\,\log\left(\frac{\mu^{2}}{m^{2}}\right) - \frac{12  m^{2} - 13  s}{18  s} \end{aligned} \]
-<p>Two coefficients, each a Laurent series in \(\epsilon\). In Passarino-Veltman language these are \(B_{00}\) with \(B_{11}\), already reduced.</p>
-<h2 id="dirac_traces_in_the_notation_you_already_write"><a href="#dirac_traces_in_the_notation_you_already_write" class="header-anchor">Dirac traces, in the notation you already write</a></h2>
-<p>Traces of gamma matrices are the other thing that eats an afternoon. feynsage lets you write them the way the textbook does. FORM does the algebra underneath, you never write FORM code. This is the one part of the page that needs FORM actually installed, which <code>install.sh</code> handles for you.</p>
-<pre><code class="language-python">p, q &#61; momenta&#40;&#39;p q&#39;&#41;
-mu, nu &#61; lorentz_indices&#40;&#39;mu nu&#39;&#41;
-dirac_trace&#40;slash&#40;p&#41;*gamma&#40;mu&#41;*slash&#40;q&#41;*gamma&#40;nu&#41;&#41;</code></pre>
-\[ 4 \, p^{\nu} q^{\mu} + 4 \, p^{\mu} q^{\nu} - 4 \, \left(p \cdot q\right) g^{\mu \nu} \]
-<p>That is the identity every QFT course proves in week one,</p>
-\[ \mathrm{tr}\!\left(\not p\,\gamma^\mu \not q\,\gamma^\nu\right) = 4\left(p^\mu q^\nu + p^\nu q^\mu - g^{\mu\nu}\,p\cdot q\right) \]
-<p>Try one you would not want to do by hand:</p>
-<pre><code class="language-python">dirac_trace&#40;slash&#40;p&#41;*slash&#40;q&#41;*slash&#40;p&#41;*slash&#40;q&#41;&#41;</code></pre>
-\[ 8 \, \left(p \cdot q\right)^{2} - 4 \, p^{2}\,q^{2} \]
-<p>Both took under three hundredths of a second.</p>
-<h2 id="numbers_when_you_want_numbers"><a href="#numbers_when_you_want_numbers" class="header-anchor">Numbers, when you want numbers</a></h2>
-<p>The scalar triangle and box come in closed form, so you can ask for as many digits as you like:</p>
-<pre><code class="language-python">C0&#40;0, 0, 5, 1, 1, 1&#41;.n&#40;digits&#61;30&#41;</code></pre>
-\[ -0.894334511878058104884677471495 - 0.604708613771114783376341265398\,i \]
-<p>It is complex because these kinematics sit above threshold, which is the same physics as the branch cut above.</p>
-<h2 id="a_real_calculation_the_photon_self-energy_in_qed"><a href="#a_real_calculation_the_photon_self-energy_in_qed" class="header-anchor">A real calculation: the photon self-energy in QED</a></h2>
-<p>Now put it together. We build the one-loop QED photon self-energy from scratch, contract it, pull out the divergence, then compare with a book.</p>
-<pre><code class="language-python">qed &#61; QED&#40;muons&#61;False, taus&#61;False&#41;
-p &#61; momenta&#40;&#39;pp_&#39;&#41;; P2 &#61; var&#40;&#39;P2_&#39;&#41;
+<p>The threshold is the optical theorem: the imaginary part of a loop is the rate for actually producing what is inside it, so it must be zero until there is enough energy. Checked at four points:</p>
+<table><tr><th align="right">\(s/m^2\)</th><th align="right">feynsage</th><th align="right">\(\pi\sqrt{1-4m^2/s}\)</th></tr><tr><td align="right">5</td><td align="right">1.4049629462081452</td><td align="right">1.4049629462081452</td></tr><tr><td align="right">9</td><td align="right">2.3416049103469088</td><td align="right">2.3416049103469088</td></tr><tr><td align="right">16</td><td align="right">2.720699046351327</td><td align="right">2.7206990463513265</td></tr><tr><td align="right">100</td><td align="right">3.078119592388474</td><td align="right">3.0781195923884734</td></tr></table>
+<h2 id="the_conventions_before_you_compare_with_a_book"><a href="#the_conventions_before_you_compare_with_a_book" class="header-anchor">The conventions, before you compare with a book</a></h2>
 
-se &#61; topologies&#40;1, 1, 1, exclude&#61;&#40;&#39;tadpoles&#39;, &#39;wf&#39;&#41;&#41;      # one loop, one in, one out
-dA &#61; insert_fields&#40;se, &#91;&#39;A&#39;&#93;, &#91;&#39;A&#39;&#93;, qed&#41;                 # put a photon on each leg
-gM &#61; sum&#40;dA.loop_amplitude&#40;&#91;p&#93;, &#91;p&#93;,
-         lambda n, e: n*T.metric&#40;e&#91;0&#93;, e&#91;1&#93;&#41;, &#123;&#39;pp_^2&#39;: &#39;P2_&#39;&#125;&#41;&#41;
-Pi2 &#61; gM/&#40;&#40;3 - 2*eps&#41;*P2&#41;
-uv_part&#40;Pi2&#41;.simplify_full&#40;&#41;</code></pre>
-\[ -\frac{e^{2}}{12\,\pi^{2}} \]
-<p>So \(\Pi_2(q^2)\) has the divergence</p>
-\[ \Pi_2 = -\frac{e^2}{12\pi^2}\,\frac{1}{\epsilon} + \text{finite} \]
-<p>feynsage drew the diagram, inserted the fields, did the Dirac algebra, did the loop integral, then handed back the pole, in about a tenth of a second.</p>
-
-  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
-      <strong>Does it agree with Peskin?</strong> Peskin and Schroeder give the photon self-energy in equation &#40;7.90&#41; on page 252, with the transverse structure \(\Pi^{\mu\nu} = (q^2 g^{\mu\nu} - q^\mu q^\nu)\Pi_2(q^2)\).</p>
-<p>The pole looks different at first sight, by a factor of two. It is the convention, not the physics. Peskin defines \(\epsilon = 4 - d\) while feynsage uses \(d = 4 - 2\epsilon\), so one \(\epsilon\) is twice the other. Put them in the same convention, they agree. The package&#39;s own test suite checks this in <code>tests/test_books.sage</code>, along with the electron self-energy against &#40;10.41&#41; on page 333 with the QCD beta function against &#40;16.73&#41; on page 527. 
+  <fieldset class=" defn"><legend class=" defn-legend"> 🧠 Defn</legend>
+      <strong>The arguments are masses, not masses squared.</strong> <code>A0&#40;&#39;m&#39;&#41;</code> means a particle of mass \(m\), following Package-X. So <code>A0&#40;&#39;m^2&#39;&#41;</code> describes a particle of mass \(m^2\) and returns \(m^4(\dots)\). If a power looks wrong, check this first. &#40;The inert functions <code>PaVeA0</code>, <code>PaVeB0</code> and friends are the exception: those take squared masses.&#41;</p>
+<p><strong>The dimension is \(d=4-2\epsilon\).</strong> Loop integrals are normalised as</p>
+\[ \mu^{2\epsilon}e^{\epsilon\gamma_E}\frac{1}{i\pi^{d/2}}\int \mathrm d^d\ell \]
+<p>so the \(\gamma_E\) with the \(\log 4\pi\) are absorbed. You get the \(\overline{\rm MS}\) answer.</p>
+<p><strong>Peskin uses \(d=4-\epsilon\).</strong> His poles are \(2/\epsilon\) where feynsage writes \(1/\epsilon\). Compare the two directly, you find a factor of two that is not physics.</p>
+<p><strong>The metric is \((+,-,-,-)\)</strong>, with the propagator denominator \(q^2-m^2+i0\). 
   </fieldset>
   
-<h2 id="diagrams"><a href="#diagrams" class="header-anchor">Diagrams</a></h2>
-<p>feynsage draws the graphs it works with, so you can check you built the one you meant.</p>
-
-<div class="mfig" style="--w:620px">
-  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/feynsage/diag_bubble.svg" alt="The one-loop bubble diagram with Feynman parameters marked">
-  <p>`diagram("bubble")` then `draw_graph(g)`. The labels \(x_1\) with \(x_2\) are the Feynman parameters of the two propagators, which is what the parametric representation integrates over.</p>
-</div>
-
-<p>The same works for <code>&quot;triangle&quot;</code> with <code>&quot;box&quot;</code>, which are the graphs behind <code>C0</code> with <code>D0</code>.</p>
-<h2 id="where_to_go_after_this"><a href="#where_to_go_after_this" class="header-anchor">Where to go after this</a></h2>
-<p>This page stops at one loop, which is already enough for most of a first course. feynsage goes further: integral families from strings, IBP reduction with symmetries found by itself, master integrals, Mellin-Barnes, sector decomposition, differential equations, Goncharov polylogarithms, diagrams generated from a model the way FeynArts does it.</p>
+<h2 id="where_to_go_next"><a href="#where_to_go_next" class="header-anchor">Where to go next</a></h2>
+<p>feynsage goes a long way past this page: tensor reduction of loop integrals, integral families, IBP reduction with symmetries found by itself, master integrals, Mellin-Barnes, sector decomposition, differential equations, diagrams generated from a model the way FeynArts does it.</p>
 <ul>
-<li><p>The repository, with the full reference: <a href="https://github.com/aburousan/feynsage">github.com/aburousan/feynsage</a></p>
+<li><p>The repository with the full reference: <a href="https://github.com/aburousan/feynsage">github.com/aburousan/feynsage</a></p>
 </li>
-<li><p>A longer step-by-step tutorial with real computations ships inside it, at <code>docs/tutorial/feynsage_tutorial.pdf</code></p>
+<li><p>A longer tutorial ships inside it at <code>docs/tutorial/feynsage_tutorial.pdf</code></p>
 </li>
-<li><p>The Dirac algebra page, <code>docs/dirac_algebra.md</code>, if traces are what you came for</p>
+<li><p><code>docs/dirac_algebra.md</code> if traces are what you came for</p>
 </li>
-<li><p>Many functions explain themselves. Pass <code>explain&#61;True</code> to the one-loop functions such as <code>A0</code> or <code>loop</code>, or call <code>info&#40;f&#41;</code> on a function, to have it print what the output means.</p>
+<li><p>Many functions explain themselves. Pass <code>explain&#61;True</code> to the one-loop functions such as <code>A0</code>, or call <code>info&#40;f&#41;</code> on a function, to have it print what the output means.</p>
 </li>
 </ul>
-<p>One honest word about scale. feynsage is built for small and medium problems where every step stays exact, can be checked, explains itself. For very large reductions, millions of equations with several scales, Kira and FIRE are the right tools and will stay that way.</p>
+<p>One honest word on scale. feynsage is built for small and medium problems, where every step stays exact, can be checked, explains itself. For very large reductions with millions of equations, Kira with FIRE are the right tools.</p>
 
 <button onclick="window.history.back()">Go Back</button>
 
