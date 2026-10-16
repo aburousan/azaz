@@ -42,7 +42,7 @@
 </style>
 <![endif]-->
 
-   <title>Spannote privacy</title>  
+   <title>SpanNote privacy</title>  
   <!-- end custom head snippets -->
   
   <script>
@@ -270,25 +270,43 @@
 
 <script>document.documentElement.classList.remove('dark-mode');</script>
 
-<h1 id="spannote_privacy"><a href="#spannote_privacy" class="header-anchor">Spannote privacy</a></h1>
-<p><em>Last updated 15 October 2026. <a href="/spannote/">Back to Spannote</a></em></p>
-<p>Spannote is a notebook app. It has no account, no ads and no tracking of its own. Your notes are files on your device, and they leave it only when you choose to send them somewhere.</p>
+<h1 id="spannote_privacy"><a href="#spannote_privacy" class="header-anchor">SpanNote privacy</a></h1>
+<p><em>Last updated 16 October 2026. <a href="/spannote/">Back to SpanNote</a></em></p>
+<p>SpanNote is a notebook app. It has no account, no ads and no tracking of its own. Your notes are files on your device, and they leave it only when you choose to send them somewhere.</p>
 <h2 id="what_is_stored_and_where"><a href="#what_is_stored_and_where" class="header-anchor">What is stored, and where</a></h2>
-<p>Notebooks, pictures, PDFs you import, sound recordings and settings are stored in the app&#39;s private storage on your device. Uninstalling the app removes them, so keep a backup.</p>
+<p>Notebooks, pictures, PDFs you import, cover photos, sound recordings and settings are stored in the app&#39;s private storage on your device. Uninstalling the app removes them, so keep a backup.</p>
 <h2 id="backups_and_sync_only_if_you_switch_them_on"><a href="#backups_and_sync_only_if_you_switch_them_on" class="header-anchor">Backups and sync &#40;only if you switch them on&#41;</a></h2>
-<p>You can back up to a folder you pick &#40;on the device or a memory card&#41;, to your own WebDAV server such as Nextcloud, to your Google Drive, or to a private GitHub repository you own. Files go straight from your device to the place you chose. The app&#39;s maker never receives them. Passwords and tokens you enter for these are kept on your device.</p>
+<p>You can back up to a folder you pick &#40;on the device or a memory card&#41;, to your own WebDAV server such as Nextcloud, to your Google Drive, or to a private GitHub repository you own. Files go straight from your device to the place you chose. The app&#39;s maker never receives them.</p>
+<ul>
+<li><p>WebDAV works only over an encrypted &#40;https&#41; connection, so your password is never sent in the open.</p>
+</li>
+<li><p>The WebDAV password and the GitHub token are kept encrypted on your device, with a key held by Android that cannot be copied off the device.</p>
+</li>
+<li><p>With Google Drive, SpanNote can see only the files it makes itself, not the rest of your Drive. Signing in is handled by Google on your device.</p>
+</li>
+</ul>
 <h2 id="microphone"><a href="#microphone" class="header-anchor">Microphone</a></h2>
 <p>The microphone is used only while you are recording, after you press the microphone button and allow it. Recordings are saved inside the notebook on your device.</p>
 <h2 id="camera_and_pictures"><a href="#camera_and_pictures" class="header-anchor">Camera and pictures</a></h2>
-<p>When you take a photo, Android&#39;s camera app takes it and gives it to Spannote; Spannote does not use the camera itself. Pictures you add are copied into the notebook.</p>
-<h2 id="handwriting_reading"><a href="#handwriting_reading" class="header-anchor">Handwriting reading</a></h2>
-<p>To search handwriting and work out maths, Spannote uses Google&#39;s ML Kit handwriting recognition, which runs on your device. The first time, it downloads a language model &#40;about 20 MB&#41; from Google. Your writing is read on the device and is not sent to Google or anyone else. Google&#39;s ML Kit library may send anonymous usage and performance information to Google; see Google&#39;s ML Kit terms for details. You can turn handwriting search off in Settings › Search.</p>
+<p>When you take a photo, Android&#39;s camera app takes it and gives it to SpanNote; SpanNote does not use the camera itself. Pictures you add, and a photo you choose as a notebook cover, are copied into the app&#39;s storage on your device.</p>
+<h2 id="reading_handwriting"><a href="#reading_handwriting" class="header-anchor">Reading handwriting</a></h2>
+<ul>
+<li><p><strong>Maths.</strong> SpanNote has its own maths reader. It runs entirely on your device and does not need the internet.</p>
+</li>
+<li><p><strong>Search and text.</strong> To search handwriting and read written words, SpanNote uses Google&#39;s ML Kit handwriting recognition, which also runs on your device. The first time, it downloads a language model &#40;about 20 MB&#41; from Google. Your writing is read on the device and is not sent to Google or anyone else. Google&#39;s ML Kit library may send anonymous usage and performance information to Google; see Google&#39;s ML Kit terms. You can turn handwriting search off in Settings › Search.</p>
+</li>
+</ul>
+<h2 id="helping_to_improve_the_maths_reader_only_if_you_choose"><a href="#helping_to_improve_the_maths_reader_only_if_you_choose" class="header-anchor">Helping to improve the maths reader &#40;only if you choose&#41;</a></h2>
+<p>You can teach SpanNote your handwriting &#40;Settings › Maths&#41; and correct its readings &#40;select maths with the lasso, then Teach this maths&#41;. These samples stay on your device.</p>
+<p>If you want to help make the reader better, Settings › Maths › Help improve the handwriting reader opens your own email app with the samples attached, addressed to spannotes@gmail.com. Nothing is sent unless you press send in your email app. The samples contain only the pen strokes and what they say; they are used only to train SpanNote&#39;s handwriting reader. You can delete the samples on your device at any time, and you can ask us by email to delete samples you sent.</p>
 <h2 id="internet"><a href="#internet" class="header-anchor">Internet</a></h2>
-<p>The app uses the internet only to download the handwriting model and, if you set them up, for backups and sync.</p>
+<p>The app uses the internet only to download the handwriting search model and, if you set them up, for backups and sync.</p>
+<h2 id="children"><a href="#children" class="header-anchor">Children</a></h2>
+<p>SpanNote is not made for children under 13 and does not knowingly collect anything from them.</p>
 <h2 id="contact"><a href="#contact" class="header-anchor">Contact</a></h2>
 <p>Questions: <strong>spannotes@gmail.com</strong></p>
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 15, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 16, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 
