@@ -61,6 +61,10 @@ If SpanNote stops because of a problem, the next time you open it, it offers to 
 
 The app uses the internet only to download the handwriting search model, to check the full-app purchase with Google Play and, if you set them up, for backups and sync. The 3D anatomy and molecule stickers are inside the app and need no internet; the anatomy models come from BodyParts3D (© The Database Center for Life Science, CC BY 4.0).
 
+## Deleting your data
+
+Your notes, recordings and settings are only on your device and in the backup places you chose: delete a notebook in the app (and empty the bin), or uninstall the app to remove everything from the device. To have handwriting samples or problem reports you emailed to us deleted, write to **spannotes@gmail.com** from the same email address and say what to delete. We delete them within 30 days and reply when it is done.
+
 ## Children
 
 SpanNote is not made for children under 13 and does not knowingly collect anything from them.
