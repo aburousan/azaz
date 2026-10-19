@@ -10,7 +10,7 @@ tags = ["spannote"]
 
 # SpanNote privacy
 
-*Last updated 18 October 2026. [Back to SpanNote](/spannote/)*
+*Last updated 19 October 2026. [Back to SpanNote](/spannote/)*
 
 SpanNote is a notebook app. It has no account, no ads and no tracking of its own. Your notes are files on your device, and they leave it only when you choose to send them somewhere.
 
@@ -52,6 +52,10 @@ When you take a photo, Android's camera app takes it and gives it to SpanNote; S
 You can teach SpanNote your handwriting (Settings › Maths), write the formulas it shows you (Write maths for the reader) and correct its readings (select maths with the lasso, then Teach this maths). These samples stay on your device.
 
 If you want to help make the reader better, Settings › Maths › Help improve the handwriting reader opens your own email app with the samples attached, addressed to spannotes@gmail.com. Nothing is sent unless you press send in your email app. The samples contain only the pen strokes and what they say; they are used only to train SpanNote's handwriting reader. You can delete the samples on your device at any time, and you can ask us by email to delete samples you sent.
+
+## Problem reports (only if you choose)
+
+If SpanNote stops because of a problem, the next time you open it, it offers to send a report by email. You can also send one from About › Send a problem report. Your own email app opens with the report written out, addressed to spannotes@gmail.com, and nothing is sent unless you press send. The report has the error, the app version, your device's model, Android version, screen size and free memory. It has none of your notes, but an error message can name a notebook or a file, so read it first and change or remove anything you like. Reports are used only to fix the problem, and you can ask us by email to delete a report you sent.
 
 ## Internet
 
