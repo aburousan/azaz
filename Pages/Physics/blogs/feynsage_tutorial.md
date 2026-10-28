@@ -1,10 +1,10 @@
 +++
 title = "feynsage: a Tutorial for Someone Starting QFT"
 hascode = true
-date = Date(2026, 10, 11)
+date = Date(2026, 10, 28)
 rss = "A tutorial for feynsage, a SageMath package for QFT calculations, in the order a first course actually goes: gamma matrices and traces first, then a full scattering cross section for electron positron to muon pair, then loops at the end. Every object is explained before it is used and every output on the page is captured from a real run."
 rss_title = "feynsage: a Tutorial for Someone Starting QFT"
-rss_pubdate = Date(2026, 10, 11)
+rss_pubdate = Date(2026, 10, 28)
 
 tags = ["physics", "qft", "sagemath", "feynman-integrals", "code", "tutorial"]
 +++
@@ -275,9 +275,109 @@ against feynsage's $868.5447687569202$. The two agree in all sixteen digits but 
 
 That is a complete calculation, from naming a reaction to a number with units, in four lines.
 
-# Part 3: loops, when you get there
+## The diagram itself
 
-Everything above was **tree level**, meaning the diagram has no closed loops in it. Later in the course the diagrams grow a loop, with a momentum running round it that is not fixed by the incoming particles, so you must integrate over all of it:
+feynsage draws what it built, so you can check you set up the process you meant:
+
+```python
+from feynsage.diagram_plot import draw_diagrams
+draw_diagrams(P.diagrams, ncols=1, size=2.6)
+```
+
+~~~
+<div class="mfig" style="--w:330px">
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/feynsage/qed_tree.svg" alt="Tree level Feynman diagram for electron positron into muon pair">
+  <p>The electron with the positron meet, make a photon, the photon makes the muon pair. Arrows run along the fermion lines, the wavy line is the photon.</p>
+</div>
+~~~
+
+# Part 3: the same process at one loop
+
+Everything so far was **tree level**, which means no closed loops. The next order in perturbation theory adds one loop to every diagram. Ask feynsage for them:
+
+```python
+L = P.loop_diagrams()
+len(L)
+```
+
+$$ 7 $$
+
+```python
+draw_diagrams(L, ncols=4, size=2.3)
+```
+
+~~~
+<figure>
+  <img class="cv-img math-diagram" loading="lazy" decoding="async" src="/assets/Physics/blogs/feynsage/qed_oneloop.svg" alt="The seven one-loop QED diagrams for electron positron into muon pair">
+  <p>All seven one-loop diagrams of this process in QED, drawn by feynsage. (1) and (2) are the boxes, one crossed. (3) corrects the electron vertex, (4) the muon vertex. (5), (6) and (7) put a fermion loop inside the photon line, with an electron, a muon then a tau going round.</p>
+</figure>
+~~~
+
+The picture already tells you the structure of the calculation. The seven split into three kinds:
+
+- **Vertex corrections**, (3) and (4): the photon is emitted after the incoming pair has already exchanged one, which changes the strength of the coupling at the vertex.
+- **Vacuum polarisation**, (5) to (7): the photon spends part of its life as a charged pair. This is the one that makes the electric charge depend on energy.
+- **Boxes**, (1) and (2): a photon crosses between the electron side with the muon side, so the two halves are no longer independent.
+
+## The one-loop correction
+
+The quantity that corrects the cross section is the interference between the tree amplitude with the one-loop one. `virtual()` computes it:
+
+```python
+V = P.virtual()
+```
+
+It comes back as a Laurent series in $\epsilon$. Take it relative to the tree result, at ninety degrees, where $t = u = -s/2$:
+
+```python
+ratio = (V/P.squared()).subs({t: -s/2, u: -s/2}).simplify_full()
+pole_parts(ratio)
+```
+
+The coefficient of $1/\epsilon^2$ is
+
+$$ -\frac{e^{2}}{4 \pi^{2}} $$
+
+which is $-\alpha/\pi$, since $e^2 = 4\pi\alpha$. The coefficient of $1/\epsilon$ is
+
+$$ \frac{e^{2}\left(2\log(-s) - 2\log\mu^{2} - 1\right)}{8\pi^{2}} $$
+
+\defn{
+**Two kinds of infinity, which are not the same.** A beginner meets both here for the first time, so it is worth separating them.
+
+The $1/\epsilon$ pole from the vertex with the self-energy diagrams is **ultraviolet**. It comes from the loop momentum going to infinity. Renormalisation removes it: you rewrite the answer in terms of the charge you actually measure, the infinity goes with the bare charge.
+
+The $1/\epsilon^2$ is **infrared**, which is a different illness. It comes from the loop photon going soft, with energy heading to zero, or collinear with a massless fermion. No renormalisation can remove it, because nothing is wrong with the theory at short distance here.
+
+The cure is physical. A detector cannot tell $\mu^-\mu^+$ from $\mu^-\mu^+$ plus a photon too soft to register. So the measurable quantity is the sum of the two. Add the rate for emitting a real soft photon, its infrared divergence cancels this one exactly. That cancellation is the Bloch-Nordsieck theorem. The double pole above is not a failure, it is one half of a sum that is finite.
+}
+
+## What survives: the charge depends on energy
+
+Of the three kinds of diagram, the vacuum polarisation leaves a mark you can measure. Isolate it by computing the photon self-energy on its own:
+
+```python
+qed = QED(muons=False, taus=False)
+p = momenta('pp_'); P2 = var('P2_')
+se = topologies(1, 1, 1, exclude=('tadpoles', 'wf'))
+dA = insert_fields(se, ['A'], ['A'], qed)
+gM = sum(dA.loop_amplitude([p], [p],
+         lambda n, e: n*T.metric(e[0], e[1]), {'pp_^2': 'P2_'}))
+Pi2 = gM/((3 - 2*eps)*P2)
+uv_part(Pi2).simplify_full()
+```
+
+$$ -\frac{e^{2}}{12 \pi^{2}} $$
+
+So the photon self-energy carries the ultraviolet pole
+$$ \Pi_2 = -\frac{e^2}{12\pi^2}\,\frac{1}{\epsilon} + \text{finite} $$
+This is Peskin's equation (7.90) on page 252, converted to the $d = 4-2\epsilon$ convention. Peskin defines $\epsilon = 4-d$, so his pole is twice this one. The physics is identical, the letter is not.
+
+That single number is why the fine structure constant is not constant. Absorbing the pole into the charge leaves behind a logarithm of the energy, so the charge you measure grows as you probe harder: $1/137$ at low energy, about $1/128$ at the mass of the $Z$. The whole running of the coupling in QED comes out of this one coefficient.
+
+# Part 4: loop integrals by themselves
+
+Behind every diagram in Part 3 sits an integral over the momentum running round the loop, which is not fixed by the incoming particles:
 $$ \int \frac{\dd^4\ell}{(2\pi)^4}\;\frac{1}{(\ell^2-m^2)\left((\ell+p)^2-m^2\right)} $$
 These integrals are the hard part of QFT. Many of them come out infinite, which is what renormalisation exists to handle.
 
