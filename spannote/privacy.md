@@ -10,7 +10,7 @@ tags = ["spannote"]
 
 # SpanNote privacy
 
-*Last updated 19 October 2026. [Back to SpanNote](/spannote/)*
+*Last updated 28 October 2026. [Back to SpanNote](/spannote/) · [Terms](/spannote/terms/)*
 
 SpanNote is a notebook app. It has no account, no ads and no tracking of its own. Your notes are files on your device, and they leave it only when you choose to send them somewhere.
 
@@ -20,7 +20,7 @@ Notebooks, pictures, PDFs you import, cover photos, sound recordings and setting
 
 ## Backups and sync (only if you switch them on)
 
-You can back up to a folder you pick (on the device or a memory card), to your own WebDAV server such as Nextcloud, or to your Google Drive, and keep several tablets the same through your Google Drive, your WebDAV server or a private GitHub repository you own. Files go straight from your device to the place you chose. The app's maker never receives them.
+You can back up to a folder you pick (on the device or a memory card), to your own WebDAV server such as Nextcloud, or to your Google Drive, and keep several tablets the same through your Google Drive, your WebDAV server or a private GitHub repository you own. Sync also carries your app settings, pens, toolbar and each notebook's cover, if that switch is on. Files go straight from your device to the place you chose. The app's maker never receives them.
 
 - WebDAV works only over an encrypted (https) connection, so your password is never sent in the open.
 - The WebDAV password and the GitHub token are kept encrypted on your device, with a key held by Android that cannot be copied off the device.
@@ -28,7 +28,7 @@ You can back up to a folder you pick (on the device or a memory card), to your o
 
 ## Buying the full app
 
-The free app has up to 5 notebooks with up to 30 pages each. The full app is one purchase through Google Play. Google handles the payment; SpanNote and its maker never see your card or payment details. The app asks Google Play only whether the full app was bought on your Google account, and keeps that answer on the device. Nothing you have written is ever locked, bought or not.
+The free app has up to 5 notebooks with up to 50 pages each. The full app is one purchase, or a yearly subscription, through Google Play. Google handles the payment. SpanNote and its maker never see your card or payment details. The app asks Google Play only whether the full app was bought, or a subscription is running, on your Google account. It keeps that answer on the device. Nothing you have written is ever locked, paid or not. Prices and renewal are explained in the [terms](/spannote/terms/).
 
 ## Sharing a notebook as a link (only if you choose)
 
