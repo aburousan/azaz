@@ -15,6 +15,13 @@ tags = ["physics", "qft", "sagemath", "feynman-integrals", "code", "tutorial"]
 
 # **\col{#3c568e}{feynsage}**: a Tutorial for Someone Starting QFT
 
+~~~
+<figure>
+  <img class="cv-img" loading="lazy" decoding="async" src="/assets/Physics/blogs/feynsage/cover_drawing.jpg" alt="Drawing of Richard Feynman" style="max-width:520px">
+  <p>Drawing made by me.</p>
+</figure>
+~~~
+
 In a first QFT course the calculations arrive in a fixed order. First you learn to take traces of gamma matrices. Then you square an amplitude, average over spins, turn it into a cross section you could compare with an experiment. Loops come later, once the easy things are safe.
 
 [feynsage](https://github.com/aburousan/feynsage) is a SageMath package that does these calculations. This page follows that same order.
@@ -36,6 +43,32 @@ The script finds SageMath with FORM, or installs them. Then, inside Sage:
 ```python
 from feynsage import *
 ```
+
+## What else is in there
+
+This page uses a small corner of the package. The functions fall into a few groups, so you know what to look for when you need it.
+
+| what you want | functions |
+|---|---|
+| closed formulas | `tadpole`, `bubble_equal_mass`, `bubble_massless`, `expand_eps` |
+| one-loop functions | `A0`, `B0`, `C0`, `D0`, `loop`, `PVB`, `PVC`, `PVD`, `finite_part` |
+| families with IBP reduction | `family`, `.ibp`, `ibp_reduce`, `.UF`, `reduce_ff`, `symmetries` |
+| graphs | `graph`, `diagram`, `.U`, `.F`, `.spanning_trees`, `.two_forests`, `.plot` |
+| Dirac traces | `momenta`, `lorentz_indices`, `gamma`, `slash`, `gamma5`, `dirac_trace`, `contract`, `epsilon` |
+| whole processes | `process`, `.squared`, `.dsigma_dcos`, `.sigma`, `.width` |
+| pictures | `draw_graph`, `draw_panels`, `draw_sectors`, `quick_plot`, `curves` |
+
+`info(f)` prints what any one of them computes with what its output means, so you can explore without the reference open.
+
+\note{
+**One trap worth knowing early.** The package uses two different normalisations, each in its own place.
+
+The closed formulas with the integral families use the Euclidean measure, $\int \dd^Dk/\pi^{D/2}$, with propagators written $k^2+m^2$.
+
+`A0`, `B0`, `C0`, `D0` instead follow Package-X in Minkowski space, $\mu^{2\epsilon}e^{\epsilon\gamma_E}\int \dd^Dk/(i\pi^{D/2})$, so their numbers can be compared directly with Package-X with LoopTools.
+
+Both are right, they answer different questions. Mixing them in one calculation is not.
+}
 
 # Part 1: gamma matrices and traces
 
@@ -152,7 +185,44 @@ $$ \frac{2 \, \left(e^{4} t^{2} + e^{4} u^{2}\right)}{s^{2}} $$
 
 That is $|\mathcal M|^2$, already averaged over the two initial spins, summed over the final ones. Written tidily,
 $$ \overline{|\mathcal M|^2} = \frac{2e^4\left(t^2+u^2\right)}{s^2} $$
-feynsage built the diagram, put in the spin sums, took the traces of Part 1, contracted the indices, then averaged, in two hundredths of a second. Peskin works the same process through section 5.1 with the masses kept, writing the answer in the energy with the angle instead of in $t$ with $u$.
+This is Peskin's equation (5.10) on page 135, taken with the muon mass set to zero. feynsage built the diagram, put in the spin sums, took the traces of Part 1, contracted the indices, then averaged, in two hundredths of a second.
+
+## Where the shape comes from: one spin state at a time
+
+Before the cross section, one more thing feynsage can do that makes the answer less mysterious.
+
+The $|\mathcal M|^2$ above was averaged over spins, so the spin information is gone. Ask instead for a single spin state. For a massless fermion the spin along the direction of motion is called **helicity**, either $+1$ or $-1$:
+
+```python
+for he in (1, -1):
+    for hm in (1, -1):
+        P.squared(helicities={'e-': he, 'e+': -he, 'mu-': hm, 'mu+': -hm}).factor()
+```
+
+| electron | muon | result |
+|---|---|---|
+| $+$ | $+$ | $e^{4}\left(\cos\theta + 1\right)^{2}$ |
+| $+$ | $-$ | $e^{4}\left(\cos\theta - 1\right)^{2}$ |
+| $-$ | $+$ | $e^{4}\left(\cos\theta - 1\right)^{2}$ |
+| $-$ | $-$ | $e^{4}\left(\cos\theta + 1\right)^{2}$ |
+
+These are Peskin's equations (5.21) to (5.24) on page 143.
+
+Look at what the table says. Each single helicity state gives a *lopsided* answer, $(1+\cos\theta)^2$ throwing everything forwards or $(1-\cos\theta)^2$ throwing it backwards. Neither is symmetric. Only when you average the four of them,
+$$ \tfrac14\left[2(1+\cos\theta)^2 + 2(1-\cos\theta)^2\right] = 1+\cos^2\theta $$
+does the familiar shape appear. The $1+\cos^2\theta$ you plot is the sum of two lopsided pieces, not a basic fact about the process.
+
+\note{
+**What is missing from the table is also physics.** Every row above has the electron with the positron in *opposite* helicity states. Ask for the same helicity on both:
+
+```python
+P.squared(helicities={'e-': +1, 'e+': +1, 'mu-': +1, 'mu+': -1}).factor()
+```
+
+$$ 0 $$
+
+All four such combinations give exactly zero, as do the ones where the two muons come out with the same helicity. The reason is angular momentum. The photon carries spin one along the beam, so it cannot be made by a pair whose spins cancel, nor can it decay into one. feynsage is reporting a selection rule here, not only an algebraic result.
+}
 
 ## Turning it into a cross section
 
@@ -193,7 +263,15 @@ So the answer says: at a collider running at $\sqrt{s}=10$ GeV, the effective ta
 
 Check it against the textbook. In the high-energy limit the total cross section is
 $$ \sigma = \frac{4\pi\alpha^2}{3s} $$
-which is the formula on Peskin page 137, where the text notes that dimensional analysis fixes everything except the factor $4\pi/3$. At $\sqrt s = 10$ GeV it gives $868.546$ pb against feynsage's $868.545$ pb. The leftover difference, about one part in a million, is the constant used to convert $\mathrm{GeV}^{-2}$ into picobarns.
+which is the formula on Peskin page 137, where the text notes that dimensional analysis fixes everything except the factor $4\pi/3$. Put the numbers in by hand:
+
+```python
+float(4*pi*(1/137.035999084)^2/(3*10^2)*0.3893793721e9)
+```
+
+$$ 868.5447687569203 $$
+
+against feynsage's $868.5447687569202$. The two agree in all sixteen digits but the last, which is rounding. The $0.3893793721\times10^{9}$ is the number of picobarns in one $\mathrm{GeV}^{-2}$.
 
 That is a complete calculation, from naming a reaction to a number with units, in four lines.
 

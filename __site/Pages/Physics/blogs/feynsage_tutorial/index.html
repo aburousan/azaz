@@ -269,8 +269,14 @@
   </script>
   
 <div class="franklin-content">
-<div class="franklin-toc"><ol><li><a href="#installing_it">Installing it</a></li><li><a href="#what_these_objects_are">What these objects are</a></li><li><a href="#taking_traces">Taking traces</a></li><li><a href="#the_process">The process</a></li><li><a href="#the_squared_amplitude">The squared amplitude</a></li><li><a href="#turning_it_into_a_cross_section">Turning it into a cross section</a></li><li><a href="#why_the_bubble_has_an_imaginary_part">Why the bubble has an imaginary part</a></li><li><a href="#the_conventions_before_you_compare_with_a_book">The conventions, before you compare with a book</a></li><li><a href="#where_to_go_next">Where to go next</a></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#installing_it">Installing it</a></li><li><a href="#what_else_is_in_there">What else is in there</a></li><li><a href="#what_these_objects_are">What these objects are</a></li><li><a href="#taking_traces">Taking traces</a></li><li><a href="#the_process">The process</a></li><li><a href="#the_squared_amplitude">The squared amplitude</a></li><li><a href="#where_the_shape_comes_from_one_spin_state_at_a_time">Where the shape comes from: one spin state at a time</a></li><li><a href="#turning_it_into_a_cross_section">Turning it into a cross section</a></li><li><a href="#why_the_bubble_has_an_imaginary_part">Why the bubble has an imaginary part</a></li><li><a href="#the_conventions_before_you_compare_with_a_book">The conventions, before you compare with a book</a></li><li><a href="#where_to_go_next">Where to go next</a></li></ol></div>
 <h1 id="span_stylecolor_3c568efeynsage_a_tutorial_for_someone_starting_qft"><a href="#span_stylecolor_3c568efeynsage_a_tutorial_for_someone_starting_qft" class="header-anchor"><strong><span style="color: #3c568e">feynsage</span></strong>: a Tutorial for Someone Starting QFT</a></h1>
+
+<figure>
+  <img class="cv-img" loading="lazy" decoding="async" src="/assets/Physics/blogs/feynsage/cover_drawing.jpg" alt="Drawing of Richard Feynman" style="max-width:520px">
+  <p>Drawing made by me.</p>
+</figure>
+
 <p>In a first QFT course the calculations arrive in a fixed order. First you learn to take traces of gamma matrices. Then you square an amplitude, average over spins, turn it into a cross section you could compare with an experiment. Loops come later, once the easy things are safe.</p>
 <p><a href="https://github.com/aburousan/feynsage">feynsage</a> is a SageMath package that does these calculations. This page follows that same order.</p>
 <p><strong>Who this is for.</strong> You have met the Dirac equation, you have seen a Feynman diagram, you know that a cross section is what an experiment measures. You do not need to have taken a single trace by hand, because we start there.</p>
@@ -281,6 +287,18 @@ cd feynsage
 ./install.sh          # add --test to run the test suite afterwards</code></pre>
 <p>The script finds SageMath with FORM, or installs them. Then, inside Sage:</p>
 <pre><code class="language-python">from feynsage import *</code></pre>
+<h2 id="what_else_is_in_there"><a href="#what_else_is_in_there" class="header-anchor">What else is in there</a></h2>
+<p>This page uses a small corner of the package. The functions fall into a few groups, so you know what to look for when you need it.</p>
+<table><tr><th align="right">what you want</th><th align="right">functions</th></tr><tr><td align="right">closed formulas</td><td align="right"><code>tadpole</code>, <code>bubble_equal_mass</code>, <code>bubble_massless</code>, <code>expand_eps</code></td></tr><tr><td align="right">one-loop functions</td><td align="right"><code>A0</code>, <code>B0</code>, <code>C0</code>, <code>D0</code>, <code>loop</code>, <code>PVB</code>, <code>PVC</code>, <code>PVD</code>, <code>finite_part</code></td></tr><tr><td align="right">families with IBP reduction</td><td align="right"><code>family</code>, <code>.ibp</code>, <code>ibp_reduce</code>, <code>.UF</code>, <code>reduce_ff</code>, <code>symmetries</code></td></tr><tr><td align="right">graphs</td><td align="right"><code>graph</code>, <code>diagram</code>, <code>.U</code>, <code>.F</code>, <code>.spanning_trees</code>, <code>.two_forests</code>, <code>.plot</code></td></tr><tr><td align="right">Dirac traces</td><td align="right"><code>momenta</code>, <code>lorentz_indices</code>, <code>gamma</code>, <code>slash</code>, <code>gamma5</code>, <code>dirac_trace</code>, <code>contract</code>, <code>epsilon</code></td></tr><tr><td align="right">whole processes</td><td align="right"><code>process</code>, <code>.squared</code>, <code>.dsigma_dcos</code>, <code>.sigma</code>, <code>.width</code></td></tr><tr><td align="right">pictures</td><td align="right"><code>draw_graph</code>, <code>draw_panels</code>, <code>draw_sectors</code>, <code>quick_plot</code>, <code>curves</code></td></tr></table>
+<p><code>info&#40;f&#41;</code> prints what any one of them computes with what its output means, so you can explore without the reference open.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>One trap worth knowing early.</strong> The package uses two different normalisations, each in its own place.</p>
+<p>The closed formulas with the integral families use the Euclidean measure, \(\int \mathrm d^Dk/\pi^{D/2}\), with propagators written \(k^2+m^2\).</p>
+<p><code>A0</code>, <code>B0</code>, <code>C0</code>, <code>D0</code> instead follow Package-X in Minkowski space, \(\mu^{2\epsilon}e^{\epsilon\gamma_E}\int \mathrm d^Dk/(i\pi^{D/2})\), so their numbers can be compared directly with Package-X with LoopTools.</p>
+<p>Both are right, they answer different questions. Mixing them in one calculation is not. 
+  </fieldset>
+  
 <h1 id="part_1_gamma_matrices_and_traces"><a href="#part_1_gamma_matrices_and_traces" class="header-anchor">Part 1: gamma matrices and traces</a></h1>
 <h2 id="what_these_objects_are"><a href="#what_these_objects_are" class="header-anchor">What these objects are</a></h2>
 <p>The Dirac equation describes a spin one-half particle such as an electron. To write it down you need four matrices, \(\gamma^0,\gamma^1,\gamma^2,\gamma^3\), each one a \(4\times4\) matrix. They are called <strong>gamma matrices</strong> or Dirac matrices.</p>
@@ -342,7 +360,26 @@ len&#40;P.diagrams&#41;</code></pre>
 \[ \frac{2 \, \left(e^{4} t^{2} + e^{4} u^{2}\right)}{s^{2}} \]
 <p>That is \(|\mathcal M|^2\), already averaged over the two initial spins, summed over the final ones. Written tidily,</p>
 \[ \overline{|\mathcal M|^2} = \frac{2e^4\left(t^2+u^2\right)}{s^2} \]
-<p>feynsage built the diagram, put in the spin sums, took the traces of Part 1, contracted the indices, then averaged, in two hundredths of a second. Peskin works the same process through section 5.1 with the masses kept, writing the answer in the energy with the angle instead of in \(t\) with \(u\).</p>
+<p>This is Peskin&#39;s equation &#40;5.10&#41; on page 135, taken with the muon mass set to zero. feynsage built the diagram, put in the spin sums, took the traces of Part 1, contracted the indices, then averaged, in two hundredths of a second.</p>
+<h2 id="where_the_shape_comes_from_one_spin_state_at_a_time"><a href="#where_the_shape_comes_from_one_spin_state_at_a_time" class="header-anchor">Where the shape comes from: one spin state at a time</a></h2>
+<p>Before the cross section, one more thing feynsage can do that makes the answer less mysterious.</p>
+<p>The \(|\mathcal M|^2\) above was averaged over spins, so the spin information is gone. Ask instead for a single spin state. For a massless fermion the spin along the direction of motion is called <strong>helicity</strong>, either \(+1\) or \(-1\):</p>
+<pre><code class="language-python">for he in &#40;1, -1&#41;:
+    for hm in &#40;1, -1&#41;:
+        P.squared&#40;helicities&#61;&#123;&#39;e-&#39;: he, &#39;e&#43;&#39;: -he, &#39;mu-&#39;: hm, &#39;mu&#43;&#39;: -hm&#125;&#41;.factor&#40;&#41;</code></pre>
+<table><tr><th align="right">electron</th><th align="right">muon</th><th align="right">result</th></tr><tr><td align="right">\(+\)</td><td align="right">\(+\)</td><td align="right">\(e^{4}\left(\cos\theta + 1\right)^{2}\)</td></tr><tr><td align="right">\(+\)</td><td align="right">\(-\)</td><td align="right">\(e^{4}\left(\cos\theta - 1\right)^{2}\)</td></tr><tr><td align="right">\(-\)</td><td align="right">\(+\)</td><td align="right">\(e^{4}\left(\cos\theta - 1\right)^{2}\)</td></tr><tr><td align="right">\(-\)</td><td align="right">\(-\)</td><td align="right">\(e^{4}\left(\cos\theta + 1\right)^{2}\)</td></tr></table>
+<p>These are Peskin&#39;s equations &#40;5.21&#41; to &#40;5.24&#41; on page 143.</p>
+<p>Look at what the table says. Each single helicity state gives a <em>lopsided</em> answer, \((1+\cos\theta)^2\) throwing everything forwards or \((1-\cos\theta)^2\) throwing it backwards. Neither is symmetric. Only when you average the four of them,</p>
+\[ \tfrac14\left[2(1+\cos\theta)^2 + 2(1-\cos\theta)^2\right] = 1+\cos^2\theta \]
+<p>does the familiar shape appear. The \(1+\cos^2\theta\) you plot is the sum of two lopsided pieces, not a basic fact about the process.</p>
+
+  <fieldset class=" note"><legend class=" note-legend"> 📝 Note</legend>
+      <strong>What is missing from the table is also physics.</strong> Every row above has the electron with the positron in <em>opposite</em> helicity states. Ask for the same helicity on both:</p>
+<pre><code class="language-python">P.squared&#40;helicities&#61;&#123;&#39;e-&#39;: &#43;1, &#39;e&#43;&#39;: &#43;1, &#39;mu-&#39;: &#43;1, &#39;mu&#43;&#39;: -1&#125;&#41;.factor&#40;&#41;</code></pre>
+\[ 0 \]
+<p>All four such combinations give exactly zero, as do the ones where the two muons come out with the same helicity. The reason is angular momentum. The photon carries spin one along the beam, so it cannot be made by a pair whose spins cancel, nor can it decay into one. feynsage is reporting a selection rule here, not only an algebraic result. 
+  </fieldset>
+  
 <h2 id="turning_it_into_a_cross_section"><a href="#turning_it_into_a_cross_section" class="header-anchor">Turning it into a cross section</a></h2>
 <p>A squared amplitude is not yet something you can measure. You must divide by the flux, integrate over the directions the muons can come out in. The useful quantity is the <strong>differential cross section</strong> \(\mathrm d\sigma/\mathrm d\cos\theta\), which says how much of the scattering goes into each angle, with \(\theta\) the angle between the incoming electron with the outgoing muon.</p>
 <pre><code class="language-python">P.dsigma_dcos&#40;&#41;</code></pre>
@@ -368,7 +405,10 @@ len&#40;P.diagrams&#41;</code></pre>
   
 <p>Check it against the textbook. In the high-energy limit the total cross section is</p>
 \[ \sigma = \frac{4\pi\alpha^2}{3s} \]
-<p>which is the formula on Peskin page 137, where the text notes that dimensional analysis fixes everything except the factor \(4\pi/3\). At \(\sqrt s = 10\) GeV it gives \(868.546\) pb against feynsage&#39;s \(868.545\) pb. The leftover difference, about one part in a million, is the constant used to convert \(\mathrm{GeV}^{-2}\) into picobarns.</p>
+<p>which is the formula on Peskin page 137, where the text notes that dimensional analysis fixes everything except the factor \(4\pi/3\). Put the numbers in by hand:</p>
+<pre><code class="language-python">float&#40;4*pi*&#40;1/137.035999084&#41;^2/&#40;3*10^2&#41;*0.3893793721e9&#41;</code></pre>
+\[ 868.5447687569203 \]
+<p>against feynsage&#39;s \(868.5447687569202\). The two agree in all sixteen digits but the last, which is rounding. The \(0.3893793721\times10^{9}\) is the number of picobarns in one \(\mathrm{GeV}^{-2}\).</p>
 <p>That is a complete calculation, from naming a reaction to a number with units, in four lines.</p>
 <h1 id="part_3_loops_when_you_get_there"><a href="#part_3_loops_when_you_get_there" class="header-anchor">Part 3: loops, when you get there</a></h1>
 <p>Everything above was <strong>tree level</strong>, meaning the diagram has no closed loops in it. Later in the course the diagrams grow a loop, with a momentum running round it that is not fixed by the incoming particles, so you must integrate over all of it:</p>
@@ -424,7 +464,7 @@ B0&#40;s, &#39;m&#39;, &#39;m&#39;&#41;</code></pre>
 <script type="module" src="/assets/js/custom_comments.js?v=5"></script>
 
 <div class="page-foot">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 10, 2026.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Kazi Abu Rousan. Last modified: October 28, 2026.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 

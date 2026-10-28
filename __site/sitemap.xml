@@ -188,8 +188,14 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>https://rousan.netlify.app/spannote/terms/index.html</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>https://rousan.netlify.app/Pages/about_me/index.html</loc>
-    <lastmod>2026-07-07</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -201,7 +207,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/Pages/Physics/blogs/feynsage_tutorial/index.html</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -291,7 +297,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/spannote/privacy/index.html</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
@@ -393,7 +399,7 @@
 </url>
 <url>
     <loc>https://rousan.netlify.app/spannote/index/</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
