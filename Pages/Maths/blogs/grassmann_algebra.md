@@ -14,7 +14,7 @@ tags = ["mathematics", "algebra", "geometric_algebra", "grassmann", "exterior_al
 
 # Grassmann Algebra: Multiplying with Area and Orientation
 
-> *This is **Part 1** of a little mini-series. Here we build **Grassmann algebra** (a.k.a. **exterior algebra**) — the gentle stepping stone. In [Part 2](/Pages/Maths/blogs/clifford_algebra/) we upgrade it to **Clifford (geometric) algebra**, the machinery behind spinors in any dimension.*
+> *This is **Part 1** of a little mini-series. Here we build **Grassmann algebra** (a.k.a. **exterior algebra**) — the gentle stepping stone. In **Part 2** (coming next) we upgrade it to **Clifford (geometric) algebra**, the machinery behind spinors in any dimension.*
 
 Hi again!\\
 You already know how to *add* vectors. You know two ways to *multiply* them — the dot product (which eats two vectors and spits out a number) and the cross product (which... only works in 3D, and secretly lies to you about being a vector). 
@@ -580,7 +580,7 @@ Those are *exactly* the generators of a Grassmann algebra — the same $\mathbf 
 
 Next time we flip that last rule and meet the algebra that makes spinors stop looking like accidents.
 
-➡️ **Continue to [Part 2 — Clifford (Geometric) Algebra](/Pages/Maths/blogs/clifford_algebra/).**
+➡️ **Part 2 — Clifford (Geometric) Algebra — is coming next.**
 
 ~~~
 <button onclick="window.history.back()">Go Back</button>
